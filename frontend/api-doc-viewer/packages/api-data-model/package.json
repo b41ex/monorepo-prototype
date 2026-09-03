@@ -17,10 +17,10 @@
     "ts-node": "10.7.0"
   },
   "dependencies": {
-    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-diff": "workspace:^",
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-graphapi": "workspace:^",
+    "@b41ex/qubership-apihub-json-crawl": "workspace:^",
     "graphql": "16.12.0"
   }
 }

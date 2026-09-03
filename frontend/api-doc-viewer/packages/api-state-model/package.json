@@ -5,7 +5,7 @@
   "private": true,
   "main": "src/index.ts",
   "dependencies": {
-    "@b41ex/qubership-apihub-api-data-model": "*",
-    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-data-model": "workspace:*",
+    "@b41ex/qubership-apihub-graphapi": "workspace:^"
   }
 }

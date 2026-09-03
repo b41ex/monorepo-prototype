@@ -1,0 +1,76 @@
+packages:
+  - 'frontend/*'
+  - 'frontend/*/packages/*'
+  - 'tests/ui-tests'
+  - 'tools/jest-chrome-in-docker-environment'
+
+# Overrides carried deliberately, each with the gap that records why.
+#
+# npm and pnpm both apply overrides ONLY from the install root, and pnpm reads them from
+# this file — a pnpm.overrides block in the root package.json is silently ignored, and so
+# is an overrides block in a non-root package.json. Four components carry one today and
+# all four stop being install roots here, so all five entries have to be reproduced at
+# this level or they simply stop existing.
+#
+#   api-doc-viewer    jest-environment-node + jest-mock @ 30.4.1     G15
+#   apispec-view      the same pair, plus @stoplight/mosaic          G15 + G23
+#   class-view        the same pair                                  G15
+#   rest-playground   @stoplight/mosaic only                         G23
+#
+# Prototype 2 deliberately carried none of prototype 1's six so it could learn which were
+# still needed, and proved three unnecessary. That experiment is finished and is not
+# repeated here. Prototype 2's own three — @types/json-schema, graphql and
+# @asyncapi/specs — are NOT carried either, on a different ground: Phase 1b item 1.15a
+# closed the graphql and @types/json-schema alignments and the @asyncapi/parser one in the
+# components themselves, so the cause each override existed for is gone upstream. Whether
+# that holds is a measurement this run makes, not an assumption it starts from.
+
+overrides:
+  # G15 — the split jest runtime, §6b's documented failure mode, arriving fleet-wide.
+  #
+  # jest-environment-puppeteer@11 hard-depends on jest-environment-node@^29.7.0 and has no
+  # release above 11.0.0, so a 29-line environment stays in the tree. jest's own resolver
+  # reaches its environment through pnpm's hoisted fallback layer (jestjs/jest#15876), and
+  # a jest-environment-node 29.7.0 beside a jest-mock 30.4.1 is a jest-runtime 30 handed a
+  # mismatched moduleMocker: 'this._moduleMocker.clearMocksOnScope is not a function' at
+  # module load, 0 tests run.
+  #
+  # Omitting these cost prototype 2 "6 components, 0 tests run" — api-diff, api-processor,
+  # api-visitor, ddlapi, api-doc-viewer and ui/packages/shared. Three components carry the
+  # block upstream; six need it here.
+  jest-environment-node: 30.4.1
+  jest-mock: 30.4.1
+
+  # G23 — @stoplight/mosaic declares "@types/react": "^17.0.3" as a hard *dependency*, not
+  # a peer and not a dev dependency, and still does at 1.53.5, the latest published. Any
+  # consumer on React 18 therefore holds two @types/react in one program and TypeScript
+  # reports mosaic's own components as unusable: TS2786 on every one of them, 22 in
+  # rest-playground alone.
+  #
+  # This is the entry whose behaviour under the isolated linker is genuinely unknown.
+  # Under npm the nesting was incidental; pnpm gives mosaic its own copy *by design*,
+  # because it is a declared dependency. Checked early rather than late — see
+  # PROTOTYPE3-LOG.md.
+  #
+  # The $ form is not a faithful translation and the difference is recorded as a finding.
+  # npm resolves $@types/react against the *declaring component's* manifest, so
+  # apispec-view's and rest-playground's blocks are two independent statements that happen
+  # to agree. pnpm resolves it against the *root* manifest, so there is exactly one answer
+  # for the whole workspace. It is correct today only because both components declare
+  # ^18.3.31; it cannot express a disagreement, and nothing warns if one appears.
+  '@stoplight/mosaic>@types/react': '$@types/react'
+  '@stoplight/mosaic>@types/react-dom': '$@types/react-dom'
+
+# Deliberately absent: the '@types/react': 18.0.28 pin that _target2 carries.
+#
+# Its cause was G6, closed by item 1.16 on 2026-09-03: the whole fleet is on React 18 and
+# every manifest declares @types/react ^18.3.31. The pin is now worse than redundant — it
+# would hold the workspace at 18.0.28, *below* what every component declares. A clean repo
+# should simply not have it.
+
+# Deliberately absent: an override for @stoplight/types.
+#
+# G3 recorded http-spec as not compiling against what its own ^13.6.0 range admitted once
+# ui's exact 13.20.0 pulled every caret up. Item 1.15a closed that in the component —
+# http-spec now declares ^13.20.0 — so the override prototype 2 rejected has no cause left
+# either. Rebuilt and re-checked rather than re-diagnosed.

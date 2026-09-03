@@ -2,36 +2,20 @@
   "name": "@b41ex/qubership-apihub-api-doc-viewer-workspace",
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "generate-compatibility-suite": "lerna run generate-stories && lerna run generate-tests",
-    "build": "lerna run build",
-    "build:showcase": "lerna run build:showcase",
-    "test": "lerna run test",
-    "screenshot-test": "lerna run screenshot-test",
-    "screenshot-test-single-suite": "lerna run screenshot-test-suite",
-    "regenerate-screenshots": "lerna run regenerate-screenshots",
-    "regenerate-screenshots-single-suite": "lerna run regenerate-screenshots-test-suite",
-    "development:storybook": "lerna run development:storybook",
-    "development:link": "yarn link --workspace @b41ex/qubership-apihub-api-doc-viewer && yarn link @b41ex/qubership-apihub-graphapi --save-dev && yarn link @b41ex/qubership-apihub-api-diff --save && yarn link @b41ex/qubership-apihub-api-unifier --save-dev && yarn link @b41ex/qubership-apihub-json-crawl --save-dev",
-    "development:unlink": "yarn unlink @b41ex/qubership-apihub-graphapi --no-save && yarn unlink @b41ex/qubership-apihub-api-diff --no-save && yarn unlink @b41ex/qubership-apihub-api-unifier --no-save && yarn unlink @b41ex/qubership-apihub-json-crawl --no-save",
     "lint:check": "eslint -c .eslintrc.json . --ext .js,.cjs,.ts,.json --ignore-path .gitignore --max-warnings 0 --report-unused-disable-directives",
-    "lint:fix": "npm run lint:check -- --fix",
-    "update-lock-file": "update-lock-file @b41ex"
+    "lint:fix": "pnpm run lint:check -- --fix"
   },
   "dependencies": {
-    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-diff": "workspace:^",
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-ddlapi": "workspace:^",
+    "@b41ex/qubership-apihub-graphapi": "workspace:^",
+    "@b41ex/qubership-apihub-json-crawl": "workspace:^"
   },
   "devDependencies": {
-    "@b41ex/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-compatibility-suites": "workspace:^",
+    "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "workspace:^",
     "@types/jest": "30.0.0",
     "@types/jest-image-snapshot": "6.1.0",
     "@types/lodash-es": "^4.17.12",
@@ -44,7 +28,6 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.3",
     "eslint-plugin-storybook": "10.5.10",
-    "lerna": "^8.2.2",
     "lodash-es": "^4.17.21",
     "typescript": "6.0.3",
     "yaml": "2.9.0"

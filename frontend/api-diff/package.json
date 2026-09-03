@@ -17,27 +17,23 @@
   },
   "scripts": {
     "lint:check": "eslint -c .eslintrc.json . --ext .js,.cjs,.ts,.json --ignore-path .gitignore --max-warnings 0 --report-unused-disable-directives",
-    "lint:fix": "npm run lint:check -- --fix",
+    "lint:fix": "pnpm run lint:check -- --fix",
     "build": "vite build",
     "performance:run-inspect": "vite build --sourcemap=inline -c=vite.performance.config.ts && node --inspect dist/index.es.mjs",
-    "development:link": "npm link && npm link @b41ex/qubership-apihub-json-crawl && npm link @b41ex/qubership-apihub-graphapi && npm link @b41ex/qubership-apihub-api-unifier && npm link @b41ex/qubership-apihub-compatibility-suites",
-    "development:unlink": "npm unlink && npm unlink @b41ex/qubership-apihub-json-crawl && npm unlink @b41ex/qubership-apihub-graphapi && npm unlink @b41ex/qubership-apihub-api-unifier && npm unlink @b41ex/qubership-apihub-compatibility-suites",
     "test": "jest --maxWorkers 3 --verbose",
     "test:compatibility-suites": "jest --detectOpenHandles test/compatibility-suites",
-    "test:human-readable": "jest --detectOpenHandles test/human-readable",
-    "update-lock-file": "update-lock-file @b41ex"
+    "test:human-readable": "jest --detectOpenHandles test/human-readable"
   },
   "dependencies": {
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-ddlapi": "workspace:^",
+    "@b41ex/qubership-apihub-json-crawl": "workspace:^",
     "fast-equals": "^6.0.2"
   },
   "devDependencies": {
     "@asyncapi/parser": "3.6.0",
-    "@b41ex/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-compatibility-suites": "workspace:^",
+    "@b41ex/qubership-apihub-graphapi": "workspace:^",
     "@types/jest": "30.0.0",
     "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "7.18.0",

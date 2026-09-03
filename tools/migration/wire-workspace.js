@@ -23,13 +23,27 @@ function walk(d, depth) {
     const pj = path.join(s, 'package.json')
     if (fs.existsSync(pj)) {
       try {
-        pkgs.push({ dir: s.split(path.sep).join('/'), file: pj, json: JSON.parse(fs.readFileSync(pj, 'utf8')) })
+        // Preserve each file's own newline style and indentation. Every manifest in this
+        // fleet is CRLF while .gitattributes says eol=lf, so writing LF unconditionally
+        // rewrites every line of every file it touches and buries the one-line change
+        // being made in a whole-file diff.
+        const raw = fs.readFileSync(pj, 'utf8')
+        const eol = raw.includes('\r\n') ? '\r\n' : '\n'
+        const m = raw.match(/\n([ \t]+)"/)
+        const indent = m ? m[1] : '  '
+        const trailing = /\r?\n$/.test(raw)
+        pkgs.push({ dir: s.split(path.sep).join('/'), file: pj, json: JSON.parse(raw), eol, indent, trailing })
       } catch {}
     }
     walk(s, depth + 1)
   }
 }
 for (const r of roots) if (fs.existsSync(r)) walk(r, 0)
+
+function serialise(p) {
+  const body = JSON.stringify(p.json, null, p.indent).split('\n').join(p.eol)
+  return body + (p.trailing ? p.eol : '')
+}
 
 const provided = new Map(pkgs.filter((p) => p.json.name).map((p) => [p.json.name, p]))
 
@@ -53,6 +67,27 @@ for (const p of pkgs) {
       rewritten++
     }
   }
+  // npm-gitflow is retired as a published package (§3: it becomes repo-local scripts under
+  // tools/release), and §12 Phase 2 step 4 deletes the three script families it supplies.
+  // It is not one of the eighteen components, so nothing in this workspace provides the
+  // name and leaving the devDependency would fail the install.
+  const GITFLOW = '@b41ex/qubership-apihub-npm-gitflow'
+  const GITFLOW_SCRIPTS = /^(development:(un)?link|update-lock-file|release-start|release-finish|validate-dependencies)$/
+  for (const f of FIELDS) {
+    if (p.json[f] && p.json[f][GITFLOW]) {
+      changes.push([p.dir, GITFLOW, p.json[f][GITFLOW], `removed from ${f}`])
+      delete p.json[f][GITFLOW]
+      if (!Object.keys(p.json[f]).length) delete p.json[f]
+      dirty = true
+    }
+  }
+  for (const s of Object.keys(p.json.scripts || {})) {
+    if (!GITFLOW_SCRIPTS.test(s)) continue
+    changes.push([p.dir, `script ${s}`, p.json.scripts[s], 'removed'])
+    delete p.json.scripts[s]
+    dirty = true
+  }
+
   // npm's own workspaces field is superseded by pnpm-workspace.yaml; leaving it makes two
   // records of the same thing that can disagree.
   if (p.json.workspaces) {
@@ -60,7 +95,7 @@ for (const p of pkgs) {
     delete p.json.workspaces
     dirty = true
   }
-  if (dirty && !DRY) fs.writeFileSync(p.file, JSON.stringify(p.json, null, 2) + '\n')
+  if (dirty && !DRY) fs.writeFileSync(p.file, serialise(p))
 }
 
 for (const [dir, name, from, to] of changes) {

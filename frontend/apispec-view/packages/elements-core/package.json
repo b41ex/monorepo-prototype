@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@b41ex/qubership-apihub-api-doc-viewer": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-http-spec": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-doc-viewer": "workspace:^",
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-http-spec": "workspace:^",
     "@stoplight/json": "^3.18.1",
     "@stoplight/json-schema-ref-parser": "^9.0.5",
     "@stoplight/json-schema-sampler": "^0.2.2",

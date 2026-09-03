@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@asyncapi/parser": "3.6.0",
-    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-diff": "workspace:^",
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-ddlapi": "workspace:^",
+    "@b41ex/qubership-apihub-json-crawl": "workspace:^"
   }
 }

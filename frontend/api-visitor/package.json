@@ -20,17 +20,13 @@
     "build": "vite build",
     "test": "jest --verbose",
     "lint:check": "eslint -c .eslintrc.json . --ext .js,.cjs,.ts,.json --ignore-path .gitignore --max-warnings 0 --report-unused-disable-directives",
-    "lint:fix": "npm run lint:check -- --fix",
-    "development:link": "npm link && npm link @b41ex/qubership-apihub-json-crawl && npm link @b41ex/qubership-apihub-api-unifier",
-    "development:unlink": "npm unlink && npm unlink @b41ex/qubership-apihub-json-crawl && npm unlink @b41ex/qubership-apihub-api-unifier",
-    "update-lock-file": "update-lock-file @b41ex"
+    "lint:fix": "pnpm run lint:check -- --fix"
   },
   "dependencies": {
-    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-json-crawl": "workspace:^"
   },
   "devDependencies": {
-    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/jest": "30.0.0",
     "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "6.13.2",
