@@ -5,9 +5,9 @@ import {
   GREP_TEMPLATE_PARAM_RESPONSE_NAME
 } from '../core'
 import { calculateParentJumpDeep, checkPrimitiveType, isEmptyArray, resolveValueFromCompareContext } from '../utils'
-import { calculateMatchingDepth, MatchResult, startFromOpenApiComponents, } from '@netcracker/qubership-apihub-api-unifier'
+import { calculateMatchingDepth, MatchResult, startFromOpenApiComponents, } from '@b41ex/qubership-apihub-api-unifier'
 import { CompareContext, Diff, PrimitiveType } from '../types'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export const calculateChangedProperty = (matchResult: MatchResult, ignoredLastProperty: boolean = false): string | undefined => {
   const path = calculateMatchingPathEnd(matchResult, ignoredLastProperty)

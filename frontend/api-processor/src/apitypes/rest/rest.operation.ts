@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { OpenAPIV3 } from 'openapi-types'
 import type * as TYPE from './rest.types'
 import { RestOperationData } from './rest.types'
@@ -63,8 +63,8 @@ import {
   PREDICATE_ANY_VALUE,
   PREDICATE_UNCLOSED_END,
   resolveOrigins,
-} from '@netcracker/qubership-apihub-api-unifier'
-import { extractOperationBasePath } from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-unifier'
+import { extractOperationBasePath } from '@b41ex/qubership-apihub-api-diff'
 import { calculateHash, ObjectHashCache } from '../../utils/hashes'
 import { calculateTolerantHash } from '../../components/deprecated'
 import { getValueByPath } from '../../utils/path'

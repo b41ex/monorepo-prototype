@@ -1,4 +1,4 @@
-import { annotation, deprecated, DiffAction, nonBreaking, unclassified } from "@netcracker/qubership-apihub-api-diff"
+import { annotation, deprecated, DiffAction, nonBreaking, unclassified } from "@b41ex/qubership-apihub-api-diff"
 import { createGraphApiDiffTreeForTests, diffMetaKeys, graphapi } from "./helpers/graphql"
 
 describe('directive changes', () => {

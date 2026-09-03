@@ -1,4 +1,4 @@
-import { syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { syncClone } from '@b41ex/qubership-apihub-json-crawl'
 import source30x from '../resources/openapi30x.json'
 import source31x from '../resources/openapi31x.json'
 import { validate } from '../../src/validate'

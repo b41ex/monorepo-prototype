@@ -29,7 +29,7 @@ import {
 } from '../src'
 import { jest } from '@jest/globals'
 import { buildPackageFromContent, changesSummaryMatcher, Editor, loadFileAsString, LocalRegistry, serializedComparisonDocumentMatcher } from './helpers'
-import { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { DiffType } from '@b41ex/qubership-apihub-api-diff'
 import { takeIfDefined } from '../src/utils'
 import { DEFAULT_PROJECTS_PATH } from './helpers/registry/local'
 import * as bwcValidation from '../src/components/compare/rest.bwc.validation'

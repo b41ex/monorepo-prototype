@@ -1,4 +1,4 @@
-import type { DdlContractEntity } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { DdlContractEntity } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
 import { createContext, useContext } from 'react'
 
 export type DdlContractPair = {

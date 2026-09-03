@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { isDiff, isObject } from '@netcracker/qubership-apihub-api-data-model'
-import { DiffAction, DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { isDiff, isObject } from '@b41ex/qubership-apihub-api-data-model'
+import { DiffAction, DiffType } from '@b41ex/qubership-apihub-api-diff'
 import type { FC } from 'react'
 import { useCallback /*, useState */ } from 'react'
 import { NODE_DIFF_COLOR_MAP } from '../../../../consts/changes'

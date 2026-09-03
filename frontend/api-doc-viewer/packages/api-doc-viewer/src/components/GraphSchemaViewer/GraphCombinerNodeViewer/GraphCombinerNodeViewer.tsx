@@ -16,7 +16,7 @@
 
 import type { FC } from 'react'
 import { useMemo, useState } from 'react'
-import { DiffNodeMeta } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeMeta } from '@b41ex/qubership-apihub-api-data-model'
 import { isCombinerItemNode } from '../../../utils/nodes'
 import { GraphCombinerNodePropsWithState } from '../../../types/internal/PropsWithState'
 import { PropsWithChanges } from '../../../types/internal/PropsWithChanges'

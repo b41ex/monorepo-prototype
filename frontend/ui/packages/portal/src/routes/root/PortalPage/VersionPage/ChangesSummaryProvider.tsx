@@ -17,7 +17,7 @@
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { UseCompareVersionsOptions } from '../useCompareVersions'
-import type { VersionChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+import type { VersionChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 
 const ChangesSummaryContext = createContext<VersionChangesSummary | undefined>()
 const SetChangesSummaryContext = createContext<Dispatch<SetStateAction<VersionChangesSummary | undefined>>>()

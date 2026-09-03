@@ -17,16 +17,16 @@
 import type { Path } from '@remix-run/router'
 import { type Dispatch, type SetStateAction, useCallback } from 'react'
 
-import { DOC_SPEC_VIEW_MODE, type SpecViewMode } from '@netcracker/qubership-apihub-ui-shared/components/SpecViewToggler'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { CONTRACT_TYPE_DDL, CONTRACT_TYPE_MCP } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import type { McpCollection } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { YAML_FILE_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { DOC_OPERATION_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
-import { type PackageRef, DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { type PackageKind, DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { DOC_SPEC_VIEW_MODE, type SpecViewMode } from '@b41ex/qubership-apihub-ui-shared/components/SpecViewToggler'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { CONTRACT_TYPE_DDL, CONTRACT_TYPE_MCP } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import type { McpCollection } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { YAML_FILE_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { DOC_OPERATION_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { type PackageRef, DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { type PackageKind, DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import {
   DOCUMENT_SEARCH_PARAM,
   FILE_VIEW_MODE_PARAM_KEY,
@@ -35,7 +35,7 @@ import {
   PLAYGROUND_SIDEBAR_VIEW_MODE_SEARCH_PARAM,
   REF_SEARCH_PARAM,
   SEARCH_TEXT_PARAM_KEY,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 import { getOperationsPath, useNavigation } from '../../../NavigationProvider'
 import { useTextSearchParam } from '../../useTextSearchParam'

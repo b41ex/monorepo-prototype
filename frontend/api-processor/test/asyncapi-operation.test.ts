@@ -23,7 +23,7 @@ import { extractProtocol, getRequiredDefaultContentType } from '../src/apitypes/
 import { FIRST_REFERENCE_KEY_PROPERTY, INLINE_REFS_FLAG } from '../src/consts'
 import { ASYNC_EFFECTIVE_NORMALIZE_OPTIONS, BUILD_TYPE, VERSION_STATUS } from '../src'
 import { AsyncOperationData, VersionAsyncOperation } from '../src/apitypes/async/async.types'
-import { normalize } from '@netcracker/qubership-apihub-api-unifier'
+import { normalize } from '@b41ex/qubership-apihub-api-unifier'
 
 describe('AsyncAPI 3.0 Operation Tests', () => {
   const normalizeAsyncApiDocument = (doc: AsyncAPIV3.AsyncAPIObject): AsyncAPIV3.AsyncAPIObject =>

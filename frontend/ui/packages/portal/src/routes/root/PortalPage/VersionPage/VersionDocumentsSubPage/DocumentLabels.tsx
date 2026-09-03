@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { type FC, memo } from 'react'
 
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
 
 import type { Labels } from '@portal/entities/documents'
 

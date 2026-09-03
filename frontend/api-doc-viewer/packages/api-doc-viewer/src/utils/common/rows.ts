@@ -21,7 +21,7 @@ import {
   LESS_THAN_OR_EQUAL_SIGN,
   LESS_THAN_SIGN
 } from '../../consts/validations'
-import { IModelTreeNode, isObject } from '@netcracker/qubership-apihub-api-data-model'
+import { IModelTreeNode, isObject } from '@b41ex/qubership-apihub-api-data-model'
 
 export type StringifyItemOptions = {
   /** Show string values as-is (e.g. JSON Schema regex patterns). */

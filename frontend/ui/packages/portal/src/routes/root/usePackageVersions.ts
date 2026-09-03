@@ -16,13 +16,13 @@
 
 import { useMutation } from '@tanstack/react-query'
 import { useShowErrorNotification, useShowSuccessNotification } from './BasePage/Notification'
-import type { PackageVersionDto } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { PackageVersionDto } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import {
   deletePackageVersion, editPackageVersion,
   useInvalidatePackageVersions,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 
 type DeletePackageVersion = (data: DeletePackageVersionData) => void
 type DeletePackageVersionData = { packageKey: Key; versionId: Key }

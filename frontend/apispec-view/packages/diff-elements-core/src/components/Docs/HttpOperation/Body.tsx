@@ -1,16 +1,16 @@
-import { buildOpenApiDiffCause, JsonSchemaDiffViewer, JsonSchemaViewer } from '@netcracker/qubership-apihub-api-doc-viewer'
-import { useOperationSchemaOptionsMode } from '@netcracker/qubership-apihub-apispec-view'
+import { buildOpenApiDiffCause, JsonSchemaDiffViewer, JsonSchemaViewer } from '@b41ex/qubership-apihub-api-doc-viewer'
+import { useOperationSchemaOptionsMode } from '@b41ex/qubership-apihub-apispec-view'
 import { Flex, VStack } from '@stoplight/mosaic'
 import { IHttpOperationRequestBody } from '@stoplight/types'
-import { DiffBlock, DiffContainer, isDiff } from '@netcracker/qubership-apihub-apispec-view-diff-block'
+import { DiffBlock, DiffContainer, isDiff } from '@b41ex/qubership-apihub-apispec-view-diff-block'
 import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
-import { isDiffRename } from '@netcracker/qubership-apihub-api-diff'
+import { isDiffRename } from '@b41ex/qubership-apihub-api-diff'
 import { Description } from './Description'
-import { useAggregatedDiffsMetaKey } from '@netcracker/qubership-apihub-apispec-view/containers/AggregatedDiffsMetaKeyContext'
-import { useChangeSeverityFilters } from '@netcracker/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext'
-import { useDiffsMetaKey } from '@netcracker/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext'
+import { useAggregatedDiffsMetaKey } from '@b41ex/qubership-apihub-apispec-view/containers/AggregatedDiffsMetaKeyContext'
+import { useChangeSeverityFilters } from '@b41ex/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext'
+import { useDiffsMetaKey } from '@b41ex/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext'
 import { SectionSubtitle } from '../Sections'
 
 export type DiffBodyProps = {

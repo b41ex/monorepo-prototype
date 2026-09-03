@@ -17,13 +17,13 @@
 import { type FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   toRouteApiType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { isAppliedSearchValueForTag } from '@netcracker/qubership-apihub-ui-shared/utils/tags'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { isAppliedSearchValueForTag } from '@b41ex/qubership-apihub-ui-shared/utils/tags'
 
 import { usePackageKind } from '../../usePackageKind'
 import { useChangesSummaryFromContext } from '../ChangesSummaryProvider'

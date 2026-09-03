@@ -27,7 +27,7 @@ import {
   ResolvedPackage,
   ResolvedVersion,
   ResolvedVersionDocuments,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 import AdmZip from 'adm-zip'
 import { toBackendBuildStatus } from '../../utils/mapper'
 import { Task } from '../../types'

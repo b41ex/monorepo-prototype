@@ -5,15 +5,15 @@ import { Button, DialogActions, DialogContent, DialogTitle, Typography } from '@
 import { ErrorTextField } from '@portal/components/ErrorTextField'
 import { type Ruleset } from '@portal/entities/api-quality/rulesets'
 import { SHOW_CREATE_RULESET_DIALOG } from '@portal/routes/EventBusProvider'
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
-import { FileUploadField } from '@netcracker/qubership-apihub-ui-shared/components/FileUploadField'
-import { PopupDelegate, type PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
+import { FileUploadField } from '@b41ex/qubership-apihub-ui-shared/components/FileUploadField'
+import { PopupDelegate, type PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import {
   type FileExtension,
   YAML_FILE_EXTENSION,
   YML_FILE_EXTENSION,
-} from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import { checkFileType } from '@netcracker/qubership-apihub-ui-shared/utils/validations'
+} from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import { checkFileType } from '@b41ex/qubership-apihub-ui-shared/utils/validations'
 import { type FC, memo, useCallback, useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useCreateRuleset } from '../api/useCreateRuleset'

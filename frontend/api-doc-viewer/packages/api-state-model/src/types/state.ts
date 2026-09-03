@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import { modelStateNodeType } from '../consts'
 import { NodesChangesSummary } from '../../../api-doc-viewer/src/types/aliases/changes'
 

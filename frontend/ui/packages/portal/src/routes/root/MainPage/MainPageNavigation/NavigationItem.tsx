@@ -19,7 +19,7 @@ import type { Path } from '@remix-run/router'
 import type { FC } from 'react'
 import React, { memo } from 'react'
 import { NavLink } from 'react-router-dom'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
 
 export type NavigationItemProps = Readonly<{
   to: Partial<Path>

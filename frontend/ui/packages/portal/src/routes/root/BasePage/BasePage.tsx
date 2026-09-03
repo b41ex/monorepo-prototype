@@ -5,30 +5,30 @@ import type { SystemStyleObject } from '@mui/system/styleFunctionSx/styleFunctio
 import { type FC, memo, useCallback, useMemo } from 'react'
 import { generatePath, Outlet } from 'react-router-dom'
 
-import { AppHeader } from '@netcracker/qubership-apihub-ui-shared/components/AppHeader'
+import { AppHeader } from '@b41ex/qubership-apihub-ui-shared/components/AppHeader'
 import {
   VsCodeExtensionButton,
-} from '@netcracker/qubership-apihub-ui-shared/components/Buttons/VsCodeExtensionButton/VsCodeExtensionButton'
+} from '@b41ex/qubership-apihub-ui-shared/components/Buttons/VsCodeExtensionButton/VsCodeExtensionButton'
 import {
   AppHeaderDivider,
-} from '@netcracker/qubership-apihub-ui-shared/components/Dividers/AppHeaderDivider/AppHeaderDivider'
-import { ExceptionSituationHandler } from '@netcracker/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
+} from '@b41ex/qubership-apihub-ui-shared/components/Dividers/AppHeaderDivider/AppHeaderDivider'
+import { ExceptionSituationHandler } from '@b41ex/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
 import {
   MaintenanceNotification,
   NOTIFICATION_HEIGHT,
-} from '@netcracker/qubership-apihub-ui-shared/components/MaintenanceNotification'
+} from '@b41ex/qubership-apihub-ui-shared/components/MaintenanceNotification'
 import {
   ModuleFetchingErrorBoundary,
-} from '@netcracker/qubership-apihub-ui-shared/components/ModuleFetchingErrorBoundary/ModuleFetchingErrorBoundary'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { useAgentEnabled } from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
-import { SystemInfoPopup, useSystemInfo } from '@netcracker/qubership-apihub-ui-shared/features/system-info'
-import { useVersionInfo } from '@netcracker/qubership-apihub-ui-shared/hooks/frontend-version/useVersionInfo'
-import { useSuperAdminCheck } from '@netcracker/qubership-apihub-ui-shared/hooks/user-roles/useSuperAdminCheck'
-import { LogoIcon } from '@netcracker/qubership-apihub-ui-shared/icons/LogoIcon'
-import { RobotIcon } from '@netcracker/qubership-apihub-ui-shared/icons/RobotIcon'
-import { cutViewPortStyleCalculator } from '@netcracker/qubership-apihub-ui-shared/utils/themes'
-import { matchPathname } from '@netcracker/qubership-apihub-ui-shared/utils/urls'
+} from '@b41ex/qubership-apihub-ui-shared/components/ModuleFetchingErrorBoundary/ModuleFetchingErrorBoundary'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { useAgentEnabled } from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+import { SystemInfoPopup, useSystemInfo } from '@b41ex/qubership-apihub-ui-shared/features/system-info'
+import { useVersionInfo } from '@b41ex/qubership-apihub-ui-shared/hooks/frontend-version/useVersionInfo'
+import { useSuperAdminCheck } from '@b41ex/qubership-apihub-ui-shared/hooks/user-roles/useSuperAdminCheck'
+import { LogoIcon } from '@b41ex/qubership-apihub-ui-shared/icons/LogoIcon'
+import { RobotIcon } from '@b41ex/qubership-apihub-ui-shared/icons/RobotIcon'
+import { cutViewPortStyleCalculator } from '@b41ex/qubership-apihub-ui-shared/utils/themes'
+import { matchPathname } from '@b41ex/qubership-apihub-ui-shared/utils/urls'
 import { AiAssistantPanel } from '@portal/components/AiAssistant/AiAssistantPanel'
 import {
   AiAssistantProvider,

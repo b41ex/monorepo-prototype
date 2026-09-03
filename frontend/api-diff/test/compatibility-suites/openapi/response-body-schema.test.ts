@@ -1,4 +1,4 @@
-import { TEST_SPEC_TYPE_OPEN_API } from '@netcracker/qubership-apihub-compatibility-suites'
+import { TEST_SPEC_TYPE_OPEN_API } from '@b41ex/qubership-apihub-compatibility-suites'
 import { runGeneralSchemaTests } from '../schemas/schema-test-runner-general'
 import { runOpenApiOnlySchemaTests } from '../schemas/schema-test-runner-openapi-only'
 import { DATA_FLOW_DIRECTION_RECEIVE } from '../utils'

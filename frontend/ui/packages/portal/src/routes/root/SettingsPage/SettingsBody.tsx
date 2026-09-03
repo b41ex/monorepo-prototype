@@ -27,7 +27,7 @@ import { useActiveTabContentContext } from './SettingsPage'
 import { SettingsNavigation } from './SettingsNavigation'
 import { UserRolesSettingsTab } from './UserRolesSettingsTab'
 import { SystemTokensTab } from './SystemTokensTab'
-import { LayoutWithTabs } from '@netcracker/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithTabs'
+import { LayoutWithTabs } from '@b41ex/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithTabs'
 import { RolesHierarchySettingsTab } from '@portal/routes/root/RolesHierarchySettingsTab'
 import {
   SystemAdministratorsTab,

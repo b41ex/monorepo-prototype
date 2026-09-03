@@ -41,7 +41,7 @@ import {
   SchemaType,
   Table,
   TypeKind,
-} from "@netcracker/qubership-apihub-ddlapi";
+} from "@b41ex/qubership-apihub-ddlapi";
 import { isObject } from "../../../utilities";
 import {
   DDL_API_COLUMNS_SECTION_TITLE,

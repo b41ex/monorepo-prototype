@@ -1,4 +1,4 @@
-import type { OperationPair } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { OperationPair } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext } from 'react'
 

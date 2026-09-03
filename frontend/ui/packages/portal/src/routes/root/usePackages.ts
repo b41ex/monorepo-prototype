@@ -16,10 +16,10 @@
 
 import type { QueryKey } from '@tanstack/react-query'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import type { PackageKind, Packages } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { InvalidateQuery, IsFetching, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { EMPTY_PAGE_REFERER } from '@netcracker/qubership-apihub-ui-shared/entities/referer-pages-names'
-import { getPackages } from '@netcracker/qubership-apihub-ui-shared/hooks/packages/usePackages'
+import type { PackageKind, Packages } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { InvalidateQuery, IsFetching, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { EMPTY_PAGE_REFERER } from '@b41ex/qubership-apihub-ui-shared/entities/referer-pages-names'
+import { getPackages } from '@b41ex/qubership-apihub-ui-shared/hooks/packages/usePackages'
 
 const PACKAGES_QUERY_KEY = 'packages-query-key'
 

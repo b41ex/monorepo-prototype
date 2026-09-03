@@ -17,8 +17,8 @@
 import type {
   DiffTypeDto,
   OperationType,
-} from '@netcracker/qubership-apihub-api-processor'
-import { convertDtoFieldOperationTypes } from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
+import { convertDtoFieldOperationTypes } from '@b41ex/qubership-apihub-api-processor'
 
 import type { PackageRef, PackagesRefs } from './operations'
 import { toPackageRef } from './operations'

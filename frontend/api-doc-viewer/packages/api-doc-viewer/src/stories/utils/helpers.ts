@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { buildFromSchema, GraphApiSchema } from "@netcracker/qubership-apihub-graphapi"
+import { buildFromSchema, GraphApiSchema } from "@b41ex/qubership-apihub-graphapi"
 import { buildSchema } from "graphql"
 
 export function buildGraphApi(graphql: string): GraphApiSchema {

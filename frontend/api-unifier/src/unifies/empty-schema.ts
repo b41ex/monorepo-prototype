@@ -1,5 +1,5 @@
 import { InternalLiftCombinersOptions, UnifyFunction } from '../types'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { mergeProhibitLiftCombiners } from '../lift-combiners'
 
 import { mergeOrigins } from '../origins'

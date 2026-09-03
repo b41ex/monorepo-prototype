@@ -1,7 +1,7 @@
 import { InputAdornment, styled, TextField, type TextFieldProps } from '@mui/material'
 import type { ControllerFieldState, ControllerRenderProps, FieldPath, FieldValues } from 'react-hook-form'
 
-import { ErrorIcon } from '@netcracker/qubership-apihub-ui-shared/icons/ErrorIcon'
+import { ErrorIcon } from '@b41ex/qubership-apihub-ui-shared/icons/ErrorIcon'
 
 interface ErrorTextFieldProps<
   TFieldValues extends FieldValues,

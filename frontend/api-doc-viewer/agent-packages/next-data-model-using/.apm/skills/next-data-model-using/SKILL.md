@@ -4,7 +4,7 @@ description: Consume next-data-model inside api-doc-viewer — tree builders, no
 
 # Using next-data-model in api-doc-viewer
 
-`@netcracker/qubership-apihub-next-data-model` is a **private monorepo package**.
+`@b41ex/qubership-apihub-next-data-model` is a **private monorepo package**.
 It builds typed trees that viewer components render. Use this skill when wiring
 viewers to trees or reading diff metadata on nodes — not when changing builders
 or aggregators (see `next-data-model-authoring`).
@@ -18,16 +18,16 @@ import {
   AsyncApiTreeBuilder,
   AsyncApiTreeWithDiffsBuilder,
   createAsyncApiLogger,
-} from '@netcracker/qubership-apihub-next-data-model'
+} from '@b41ex/qubership-apihub-next-data-model'
 ```
 
 JSO and shared types use **subpaths** (stable within the monorepo):
 
 ```typescript
-import { JsoTreeBuilder } from '@netcracker/qubership-apihub-next-data-model/building-service/jso/tree/builder'
-import { JsoTreeWithDiffsBuilder } from '@netcracker/qubership-apihub-next-data-model/building-service/jso/tree-with-diffs/builder'
-import { NODE_LEVEL_DIFF_KEY, NodeDiffsSeverityPlacemennt } from '@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
-import { AsyncApiTreeNodeKinds } from '@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-kind'
+import { JsoTreeBuilder } from '@b41ex/qubership-apihub-next-data-model/building-service/jso/tree/builder'
+import { JsoTreeWithDiffsBuilder } from '@b41ex/qubership-apihub-next-data-model/building-service/jso/tree-with-diffs/builder'
+import { NODE_LEVEL_DIFF_KEY, NodeDiffsSeverityPlacemennt } from '@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
+import { AsyncApiTreeNodeKinds } from '@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-kind'
 ```
 
 Inside `packages/api-doc-viewer`, the `@apihub/next-data-model/…` alias may

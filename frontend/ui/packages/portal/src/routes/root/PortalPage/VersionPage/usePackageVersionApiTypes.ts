@@ -1,14 +1,14 @@
 import { useMemo } from 'react'
 
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
   type ContractType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { hasDdlContracts } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import { hasMcpContracts } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { hasDdlContracts } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import { hasMcpContracts } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 
 import { usePackageVersionContent } from '../../usePackageVersionContent'
 

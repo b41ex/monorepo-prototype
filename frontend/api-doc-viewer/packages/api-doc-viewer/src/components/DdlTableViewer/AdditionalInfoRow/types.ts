@@ -2,7 +2,7 @@ import { LayoutSide } from "../../../types/internal/LayoutSide"
 import type {
   ChangedPropertyMetaData,
   NodeDiffsSeverities,
-} from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+} from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import type { ReactElement } from "react"
 import { WithDdlListLastRowProps, WithPrecededByProps } from "../../shared-components/WithPrecededByProps"
 

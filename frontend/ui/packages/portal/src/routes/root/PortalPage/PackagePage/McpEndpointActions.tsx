@@ -3,8 +3,8 @@ import { type FC, memo, useCallback } from 'react'
 
 import { useEventBus } from '@portal/routes/EventBusProvider'
 import { useFileActions } from '@portal/routes/root/PortalPage/FilesProvider'
-import { DeleteIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIcon'
-import { EditIcon } from '@netcracker/qubership-apihub-ui-shared/icons/EditIcon'
+import { DeleteIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIcon'
+import { EditIcon } from '@b41ex/qubership-apihub-ui-shared/icons/EditIcon'
 
 const DELETE_ENDPOINT_MESSAGE =
   'Deleting this MCP endpoint will permanently remove the endpoint and all associated artifacts.'

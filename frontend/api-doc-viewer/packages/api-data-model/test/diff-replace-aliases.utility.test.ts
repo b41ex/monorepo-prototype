@@ -1,4 +1,4 @@
-import { breaking, DiffAction, DiffAdd, DiffRemove, DiffRename, DiffReplace } from '@netcracker/qubership-apihub-api-diff'
+import { breaking, DiffAction, DiffAdd, DiffRemove, DiffRename, DiffReplace } from '@b41ex/qubership-apihub-api-diff'
 import { applyDiffReplaceAlias } from '../src/diff-replace-aliases.utility'
 
 const TEST_DIFF_REPLACE_ALIAS = {

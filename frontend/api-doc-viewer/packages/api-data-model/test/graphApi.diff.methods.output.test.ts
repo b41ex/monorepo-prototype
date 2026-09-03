@@ -6,7 +6,7 @@ import {
   nonBreaking,
   risky,
   unclassified
-} from "@netcracker/qubership-apihub-api-diff"
+} from "@b41ex/qubership-apihub-api-diff"
 import { isGraphSchemaNodeEnumValue } from "../src"
 import { createGraphApiDiffTreeForTests, diffMetaKeys, graphapi } from "./helpers/graphql"
 

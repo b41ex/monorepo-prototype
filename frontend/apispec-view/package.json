@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-apispec-view-workspace",
+  "name": "@b41ex/qubership-apihub-apispec-view-workspace",
   "private": true,
   "type": "commonjs",
   "license": "Apache-2.0",
@@ -12,7 +12,7 @@
     "build:showcase": "lerna run build:showcase",
     "screenshot-test": "lerna run screenshot-test",
     "regenerate-screenshots": "lerna run regenerate-screenshots",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -22,13 +22,13 @@
     "@chromatic-com/storybook": "1",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@netcracker/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-api-doc-viewer": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-http-spec": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-doc-viewer": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-http-spec": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@schemastore/package": "0.0.4",
     "@stoplight/eslint-config": "2.1.0",
     "@stoplight/json": "^3.18.1",

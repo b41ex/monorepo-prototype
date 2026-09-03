@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { DiffRecord, GraphApiDiffTreeNode, isDiff, isDiffMetaRecord } from '@netcracker/qubership-apihub-api-data-model'
-import { Diff, DiffAction, DiffType, isDiffAdd, isDiffRemove } from '@netcracker/qubership-apihub-api-diff'
-import { IModelStatePropNode } from '@netcracker/qubership-apihub-api-state-model'
+import { DiffRecord, GraphApiDiffTreeNode, isDiff, isDiffMetaRecord } from '@b41ex/qubership-apihub-api-data-model'
+import { Diff, DiffAction, DiffType, isDiffAdd, isDiffRemove } from '@b41ex/qubership-apihub-api-diff'
+import { IModelStatePropNode } from '@b41ex/qubership-apihub-api-state-model'
 import type { FC } from 'react'
 import { useCallback /*, useState */ } from 'react'
 import { NODE_DIFF_COLOR_MAP } from '../../../../../consts/changes'

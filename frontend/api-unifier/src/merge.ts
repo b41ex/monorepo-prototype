@@ -1,4 +1,4 @@
-import { isObject, JSON_ROOT_KEY, syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, JSON_ROOT_KEY, syncClone } from '@b41ex/qubership-apihub-json-crawl'
 
 import {
   DEFAULT_OPTION_LIFT_COMBINERS,

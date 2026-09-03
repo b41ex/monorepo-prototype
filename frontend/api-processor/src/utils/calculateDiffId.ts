@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Diff } from '@netcracker/qubership-apihub-api-diff'
+import { Diff } from '@b41ex/qubership-apihub-api-diff'
 import { calculateHash } from './hashes'
 import { FillKeys } from './objects'
 import { ChangeMessage } from '../types'

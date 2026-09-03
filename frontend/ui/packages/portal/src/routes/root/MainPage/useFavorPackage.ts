@@ -19,10 +19,10 @@ import { useShowErrorNotification, useShowSuccessNotification } from '../BasePag
 import { useRefetchAllPackages } from '../usePackages'
 import { useInvalidatePackage } from '../usePackage'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestVoid } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 
 type FavorPackage = (packageKey: Key) => void
 

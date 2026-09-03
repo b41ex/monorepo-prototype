@@ -17,7 +17,7 @@
 import type { FC } from 'react'
 import './UxDiffFloatingBadge.css'
 import { DIFF_TYPE_COLORS, DIFF_TYPE_NAME_MAP } from '../UxMarker/consts'
-import { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { DiffType } from '@b41ex/qubership-apihub-api-diff'
 
 export type UxDiffFloatingBadgeProps = {
   variant: DiffType,

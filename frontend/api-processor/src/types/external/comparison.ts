@@ -24,7 +24,7 @@ import {
   nonBreaking,
   risky,
   unclassified,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 
 export type VersionComparisonResolver = (
   version: VersionId,

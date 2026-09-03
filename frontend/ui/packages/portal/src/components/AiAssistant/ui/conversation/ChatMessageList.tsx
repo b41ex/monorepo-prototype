@@ -4,8 +4,8 @@ import { styled } from '@mui/material/styles'
 import type { FetchNextPageOptions } from '@tanstack/react-query'
 import { type FC, memo } from 'react'
 
-import { JumpToLatestArrowIcon } from '@netcracker/qubership-apihub-ui-shared/icons/JumpToLatestArrowIcon'
-import { JumpToLatestStreamingIcon } from '@netcracker/qubership-apihub-ui-shared/icons/JumpToLatestStreamingIcon'
+import { JumpToLatestArrowIcon } from '@b41ex/qubership-apihub-ui-shared/icons/JumpToLatestArrowIcon'
+import { JumpToLatestStreamingIcon } from '@b41ex/qubership-apihub-ui-shared/icons/JumpToLatestStreamingIcon'
 
 import type { AiChatMessage, ChatId, MessageId } from '../../api/types'
 import { ChatAssistantMessage } from './ChatAssistantMessage'

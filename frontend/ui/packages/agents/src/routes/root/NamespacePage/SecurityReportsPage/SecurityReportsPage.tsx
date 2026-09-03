@@ -21,15 +21,15 @@ import { RoutingReports } from './RoutingReports'
 import { AUTHENTICATION_REPORTS_PAGE, ROUTING_REPORTS_PAGE, SECURITY_REPORTS_PAGE } from '../../../routes'
 import { useNavigation } from '../../../NavigationProvider'
 import { useParams } from 'react-router-dom'
-import { useActiveTabs } from '@netcracker/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
-import type { PanelItem, TabItem } from '@netcracker/qubership-apihub-ui-shared/components/Panels/TabsPanel'
-import { TabsPanel } from '@netcracker/qubership-apihub-ui-shared/components/Panels/TabsPanel'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useActiveTabs } from '@b41ex/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
+import type { PanelItem, TabItem } from '@b41ex/qubership-apihub-ui-shared/components/Panels/TabsPanel'
+import { TabsPanel } from '@b41ex/qubership-apihub-ui-shared/components/Panels/TabsPanel'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import {
   useNcServiceEnabled,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 // High Order Component //
 export const SecurityReportsPage: FC = memo(() => {

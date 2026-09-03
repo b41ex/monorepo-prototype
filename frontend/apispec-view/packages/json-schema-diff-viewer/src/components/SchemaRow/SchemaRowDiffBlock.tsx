@@ -1,9 +1,9 @@
-import { Diff } from '@netcracker/qubership-apihub-api-diff';
-import { ExtensionMeta } from '@netcracker/qubership-apihub-apispec-view-diff-elements-core/components/Docs/Extensions';
+import { Diff } from '@b41ex/qubership-apihub-api-diff';
+import { ExtensionMeta } from '@b41ex/qubership-apihub-apispec-view-diff-elements-core/components/Docs/Extensions';
 import { safeStringify } from '@stoplight/json';
 import { MarkdownViewer } from '@stoplight/markdown-viewer';
 import { CodeViewer } from '@stoplight/mosaic-code-viewer';
-import { DiffBlock, useValueFromObjWithDiff } from '@netcracker/qubership-apihub-apispec-view-diff-block';
+import { DiffBlock, useValueFromObjWithDiff } from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { keys } from 'lodash';
 import * as React from 'react';
 import { FC } from 'react';

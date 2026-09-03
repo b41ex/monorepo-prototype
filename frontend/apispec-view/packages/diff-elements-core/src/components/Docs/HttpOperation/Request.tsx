@@ -2,7 +2,7 @@ import { Extension, ExtensionMeta } from '../Extensions';
 import { ExtensionsDiff } from '../ExtensionsDiff';
 import { VStack } from '@stoplight/mosaic';
 import { HttpSecurityScheme, IHttpOperation } from '@stoplight/types';
-import { DiffBlock, DiffContainer } from '@netcracker/qubership-apihub-apispec-view-diff-block';
+import { DiffBlock, DiffContainer } from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { flatten, isEmpty } from 'lodash';
@@ -14,8 +14,8 @@ import { MarkdownViewer } from '../../MarkdownViewer';
 import { SectionSubtitle, SectionTitle, SubSectionPanel } from '../Sections';
 import { Body, isBodyEmpty } from './Body';
 import { Parameters } from './Parameters';
-import { Diff, DiffMetaRecord } from "@netcracker/qubership-apihub-api-diff";
-import { buildOpenApiDiffCause } from "@netcracker/qubership-apihub-api-doc-viewer";
+import { Diff, DiffMetaRecord } from "@b41ex/qubership-apihub-api-diff";
+import { buildOpenApiDiffCause } from "@b41ex/qubership-apihub-api-doc-viewer";
 
 interface IRequestProps {
   operation: IHttpOperation;

@@ -75,7 +75,7 @@ import type { AutocompleteInputChangeReason } from '@mui/base/AutocompleteUnstyl
 import { WARNING_API_PROCESSOR_TEXT, WarningApiProcessorVersion } from './WarningApiProcessorVersion'
 import type { ApiType } from '../entities/api-types'
 import { API_TYPE_REST, API_TYPE_TITLE_MAP, API_TYPES } from '../entities/api-types'
-import { REST_API_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import { REST_API_TYPE } from '@b41ex/qubership-apihub-api-processor'
 
 export type VersionFormData = {
   message?: string

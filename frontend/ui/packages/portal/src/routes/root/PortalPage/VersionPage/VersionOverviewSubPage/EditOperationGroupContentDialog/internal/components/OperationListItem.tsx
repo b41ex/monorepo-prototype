@@ -20,9 +20,9 @@ import { memo, useCallback, useMemo } from 'react'
 import type { Path } from '@remix-run/router'
 import { Box, Checkbox, ListItem, ListItemIcon } from '@mui/material'
 import { BORDER } from '../consts'
-import type { Operation, OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { OperationTitleWithMeta } from '@netcracker/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
-import type { Pixel } from '@netcracker/qubership-apihub-ui-shared/utils/types'
+import type { Operation, OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { OperationTitleWithMeta } from '@b41ex/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
+import type { Pixel } from '@b41ex/qubership-apihub-ui-shared/utils/types'
 
 export const OPERATION_LIST_ITEM_HEIGHT: Pixel = 64
 

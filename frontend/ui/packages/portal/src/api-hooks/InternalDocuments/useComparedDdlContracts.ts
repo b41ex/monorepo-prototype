@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 
-import { deserialize } from '@netcracker/qubership-apihub-api-unifier'
-import type { Realm } from '@netcracker/qubership-apihub-ddlapi'
+import { deserialize } from '@b41ex/qubership-apihub-api-unifier'
+import type { Realm } from '@b41ex/qubership-apihub-ddlapi'
 
-import type { DdlContractEntity } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { DdlEntityChangeEntry } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
-import type { PackageKey, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { DdlContractEntity } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { DdlEntityChangeEntry } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
+import type { PackageKey, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 import { INTERNAL_DOCUMENT_STRING_SYMBOL_MAPPING } from '@portal/utils/internal-documents/constants'
 import { isDdlApiSpecification } from '@portal/utils/internal-documents/type-guards'

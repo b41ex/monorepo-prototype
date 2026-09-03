@@ -11,19 +11,19 @@ import {
 import type { ColumnDef } from '@tanstack/table-core'
 import { type FC, type RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { ColumnDelimiter } from '@netcracker/qubership-apihub-ui-shared/components/ColumnDelimiter'
-import type { FetchNextMetaList } from '@netcracker/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { useIntersectionObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
-import { useResizeObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
+import { ColumnDelimiter } from '@b41ex/qubership-apihub-ui-shared/components/ColumnDelimiter'
+import type { FetchNextMetaList } from '@b41ex/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { useIntersectionObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
+import { useResizeObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
 import {
   type ColumnModel,
   DEFAULT_CONTAINER_WIDTH,
   useColumnsSizing,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { createComponents } from '@netcracker/qubership-apihub-ui-shared/utils/components'
-import { DEFAULT_NUMBER_SKELETON_ROWS } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { createComponents } from '@b41ex/qubership-apihub-ui-shared/utils/components'
+import { DEFAULT_NUMBER_SKELETON_ROWS } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
 
 export type ContractsEntityListTableProps<TData> = {
   columns: ColumnDef<TData>[]

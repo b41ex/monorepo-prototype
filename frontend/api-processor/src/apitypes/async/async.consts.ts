@@ -18,7 +18,7 @@ import {
   FILE_FORMAT_JSON, FILE_FORMAT_YAML, HASH_FLAG, NORMALIZE_OPTIONS, ORIGINS_SYMBOL, DEPRECATED_META_KEY,
   FIRST_REFERENCE_KEY_PROPERTY,
 } from '../../consts'
-import { NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 import { ResolvedVersionDocument, ZippableDocument } from '../../types'
 
 // Only AsyncAPI 3.0 is supported

@@ -18,20 +18,20 @@ import type { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstac
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { SecurityReports } from '@netcracker/qubership-apihub-ui-shared/components/SecurityReportsTable'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { SecurityReports } from '@b41ex/qubership-apihub-ui-shared/components/SecurityReportsTable'
 import type {
   HasNextPage,
   InvalidateQuery,
   IsFetchingNextPage,
   IsLoading,
-} from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { API_V3, API_V4, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { API_V3, API_V4, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import {
   useGetAgentPrefix,
   useGetNcServicePrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export const SECURITY_REPORT_TYPE_AUTH_CHECK = 'authentication-check'
 export const SECURITY_REPORT_TYPE_GATEWAY_ROUTING = 'gateway-routing'

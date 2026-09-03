@@ -1,5 +1,5 @@
 import { parse, stringify } from 'flatted'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { isSymbol } from './utils'
 
 const isSet = (value: unknown): value is Set<unknown> =>

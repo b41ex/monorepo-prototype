@@ -1,4 +1,4 @@
-import { type FetchErrorDetails } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { type FetchErrorDetails } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 import { AI_CHAT_FETCH_ERROR_TITLE } from '../errors'
 import { ABORT_ERROR_NAME } from './constants'

@@ -27,12 +27,12 @@ import {
   NO_BASELINE_FILTER,
   NO_BWC_ERRORS_FILTER,
 } from '../routes/root/NamespacePage/ServicesPage/ServicesPageBody/ValidationResultsStep/ValidationResultsStep'
-import { CustomToggleButtonGroup } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/CustomToggleButtonGroup'
+import { CustomToggleButtonGroup } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/CustomToggleButtonGroup'
 import {
   ERROR_STATUS_MARKER_VARIANT,
   StatusMarker,
   SUCCESS_STATUS_MARKER_VARIANT, WARNING_STATUS_MARKER_VARIANT,
-} from '@netcracker/qubership-apihub-ui-shared/components/StatusMarker'
+} from '@b41ex/qubership-apihub-ui-shared/components/StatusMarker'
 
 export type ProblemsControlsProps = {
   filters: (ValidationFilter | null)[]

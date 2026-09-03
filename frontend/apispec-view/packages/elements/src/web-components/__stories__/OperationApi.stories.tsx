@@ -1,8 +1,8 @@
 import '../index';
 
-import { apiAuthLocalAfter, apiAuthLocalBefore, simpleOperation, specWithComplexRefs } from '@netcracker/qubership-apihub-apispec-view-samples';
-import { OperationAPIImpl } from "@netcracker/qubership-apihub-apispec-view/containers/OperationAPI";
-import { getMergedDocument } from "@netcracker/qubership-apihub-apispec-view/web-components/__stories__/helpers/getMergedDocument";
+import { apiAuthLocalAfter, apiAuthLocalBefore, simpleOperation, specWithComplexRefs } from '@b41ex/qubership-apihub-apispec-view-samples';
+import { OperationAPIImpl } from "@b41ex/qubership-apihub-apispec-view/containers/OperationAPI";
+import { getMergedDocument } from "@b41ex/qubership-apihub-apispec-view/web-components/__stories__/helpers/getMergedDocument";
 import * as React from 'react';
 
 declare global {

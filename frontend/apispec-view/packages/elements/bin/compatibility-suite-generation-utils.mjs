@@ -2,7 +2,7 @@ import {
   getCompatibilitySuites,
   getCompatibilitySuiteSpecificationVersionPairs,
   TEST_SPEC_TYPE_OPEN_API,
-} from '@netcracker/qubership-apihub-compatibility-suites'
+} from '@b41ex/qubership-apihub-compatibility-suites'
 import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'fs'
 import path from 'path'
 

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useMutation } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
-import { API_V3, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { API_V3, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 type PublishOperationGroupPackageVersionData = {
   packageKey: Key

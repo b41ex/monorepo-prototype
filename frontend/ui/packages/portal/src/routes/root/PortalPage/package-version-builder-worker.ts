@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import type { BuilderResolvers, FileId, FileSourceMap, VersionValidationLevel, VersionsComparison } from '@netcracker/qubership-apihub-api-processor'
-import { BUILD_TYPE, VERSION_STATUS, VERSION_VALIDATION_LEVEL } from '@netcracker/qubership-apihub-api-processor'
-import { PackageVersionBuilder } from '@netcracker/qubership-apihub-api-processor/processor'
+import type { BuilderResolvers, FileId, FileSourceMap, VersionValidationLevel, VersionsComparison } from '@b41ex/qubership-apihub-api-processor'
+import { BUILD_TYPE, VERSION_STATUS, VERSION_VALIDATION_LEVEL } from '@b41ex/qubership-apihub-api-processor'
+import { PackageVersionBuilder } from '@b41ex/qubership-apihub-api-processor/processor'
 import {
   packageVersionResolver,
   rawDocumentResolver,
@@ -24,9 +24,9 @@ import {
   versionDocumentsResolver,
   versionOperationsResolver,
   versionReferencesResolver,
-} from '@netcracker/qubership-apihub-ui-shared/utils/builder-resolvers'
-import { packToZip } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import type { PublishDetails, PublishStatus } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+} from '@b41ex/qubership-apihub-ui-shared/utils/builder-resolvers'
+import { packToZip } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import type { PublishDetails, PublishStatus } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 import {
   COMPLETE_PUBLISH_STATUS,
   ERROR_PUBLISH_STATUS,
@@ -34,18 +34,18 @@ import {
   RUNNING_PUBLISH_STATUS,
   setPublicationDetails,
   startPackageVersionPublication,
-} from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
-import { isInWebWorker, WorkerUnauthorizedError } from '@netcracker/qubership-apihub-ui-shared/utils/security'
+} from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
+import { isInWebWorker, WorkerUnauthorizedError } from '@b41ex/qubership-apihub-ui-shared/utils/security'
 import { expose, transferHandlers } from 'comlink'
 import { v4 as uuidv4 } from 'uuid'
 import type { BuilderOptions } from './package-version-builder'
 import type { PublishOptions } from './usePublishPackageVersion'
-import { systemConfiguration } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useSystemConfiguration'
-import { getSystemInfo } from '@netcracker/qubership-apihub-ui-shared/utils/system-info'
+import { systemConfiguration } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useSystemConfiguration'
+import { getSystemInfo } from '@b41ex/qubership-apihub-ui-shared/utils/system-info'
 
 /*
 For using worker in proxy mode you need to change common apihub-shared import
-to specific directory ('@netcracker/qubership-apihub-ui-shared/utils' for example)
+to specific directory ('@b41ex/qubership-apihub-ui-shared/utils' for example)
 */
 
 export type Filename = string

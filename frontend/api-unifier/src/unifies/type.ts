@@ -54,7 +54,7 @@ import {
   JsonSchemaNodesNormalizedType,
   JsonSchemaNodeType,
 } from '../rules/jsonschema.const'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { removeDuplicatesWithMergeOrigins, singleOrArrayToArray, uniqueItems } from '../utils'
 import { mergeProhibitLiftCombiners } from '../lift-combiners'
 import { combineJsonSchemaWithMetaJso } from './empty-schema'

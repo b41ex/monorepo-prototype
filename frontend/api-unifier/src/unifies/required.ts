@@ -1,5 +1,5 @@
 import { OriginLeafs, UnifyFunction } from '../types'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { isBroken, isPureCombiner } from './type'
 import { JSON_SCHEMA_PROPERTY_PROPERTIES, JSON_SCHEMA_PROPERTY_REQUIRED } from '../rules/jsonschema.const'
 import { resolveOrigins, setOriginsForArray } from '../origins'

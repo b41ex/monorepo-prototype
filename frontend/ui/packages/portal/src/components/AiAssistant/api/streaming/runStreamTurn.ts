@@ -1,7 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
 import type { MutableRefObject } from 'react'
 
-import { HttpError } from '@netcracker/qubership-apihub-ui-shared/utils/responses'
+import { HttpError } from '@b41ex/qubership-apihub-ui-shared/utils/responses'
 
 import { removeAiChatQueries } from '../chatCache'
 import { dispatchAiChatFetchError, dispatchAiChatWarning } from '../errors'

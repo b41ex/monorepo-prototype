@@ -25,7 +25,7 @@ import {
   OPEN_API_PROPERTY_SCHEMAS,
   PREDICATE_ANY_VALUE,
   PREDICATE_UNCLOSED_END,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import {
   calculateComponentsPath,
   calculateEncodingPlaceInRequest,

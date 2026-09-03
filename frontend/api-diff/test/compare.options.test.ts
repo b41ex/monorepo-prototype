@@ -4,7 +4,7 @@ import { OpenapiBuilder, TEST_DEFAULTS_FLAG, TEST_ORIGINS_FLAG } from './helper'
 import { OpenAPIV3 } from 'openapi-types'
 import { COMPARE_MODE_OPERATION } from '../src/types'
 import 'jest-extended'
-import { JSON_SCHEMA_PROPERTY_READ_ONLY } from '@netcracker/qubership-apihub-api-unifier'
+import { JSON_SCHEMA_PROPERTY_READ_ONLY } from '@b41ex/qubership-apihub-api-unifier'
 import ResponsesObject = OpenAPIV3.ResponsesObject
 import Document = OpenAPIV3.Document
 

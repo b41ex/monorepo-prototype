@@ -15,7 +15,7 @@
  */
 
 import { useEffect } from 'react'
-import type { ApispecView } from '@netcracker/qubership-apihub-apispec-view'
+import type { ApispecView } from '@b41ex/qubership-apihub-apispec-view'
 import type { ApispecViewProps } from './ApispecView'
 
 export function useSetupApiSpecView(operationViewElement: ApispecView, props: ApispecViewProps): void {

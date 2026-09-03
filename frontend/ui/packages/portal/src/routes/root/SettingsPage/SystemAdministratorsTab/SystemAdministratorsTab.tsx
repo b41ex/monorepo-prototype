@@ -21,16 +21,16 @@ import { memo, useCallback, useState } from 'react'
 import { useAddSystemAdmin, useDeleteSystemAdmin, useSystemAdmins } from './useSystemAdmin'
 import { useUsers } from '../../useUsers'
 import { useEventBus } from '@portal/routes/EventBusProvider'
-import type { SystemAdmin } from '@netcracker/qubership-apihub-ui-shared/types/system-admins'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { AddIcon } from '@netcracker/qubership-apihub-ui-shared/icons/AddIcon'
-import { SystemAdministratorsTable } from '@netcracker/qubership-apihub-ui-shared/components/SystemAdministratorsTable'
+import type { SystemAdmin } from '@b41ex/qubership-apihub-ui-shared/types/system-admins'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { AddIcon } from '@b41ex/qubership-apihub-ui-shared/icons/AddIcon'
+import { SystemAdministratorsTable } from '@b41ex/qubership-apihub-ui-shared/components/SystemAdministratorsTable'
 import {
   AddSystemAdministratorDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/AddSystemAdministratorDialog'
+} from '@b41ex/qubership-apihub-ui-shared/components/AddSystemAdministratorDialog'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 
 export const SystemAdministratorsTab: FC = memo(() => {
   const { showAddSystemAdministratorDialog } = useEventBus()

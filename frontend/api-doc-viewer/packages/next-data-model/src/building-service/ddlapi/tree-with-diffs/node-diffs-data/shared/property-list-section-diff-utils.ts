@@ -10,7 +10,7 @@ import {
   NodeDiffs,
 } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { isObject } from "@apihub/next-data-model/utilities";
-import { Diff, DiffType, isDiffAdd, isDiffRemove } from "@netcracker/qubership-apihub-api-diff";
+import { Diff, DiffType, isDiffAdd, isDiffRemove } from "@b41ex/qubership-apihub-api-diff";
 
 export type DdlApiPropertyListSectionItemRow = {
   readonly columnName?: string

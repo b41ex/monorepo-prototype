@@ -1,4 +1,4 @@
-import { anyArrayKeys, getNodeRules, JsonPath, syncCrawl, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
+import { anyArrayKeys, getNodeRules, JsonPath, syncCrawl, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
 
 import {
   ChainItem,
@@ -12,7 +12,7 @@ import {
   pathItemToFullPath,
   resolveOrigins,
   resolveSpec,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { deepEqual } from 'fast-equals'
 import {
   AdapterContext,

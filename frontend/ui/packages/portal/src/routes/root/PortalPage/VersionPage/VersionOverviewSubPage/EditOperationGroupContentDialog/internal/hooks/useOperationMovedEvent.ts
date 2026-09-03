@@ -18,7 +18,7 @@ import { useEvent } from 'react-use'
 import type { OperationListsDelta } from '../types'
 import type { Dispatch, SetStateAction } from 'react'
 import { deepIncludes } from '../utils'
-import type { Operation, Operations } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { Operation, Operations } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import {
   OPERATION_MOVED,
   OPERATIONS_ADD_TO_GROUP_ACTION,

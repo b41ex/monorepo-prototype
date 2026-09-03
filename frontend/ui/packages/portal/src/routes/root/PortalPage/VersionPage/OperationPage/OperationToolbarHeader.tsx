@@ -20,8 +20,8 @@ import { Box, IconButton, Skeleton, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { OperationSelector } from './OperationSelector'
 import type { Path } from '@remix-run/router'
-import type { OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
+import type { OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
 
 export type OperationToolbarHeaderProps = {
   handleBackClick: () => void

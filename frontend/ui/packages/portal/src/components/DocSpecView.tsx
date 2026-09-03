@@ -17,15 +17,15 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import { Marker } from 'react-mark.js'
-import { JsonSchemaViewer } from '@netcracker/qubership-apihub-ui-shared/components/JsonSchemaViewer'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import { isOpenApiSpecType, UNKNOWN_SPEC_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import type { FileFormat } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import { JSON_FILE_FORMAT, MD_FILE_FORMAT, YAML_FILE_FORMAT } from '@netcracker/qubership-apihub-ui-shared/utils/files'
+import { JsonSchemaViewer } from '@b41ex/qubership-apihub-ui-shared/components/JsonSchemaViewer'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import { isOpenApiSpecType, UNKNOWN_SPEC_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import type { FileFormat } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import { JSON_FILE_FORMAT, MD_FILE_FORMAT, YAML_FILE_FORMAT } from '@b41ex/qubership-apihub-ui-shared/utils/files'
 import { generateSpecificationByPathItems } from '../utils/specifications'
-import { ApispecView } from '@netcracker/qubership-apihub-ui-shared/components/ApispecView'
+import { ApispecView } from '@b41ex/qubership-apihub-ui-shared/components/ApispecView'
 import { isJsonSchemaSpecType } from '../entities/spec-types'
-import { MarkdownViewer } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/MarkdownViewer'
+import { MarkdownViewer } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/MarkdownViewer'
 
 // First Order Component //
 export type DocSpecViewProps = {

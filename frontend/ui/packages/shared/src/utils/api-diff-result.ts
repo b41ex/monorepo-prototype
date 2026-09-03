@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import type { CompareResult, Diff } from '@netcracker/qubership-apihub-api-diff'
-import { apiDiff, COMPARE_MODE_OPERATION } from '@netcracker/qubership-apihub-api-diff'
-import { removeComponents } from '@netcracker/qubership-apihub-api-processor'
+import type { CompareResult, Diff } from '@b41ex/qubership-apihub-api-diff'
+import { apiDiff, COMPARE_MODE_OPERATION } from '@b41ex/qubership-apihub-api-diff'
+import { removeComponents } from '@b41ex/qubership-apihub-api-processor'
 import { isObject } from 'lodash-es'
 import type { Dispatch, SetStateAction } from 'react'
 import type { OperationChange } from '../entities/operation-changelog'

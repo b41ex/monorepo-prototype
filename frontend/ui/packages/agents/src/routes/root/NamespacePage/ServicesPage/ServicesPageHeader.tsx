@@ -35,7 +35,7 @@ import {
   useValidationResultsStep,
   VALIDATION_RESULTS_STEP_KEY,
 } from './ServicesPageProvider/ServicesStepsProvider'
-import type { Color } from '@netcracker/qubership-apihub-ui-shared/utils/types'
+import type { Color } from '@b41ex/qubership-apihub-ui-shared/utils/types'
 
 export const ServicesPageHeader: FC = memo(() => {
   const [activeStepIndex, allSteps, backButtonProps, nextButtonProps] = useHeaderData()

@@ -16,20 +16,20 @@
 
 import { useMemo } from 'react'
 
-import { calculateTotalChangeSummary } from '@netcracker/qubership-apihub-api-processor'
-import type { ChangeSeverity, ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import { CONTRACT_TYPE_DDL } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { hasDdlComparisonChanges } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import { EMPTY_CHANGE_SUMMARY } from '@netcracker/qubership-apihub-ui-shared/entities/version-changelog'
+import { calculateTotalChangeSummary } from '@b41ex/qubership-apihub-api-processor'
+import type { ChangeSeverity, ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import { CONTRACT_TYPE_DDL } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { hasDdlComparisonChanges } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import { EMPTY_CHANGE_SUMMARY } from '@b41ex/qubership-apihub-ui-shared/entities/version-changelog'
 import type {
   DashboardComparisonSummary,
   RefComparisonSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import {
   filterChangesBySeverity,
   hasNoChangesInSummary,
-} from '@netcracker/qubership-apihub-ui-shared/utils/change-severities'
+} from '@b41ex/qubership-apihub-ui-shared/utils/change-severities'
 
 import type { CompareSupportedApiType } from './compareApiTypeFilter'
 

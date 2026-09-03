@@ -19,7 +19,7 @@ import type { Updater } from '@tanstack/table-core'
 import type { Service } from '@agents/entities/services'
 import { useEffectOnce } from 'react-use'
 import { useEffect, useMemo } from 'react'
-import type { ServiceKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { ServiceKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 type ServiceRowModel = RowModel<Partial<{
   service: Service

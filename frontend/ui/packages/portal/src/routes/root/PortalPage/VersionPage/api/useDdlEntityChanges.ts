@@ -2,20 +2,20 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { generatePath } from 'react-router-dom'
 
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
 
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import {
   type OperationChanges,
   type OperationChangesDto,
   toOperationChanges,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-changelog'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { getFullVersion } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import { replaceStringDiffTypeForDTO } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/getOperationChangelog'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-changelog'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { getFullVersion } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import { replaceStringDiffTypeForDTO } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/getOperationChangelog'
 
 export const DDL_ENTITY_CHANGES_QUERY_KEY = 'ddl-entity-changes-query-key'
 

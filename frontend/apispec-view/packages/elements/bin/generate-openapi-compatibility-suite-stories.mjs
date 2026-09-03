@@ -27,7 +27,7 @@ const printFileHeader = (suiteId, group) => {
   return `import '../../index'
 import { Meta, StoryObj } from '@storybook/react/*'
 import { StoryComponent, getStoryArgs, OpenapiCompatibilitySuiteStoryArgs } from '../helpers/compatibility-suite-utils'
-import { TEST_SPEC_TYPE_OPEN_API } from '@netcracker/qubership-apihub-compatibility-suites'
+import { TEST_SPEC_TYPE_OPEN_API } from '@b41ex/qubership-apihub-compatibility-suites'
 
 const meta: Meta<OpenapiCompatibilitySuiteStoryArgs> = {
   title: 'OAS Compatibility Suite ${group}/${suiteId}',

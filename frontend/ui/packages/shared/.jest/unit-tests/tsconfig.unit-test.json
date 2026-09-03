@@ -13,7 +13,7 @@
       of whichever test file it saw first and rejects every other one. */
     "rootDir": "../../../",
     "paths": {
-      "@netcracker/qubership-apihub-ui-shared/*": ["../../src/*"]
+      "@b41ex/qubership-apihub-ui-shared/*": ["../../src/*"]
     }
   },
   "include": [

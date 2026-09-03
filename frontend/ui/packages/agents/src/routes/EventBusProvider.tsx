@@ -17,10 +17,10 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, memo, useContext, useState } from 'react'
 import { createEventBus, slot } from 'ts-event-bus'
-import type { NotificationDetail } from '@netcracker/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
+import type { NotificationDetail } from '@b41ex/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
 import type { ChangeViewDialogDetail } from '../widgets/ChangeViewDialog/ChangeViewDialog'
 import { SHOW_CHANGE_VIEW_DIALOG } from '../widgets/ChangeViewDialog/ChangeViewDialog'
-import type { Spec } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
+import type { Spec } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
 import type { Service } from '@agents/entities/services'
 
 export const SHOW_SUCCESS_NOTIFICATION = 'show-success-notification'

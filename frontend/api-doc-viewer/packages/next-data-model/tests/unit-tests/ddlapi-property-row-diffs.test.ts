@@ -11,8 +11,8 @@ import { resolveColumnNodeVisibility } from "@apihub/next-data-model/model/ddlap
 import { DETAILED_DISPLAY_MODE } from "@apihub/next-data-model/model/ddlapi/tree/node-visibility/kind-column"
 import { ORIGIN_LAYOUT_SIDE, CHANGED_LAYOUT_SIDE } from "@apihub/next-data-model/model/abstract/layout-side"
 import { DdlApiTreeNodeKinds } from "@apihub/next-data-model/model/ddlapi/types/node-kind"
-import { buildFromDdl } from "@netcracker/qubership-apihub-ddlapi/parser"
-import { apiDiff } from "@netcracker/qubership-apihub-api-diff"
+import { buildFromDdl } from "@b41ex/qubership-apihub-ddlapi/parser"
+import { apiDiff } from "@b41ex/qubership-apihub-api-diff"
 import { DdlApiTreeWithDiffsBuilder } from "../../src/building-service/ddlapi/tree-with-diffs/builder"
 import { DdlApiNodeDiffsAggregatorKindColumn } from "../../src/building-service/ddlapi/tree-with-diffs/node-diffs-data/node-diffs/kind-column"
 import { DdlApiNodeDiffsAggregatorKindIndex } from "../../src/building-service/ddlapi/tree-with-diffs/node-diffs-data/node-diffs/kind-index"
@@ -24,7 +24,7 @@ import {
   breaking,
   DiffAction,
   nonBreaking,
-} from "@netcracker/qubership-apihub-api-diff"
+} from "@b41ex/qubership-apihub-api-diff"
 
 const TEST_DIFFS_META_KEY = Symbol("test-ddl-diffs-meta-key")
 

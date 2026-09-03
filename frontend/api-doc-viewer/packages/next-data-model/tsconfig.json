@@ -8,10 +8,10 @@
       "@apihub/next-data-model/*": [
         "./src/*"
       ],
-      "@netcracker/qubership-apihub-samples": [
+      "@b41ex/qubership-apihub-samples": [
         "./../samples/src"
       ],
-      "@netcracker/qubership-apihub-samples/*": [
+      "@b41ex/qubership-apihub-samples/*": [
         "./../samples/src/*"
       ]
     }

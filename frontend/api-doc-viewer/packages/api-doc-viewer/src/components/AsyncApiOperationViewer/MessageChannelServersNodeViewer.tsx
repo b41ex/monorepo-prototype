@@ -1,7 +1,7 @@
 import { isServerNode } from "../../utils/async-api/node-type-checkers";
-import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/aliases";
-import { AsyncApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-kind";
-import { AsyncApiTreeNodeValue } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-value";
+import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/aliases";
+import { AsyncApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-kind";
+import { AsyncApiTreeNodeValue } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-value";
 import { FC, memo, useMemo } from "react";
 import { TextValueVariant } from "../shared-components/TextValue/types";
 import { TitleRow } from "../shared-components/TitleRow/TitleRow";

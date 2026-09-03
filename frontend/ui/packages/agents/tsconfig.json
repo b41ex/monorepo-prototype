@@ -2,17 +2,17 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      /* TODO: move these components to @netcracker/qubership-apihub-ui-shared. */
+      /* TODO: move these components to @b41ex/qubership-apihub-ui-shared. */
       "@agents/components/*": [
         "./src/components/*"
       ],
       "@agents/entities/*": [
         "./src/entities/*"
       ],
-      "@netcracker/qubership-apihub-ui-shared": [
+      "@b41ex/qubership-apihub-ui-shared": [
         "./../shared/src"
       ],
-      "@netcracker/qubership-apihub-ui-shared/*": [
+      "@b41ex/qubership-apihub-ui-shared/*": [
         "./../shared/src/*"
       ],
       "@agents/utils/*": [

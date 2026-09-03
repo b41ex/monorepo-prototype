@@ -26,7 +26,7 @@ import {
   OPEN_API_PROPERTY_RESPONSES,
   PREDICATE_ANY_VALUE,
   PREDICATE_UNCLOSED_END,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import {
   calculateChangedProperty,
   calculateComponentsPath,

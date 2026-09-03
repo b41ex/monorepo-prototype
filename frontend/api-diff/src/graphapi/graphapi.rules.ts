@@ -1,4 +1,4 @@
-import { GRAPH_API_PROPERTY_DEFAULT, GRAPH_API_PROPERTY_NULLABLE, GRAPH_API_PROPERTY_TITLE, GRAPH_API_PROPERTY_LOCATIONS, GRAPH_API_PROPERTY_DEFINITION } from '@netcracker/qubership-apihub-api-unifier'
+import { GRAPH_API_PROPERTY_DEFAULT, GRAPH_API_PROPERTY_NULLABLE, GRAPH_API_PROPERTY_TITLE, GRAPH_API_PROPERTY_LOCATIONS, GRAPH_API_PROPERTY_DEFINITION } from '@b41ex/qubership-apihub-api-unifier'
 import {
   addNonBreaking,
   allAnnotation,
@@ -23,8 +23,8 @@ import type { ClassifyRule, CompareRules, DescriptionTemplates, MappingResolver 
 import { graphApiSchemaAdapter as graphApiTypeAdapter, removeNotCorrectlySupportedInterfacesAdapter } from './graphapi.adapter'
 import { COMPARE_SCOPE_COMPONENTS, COMPARE_SCOPE_DIRECTIVE_USAGES, COMPARE_SCOPE_ARGS, COMPARE_SCOPE_OUTPUT } from './graphapi.const'
 import { complexTypeCompareResolver } from './graphapi.resolver'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
-import { BUILT_IN_DIRECTIVE_DEPRECATED, BUILT_IN_DIRECTIVE_SPECIFIED_BY } from '@netcracker/qubership-apihub-graphapi'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
+import { BUILT_IN_DIRECTIVE_DEPRECATED, BUILT_IN_DIRECTIVE_SPECIFIED_BY } from '@b41ex/qubership-apihub-graphapi'
 import { isRuntimeDirectiveLocations } from './graphapi.utils'
 
 const titleBaseUniqueItemsArrayMappingResolver: MappingResolver<number> = customUniqueItemsArrayMappingResolver((one, another) =>

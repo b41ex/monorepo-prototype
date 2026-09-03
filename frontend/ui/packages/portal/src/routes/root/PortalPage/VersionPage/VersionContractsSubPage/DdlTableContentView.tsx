@@ -15,53 +15,53 @@ import { useBreadcrumbsData } from '@portal/routes/root/PortalPage/VersionPage/C
 import { OperationsSwapper } from '@portal/routes/root/PortalPage/VersionPage/OperationContent/OperationsSwapper'
 import type { OperationDisplayMode } from '@portal/routes/root/PortalPage/VersionPage/OperationContent/OperationView/OperationDisplayMode'
 import { useOperationViewMode } from '@portal/routes/root/PortalPage/VersionPage/useOperationViewMode'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   CONTENT_PLACEHOLDER_AREA,
   Placeholder,
   PLACEHOLDER_MESSAGE_NO_INTERNAL_DOCUMENT,
   SEARCH_RAINY_DAY_PLACEHOLDER_VARIANT,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { RawSpecDiffView } from '@netcracker/qubership-apihub-ui-shared/components/RawSpecDiffView'
-import { RawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { RawSpecDiffView } from '@b41ex/qubership-apihub-ui-shared/components/RawSpecDiffView'
+import { RawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
 import {
   DOC_SPEC_VIEW_MODE,
   RAW_SPEC_VIEW_MODE,
   SIMPLE_SPEC_VIEW_MODE,
   type SpecViewMode,
-} from '@netcracker/qubership-apihub-ui-shared/components/SpecViewToggler'
-import { CONTRACT_TYPE_DDL } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+} from '@b41ex/qubership-apihub-ui-shared/components/SpecViewToggler'
+import { CONTRACT_TYPE_DDL } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 import {
   DDL_ENTITY_KIND_TABLE,
   type DdlContractEntity,
   type DdlContractEntityDetails,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { DEFAULT_VIEW_MODE_MAP_BY_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { DEFAULT_VIEW_MODE_MAP_BY_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import {
   DETAILED_SCHEMA_VIEW_MODE,
   SIMPLE_SCHEMA_VIEW_MODE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/schema-view-mode'
+} from '@b41ex/qubership-apihub-ui-shared/entities/schema-view-mode'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
 import {
   useIsDocOperationViewMode,
   useIsRawOperationViewMode,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
-import { theme } from '@netcracker/qubership-apihub-ui-shared/themes/theme'
-import { SQL_FILE_EXTENSION } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import { DDL_DOCUMENT_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
+import { theme } from '@b41ex/qubership-apihub-ui-shared/themes/theme'
+import { SQL_FILE_EXTENSION } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import { DDL_DOCUMENT_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 
 import { useNormalizedDdlContract } from '@portal/api-hooks/InternalDocuments/useNormalizedDdlContract'
-import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
+import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
 import {
   DdlTableDiffsViewer,
   DdlTableViewer,
   type NavigationLinkBuilder,
-} from '@netcracker/qubership-apihub-api-doc-viewer'
-import { calculateDdlEntityId } from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-doc-viewer'
+import { calculateDdlEntityId } from '@b41ex/qubership-apihub-api-processor'
 import { usePackageKind } from '../../usePackageKind'
 import { usePackageParamsWithRef } from '../../usePackageParamsWithRef'
 import { useRefSearchParam } from '../../useRefSearchParam'

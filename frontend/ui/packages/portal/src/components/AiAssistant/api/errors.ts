@@ -2,8 +2,8 @@ import {
   FETCH_ERROR_EVENT,
   type FetchErrorDetails,
   getResponseError,
-} from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { HttpError } from '@netcracker/qubership-apihub-ui-shared/utils/responses'
+} from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { HttpError } from '@b41ex/qubership-apihub-ui-shared/utils/responses'
 
 import {
   SHOW_WARNING_NOTIFICATION,

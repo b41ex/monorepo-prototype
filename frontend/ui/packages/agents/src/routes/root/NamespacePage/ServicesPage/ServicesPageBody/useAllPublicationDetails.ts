@@ -26,9 +26,9 @@ import {
   NONE_PUBLISH_STATUS,
   RUNNING_PUBLISH_STATUS,
 } from '@agents/entities/statuses'
-import type { PublishDetails, PublishDetailsDto, PublishStatus } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+import type { PublishDetails, PublishDetailsDto, PublishStatus } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 import type { PublishConfig } from '@agents/entities/publish-config'
-import { STATUS_REFETCH_INTERVAL } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { STATUS_REFETCH_INTERVAL } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 const ALL_PUBLISH_DETAILS_QUERY_KEY = 'all-publish-details-query-key'
 

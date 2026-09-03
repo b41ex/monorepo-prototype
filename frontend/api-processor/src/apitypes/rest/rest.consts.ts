@@ -25,7 +25,7 @@ import {
 } from '../../consts'
 import { KeyOfConstType, ResolvedVersionDocument, ZippableDocument } from '../../types'
 import { TEXT_DOCUMENT_TYPE } from '../text'
-import { NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 
 export const REST_DOCUMENT_TYPE = {
   OAS3: 'openapi-3-0',

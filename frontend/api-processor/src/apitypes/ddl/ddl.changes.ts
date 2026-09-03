@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
 import {
   aggregateDiffsWithRollup,
   apiDiff,
   Diff,
   DIFF_META_KEY,
   DIFFS_AGGREGATED_META_KEY,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import {
   AFTER_VALUE_NORMALIZED_PROPERTY,
   BEFORE_VALUE_NORMALIZED_PROPERTY,

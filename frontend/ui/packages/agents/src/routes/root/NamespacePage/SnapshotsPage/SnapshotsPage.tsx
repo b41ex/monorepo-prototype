@@ -19,10 +19,10 @@ import { memo } from 'react'
 
 import { useSnapshots } from '../useSnapshots'
 import { SnapshotsTable } from './SnapshotsTable'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 
 export const SnapshotsPage: FC = memo(() => {
   const [{ snapshots }, isLoading] = useSnapshots()

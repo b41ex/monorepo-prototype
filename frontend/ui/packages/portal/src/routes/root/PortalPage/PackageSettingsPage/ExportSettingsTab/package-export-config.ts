@@ -1,6 +1,6 @@
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { groupBy, isNotEmpty, sortByProperty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { groupBy, isNotEmpty, sortByProperty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import type { ExportConfig, OasExtension } from '../../useExportConfig'
 
 export type OasSettingsExtension = {

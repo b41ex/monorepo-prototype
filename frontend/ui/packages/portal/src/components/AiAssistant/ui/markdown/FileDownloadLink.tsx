@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles'
 import { type FC, memo, type ReactNode } from 'react'
 
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { DownloadIconMui } from '@netcracker/qubership-apihub-ui-shared/icons/DownloadIconMui'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { DownloadIconMui } from '@b41ex/qubership-apihub-ui-shared/icons/DownloadIconMui'
 import { plainChildrenText } from '../../utils/plainChildrenText'
 import { CHAT_CARD_LINK_CLASS, chatCardSurface } from './chatCard'
 

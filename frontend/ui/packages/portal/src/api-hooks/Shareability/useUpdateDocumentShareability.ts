@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { generatePath } from 'react-router-dom'
 
-import type { ShareabilityStatus } from '@netcracker/qubership-apihub-api-processor'
+import type { ShareabilityStatus } from '@b41ex/qubership-apihub-api-processor'
 import { portalRequestVoid } from '@portal/utils/requests'
 import { DOCUMENT_QUERY_KEY } from '../../routes/root/PortalPage/VersionPage/useDocument'
 import { DOCUMENTS_QUERY_KEY } from '../../routes/root/PortalPage/VersionPage/useDocuments'

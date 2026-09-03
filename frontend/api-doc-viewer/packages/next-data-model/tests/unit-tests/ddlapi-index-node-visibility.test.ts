@@ -9,7 +9,7 @@ import {
   resolveIndexNodeVisibility,
 } from "@apihub/next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-index"
 import { DdlApiTreeNodeKinds } from "@apihub/next-data-model/model/ddlapi/types/node-kind"
-import { DiffAction, nonBreaking } from "@netcracker/qubership-apihub-api-diff"
+import { DiffAction, nonBreaking } from "@b41ex/qubership-apihub-api-diff"
 
 function makePlainIndexNode(value: Record<string, unknown> | null) {
   return {

@@ -1,5 +1,5 @@
-import { requestText } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { API_V1 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { requestText } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { API_V1 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
 import type { InternalDocumentMetaData, QueryResult } from './shared-types'

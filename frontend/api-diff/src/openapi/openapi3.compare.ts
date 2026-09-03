@@ -1,7 +1,7 @@
 import { CompareResult, StrictCompareOptions } from '../types'
 import { compare } from '../core'
 import { openApi3Rules } from './openapi3.rules'
-import { OpenApiSpecVersion } from '@netcracker/qubership-apihub-api-unifier'
+import { OpenApiSpecVersion } from '@b41ex/qubership-apihub-api-unifier'
 
 export const compareOpenApi = (version: OpenApiSpecVersion) => (before: unknown, after: unknown, options: StrictCompareOptions): CompareResult => {
   return compare(before, after, {

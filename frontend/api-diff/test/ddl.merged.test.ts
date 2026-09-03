@@ -1,6 +1,6 @@
 import { Diff, DIFF_META_KEY, DiffAction, nonBreaking } from '../src'
-import type { Column, EnumType, Realm, Schema, Table } from '@netcracker/qubership-apihub-ddlapi'
-import { ObjectKind } from '@netcracker/qubership-apihub-ddlapi'
+import type { Column, EnumType, Realm, Schema, Table } from '@b41ex/qubership-apihub-ddlapi'
+import { ObjectKind } from '@b41ex/qubership-apihub-ddlapi'
 import { diffSql } from './helper/ddl'
 import { diffsMatcher } from './helper/matchers'
 

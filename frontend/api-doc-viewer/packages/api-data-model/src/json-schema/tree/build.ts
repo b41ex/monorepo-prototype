@@ -1,4 +1,4 @@
-import { syncCrawl } from '@netcracker/qubership-apihub-json-crawl';
+import { syncCrawl } from '@b41ex/qubership-apihub-json-crawl';
 import { createTransformCrawlHook } from '../../abstract/hooks/transform';
 import { isObject } from '../../utils';
 import { jsonSchemaCrawlRules } from '../rules';

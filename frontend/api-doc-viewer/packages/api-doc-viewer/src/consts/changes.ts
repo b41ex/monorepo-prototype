@@ -24,9 +24,9 @@ import {
   nonBreaking,
   risky,
   unclassified,
-} from '@netcracker/qubership-apihub-api-diff'
-import { DiffsClassesBuilder } from '@netcracker/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities'
-import { HighlightVariant } from '@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
+} from '@b41ex/qubership-apihub-api-diff'
+import { DiffsClassesBuilder } from '@b41ex/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities'
+import { HighlightVariant } from '@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
 
 export const NODE_DIFF_COLOR_MAP: Partial<Record<ActionType, string>> = {
   [DiffAction.add]: 'bg-green-50',

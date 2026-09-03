@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
-import { normalize } from '@netcracker/qubership-apihub-api-unifier'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
+import { normalize } from '@b41ex/qubership-apihub-api-unifier'
 import { VersionDocument } from '../../types'
 import { createSerializedInternalDocument } from '../../utils'
 import { DDL_EFFECTIVE_NORMALIZE_OPTIONS } from './ddl.consts'

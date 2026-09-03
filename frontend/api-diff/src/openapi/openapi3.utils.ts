@@ -1,4 +1,4 @@
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 import { type CompareContext } from '../types'
 import { isString } from '../utils'

@@ -22,8 +22,8 @@ import { ActivityListBody } from './ActivityListBody'
 import ListItemButton from '@mui/material/ListItemButton'
 import type { Activity } from '../../entities/activities'
 import type { ActivityType } from '../../entities/activity-enums'
-import { DEFAULT_PAPER_SHADOW } from '@netcracker/qubership-apihub-ui-shared/themes/palette'
-import { KeyboardDoubleArrowRightIcon } from '@netcracker/qubership-apihub-ui-shared/icons/KeyboardDoubleArrowRightIcon'
+import { DEFAULT_PAPER_SHADOW } from '@b41ex/qubership-apihub-ui-shared/themes/palette'
+import { KeyboardDoubleArrowRightIcon } from '@b41ex/qubership-apihub-ui-shared/icons/KeyboardDoubleArrowRightIcon'
 
 export type ActivityHistoryPanelProps = {
   onCollapse: () => void

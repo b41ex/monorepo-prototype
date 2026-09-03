@@ -1,12 +1,12 @@
 import { type FC, memo, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { ExportMenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
+import { ExportMenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
 import {
   MCP_COLLECTION_INIT,
   MCP_COLLECTION_LABELS,
   type McpCollection,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
 
 import { useFullMainVersion } from '../FullMainVersionProvider'
 import { useDownloadMcpEntitiesAsExcel } from './useDownloadMcpEntitiesAsExcel'

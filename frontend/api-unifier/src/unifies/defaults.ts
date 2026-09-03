@@ -1,5 +1,5 @@
 import { DEFAULT_TYPE_FLAG_PURE, DEFAULT_TYPE_FLAG_SYNTHETIC, DefaultMetaRecord, InternalUnifyOptions, UnifyContext, UnifyFunction } from '../types'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { isBroken, isPureCombiner } from './type'
 import { setJsoProperty } from '../utils'
 import { cleanSeveralOrigins, resolveOriginsMetaRecord } from '../origins'

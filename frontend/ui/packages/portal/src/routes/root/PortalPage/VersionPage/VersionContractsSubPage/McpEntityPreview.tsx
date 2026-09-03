@@ -1,10 +1,10 @@
 import { type FC, memo } from 'react'
 
-import { ContractPreviewPanel } from '@netcracker/qubership-apihub-ui-shared/components/ContractPreviewPanel'
-import { McpEntityTitleWithMeta } from '@netcracker/qubership-apihub-ui-shared/components/Mcp/McpEntityTitleWithMeta'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { JsonRawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/JsonRawSpecView'
-import type { McpContractEntity, McpContractEntityDetails } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { ContractPreviewPanel } from '@b41ex/qubership-apihub-ui-shared/components/ContractPreviewPanel'
+import { McpEntityTitleWithMeta } from '@b41ex/qubership-apihub-ui-shared/components/Mcp/McpEntityTitleWithMeta'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { JsonRawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/JsonRawSpecView'
+import type { McpContractEntity, McpContractEntityDetails } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
 
 export type McpEntityPreviewProps = Readonly<{
   entity: McpContractEntity | undefined

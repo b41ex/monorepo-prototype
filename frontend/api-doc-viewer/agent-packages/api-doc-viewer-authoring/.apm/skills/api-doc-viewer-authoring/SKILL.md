@@ -657,7 +657,7 @@ contract.
 ## Monorepo paths
 
 Source imports use the `@apihub/` alias (maps to `packages/api-doc-viewer/src`).
-Cross-package imports reach `@netcracker/qubership-apihub-next-data-model/…`
+Cross-package imports reach `@b41ex/qubership-apihub-next-data-model/…`
 by subpath — mirror existing import paths when adding builders or types.
 
 JSO diffs design notes and phased actions are in

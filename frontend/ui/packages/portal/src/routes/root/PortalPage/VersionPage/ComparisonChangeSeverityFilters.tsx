@@ -17,13 +17,13 @@
 import type { FC } from 'react'
 import { memo, useCallback, useMemo } from 'react'
 import { useOrderedComparisonFiltersSummary } from './useOrderedComparisonFiltersSummary'
-import type { ChangeSeverity } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+import type { ChangeSeverity } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
-import { ChangeSeverityFilters } from '@netcracker/qubership-apihub-ui-shared/components/ChangeSeverityFilters'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+import { ChangeSeverityFilters } from '@b41ex/qubership-apihub-ui-shared/components/ChangeSeverityFilters'
 import type { ComparisonChangeSeverityFiltersProps } from '@portal/routes/root/PortalPage/VersionPage/common-props'
-import { CATEGORY_PACKAGE } from '@netcracker/qubership-apihub-ui-shared/components/ChangesTooltip'
+import { CATEGORY_PACKAGE } from '@b41ex/qubership-apihub-ui-shared/components/ChangesTooltip'
 
 export const ComparisonChangeSeverityFilters: FC<ComparisonChangeSeverityFiltersProps> =
   memo<ComparisonChangeSeverityFiltersProps>(({ category, apiType }) => {

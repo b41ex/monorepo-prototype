@@ -1,4 +1,4 @@
-import { CrawlRulesContext, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRulesContext, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { NormalizationRules, NormalizeOptions, UnifyFunction } from '../types'
 import { SPEC_TYPE_DDL_API_1 } from '../spec-type'
 import {
@@ -11,7 +11,7 @@ import {
   TYPE_OBJECT,
   TYPE_STRING,
 } from '../validate/checker'
-import { AttrKind, DdlapiProperties, ExprKind, ObjectKind, ReferenceOption, TypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { AttrKind, DdlapiProperties, ExprKind, ObjectKind, ReferenceOption, TypeKind } from '@b41ex/qubership-apihub-ddlapi'
 import { DefaultValueMapping, valueDefaults } from '../unifies/defaults'
 import { EMPTY_MARKER, ReplaceMapping, TO_EMPTY_ARRAY_MAPPING, valueReplaces } from '../unifies/replaces'
 import { ddlApiNullabilityDefault, reportDanglingForeignKey } from '../unifies/ddlapi'

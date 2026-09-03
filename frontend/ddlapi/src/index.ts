@@ -7,7 +7,7 @@
 // here without dragging the WASM into their bundles.
 //
 // Consumers must import from this module, or from
-// '@netcracker/qubership-apihub-ddlapi/parser'; internal module paths are unstable.
+// '@b41ex/qubership-apihub-ddlapi/parser'; internal module paths are unstable.
 
 export * from './constants'
 export * from './postgres.constants'

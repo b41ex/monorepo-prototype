@@ -22,7 +22,7 @@ import type { Control, FieldErrors } from 'react-hook-form'
 import { Controller, useForm } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
 
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 
 import { filterServices } from '../../services'
 import { PromoteVersionStepTable } from './PromoteVersionStepTable'
@@ -33,23 +33,23 @@ import { usePromoteVersionStepStatus } from './usePromoteVersionStepStatus'
 import { useBaselineOptions } from '../../../useBaselineOptions'
 import { useVersionOptions } from '../../../AutomationPage/useVersionOptions'
 import type {
-  VersionStatus} from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+  VersionStatus} from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import {
   DRAFT_VERSION_STATUS,
   RELEASE_VERSION_STATUS,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import {
   checkVersionNotEqualToPrevious,
   checkVersionRestrictedSymbols,
-} from '@netcracker/qubership-apihub-ui-shared/utils/validations'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
+} from '@b41ex/qubership-apihub-ui-shared/utils/validations'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
 import {
   CONTENT_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import type { ServiceKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import type { ServiceKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import {
   useCreateSnapshotPublicationOptions,
   usePromoteVersionPublicationOptions,

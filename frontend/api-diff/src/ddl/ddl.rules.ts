@@ -1,4 +1,4 @@
-import { CrawlRulesContext } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRulesContext } from '@b41ex/qubership-apihub-json-crawl'
 import { allAnnotation, allNonBreaking, allUnclassified } from '../core'
 import {
   CompareMode,

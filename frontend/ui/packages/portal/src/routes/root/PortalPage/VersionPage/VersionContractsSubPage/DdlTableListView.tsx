@@ -1,18 +1,18 @@
 import type { ColumnDef } from '@tanstack/table-core'
 import { type FC, memo, useCallback, useMemo } from 'react'
 
-import { CustomTableHeadCell } from '@netcracker/qubership-apihub-ui-shared/components/CustomTableHeadCell'
-import { DdlTableTitleWithMeta } from '@netcracker/qubership-apihub-ui-shared/components/Ddl/DdlTableTitleWithMeta'
-import type { FetchNextMetaList } from '@netcracker/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { CustomTableHeadCell } from '@b41ex/qubership-apihub-ui-shared/components/CustomTableHeadCell'
+import { DdlTableTitleWithMeta } from '@b41ex/qubership-apihub-ui-shared/components/Ddl/DdlTableTitleWithMeta'
+import type { FetchNextMetaList } from '@b41ex/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
 import {
   DDL_TABLES_EMPTY_MESSAGE,
   type DdlContractEntity,
   getDdlTableListKey,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { ColumnModel } from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { ColumnModel } from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
 
 import { usePackageKind } from '../../usePackageKind'
 import { useRefSearchParam } from '../../useRefSearchParam'

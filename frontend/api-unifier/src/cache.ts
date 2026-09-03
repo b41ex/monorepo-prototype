@@ -1,4 +1,4 @@
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 
 type Footprint = string
 

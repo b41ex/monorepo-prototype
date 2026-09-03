@@ -25,7 +25,7 @@ import { NoPackageVersionPlaceholder } from '../../NoPackageVersionPlaceholder'
 import { ConfigureDashboardSubPage } from './ConfigureDashboardSubPage'
 import { ConfigureVersionNavigationMenu } from '../ConfigureVersionNavigationMenu'
 import { RecursiveDashboardNameContextProvider } from './RecursiveDashboardNameContextProvider'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 
 export const ConfigureDashboardPage: FC = memo(() => {
   const [packageObject] = usePackage({ showParents: true })

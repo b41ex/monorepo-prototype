@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { type FC } from 'react'
 
-import { SidePanelDrawer } from '@netcracker/qubership-apihub-ui-shared/components/SidePanelDrawer'
+import { SidePanelDrawer } from '@b41ex/qubership-apihub-ui-shared/components/SidePanelDrawer'
 import { PANEL_SCREEN_HISTORY, usePanel } from './state/panelContext'
 import { ChatScreen } from './ui/screens/ChatScreen'
 import { HistoryScreen } from './ui/screens/HistoryScreen'

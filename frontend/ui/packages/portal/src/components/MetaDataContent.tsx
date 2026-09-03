@@ -17,7 +17,7 @@
 import type { FC } from 'react'
 import { memo, useMemo } from 'react'
 import { Box, Link, Typography } from '@mui/material'
-import { isUrl } from '@netcracker/qubership-apihub-ui-shared/utils/urls'
+import { isUrl } from '@b41ex/qubership-apihub-ui-shared/utils/urls'
 
 export type MetaDataContentProps = {
   metaData: object | undefined

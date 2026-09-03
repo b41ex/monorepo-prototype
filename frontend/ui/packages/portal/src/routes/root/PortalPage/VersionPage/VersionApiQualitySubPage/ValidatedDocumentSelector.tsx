@@ -1,11 +1,11 @@
 import type { DocumentValidationSummary } from '@portal/entities/api-quality/package-version-validation-summary'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import { Box, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Skeleton } from '@mui/material'
-import { MenuButtonItems } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/MenuButton'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
-import { SpecLogo } from '@netcracker/qubership-apihub-ui-shared/components/SpecLogo'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import { MenuButtonItems } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/MenuButton'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
+import { SpecLogo } from '@b41ex/qubership-apihub-ui-shared/components/SpecLogo'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { memo, useCallback, useEffect, useMemo, useState, type FC } from 'react'
 
 type ValidatedDocumentSelectorProps = {

@@ -17,7 +17,7 @@
 import { useCallback, useState } from 'react'
 import { safeParse } from '@stoplight/json'
 import { useSetCustomServersContext } from '../CustomServersProvider'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { Dictionary, INodeVariable } from '@stoplight/types'
 
 export function getCustomServersPackageMapFromLocalStorage(): CustomServersPackageMap {

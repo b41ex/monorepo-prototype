@@ -18,9 +18,9 @@ import type { JSONSchema } from '@stoplight/spectral-core'
 import type { ILocation } from '@stoplight/types'
 import { getLocationForJsonPath, parseWithPointers } from '@stoplight/yaml'
 import { Document, visit, Scalar } from 'yaml'
-import { stringifyYaml } from '@netcracker/qubership-apihub-api-processor'
+import { stringifyYaml } from '@b41ex/qubership-apihub-api-processor'
 import type { Key } from './types'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 export type SpecItemUri = `/${Key}` // Example: /foo/bar/baz/qux/1
 export type SpecItemPath = Key[]

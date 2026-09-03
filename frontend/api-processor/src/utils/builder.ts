@@ -24,8 +24,8 @@ import {
   NON_BREAKING_CHANGE_TYPE,
   UNCLASSIFIED_CHANGE_TYPE,
 } from '../types'
-import { Diff, DiffType } from '@netcracker/qubership-apihub-api-diff'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { Diff, DiffType } from '@b41ex/qubership-apihub-api-diff'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { OperationPair } from '../components'
 import { isString } from './objects'
 import {

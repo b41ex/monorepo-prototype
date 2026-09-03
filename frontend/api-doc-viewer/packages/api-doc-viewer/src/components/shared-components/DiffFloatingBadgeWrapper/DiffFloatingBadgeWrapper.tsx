@@ -1,4 +1,4 @@
-import { DiffType } from "@netcracker/qubership-apihub-api-diff"
+import { DiffType } from "@b41ex/qubership-apihub-api-diff"
 import { FC, ReactElement } from "react"
 import { UxDiffFloatingBadge } from "../../kit/ux/UxFloatingBadge/UxDiffFloatingBadge"
 

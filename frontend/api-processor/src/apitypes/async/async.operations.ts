@@ -28,7 +28,7 @@ import {
 import type * as TYPE from './async.types'
 import { AsyncOperationActionType } from './async.types'
 import { asyncFunction, normalizeAsyncApiToRefsDocument } from '../../utils/async'
-import { normalize, RefErrorType } from '@netcracker/qubership-apihub-api-unifier'
+import { normalize, RefErrorType } from '@b41ex/qubership-apihub-api-unifier'
 import { ASYNC_EFFECTIVE_NORMALIZE_OPTIONS } from './async.consts'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 import { buildAsyncApiOperation } from './async.operation'

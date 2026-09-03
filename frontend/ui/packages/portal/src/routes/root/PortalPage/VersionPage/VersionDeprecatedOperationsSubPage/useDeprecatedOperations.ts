@@ -17,7 +17,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useVersionWithRevision } from '../../../useVersionWithRevision'
 import { generatePath } from 'react-router-dom'
-import type { Key, PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key, PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type {
   ApiAudience,
   ApiKind,
@@ -26,7 +26,7 @@ import type {
   OperationsDto,
   OperationsWithDeprecations,
   OperationsWithDeprecationsDto,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import {
   ALL_API_KIND,
   API_AUDIENCE_ALL,
@@ -34,16 +34,16 @@ import {
   DEFAULT_TAG,
   EMPTY_TAG,
   toOperations,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { OperationGroupName } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
-import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { OperationGroupName } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
+import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import {
   useResolvedOperationGroupParameters,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operation-groups/useResolvedOperationGroupParameters'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operation-groups/useResolvedOperationGroupParameters'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { portalRequestJson } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 const DEPRECATED_OPERATIONS_QUERY_KEY = 'deprecated-operations-query-key'
 const EMPTY_TAG_QUERY_PARAM_KEY = 'emptyTag'

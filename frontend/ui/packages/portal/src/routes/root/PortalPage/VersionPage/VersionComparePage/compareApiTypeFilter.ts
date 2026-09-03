@@ -1,6 +1,6 @@
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { CONTRACT_TYPE_DDL, toRouteApiType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { CONTRACT_TYPE_DDL, toRouteApiType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 export const COMPARE_API_TYPE_ALL = 'all' as const
 

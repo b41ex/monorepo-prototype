@@ -1,5 +1,5 @@
-import { buildPointer } from '@netcracker/qubership-apihub-api-unifier'
-import { SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
+import { buildPointer } from '@b41ex/qubership-apihub-api-unifier'
+import { SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
 import { areExcludedComponents } from '../../graph-api/utils'
 import { ModelTree } from '../model/model-tree.impl'
 import { IModelTreeNode } from '../model/types'

@@ -1,7 +1,7 @@
 import type { Key } from '@portal/entities/keys'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
-import { OPERATION_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import { OPERATION_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { useMemo } from 'react'
 
 export function useOperationSearchParam(): [Key | undefined, SetOperationKey] {

@@ -15,7 +15,7 @@
  */
 
 import { useCallback, useEffect, useRef } from 'react'
-import type { ClassViewComponent, RichHTMLElementEventMap } from '@netcracker/qubership-apihub-class-view'
+import type { ClassViewComponent, RichHTMLElementEventMap } from '@b41ex/qubership-apihub-class-view'
 import type { SchemaGraphMeta } from './schema-graph-content'
 
 type EventTypeMap = RichHTMLElementEventMap<SchemaGraphMeta>

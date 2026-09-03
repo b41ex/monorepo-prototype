@@ -2,25 +2,25 @@ import { Link } from '@mui/material'
 import { type FC, memo, useMemo, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 
-import { CATEGORY_OPERATION } from '@netcracker/qubership-apihub-ui-shared/components/ChangesTooltip'
-import { RichFiltersLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayouts/RichFiltersLayout'
-import { PageTitle } from '@netcracker/qubership-apihub-ui-shared/components/Titles/PageTitle'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { CHANGE_SEVERITIES } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import { CONTRACT_TYPE_DDL, type ContractType, toRouteApiType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { CATEGORY_OPERATION } from '@b41ex/qubership-apihub-ui-shared/components/ChangesTooltip'
+import { RichFiltersLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayouts/RichFiltersLayout'
+import { PageTitle } from '@b41ex/qubership-apihub-ui-shared/components/Titles/PageTitle'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { CHANGE_SEVERITIES } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import { CONTRACT_TYPE_DDL, type ContractType, toRouteApiType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
 import {
   usePackageSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
-import { isEmptyTag } from '@netcracker/qubership-apihub-ui-shared/utils/tags'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+import { isEmptyTag } from '@b41ex/qubership-apihub-ui-shared/utils/tags'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import {
   usePreviousReleaseVersion,
-} from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/PreviousReleaseOptionsProvider'
+} from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/PreviousReleaseOptionsProvider'
 
 import { usePortalPageSettingsContext } from '@portal/routes/PortalPageSettingsProvider'
 import { isApiTypeSelectorShown } from '@portal/utils/operation-types'

@@ -1,5 +1,5 @@
-import { normalize } from '@netcracker/qubership-apihub-api-unifier'
-import { buildFromSchema, GraphApiSchema, printGraphApi } from '@netcracker/qubership-apihub-graphapi'
+import { normalize } from '@b41ex/qubership-apihub-api-unifier'
+import { buildFromSchema, GraphApiSchema, printGraphApi } from '@b41ex/qubership-apihub-graphapi'
 import { buildSchema } from 'graphql'
 import { GRAPHQL_TYPE } from '../apitypes/graphql/graphql.consts'
 import { createOperationSpec } from '../apitypes/graphql/graphql.operation'

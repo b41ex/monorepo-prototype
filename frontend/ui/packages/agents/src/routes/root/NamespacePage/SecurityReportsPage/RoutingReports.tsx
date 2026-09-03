@@ -25,14 +25,14 @@ import { LoadingButton } from '@mui/lab'
 import { RunRoutingReportDialog } from './RunRoutingReportDialog'
 import { useEventBus } from '../../../EventBusProvider'
 import { useDownloadRoutingReportSources } from './useDownloadRoutingReportSources'
-import type { DownloadType, ReportDownloadOption } from '@netcracker/qubership-apihub-ui-shared/components/SecurityReportsTable'
+import type { DownloadType, ReportDownloadOption } from '@b41ex/qubership-apihub-ui-shared/components/SecurityReportsTable'
 import {
   DOWNLOAD_REPORT,
   DOWNLOAD_SOURCES,
   SecurityReportsTable,
-} from '@netcracker/qubership-apihub-ui-shared/components/SecurityReportsTable'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/components/SecurityReportsTable'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 // High Order Component //
 export const RoutingReports: FC = memo(() => {

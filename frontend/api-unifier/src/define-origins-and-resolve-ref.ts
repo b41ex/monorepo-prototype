@@ -7,7 +7,7 @@ import {
   syncClone,
   SyncCloneHook,
   syncCrawl,
-} from '@netcracker/qubership-apihub-json-crawl'
+} from '@b41ex/qubership-apihub-json-crawl'
 import { isRefNode, parsePointer, parseRef, pathItemToFullPath, resolveValueByPath, setJsoProperty } from './utils'
 import {
   ChainItem,

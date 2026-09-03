@@ -1,4 +1,4 @@
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 // Portal UI contract. Shared shapes also live in `server/mocks/ai-chat/types.ts` (server adds REST-only types).
 export type ChatId = Key

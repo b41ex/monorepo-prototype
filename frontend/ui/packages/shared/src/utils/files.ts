@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { GRAPHQL_FILE_FORMAT } from '@netcracker/qubership-apihub-api-processor'
+import { GRAPHQL_FILE_FORMAT } from '@b41ex/qubership-apihub-api-processor'
 import type { Key } from './types'
 import JSZip from 'jszip'
 import type { SpecType } from './specs'

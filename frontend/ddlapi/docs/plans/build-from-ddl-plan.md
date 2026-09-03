@@ -2,7 +2,7 @@
 
 ## Goal
 
-Two changes to `@netcracker/qubership-apihub-ddlapi`:
+Two changes to `@b41ex/qubership-apihub-ddlapi`:
 
 1. **Minor**: add a `ddlapi` version field to `Realm` — a marker property that identifies objects
    of this type and records the specification format version.

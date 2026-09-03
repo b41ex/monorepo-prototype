@@ -17,14 +17,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { getOperations } from '../useOperations'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { OperationsData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { IsError, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { OperationsData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { IsError, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useEventBus } from '@portal/routes/EventBusProvider'
 import { portalRequestJson } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export type UseOperationChangelogOptions = {
   packageKey: Key

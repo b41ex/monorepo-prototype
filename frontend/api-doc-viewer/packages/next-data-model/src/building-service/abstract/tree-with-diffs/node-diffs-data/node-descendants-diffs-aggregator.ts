@@ -1,5 +1,5 @@
 import { DIFF_HIGHLIGHTING_MODES_DEFAULT, DiffStyles, HighlightVariant, NODE_LEVEL_DIFF_KEY, NodeDescendantDiffs, NodeDiffs } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { Diff, DiffType, isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { Diff, DiffType, isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 import { DiffMetaKeys } from "./diff-meta-keys";
 
 export abstract class AbstractNodeDescendantsDiffsAggregator {

@@ -4,7 +4,7 @@ import {
   dropdownsCheck,
   guardianApiYaml,
   streetlightKafkaAsyncApi
-} from '@netcracker/qubership-apihub-apispec-view-samples';
+} from '@b41ex/qubership-apihub-apispec-view-samples';
 import { parse } from '@stoplight/yaml';
 import React from 'react';
 

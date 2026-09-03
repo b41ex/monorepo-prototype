@@ -6,7 +6,7 @@ import {
   JSON_SCHEMA_PROPERTY_EXCLUSIVE_MINIMUM,
   JSON_SCHEMA_PROPERTY_EXCLUSIVE_MAXIMUM,
   JsonSchemaNumericValidationKeywordsType,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { isNumber, isObject } from '../utils'
 import { AdapterResolver, ClassifyRule } from '../types'
 import { CompareContext, DiffType } from '../types'

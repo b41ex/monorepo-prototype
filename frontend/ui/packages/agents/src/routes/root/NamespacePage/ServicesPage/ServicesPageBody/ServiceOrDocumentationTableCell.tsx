@@ -23,12 +23,12 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import type { Service } from '@agents/entities/services'
 import { useEventBus } from '../../../../EventBusProvider'
 import { useParams } from 'react-router-dom'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { Spec } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { OverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/OverflowTooltip'
-import { LockIcon } from '@netcracker/qubership-apihub-ui-shared/icons/LockIcon'
-import { SpecLogo } from '@netcracker/qubership-apihub-ui-shared/components/SpecLogo'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { Spec } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { OverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/OverflowTooltip'
+import { LockIcon } from '@b41ex/qubership-apihub-ui-shared/icons/LockIcon'
+import { SpecLogo } from '@b41ex/qubership-apihub-ui-shared/components/SpecLogo'
 
 export type ServiceOrDocumentationTableCellProps = {
   value: Row<CellData>

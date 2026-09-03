@@ -36,9 +36,9 @@ import { buildSchema, introspectionFromSchema } from 'graphql/utilities'
 import { LocalRegistry, VersionOverrideRegistry } from './registry'
 import { Editor } from './editor'
 import { getFileExtension, normalizeGraphQL, parseGraphQLSource, takeIfDefined } from '../../src/utils'
-import { deserialize } from '@netcracker/qubership-apihub-api-unifier'
+import { deserialize } from '@b41ex/qubership-apihub-api-unifier'
 import { parse } from 'yaml'
-import { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 
 /**
  * Read a file as string from the real filesystem (source/input files).

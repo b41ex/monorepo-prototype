@@ -1,4 +1,4 @@
-import { ActionType, Diff, DiffMetaRecord, DiffReplace } from '@netcracker/qubership-apihub-api-diff';
+import { ActionType, Diff, DiffMetaRecord, DiffReplace } from '@b41ex/qubership-apihub-api-diff';
 import { safeStringify } from '@stoplight/json';
 import { isRegularNode, RegularNode, SchemaNode } from '@stoplight/json-schema-tree';
 import { Flex, HStack, Text, VStack } from '@stoplight/mosaic';
@@ -12,11 +12,11 @@ import {
   DiffSide,
   isDiffMetaRecord,
   useDiffContext,
-} from '@netcracker/qubership-apihub-apispec-view-diff-block';
+} from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { capitalize, entries, keys, omit, pick, uniq } from 'lodash';
 import * as React from 'react';
 import { useMemo } from 'react';
-import { useDiffMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
+import { useDiffMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
 
 type ValidationFormat = {
   name: string;

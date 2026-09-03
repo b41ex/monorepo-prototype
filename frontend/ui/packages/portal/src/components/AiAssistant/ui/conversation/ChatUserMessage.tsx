@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import { type FC, memo } from 'react'
 
-import { MESSAGE_BACKGROUND_COLOR } from '@netcracker/qubership-apihub-ui-shared/themes/colors'
+import { MESSAGE_BACKGROUND_COLOR } from '@b41ex/qubership-apihub-ui-shared/themes/colors'
 
 type ChatUserMessageProps = {
   content: string

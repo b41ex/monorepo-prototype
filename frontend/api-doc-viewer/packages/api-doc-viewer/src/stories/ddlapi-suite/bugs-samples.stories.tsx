@@ -2,11 +2,11 @@
  * Hand-crafted Realm fixtures for fixed viewer/transformer regressions.
  * Each story models a bug shape (e.g. single-table partial realm) — not SQL samples.
  */
-import type { Realm } from "@netcracker/qubership-apihub-ddlapi";
+import type { Realm } from "@b41ex/qubership-apihub-ddlapi";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DdlTableViewer } from "../../components/DdlTableViewer/DdlTableViewer";
-import { NavigationLinkBuilder } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/navigation-link-builder";
-import { TableKey } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
+import { NavigationLinkBuilder } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/navigation-link-builder";
+import { TableKey } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
 
 const navigationLinkBuilder: NavigationLinkBuilder = (schema, table, column) => {
   console.log(`Navigating to ${schema}.${table}.${column}`);

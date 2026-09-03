@@ -1,4 +1,4 @@
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { OPEN_API_PROPERTY_COMPONENTS } from './openapi.const'
 
 export const startFromOpenApiComponents = (jsonPath: JsonPath): boolean => {

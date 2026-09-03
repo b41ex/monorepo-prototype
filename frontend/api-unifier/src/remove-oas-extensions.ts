@@ -5,7 +5,7 @@ import {
   RemoveOasExtensionsOptions,
 } from './types'
 import { resolveSpec, SPEC_TYPE_GRAPH_API } from './spec-type'
-import { syncClone, SyncCloneHook } from '@netcracker/qubership-apihub-json-crawl'
+import { syncClone, SyncCloneHook } from '@b41ex/qubership-apihub-json-crawl'
 import { RULES } from './rules'
 import { createCycledJsoHandlerHook } from './cycle-jso'
 

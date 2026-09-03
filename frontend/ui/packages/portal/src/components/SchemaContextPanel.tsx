@@ -19,10 +19,10 @@ import { memo, Suspense, useMemo } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import type { OpenAPIV3 } from 'openapi-types'
-import { JsonSchemaViewer } from '@netcracker/qubership-apihub-ui-shared/components/JsonSchemaViewer'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import type { SchemaViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/schema-view-mode'
-import { DETAILED_SCHEMA_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/schema-view-mode'
+import { JsonSchemaViewer } from '@b41ex/qubership-apihub-ui-shared/components/JsonSchemaViewer'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import type { SchemaViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/schema-view-mode'
+import { DETAILED_SCHEMA_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/schema-view-mode'
 
 export const CONTEXT_PANEL_DEFAULT_WIDTH = 300
 

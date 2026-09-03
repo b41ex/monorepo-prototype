@@ -1,4 +1,4 @@
-import { denormalize, normalize } from "@netcracker/qubership-apihub-api-unifier"
+import { denormalize, normalize } from "@b41ex/qubership-apihub-api-unifier"
 import { AsyncApiTreeBuilder } from "../src/building-service/async-api/tree/builder"
 import { AsyncApiTree } from "../src/model/async-api/tree/tree.impl"
 import { AsyncApiTreeNodeKinds } from "../src/model/async-api/types/node-kind"

@@ -1,7 +1,7 @@
 import { normalize, RefErrorType, RefErrorTypes } from '../../src'
 import source31x from '../resources/openapi31x.json'
 import source30x from '../resources/openapi30x.json'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { ErrorMessage } from '../../src/errors'
 
 interface Error {

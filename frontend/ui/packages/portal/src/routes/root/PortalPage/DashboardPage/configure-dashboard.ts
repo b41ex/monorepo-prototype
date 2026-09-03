@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 
 export const PACKAGES_CONFIGURE_DASHBOARD_TAB = 'packages'
 

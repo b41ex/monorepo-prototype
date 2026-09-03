@@ -15,8 +15,8 @@
  */
 
 import { ChangeSummary, DiffTypeDto, OperationId, OperationType, PackageId, VersionId } from '../external'
-import { ActionType, DiffAction, DiffType } from '@netcracker/qubership-apihub-api-diff'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { ActionType, DiffAction, DiffType } from '@b41ex/qubership-apihub-api-diff'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export type ChangeMessage<T = DiffType> = ChangeAdd<T> | ChangeRemove<T> | ChangeReplace<T> | ChangeRename<T>
 

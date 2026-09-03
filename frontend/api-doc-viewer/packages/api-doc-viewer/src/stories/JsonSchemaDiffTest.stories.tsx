@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff';
+import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { JsonSchemaDiffViewer } from '../components/JsonSchemaViewer/JsonSchemaDiffViewer';
 import { SIDE_BY_SIDE_DIFFS_LAYOUT_MODE } from '../types/LayoutMode';

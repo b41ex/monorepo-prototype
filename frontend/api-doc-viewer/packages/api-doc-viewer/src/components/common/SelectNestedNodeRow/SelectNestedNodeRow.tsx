@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { DiffNodeValue, isDiff } from '@netcracker/qubership-apihub-api-data-model'
-import { Diff, DiffAction, DiffType } from '@netcracker/qubership-apihub-api-diff'
-import { DiffsClassesBuilder } from '@netcracker/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities'
-import { HighlightVariant } from '@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
+import { DiffNodeValue, isDiff } from '@b41ex/qubership-apihub-api-data-model'
+import { Diff, DiffAction, DiffType } from '@b41ex/qubership-apihub-api-diff'
+import { DiffsClassesBuilder } from '@b41ex/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities'
+import { HighlightVariant } from '@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
 import { useMemo, type FC } from 'react'
 import { DEFAULT_MUTED_VALUE_CLASS, NODE_DIFF_COLOR_MAP } from '../../../consts/changes'
 import { DEFAULT_LAYOUT_MODE } from '../../../consts/configuration'

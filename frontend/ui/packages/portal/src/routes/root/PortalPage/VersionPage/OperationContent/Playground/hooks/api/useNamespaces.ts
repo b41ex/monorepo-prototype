@@ -15,15 +15,15 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { Namespaces, NamespacesDto } from '@netcracker/qubership-apihub-ui-shared/entities/namespaces'
-import { EMPTY_NAMESPACES, toNamespaces } from '@netcracker/qubership-apihub-ui-shared/entities/namespaces'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { Namespaces, NamespacesDto } from '@b41ex/qubership-apihub-ui-shared/entities/namespaces'
+import { EMPTY_NAMESPACES, toNamespaces } from '@b41ex/qubership-apihub-ui-shared/entities/namespaces'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestJson } from '@portal/utils/requests'
 import {
   useGetAgentPrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
-import { API_V2 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+import { API_V2 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 const NAMESPACES_QUERY_KEY = 'namespaces-query-key'
 

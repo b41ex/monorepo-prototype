@@ -16,9 +16,9 @@
 
 import { useEffect, useMemo } from 'react'
 import { useSetSelectedOperationTags } from '../SelectedOperationTagsProvider'
-import type { Operation } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_TAG } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { deduplicate } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import type { Operation } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_TAG } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { deduplicate } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export function useSelectOperationTags(...operations: ReadonlyArray<Operation | null | undefined>): void {
   const operationsTags = useMemo(() => {

@@ -26,7 +26,7 @@ option flag on `NormalizeOptions` (`src/types.ts`): resolve refs → `merge`
 `backward` passes).
 
 Stages traverse the spec with `syncClone` from
-`@netcracker/qubership-apihub-json-crawl`, matching the current path
+`@b41ex/qubership-apihub-json-crawl`, matching the current path
 against a **rules tree**.
 
 ## Where rules live

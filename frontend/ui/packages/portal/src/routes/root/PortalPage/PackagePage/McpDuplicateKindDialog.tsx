@@ -2,9 +2,9 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { Button, DialogActions, DialogContent, DialogTitle, IconButton, styled, Typography } from '@mui/material'
 import { type FC, memo, useCallback } from 'react'
 
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 
 export const SHOW_MCP_DUPLICATE_KIND_DIALOG = 'show-mcp-duplicate-kind-dialog'
 

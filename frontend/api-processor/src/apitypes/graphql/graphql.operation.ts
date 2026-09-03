@@ -34,7 +34,7 @@ import {
 } from '../../consts'
 import { GraphQLSchemaType, VersionGraphQLDocument, VersionGraphQLOperation } from './graphql.types'
 import { GRAPHQL_TYPE, GRAPHQL_TYPE_KEYS, RUNTIME_DIRECTIVE_LOCATIONS } from './graphql.consts'
-import { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 import { buildGraphQLSearchText } from './graphql.utils'
 import { toTitleCase } from '../../utils/strings'
 import {
@@ -48,8 +48,8 @@ import {
   PREDICATE_ANY_VALUE,
   PREDICATE_UNCLOSED_END,
   resolveOrigins,
-} from '@netcracker/qubership-apihub-api-unifier'
-import { JsonPath, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+} from '@b41ex/qubership-apihub-api-unifier'
+import { JsonPath, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { calculateHash, ObjectHashCache } from '../../utils/hashes'
 
 export const buildGraphQLOperation = (

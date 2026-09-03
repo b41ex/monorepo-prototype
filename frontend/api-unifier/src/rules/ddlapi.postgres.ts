@@ -1,4 +1,4 @@
-import { DdlapiProperties, PgAttrKind, PgGeneratedExprType, PgObjectKind, PgTypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { DdlapiProperties, PgAttrKind, PgGeneratedExprType, PgObjectKind, PgTypeKind } from '@b41ex/qubership-apihub-ddlapi'
 import { NormalizationRules } from '../types'
 import { checkContains, checkType, TYPE_ARRAY, TYPE_BOOLEAN, TYPE_JSON_ANY, TYPE_NUMBER, TYPE_OBJECT, TYPE_STRING } from '../validate/checker'
 import { DdlApiDialect, DIALECT_ID_POSTGRES } from './ddlapi.dialect'

@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-api-unifier",
+  "name": "@b41ex/qubership-apihub-api-unifier",
   "version": "2.9.3",
   "description": "Tools for JsonSchema/Openapi/GraphQL spec for unified processing",
   "module": "./dist/index.es.js",
@@ -22,11 +22,11 @@
     "prebuild": "rimraf ./dist",
     "build": "vite build",
     "performance:run-inspect": "vite build --sourcemap=inline -c=vite.performance.config.ts && node --inspect dist/index.es.mjs",
-    "development:link": "npm link && npm link @netcracker/qubership-apihub-json-crawl && npm link @netcracker/qubership-apihub-graphapi && npm link @netcracker/qubership-apihub-ddlapi",
-    "development:unlink": "npm unlink && npm unlink @netcracker/qubership-apihub-json-crawl && npm unlink @netcracker/qubership-apihub-graphapi && npm unlink @netcracker/qubership-apihub-ddlapi",
+    "development:link": "npm link && npm link @b41ex/qubership-apihub-json-crawl && npm link @b41ex/qubership-apihub-graphapi && npm link @b41ex/qubership-apihub-ddlapi",
+    "development:unlink": "npm unlink && npm unlink @b41ex/qubership-apihub-json-crawl && npm unlink @b41ex/qubership-apihub-graphapi && npm unlink @b41ex/qubership-apihub-ddlapi",
     "test": "jest --verbose --maxWorkers 3",
     "test:coverage": "jest --verbose --coverage",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "keywords": [
     "json",
@@ -41,9 +41,9 @@
     "simplify"
   ],
   "dependencies": {
-    "@netcracker/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
     "fast-equals": "^6.0.2",
     "flatted": "^3.2.9",
     "object-hash": "3.0.0"
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@asyncapi/parser": "3.6.0",
     "@jest/globals": "30.4.1",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/jest": "30.0.0",
     "@types/node": "^24.0.0",
     "@types/object-hash": "3.0.6",

@@ -17,7 +17,7 @@
 import type { FC } from 'react'
 import React from 'react'
 import { MainPageCard } from '@portal/routes/root/MainPage/MainPageCard'
-import { WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import { WORKSPACES_PAGE_REFERER } from '@portal/entities/referer-pages-names'
 
 export const WorkspacesPage: FC = () => {

@@ -19,9 +19,9 @@ import { NONE_PUBLISH_STATUS } from './statuses'
 import type { PackageKey, PublishKey } from './keys'
 
 import { generatePath } from 'react-router-dom'
-import { API_V2, API_V3, requestJson, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import type { SetPublicationDetailsOptions } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+import { API_V2, API_V3, requestJson, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import type { SetPublicationDetailsOptions } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 
 export type PublishDetails = PublishDetailsDto
 

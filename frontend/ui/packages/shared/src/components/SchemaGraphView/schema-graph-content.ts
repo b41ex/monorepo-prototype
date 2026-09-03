@@ -19,11 +19,11 @@ import type {
   DomainMeta,
   PROPERTY_TYPE_GROUP,
   RELATION_TYPE_INCLUDE_PROPERTIES_GROUP,
-} from '@netcracker/qubership-apihub-class-view'
+} from '@b41ex/qubership-apihub-class-view'
 import {
   PROPERTY_TYPE_LEAF,
-} from '@netcracker/qubership-apihub-class-view'
-import { RELATION_TYPE_PROPERTY_TO_CLASS_REFERENCE } from '@netcracker/qubership-apihub-class-view'
+} from '@b41ex/qubership-apihub-class-view'
+import { RELATION_TYPE_PROPERTY_TO_CLASS_REFERENCE } from '@b41ex/qubership-apihub-class-view'
 import type { OpenAPIV3 } from 'openapi-types'
 
 export const SCHEMA_TYPE = 'schema'

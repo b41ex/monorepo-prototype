@@ -17,7 +17,7 @@
 import type { AgentKey, NamespaceKey, VersionKey, WorkspaceKey } from './keys'
 import type { AutodiscoveryStatus } from './statuses'
 import { NONE_DISCOVERY_STATUS } from './statuses'
-import { API_V2, requestJson, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { API_V2, requestJson, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export type Settings = Readonly<{
   name: string

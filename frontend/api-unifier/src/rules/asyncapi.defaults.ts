@@ -37,7 +37,7 @@ import {
 } from "./asyncapi.const"
 import { EMPTY_MARKER, TO_EMPTY_ARRAY_MAPPING, TO_EMPTY_OBJECT_MAPPING, ReplaceMapping } from "../unifies/replaces"
 import { UnifyFunction, DefaultMetaRecord, DEFAULT_TYPE_FLAG_SYNTHETIC, DEFAULT_TYPE_FLAG_PURE } from '../types'
-import { isObject, isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, isArray } from '@b41ex/qubership-apihub-json-crawl'
 import { setJsoProperty } from '../utils'
 import { resolveOriginsMetaRecord } from '../origins'
 

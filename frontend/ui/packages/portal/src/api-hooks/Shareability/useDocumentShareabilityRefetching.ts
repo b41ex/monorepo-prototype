@@ -1,4 +1,4 @@
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import { useIsFetching } from '@tanstack/react-query'
 
 import { DOCUMENT_QUERY_KEY } from '../../routes/root/PortalPage/VersionPage/useDocument'

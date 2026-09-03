@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 
-import { aggregateDiffsWithRollup, apiDiff } from '@netcracker/qubership-apihub-api-diff'
-import { denormalize, normalize, NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
-import { buildFromSchema, GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { aggregateDiffsWithRollup, apiDiff } from '@b41ex/qubership-apihub-api-diff'
+import { denormalize, normalize, NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
+import { buildFromSchema, GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 import { buildSchema } from 'graphql'
 import { DiffMetaKeys } from '../../src'
 import { createGraphApiDiffTree } from '../../src/graph-api/diff-tree/build'

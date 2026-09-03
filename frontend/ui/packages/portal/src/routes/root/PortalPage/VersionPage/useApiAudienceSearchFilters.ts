@@ -15,10 +15,10 @@
  */
 
 import { useMemo } from 'react'
-import type { ApiAudience } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { API_AUDIENCE_ALL } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import type { ApiAudience } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { API_AUDIENCE_ALL } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
 
 const AUDIENCE_SEARCH_PARAM = 'audience'
 

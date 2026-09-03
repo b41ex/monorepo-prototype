@@ -17,8 +17,8 @@
 import { wrap, type Remote } from 'comlink'
 import Worker from './package-version-builder-worker?worker'
 import type { PackageVersionBuilderWorker } from './package-version-builder-worker'
-import { SESSION_STORAGE_KEY_LAST_IDENTITY_PROVIDER_ID } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import { SESSION_STORAGE_KEY_LAST_IDENTITY_PROVIDER_ID } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { ProjectFile } from '@portal/entities/project-files'
 
 export type BuilderOptions = {

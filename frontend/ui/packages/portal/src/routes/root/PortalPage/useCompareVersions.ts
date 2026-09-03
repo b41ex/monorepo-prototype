@@ -15,9 +15,9 @@
  */
 
 import { useChangesSummaryContext } from '@portal/routes/root/PortalPage/VersionPage/ChangesSummaryProvider'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import { hasNoContent } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import { hasNoContent } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 import { useEffect, useMemo, useRef } from 'react'
 import { useChangesSummary } from './VersionPage/VersionComparePage/useChangesSummary'
 import { useVersionsComparisons } from './VersionPage/useVersionsComparisons'

@@ -2,7 +2,7 @@ import {
   NormalizationRules,
   UnifyFunction,
 } from '../types'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { SPEC_TYPE_JSON_SCHEMA_07, SPEC_TYPE_OPEN_API_30 } from '../spec-type'
 import * as resolvers from '../resolvers'
 import {

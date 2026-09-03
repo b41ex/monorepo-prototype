@@ -25,10 +25,10 @@ import type {
 } from './package-references'
 import { addToMap, removeFromMap } from './package-references'
 import { useMemo } from 'react'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { Key, PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionReferences } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import { toVersionReferences } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { Key, PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionReferences } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import { toVersionReferences } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 
 const DASHBOARD_PACKAGES_QUERY_KEY = 'dashboard-packages-query-key'
 

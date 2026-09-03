@@ -17,17 +17,17 @@
 import { useShowSuccessNotification } from '@portal/routes/root/BasePage/Notification'
 import { useUsers } from '@portal/routes/root/useUsers'
 import { Box } from '@mui/material'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { GenerateTokenForm } from '@netcracker/qubership-apihub-ui-shared/components/GenerateTokenForm'
-import { TokensTable } from '@netcracker/qubership-apihub-ui-shared/components/TokensTable'
-import { useUser } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useUser'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { GenerateTokenForm } from '@b41ex/qubership-apihub-ui-shared/components/GenerateTokenForm'
+import { TokensTable } from '@b41ex/qubership-apihub-ui-shared/components/TokensTable'
+import { useUser } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useUser'
 import {
   useDeleteApiKey,
   useGenerateApiKey,
   useTokens,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/tokens/useTokens'
-import { useRoles } from '@netcracker/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
-import type { GenerateApiKeyValue } from '@netcracker/qubership-apihub-ui-shared/types/tokens'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/tokens/useTokens'
+import { useRoles } from '@b41ex/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
+import type { GenerateApiKeyValue } from '@b41ex/qubership-apihub-ui-shared/types/tokens'
 import type { FC } from 'react'
 import { memo, useCallback, useMemo, useState } from 'react'
 

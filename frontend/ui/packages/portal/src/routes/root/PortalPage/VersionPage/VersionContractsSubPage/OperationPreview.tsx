@@ -16,37 +16,37 @@
 
 import { getFileDetails } from '@portal/utils/file-details'
 import { Box, Divider } from '@mui/material'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   OperationTitleWithMeta,
-} from '@netcracker/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
+} from '@b41ex/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
 import {
   CONTENT_PLACEHOLDER_AREA,
   NAVIGATION_PLACEHOLDER_AREA,
   Placeholder,
   PLACEHOLDER_MESSAGE_NO_INTERNAL_DOCUMENT,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { RawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
-import { SMALL_TOOLBAR_SIZE, Toolbar } from '@netcracker/qubership-apihub-ui-shared/components/Toolbar'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { YAML_FILE_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import type { OperationViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { RawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
+import { SMALL_TOOLBAR_SIZE, Toolbar } from '@b41ex/qubership-apihub-ui-shared/components/Toolbar'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { YAML_FILE_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import type { OperationViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
 import {
   DEFAULT_OPERATION_PREVIEW_VIEW_MODE_BY_API_TYPE,
   OPERATION_PREVIEW_VIEW_MODES_BY_API_TYPE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
 import {
   DEFAULT_API_TYPE,
   isAsyncApiOperation,
   isGraphQlOperation,
   type OperationData,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { SchemaViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/schema-view-mode'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { SchemaViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/schema-view-mode'
 import {
   useIsDocOperationViewMode,
   useIsRawOperationViewMode,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
 import type { FC } from 'react'
 import { memo, useMemo } from 'react'
 import { OperationView } from '../OperationContent/OperationView/OperationView'

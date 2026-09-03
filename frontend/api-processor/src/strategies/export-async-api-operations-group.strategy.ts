@@ -17,7 +17,7 @@
 import { ExportAsyncApiOperationsGroupBuildConfig, ExportDocument, ExportFormat } from '../types'
 import { ExportOperationsGroupStrategy } from './export-operations-group.strategy'
 import { ASYNCAPI_API_TYPE, FILE_FORMAT_HTML } from '../consts'
-import { OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier'
+import { OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier'
 import { dump, EXPORT_FORMAT_TO_FILE_FORMAT, getDocumentTitle } from '../utils'
 import { removeOasExtensions } from '../utils/removeOasExtensions'
 

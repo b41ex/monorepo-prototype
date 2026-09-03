@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { graphApiNodeKind, graphSchemaNodeKind, IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { graphApiNodeKind, graphSchemaNodeKind, IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 
 // FIXME 14.11.23 // Extend basic method implementation
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Diff, DiffAction, DiffType, risky } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DiffAction, DiffType, risky } from '@b41ex/qubership-apihub-api-diff'
 import { calculateHash, ObjectHashCache } from './hashes'
 import { ArrayType, isEmpty } from './arrays'
 import { AFTER_VALUE_NORMALIZED_PROPERTY, BEFORE_VALUE_NORMALIZED_PROPERTY } from '../consts'

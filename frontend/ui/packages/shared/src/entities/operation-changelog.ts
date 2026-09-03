@@ -16,10 +16,10 @@
 
 import type { ActionType, ChangeSeverity } from './change-severities'
 import type { JsonPath } from '../utils/operations'
-import type { DiffTypeDto, Hash} from '@netcracker/qubership-apihub-api-processor'
-import { SEMI_BREAKING_CHANGE_TYPE } from '@netcracker/qubership-apihub-api-processor'
-import type { DiffType} from '@netcracker/qubership-apihub-api-diff'
-import { risky } from '@netcracker/qubership-apihub-api-diff'
+import type { DiffTypeDto, Hash} from '@b41ex/qubership-apihub-api-processor'
+import { SEMI_BREAKING_CHANGE_TYPE } from '@b41ex/qubership-apihub-api-processor'
+import type { DiffType} from '@b41ex/qubership-apihub-api-diff'
+import { risky } from '@b41ex/qubership-apihub-api-diff'
 
 export type OperationChangeDto = {
   description?: string

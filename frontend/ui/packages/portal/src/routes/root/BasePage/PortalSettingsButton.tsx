@@ -2,8 +2,8 @@ import { type FC, memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-use'
 
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import { PortalSettingsIcon } from '@netcracker/qubership-apihub-ui-shared/icons/PortalSettingsIcon'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { PortalSettingsIcon } from '@b41ex/qubership-apihub-ui-shared/icons/PortalSettingsIcon'
 
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
 import { getSettingsPath } from '../../NavigationProvider'

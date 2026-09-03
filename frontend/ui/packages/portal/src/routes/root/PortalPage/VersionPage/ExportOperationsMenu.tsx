@@ -19,12 +19,12 @@ import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDownloadOperationsAsExcel } from './useDownloadOperationsAsExcel'
 import { useFullMainVersion } from '../FullMainVersionProvider'
-import type { ApiAudience, ApiKind } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { ApiAudience, ApiKind } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import {
   useResolvedOperationGroupParameters,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operation-groups/useResolvedOperationGroupParameters'
-import { ExportMenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operation-groups/useResolvedOperationGroupParameters'
+import { ExportMenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
 
 export type ExportOperationsMenuProps = {
   textFilter?: string

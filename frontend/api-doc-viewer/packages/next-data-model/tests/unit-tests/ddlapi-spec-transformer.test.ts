@@ -1,5 +1,5 @@
-import { literal, rawExpr, TypeKind } from '@netcracker/qubership-apihub-ddlapi'
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { literal, rawExpr, TypeKind } from '@b41ex/qubership-apihub-ddlapi'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
 import { DdlApiSpecTransformer } from '../../src/building-service/ddlapi/shared/ddlapi-spec-transformer'
 import { DDL_COLUMN_GENERATED_BY } from '../../src/model/ddlapi/tree/node-value'
 import { formatDefaultValueDisplayString, formatDefaultValueForDisplay, formatDdlExpr } from '../../src/shared/ddlapi/format-ddl-expr'

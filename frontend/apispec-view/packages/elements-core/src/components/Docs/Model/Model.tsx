@@ -1,4 +1,4 @@
-import { JsonSchemaViewer } from '@netcracker/qubership-apihub-api-doc-viewer';
+import { JsonSchemaViewer } from '@b41ex/qubership-apihub-api-doc-viewer';
 import { Extensions } from '../Extensions';
 import { useSearchPhrase, useExtensions, useOperationSchemaOptionsMode } from '../../../index';
 import { SectionSubtitle } from '../Sections';
@@ -7,7 +7,7 @@ import { CodeViewer } from '@stoplight/mosaic-code-viewer';
 import { ErrorBoundaryProps, withErrorBoundary } from '@stoplight/react-error-boundary';
 import cn from 'classnames';
 import { JSONSchema7 } from 'json-schema';
-import { JsonSchemaViewer as OldJsonSchemaViewer } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer';
+import { JsonSchemaViewer as OldJsonSchemaViewer } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer';
 import * as React from 'react';
 import { Marker } from 'react-mark.js';
 

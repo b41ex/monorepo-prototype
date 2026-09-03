@@ -21,13 +21,13 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { Box, CardHeader, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import { ChangesViewAgentWidget } from './ChangesViewAgentWidget'
 import type { Service } from '@agents/entities/services'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import {
   useCreateSnapshotPublicationOptions,
 } from '../../routes/root/NamespacePage/ServicesPage/ServicesPageProvider/ServicesPublicationOptionsProvider'
 import type { ServiceConfig } from '@agents/entities/publish-config'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export const SHOW_CHANGE_VIEW_DIALOG = 'show-change-view-dialog'
 

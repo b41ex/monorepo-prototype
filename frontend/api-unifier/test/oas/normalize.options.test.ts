@@ -5,7 +5,7 @@ import {
   TEST_SYNTHETIC_ALL_OF_FLAG,
   TEST_SYNTHETIC_TITLE_FLAG,
 } from '../helpers/index'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 
 describe('normalize options', () => {
 

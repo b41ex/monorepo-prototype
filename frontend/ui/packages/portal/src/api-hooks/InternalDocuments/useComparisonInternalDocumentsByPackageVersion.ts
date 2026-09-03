@@ -1,15 +1,15 @@
-import type { PackageKey, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { PackageKey, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useQuery } from '@tanstack/react-query'
 import { generatePath, useParams } from 'react-router-dom'
 import type { InternalDocuments, QueryResult } from './shared-types'
 import { useVersionSearchParam } from '@portal/routes/root/useVersionSearchParam'
 import {
   usePackageSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
 import { usePackageKind } from '@portal/routes/root/PortalPage/usePackageKind'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 const QUERY_KEY = 'query-key-comparison-internal-documents-by-package-version'
 

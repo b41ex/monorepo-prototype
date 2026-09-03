@@ -1,4 +1,4 @@
-import { CrawlRulesContext } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRulesContext } from '@b41ex/qubership-apihub-json-crawl'
 import { type NormalizationRules } from '../types'
 import { valueDefaults } from '../unifies/defaults'
 import { directiveMetaUnification } from '../unifies/directives'
@@ -26,7 +26,7 @@ import {
   GRAPH_API_NODE_KIND_SCALAR,
   GRAPH_API_NODE_KIND_STRING,
   GRAPH_API_NODE_KIND_UNION,
-} from '@netcracker/qubership-apihub-graphapi'
+} from '@b41ex/qubership-apihub-graphapi'
 import { resolveValueByPath } from '../utils'
 import {
   GRAPH_API_PROPERTY_ARGS,

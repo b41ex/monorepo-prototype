@@ -9,13 +9,13 @@ export {
   ReferenceOption,
   SqlTypeName,
   TypeKind,
-} from '@netcracker/qubership-apihub-ddlapi'
+} from '@b41ex/qubership-apihub-ddlapi'
 export {
   PG_DEFAULT_SCHEMA,
   PgSqlTypeName,
-} from '@netcracker/qubership-apihub-ddlapi'
+} from '@b41ex/qubership-apihub-ddlapi'
 
-import { SPEC_TYPE_DDL_API_1 } from '@netcracker/qubership-apihub-api-unifier'
+import { SPEC_TYPE_DDL_API_1 } from '@b41ex/qubership-apihub-api-unifier'
 
 export type DdlApiSpecVersion = typeof SPEC_TYPE_DDL_API_1
 

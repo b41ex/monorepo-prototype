@@ -23,16 +23,16 @@ import type {
   ActivityHistoryDto,
   EventDetails,
 } from '@portal/entities/activities'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import type { ActivityEventType, ActivityType } from '@portal/entities/activity-enums'
 import { useQuery } from '@tanstack/react-query'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import { portalRequestJson } from '@portal/utils/requests'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { API_V4 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { API_V4 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 const ACTIVITY_HISTORY_QUERY_KEY = 'activity-history-query-key'
 const PACKAGE_ACTIVITY_HISTORY_QUERY_KEY = 'package-activity-history-query-key'

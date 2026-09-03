@@ -1,4 +1,4 @@
-import { ActionType, Diff, DiffAction, isDiffAdd, isDiffRemove, isDiffRename } from '@netcracker/qubership-apihub-api-diff';
+import { ActionType, Diff, DiffAction, isDiffAdd, isDiffRemove, isDiffRename } from '@b41ex/qubership-apihub-api-diff';
 
 type DiffAlias = {
   beforeValue: unknown

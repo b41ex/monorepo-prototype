@@ -31,16 +31,16 @@ import { flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from 
 import { ServiceOrDocumentationTableCell } from '../ServiceOrDocumentationTableCell'
 import { BaselinePackageTableCell } from '../BaselinePackageTableCell'
 import { ServiceLabelsTableCell } from '../ServiceLabelsTableCell'
-import type { ColumnModel } from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+import type { ColumnModel } from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
 import {
   DEFAULT_CONTAINER_WIDTH,
   useColumnsSizing,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
-import { ColumnDelimiter } from '@netcracker/qubership-apihub-ui-shared/components/ColumnDelimiter'
-import type { Spec } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
-import { createComponents } from '@netcracker/qubership-apihub-ui-shared/utils/components'
-import { DEFAULT_NUMBER_SKELETON_ROWS } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
-import { useResizeObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+import { ColumnDelimiter } from '@b41ex/qubership-apihub-ui-shared/components/ColumnDelimiter'
+import type { Spec } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
+import { createComponents } from '@b41ex/qubership-apihub-ui-shared/utils/components'
+import { DEFAULT_NUMBER_SKELETON_ROWS } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
+import { useResizeObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
 
 type DiscoverServicesStepTableProps = {
   value: ReadonlyArray<Service>

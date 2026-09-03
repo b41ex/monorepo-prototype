@@ -31,8 +31,8 @@ import {
 import type { ActivityHistoryQueryResult } from '../../useActivityHistory'
 import { usePackageActivityHistory } from '../../useActivityHistory'
 import { MainPageCard } from '@portal/routes/root/MainPage/MainPageCard'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import { isBoolean } from '@netcracker/qubership-apihub-ui-shared/utils/types'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { isBoolean } from '@b41ex/qubership-apihub-ui-shared/utils/types'
 
 export const GroupPage: FC = memo(() => {
   const { groupId: groupKey = '' } = useParams()

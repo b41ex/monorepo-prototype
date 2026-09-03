@@ -1,6 +1,6 @@
-import { ExportButtonProps, ParsedDocs, PartialLayout, RoutingProps, useSearchPhrase } from '@netcracker/qubership-apihub-apispec-view-elements-core';
+import { ExportButtonProps, ParsedDocs, PartialLayout, RoutingProps, useSearchPhrase } from '@b41ex/qubership-apihub-apispec-view-elements-core';
 import { NodeType } from '@stoplight/types';
-import { SchemaViewMode } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer';
+import { SchemaViewMode } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Redirect, useLocation } from 'react-router-dom';

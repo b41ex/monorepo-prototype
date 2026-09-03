@@ -15,18 +15,18 @@
  */
 
 import { Box } from '@mui/material'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import type { OperationGroup } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import type { OperationGroup } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 import {
   DISABLED_BUTTON_COLOR,
   ENABLED_BUTTON_COLOR,
   GROUP_TYPE_REST_PATH_PREFIX,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
-import { AddSquareIcon } from '@netcracker/qubership-apihub-ui-shared/icons/AddSquareIcon'
-import { DeleteIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIcon'
-import { DownloadIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DownloadIcon'
-import { EditIcon } from '@netcracker/qubership-apihub-ui-shared/icons/EditIcon'
-import { PublishIcon } from '@netcracker/qubership-apihub-ui-shared/icons/PublishIcon'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
+import { AddSquareIcon } from '@b41ex/qubership-apihub-ui-shared/icons/AddSquareIcon'
+import { DeleteIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIcon'
+import { DownloadIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DownloadIcon'
+import { EditIcon } from '@b41ex/qubership-apihub-ui-shared/icons/EditIcon'
+import { PublishIcon } from '@b41ex/qubership-apihub-ui-shared/icons/PublishIcon'
 import type { FC } from 'react'
 import { memo, useMemo } from 'react'
 

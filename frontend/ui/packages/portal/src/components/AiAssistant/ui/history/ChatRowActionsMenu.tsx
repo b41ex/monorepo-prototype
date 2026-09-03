@@ -8,7 +8,7 @@ import type { PopoverOrigin } from '@mui/material/Popover'
 import { styled } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 
-import { ActionsIcon } from '@netcracker/qubership-apihub-ui-shared/icons/ActionsIcon'
+import { ActionsIcon } from '@b41ex/qubership-apihub-ui-shared/icons/ActionsIcon'
 
 type ChatRowActionsMenuProps = {
   pinned: boolean

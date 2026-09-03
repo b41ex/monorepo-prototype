@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { useActiveTabContentContext } from './ProfilePage'
-import { LayoutWithTabs } from '@netcracker/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithTabs'
+import { LayoutWithTabs } from '@b41ex/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithTabs'
 import { PersonalAccessTokensTab } from './tabs/PersonalAccessTokensTab'
 import { PERSONAL_ACCESS_TOKENS_PAGE } from '../../../routes'
 import { ProfileNavigation } from './ProfileNavigation'

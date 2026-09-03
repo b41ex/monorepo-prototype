@@ -1,7 +1,7 @@
 import { COMPARE_SCOPE_ROOT, CompareResult, StrictCompareOptions } from '../types'
 import { jsonSchemaRules } from './jsonSchema.rules'
 import { compare } from '../core'
-import { createEvaluationCacheService, JsonSchemaSpecVersion } from '@netcracker/qubership-apihub-api-unifier'
+import { createEvaluationCacheService, JsonSchemaSpecVersion } from '@b41ex/qubership-apihub-api-unifier'
 
 export const compareJsonSchema = (version: JsonSchemaSpecVersion) => (before: unknown, after: unknown, options: StrictCompareOptions): CompareResult => {
   return compare(before, after, {

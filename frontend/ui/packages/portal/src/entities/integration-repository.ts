@@ -15,7 +15,7 @@
  */
 
 import type { Key } from './keys'
-import type { Url } from '@netcracker/qubership-apihub-ui-shared/types/url'
+import type { Url } from '@b41ex/qubership-apihub-ui-shared/types/url'
 
 export type IntegrationRepository = Readonly<{
   key: Key

@@ -22,14 +22,14 @@ import {
   Diff,
   DIFF_META_KEY,
   DIFFS_AGGREGATED_META_KEY,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import {
   AFTER_VALUE_NORMALIZED_PROPERTY,
   BEFORE_VALUE_NORMALIZED_PROPERTY,
   NORMALIZE_OPTIONS,
   ORIGINS_SYMBOL,
 } from '../../consts'
-import { GraphApiOperation, GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiOperation, GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 import {
   CompareOperationsPairContext,
   ComparisonDocument,

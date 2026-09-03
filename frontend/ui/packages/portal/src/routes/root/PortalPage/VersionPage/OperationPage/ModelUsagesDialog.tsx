@@ -21,10 +21,10 @@ import type { ModelUsagesDetail } from '../../../../EventBusProvider'
 import { SHOW_MODEL_USAGES_DIALOG } from '../../../../EventBusProvider'
 import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import type { OperationsGroupedByTag } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { TaggedOperationWithMetaList } from '@netcracker/qubership-apihub-ui-shared/components/TaggedOperationWithMetaList'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { OperationsGroupedByTag } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { TaggedOperationWithMetaList } from '@b41ex/qubership-apihub-ui-shared/components/TaggedOperationWithMetaList'
 
 export const ModelUsagesDialog: FC = memo(() => {
   return (

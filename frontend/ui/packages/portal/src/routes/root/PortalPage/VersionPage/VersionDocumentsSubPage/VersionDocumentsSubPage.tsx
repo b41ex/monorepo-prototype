@@ -19,7 +19,7 @@ import { memo } from 'react'
 import { DocumentsCard } from './DocumentsCard'
 import { DocumentsSidebar } from './DocumentsSidebar'
 import { CurrentDocumentsListProvider } from './CurrentDocumentsListProvider'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 
 export const VersionDocumentsSubPage: FC = memo(() => {
   return (

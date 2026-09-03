@@ -24,11 +24,11 @@ import type { SubTableProps } from '../OpenApiViewer/OperationTable'
 import { useParams } from 'react-router-dom'
 import { useOperationDeprecatedItems } from './useOperationDeprecatedItems'
 import { DEPRECATED_INFO_ID, DEPRECATED_SINCE_COLUMN_ID, DeprecatedInfo } from './DeprecatedOperationsTable'
-import type { DeprecatedItem } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import type { DeprecatedItem } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
 
 export const DeprecatedItemsSubTable: FC<SubTableProps> = memo<SubTableProps>((
   {

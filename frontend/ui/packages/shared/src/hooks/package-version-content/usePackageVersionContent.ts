@@ -29,7 +29,7 @@ import { API_V3, requestJson } from '../../utils/requests'
 import { optionalSearchParams } from '../../utils/search-params'
 import { SPECIAL_VERSION_KEY } from '../../entities/versions'
 import { toApiTypeMap } from '../../entities/api-types'
-import { replacePropertyInChangesSummary } from '@netcracker/qubership-apihub-api-processor'
+import { replacePropertyInChangesSummary } from '@b41ex/qubership-apihub-api-processor'
 import type { VersionKey } from '../../entities/keys'
 
 export const PACKAGE_VERSION_CONTENT_QUERY_KEY = 'package-version-content-query-key'

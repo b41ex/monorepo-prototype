@@ -18,12 +18,12 @@ import { useMutation } from '@tanstack/react-query'
 import type { Key } from '@agents/entities/keys'
 import { useInvalidateSecurityReports } from './useSecurityReports'
 import { useParams } from 'react-router-dom'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { API_V2, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { API_V2, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import {
   useGetAgentPrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export function useCheckSecurity(): StartSecurityCheckFunction {
   const { agentId = '', namespaceKey = '' } = useParams()

@@ -1,5 +1,5 @@
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
-import { buildFromDdl, DdlNonFatalError } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
+import { buildFromDdl, DdlNonFatalError } from '@b41ex/qubership-apihub-ddlapi/parser'
 import { normalize, DDL_API_NORMALIZE_OPTIONS } from '../../src'
 import { commonOriginsCheck, TEST_ORIGINS_FLAG } from '../helpers'
 

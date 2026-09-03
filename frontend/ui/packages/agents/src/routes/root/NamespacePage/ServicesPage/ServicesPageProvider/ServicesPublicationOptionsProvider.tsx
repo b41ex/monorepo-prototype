@@ -16,9 +16,9 @@
 
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, memo, useCallback, useContext, useState } from 'react'
-import type { ServiceKey, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { ServiceKey, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { PublishConfig } from '@agents/entities/publish-config'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 
 export const ServicesPublicationOptionsProvider: FC<PropsWithChildren> = memo(({ children }) => {
   const [createSnapshotPublicationOptions, setCreateSnapshotPublicationOptions] = useState<CreateSnapshotPublicationOptions>(EMPTY_CREATE_SNAPSHOT_PUBLICATION_OPTIONS)

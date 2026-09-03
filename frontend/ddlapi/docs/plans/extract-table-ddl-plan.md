@@ -2,7 +2,7 @@
 
 ## Goal
 
-Add an API to `@netcracker/qubership-apihub-ddlapi` that, given a PostgreSQL DDL string, a schema
+Add an API to `@b41ex/qubership-apihub-ddlapi` that, given a PostgreSQL DDL string, a schema
 name, and a table name, returns a **subset of the original DDL** containing only the statements
 relevant to that table — reproduced **as close to the input as possible, character-for-character**
 (same line breaks, indentation, comments, casing).

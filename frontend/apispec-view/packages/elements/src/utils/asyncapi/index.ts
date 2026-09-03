@@ -4,7 +4,7 @@ import {
   AsyncServiceTransformerImpl,
   transformAsyncApiOperation,
   transformAsyncApiService,
-} from '@netcracker/qubership-apihub-http-spec/asyncapi';
+} from '@b41ex/qubership-apihub-http-spec/asyncapi';
 import { encodePointerFragment, pointerToPath } from '@stoplight/json';
 import { DeepPartial, NodeType } from '@stoplight/types';
 import { get, isObject, last } from 'lodash';

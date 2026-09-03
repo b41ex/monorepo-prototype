@@ -1,4 +1,4 @@
-import { normalize, denormalize } from '@netcracker/qubership-apihub-api-unifier';
+import { normalize, denormalize } from '@b41ex/qubership-apihub-api-unifier';
 import { createJsonSchemaTree } from '../../src';
 import { TEST_SYNTHETIC_TITLE_FLAG } from './utils';
 

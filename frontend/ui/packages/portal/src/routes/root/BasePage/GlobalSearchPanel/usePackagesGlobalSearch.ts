@@ -20,7 +20,7 @@ import { getSearchResult } from './global-search'
 import { useMemo } from 'react'
 import type { SearchCriteria, SearchResults } from '@portal/entities/global-search'
 import { PACKAGE_LEVEL } from '@portal/entities/global-search'
-import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 
 import { SEARCH_RESULTS_PAGE_SIZE } from './globalSearchConstants'
 

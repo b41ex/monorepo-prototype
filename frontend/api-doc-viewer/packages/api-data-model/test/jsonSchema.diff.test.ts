@@ -7,7 +7,7 @@ import {
   breaking,
   deprecated,
   nonBreaking,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import { createJsonSchemaDiffTree } from '../src'
 import { ORIGINS_FLAG, SYNTHETIC_TITLE_FLAG } from '../src/abstract/constants'
 import { DiffMetaKeys } from '../src/abstract/diff'

@@ -14,7 +14,7 @@ import {
   isObject, isArray, anyArrayKeys,
   JSON_ROOT_KEY, JsonPath, CrawlRules, CrawlPrefixRules,
   CrawlRulesContext, SyncCrawlHook, SyncCloneHook, CloneState,
-} from '@netcracker/qubership-apihub-json-crawl'
+} from '@b41ex/qubership-apihub-json-crawl'
 ```
 
 Internal paths under the package are unstable.

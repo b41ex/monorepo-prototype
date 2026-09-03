@@ -20,10 +20,10 @@ import { memo } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation } from 'react-use'
 import { getPackageSettingsPath } from '../routes/NavigationProvider'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { PACKAGE_KIND, PACKAGE_KIND_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { PACKAGE_KIND, PACKAGE_KIND_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '../routes/BackwardLocationProvider'
-import { SettingIcon } from '@netcracker/qubership-apihub-ui-shared/icons/SettingIcon'
+import { SettingIcon } from '@b41ex/qubership-apihub-ui-shared/icons/SettingIcon'
 
 export type PackageSettingsButtonProps = {
   packageKey: string

@@ -1,4 +1,4 @@
-import { CrawlRules } from "@netcracker/qubership-apihub-json-crawl";
+import { CrawlRules } from "@b41ex/qubership-apihub-json-crawl";
 import { DdlApiTreeNodeKind, DdlApiTreeNodeKinds } from "../../../../model/ddlapi/types/node-kind";
 import { DdlApiTreeCrawlState } from "../state/types";
 import { DdlApiCrawlRule } from "./types";

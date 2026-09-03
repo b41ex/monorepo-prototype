@@ -16,7 +16,7 @@
 
 import { useMemo } from 'react'
 import { useChangesSummaryFromContext } from './ChangesSummaryProvider'
-import type { ChangeSeverity, ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+import type { ChangeSeverity, ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import {
   ANNOTATION_CHANGE_SEVERITY,
   BREAKING_CHANGE_SEVERITY,
@@ -24,20 +24,20 @@ import {
   NON_BREAKING_CHANGE_SEVERITY,
   RISKY_CHANGE_SEVERITY,
   UNCLASSIFIED_CHANGE_SEVERITY,
-} from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import type { DashboardComparisonSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import { isDashboardComparisonSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+} from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import type { DashboardComparisonSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import { isDashboardComparisonSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 import {
   calculateImpactedSummary,
   calculateTotalChangeSummary,
   calculateTotalImpactedSummary,
   EMPTY_CHANGE_SUMMARY,
-} from '@netcracker/qubership-apihub-api-processor'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { CONTRACT_TYPE_DDL } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { hasDdlComparisonChanges } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+} from '@b41ex/qubership-apihub-api-processor'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { CONTRACT_TYPE_DDL } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { hasDdlComparisonChanges } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import { useRefSearchParam } from '../useRefSearchParam'
 
 export function useOrderedComparisonFiltersSummary(options: {

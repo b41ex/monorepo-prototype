@@ -7,7 +7,7 @@ import { JsoTreeNodeMeta } from "@apihub/next-data-model/model/jso/types/node-me
 import { JsoPropertyValueTypes } from "@apihub/next-data-model/model/jso/types/node-value-type";
 import { JsoTreeBuilderParams } from "@apihub/next-data-model/shared/jso/types/tree-builder-params";
 import { BuildingServiceLogger, createBuildingServiceLogger } from "../../../loggers";
-import { syncCrawl } from "@netcracker/qubership-apihub-json-crawl";
+import { syncCrawl } from "@b41ex/qubership-apihub-json-crawl";
 import { ComplexTreeNodeParams, ITreeNode, SimpleTreeNodeParams, TreeNodeComplexityTypes, TreeNodeParams } from "../../../model/abstract/tree/tree-node.interface";
 import { isObject } from "../../../utilities";
 import { NodeId, NodeKey } from "../../../utility-types";

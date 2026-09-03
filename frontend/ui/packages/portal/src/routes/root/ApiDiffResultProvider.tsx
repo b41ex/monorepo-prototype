@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { CompareResult } from '@netcracker/qubership-apihub-api-diff'
+import type { CompareResult } from '@b41ex/qubership-apihub-api-diff'
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, useContext, useState } from 'react'
 

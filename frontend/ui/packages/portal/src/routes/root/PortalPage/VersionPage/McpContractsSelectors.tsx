@@ -3,7 +3,7 @@ import { MenuItem } from '@mui/material'
 import type { ChangeEvent, FC } from 'react'
 import { memo, useMemo } from 'react'
 
-import { FilledSelectField } from '@netcracker/qubership-apihub-ui-shared/components/FilledSelectField'
+import { FilledSelectField } from '@b41ex/qubership-apihub-ui-shared/components/FilledSelectField'
 import {
   MCP_COLLECTION_INIT,
   MCP_COLLECTION_LABELS,
@@ -13,7 +13,7 @@ import {
   MCP_COLLECTIONS,
   type McpCollection,
   type McpContractsSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
 
 import { useMcpCollectionSearchParam } from './useMcpCollectionSearchParam'
 import { useMcpEndpointSearchParam } from './useMcpEndpointSearchParam'

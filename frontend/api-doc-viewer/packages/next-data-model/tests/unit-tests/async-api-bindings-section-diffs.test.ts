@@ -1,5 +1,5 @@
 import { NODE_LEVEL_DIFF_KEY, NodeDescendantDiffs, NodeDiffs } from '@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface'
-import { DiffAction } from '@netcracker/qubership-apihub-api-diff'
+import { DiffAction } from '@b41ex/qubership-apihub-api-diff'
 import { AbstractNodeDescendantsDiffsAggregator } from '../../src/building-service/abstract/tree-with-diffs/node-diffs-data/node-descendants-diffs-aggregator'
 import { AsyncApiNodeDescendantDiffsAggregatorKindBindings } from '../../src/building-service/async-api/tree-with-diffs/node-diffs-data/node-descendant-diffs/kind-bindings'
 import { AsyncApiNodeDiffsAggregatorKindBindings } from '../../src/building-service/async-api/tree-with-diffs/node-diffs-data/node-diffs/kind-bindings'

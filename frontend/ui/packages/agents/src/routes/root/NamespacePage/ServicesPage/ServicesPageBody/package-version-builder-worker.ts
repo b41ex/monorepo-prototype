@@ -20,9 +20,9 @@ import type { PublishDetails } from '@agents/entities/publish-details'
 import { setPublicationDetails } from '@agents/entities/publish-details'
 import type { PublishStatus } from '@agents/entities/statuses'
 import { COMPLETE_PUBLISH_STATUS, ERROR_PUBLISH_STATUS } from '@agents/entities/statuses'
-import type { VersionValidationLevel } from '@netcracker/qubership-apihub-api-processor'
-import { BUILD_TYPE, VERSION_VALIDATION_LEVEL } from '@netcracker/qubership-apihub-api-processor'
-import { PackageVersionBuilder } from '@netcracker/qubership-apihub-api-processor/processor'
+import type { VersionValidationLevel } from '@b41ex/qubership-apihub-api-processor'
+import { BUILD_TYPE, VERSION_VALIDATION_LEVEL } from '@b41ex/qubership-apihub-api-processor'
+import { PackageVersionBuilder } from '@b41ex/qubership-apihub-api-processor/processor'
 import {
   packageVersionResolver,
   rawDocumentResolver,
@@ -30,15 +30,15 @@ import {
   versionDocumentsResolver,
   versionOperationsResolver,
   versionReferencesResolver,
-} from '@netcracker/qubership-apihub-ui-shared/utils/builder-resolvers'
-import { NONE_PUBLISH_STATUS, RUNNING_PUBLISH_STATUS } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
-import { getSystemInfo } from '@netcracker/qubership-apihub-ui-shared/utils/system-info'
+} from '@b41ex/qubership-apihub-ui-shared/utils/builder-resolvers'
+import { NONE_PUBLISH_STATUS, RUNNING_PUBLISH_STATUS } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
+import { getSystemInfo } from '@b41ex/qubership-apihub-ui-shared/utils/system-info'
 import { expose } from 'comlink'
 import { getSpecBlob } from '../../useSpecRaw'
 
 /*
 For using worker in proxy mode you need to change common apihub-shared import
-to specific directory ('@netcracker/qubership-apihub-ui-shared/utils' for example)
+to specific directory ('@b41ex/qubership-apihub-ui-shared/utils' for example)
 */
 export type PublishServiceOptions = {
   agentId: AgentKey

@@ -4,7 +4,7 @@ import outOfMemoryCauseTooManyCombinations from '../resources/out-of-memory-caus
 import bugWithWrongOrigins from '../resources/bug-with-wrong-origins.json'
 import bugWithSparseArray from '../resources/bug-with-sparse-array.json'
 import { TEST_INLINE_REFS_FLAG, TEST_ORIGINS_FLAG, TEST_ORIGINS_FOR_DEFAULTS, TEST_SYNTHETIC_TITLE_FLAG } from '../helpers'
-import { isObject, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import 'jest-extended'
 
 describe('Bugs', () => {

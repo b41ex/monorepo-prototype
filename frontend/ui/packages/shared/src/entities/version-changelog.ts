@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { DiffTypeDto } from '@netcracker/qubership-apihub-api-processor'
-import { replacePropertyInChangesSummary } from '@netcracker/qubership-apihub-api-processor'
+import type { DiffTypeDto } from '@b41ex/qubership-apihub-api-processor'
+import { replacePropertyInChangesSummary } from '@b41ex/qubership-apihub-api-processor'
 import type { ActionType, ChangesSummary } from './change-severities'
 import {
   ADD_ACTION_TYPE,

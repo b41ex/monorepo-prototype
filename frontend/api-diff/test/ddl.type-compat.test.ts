@@ -1,4 +1,4 @@
-import { TypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { TypeKind } from '@b41ex/qubership-apihub-ddlapi'
 import { consumptionFamily, sameConsumptionFamily } from '../src/ddl/ddl.classify'
 import { DIALECT_DIFF_POSTGRES, TypeConsumptionFamily } from '../src/ddl'
 

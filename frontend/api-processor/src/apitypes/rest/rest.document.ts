@@ -39,7 +39,7 @@ import {
 } from '../../utils'
 import { dump, generateHtmlPage } from '../../utils/export'
 import { removeOasExtensions } from '../../utils/removeOasExtensions'
-import { OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier'
+import { OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier'
 import { getApiKindProperty } from '../../components/document'
 
 const openApiDocumentMeta = (data: OpenAPIV3.Document): RestDocumentInfo => {

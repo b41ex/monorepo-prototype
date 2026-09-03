@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Realm, Schema, Table } from '@netcracker/qubership-apihub-ddlapi'
+import { Column, ForeignKey, Realm, Schema, Table } from '@b41ex/qubership-apihub-ddlapi'
 import { normalize, DDL_API_NORMALIZE_OPTIONS } from '../../src'
 import { buildRealmAndAssertValid } from '../helpers/ddlapi'
 import { commonOriginsCheck, TEST_ORIGINS_FLAG } from '../helpers'

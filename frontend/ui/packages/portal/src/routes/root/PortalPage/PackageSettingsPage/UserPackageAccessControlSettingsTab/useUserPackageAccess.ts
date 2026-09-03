@@ -30,15 +30,15 @@ import type {
 } from '../package-settings'
 import { ADD_CHANGE_ROLE_ACTION, REMOVE_CHANGE_ROLE_ACTION, toPackageMembers } from '../package-settings'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type {
   IsError,
   IsLoading,
   IsSuccess,
   OptionInvalidateQuery,
-} from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+} from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestJson, portalRequestVoid } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 import { useInvalidatePackage } from '@portal/routes/root/usePackage'
 
 const USER_PACKAGE_ACCESS_QUERY_KEY = 'user-package-access-query-key'

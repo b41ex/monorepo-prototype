@@ -4,8 +4,8 @@ import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import { type ChangeEvent, type FC, type KeyboardEvent, memo, useCallback, useEffect, useRef, useState } from 'react'
 
-import { SendIcon } from '@netcracker/qubership-apihub-ui-shared/icons/SendIcon'
-import { StopIcon } from '@netcracker/qubership-apihub-ui-shared/icons/StopIcon'
+import { SendIcon } from '@b41ex/qubership-apihub-ui-shared/icons/SendIcon'
+import { StopIcon } from '@b41ex/qubership-apihub-ui-shared/icons/StopIcon'
 
 import { usePanel, useStreamingActions, useStreamingTurnStatus } from '../../state/panelContext'
 import {

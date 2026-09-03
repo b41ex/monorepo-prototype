@@ -15,10 +15,10 @@
  */
 
 /* eslint-disable react-refresh/only-export-components */
-import { DiffMetaKeys } from '@netcracker/qubership-apihub-api-data-model'
-import { Diff, DIFF_META_KEY, DiffReplace, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
-import { stringifyCyclicJso } from '@netcracker/qubership-apihub-api-unifier'
-import { getCompatibilitySuite, TestSpecType } from '@netcracker/qubership-apihub-compatibility-suites'
+import { DiffMetaKeys } from '@b41ex/qubership-apihub-api-data-model'
+import { Diff, DIFF_META_KEY, DiffReplace, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
+import { stringifyCyclicJso } from '@b41ex/qubership-apihub-api-unifier'
+import { getCompatibilitySuite, TestSpecType } from '@b41ex/qubership-apihub-compatibility-suites'
 import FontFaceObserver from 'fontfaceobserver'
 import { buildSchema, findBreakingChanges, findDangerousChanges } from 'graphql'
 import { useState } from 'react'

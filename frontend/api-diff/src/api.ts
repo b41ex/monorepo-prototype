@@ -17,7 +17,7 @@ import {
   SPEC_TYPE_OPEN_API_31,
   SpecType,
   OpenApiSpecVersion,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { DEFAULT_NORMALIZED_RESULT, DEFAULT_OPTION_DEFAULTS_META_KEY, DEFAULT_OPTION_ORIGINS_META_KEY, DIFF_META_KEY } from './core'
 
 function isOpenApiSpecVersion(specType: SpecType): specType is OpenApiSpecVersion {

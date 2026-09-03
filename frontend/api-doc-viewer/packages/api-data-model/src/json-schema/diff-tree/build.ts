@@ -1,4 +1,4 @@
-import { syncCrawl } from '@netcracker/qubership-apihub-json-crawl';
+import { syncCrawl } from '@b41ex/qubership-apihub-json-crawl';
 import type { DiffMetaKeys } from '../../abstract/diff';
 import { isObject } from '../../utils';
 import { jsonSchemaCrawlRules } from '../rules';

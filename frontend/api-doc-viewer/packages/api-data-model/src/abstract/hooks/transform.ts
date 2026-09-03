@@ -1,4 +1,4 @@
-import { isObject, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
 import { TRANSFORMED_FROM } from '../constants'
 import { SchemaCrawlRule, SchemaTransformFunc } from '../types'
 

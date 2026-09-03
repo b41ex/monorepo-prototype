@@ -18,7 +18,7 @@ import { Box } from '@mui/material'
 import type { FC, PropsWithChildren } from 'react'
 import { lazy, memo, Suspense } from 'react'
 import type { PlaygroundElementProps } from './PlaygroundElement'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 
 export type PlaygroundProps = PropsWithChildren<{
   document?: string

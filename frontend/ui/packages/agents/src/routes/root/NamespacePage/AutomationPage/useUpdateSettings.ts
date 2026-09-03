@@ -19,14 +19,14 @@ import type { Emails, Schedules } from '@agents/entities/settings'
 import { updateSettings } from '@agents/entities/settings'
 import { useParams } from 'react-router-dom'
 import { useSetSettings } from './useSettings'
-import type { IsError, IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { IsError, IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { AutodiscoveryStatus } from '@agents/entities/statuses'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import {
   useGetNcServicePrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export function useUpdateSettings(): [UpdateSettings, IsLoading, IsSuccess, IsError] {
   const { agentId, namespaceKey } = useParams()

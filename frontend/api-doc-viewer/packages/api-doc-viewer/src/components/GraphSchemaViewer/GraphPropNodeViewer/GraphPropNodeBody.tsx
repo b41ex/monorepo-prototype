@@ -21,8 +21,8 @@ import {
   GraphApiDirectiveNodeData,
   graphSchemaNodeKind,
   isObject
-} from '@netcracker/qubership-apihub-api-data-model'
-import { GraphSchemaStatePropNode, isExpandableTreeNode } from '@netcracker/qubership-apihub-api-state-model'
+} from '@b41ex/qubership-apihub-api-data-model'
+import { GraphSchemaStatePropNode, isExpandableTreeNode } from '@b41ex/qubership-apihub-api-state-model'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { buildNodeTitleData, buildNodeTypeData } from '../../../builders/nodes'

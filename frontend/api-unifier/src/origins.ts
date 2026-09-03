@@ -5,7 +5,7 @@ import {
   OriginLeafs,
   OriginsMetaRecord,
 } from './types'
-import { anyArrayKeys, isArray, isObject, SyncCloneHook, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { anyArrayKeys, isArray, isObject, SyncCloneHook, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { createSelfMetaCloneHook, getJsoProperty, setJsoProperty, stringifyCyclicJso } from './utils'
 
 function stringifyOrigins(origins: OriginLeafs, instanceMap: Map<ChainItem, number>, addInstances: boolean) {

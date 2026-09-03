@@ -5,19 +5,19 @@ import { useParams } from 'react-router-dom'
 
 import type { Key } from '@portal/entities/keys'
 import { usePortalPageSettingsContext } from '@portal/routes/PortalPageSettingsProvider'
-import { type ApiType, isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { type ApiType, isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
   type ContractType,
   toRouteApiType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { MCP_COLLECTION_INIT, type McpListCollection } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { isEmpty, isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { NAVIGATION_MAX_WIDTH } from '@netcracker/qubership-apihub-ui-shared/utils/page-layouts'
-import { isEmptyTag } from '@netcracker/qubership-apihub-ui-shared/utils/tags'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { MCP_COLLECTION_INIT, type McpListCollection } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { isEmpty, isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { NAVIGATION_MAX_WIDTH } from '@b41ex/qubership-apihub-ui-shared/utils/page-layouts'
+import { isEmptyTag } from '@b41ex/qubership-apihub-ui-shared/utils/tags'
 
 import { useSetSelectedPreviewOperation } from '../../SelectedPreviewOperationProvider'
 import { usePackageKind } from '../../usePackageKind'

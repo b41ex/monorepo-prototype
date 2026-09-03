@@ -1,5 +1,5 @@
 import { UnifyFunction } from '../types'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { combineJsonSchemaWithMetaJso } from './empty-schema'
 import { setJsoProperty } from '../utils'
 import { mergeOrigins, resolveOriginsMetaRecord } from '../origins'

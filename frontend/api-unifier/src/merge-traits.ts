@@ -1,4 +1,4 @@
-import { isArray, isObject, JSON_ROOT_KEY, syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject, JSON_ROOT_KEY, syncClone } from '@b41ex/qubership-apihub-json-crawl'
 
 import {
   DEFAULT_OPTION_MERGE_TRAITS,

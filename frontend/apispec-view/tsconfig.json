@@ -30,17 +30,17 @@
     // ts-loader must be >= 9.6 for this to be honoured; see the note in package.json.
     "rootDir": "./packages",
     "paths": {
-      "@netcracker/qubership-apihub-apispec-view": ["./elements/src"],
-      "@netcracker/qubership-apihub-apispec-view/*": ["./elements/src/*"],
-      "@netcracker/qubership-apihub-apispec-view-elements-core": ["./elements-core/src"],
-      "@netcracker/qubership-apihub-apispec-view-elements-core/*": ["./elements-core/src/*"],
-      "@netcracker/qubership-apihub-apispec-view-diff-elements-core": ["./diff-elements-core/src"],
-      "@netcracker/qubership-apihub-apispec-view-diff-elements-core/*": ["./diff-elements-core/src/*"],
-      "@netcracker/qubership-apihub-apispec-view-diff-block": ["./diff-block/src"],
-      "@netcracker/qubership-apihub-apispec-view-json-schema-viewer": ["./json-schema-viewer/src"],
-      "@netcracker/qubership-apihub-apispec-view-json-schema-diff-viewer": ["./json-schema-diff-viewer/src"],
-      "@netcracker/qubership-apihub-apispec-view-samples": ["./samples/src"],
-      "@netcracker/qubership-apihub-apispec-view-samples/*": ["./samples/src/*"]
+      "@b41ex/qubership-apihub-apispec-view": ["./elements/src"],
+      "@b41ex/qubership-apihub-apispec-view/*": ["./elements/src/*"],
+      "@b41ex/qubership-apihub-apispec-view-elements-core": ["./elements-core/src"],
+      "@b41ex/qubership-apihub-apispec-view-elements-core/*": ["./elements-core/src/*"],
+      "@b41ex/qubership-apihub-apispec-view-diff-elements-core": ["./diff-elements-core/src"],
+      "@b41ex/qubership-apihub-apispec-view-diff-elements-core/*": ["./diff-elements-core/src/*"],
+      "@b41ex/qubership-apihub-apispec-view-diff-block": ["./diff-block/src"],
+      "@b41ex/qubership-apihub-apispec-view-json-schema-viewer": ["./json-schema-viewer/src"],
+      "@b41ex/qubership-apihub-apispec-view-json-schema-diff-viewer": ["./json-schema-diff-viewer/src"],
+      "@b41ex/qubership-apihub-apispec-view-samples": ["./samples/src"],
+      "@b41ex/qubership-apihub-apispec-view-samples/*": ["./samples/src/*"]
     }
   }
 }

@@ -19,8 +19,8 @@ import { useFileViewMode } from './useFileViewMode'
 import { useSidebarPlaygroundViewMode } from './useSidebarPlaygroundViewMode'
 import { useDocumentSearchParam } from './useDocumentSearchParam'
 import { useRefSearchParam } from '../useRefSearchParam'
-import { YAML_FILE_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import type { OperationViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { YAML_FILE_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import type { OperationViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
 
 export function useOperationSearchParams(): OperationSearchParams {
   const { mode } = useOperationViewMode()

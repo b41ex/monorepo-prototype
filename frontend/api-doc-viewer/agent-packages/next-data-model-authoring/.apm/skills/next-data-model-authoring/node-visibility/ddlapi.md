@@ -97,13 +97,13 @@ with diff args, whole-node changed checks, etc.).
 import {
   resolvePlainColumnNodeVisibility,
   resolvePlainColumnListLastRowFlags,
-} from '@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column'
+} from '@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column'
 
 // With-diffs column
 import {
   resolveColumnNodeVisibility,
   resolveColumnListLastRowFlags,
-} from '@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-column'
+} from '@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-column'
 
 // Index — same pattern under .../kind-index
 ```

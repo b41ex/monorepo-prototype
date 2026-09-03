@@ -16,7 +16,7 @@
 
 import type { Key } from '@portal/entities/keys'
 import { portalRequestJson } from '@portal/utils/requests'
-import type { RefetchQuery } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { RefetchQuery } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useQuery } from '@tanstack/react-query'
 
 const SHARED_KEY_QUERY_KEY = 'shared-key-query-key'

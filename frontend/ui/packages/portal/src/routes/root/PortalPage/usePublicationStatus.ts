@@ -22,24 +22,24 @@ import {
   API_V3,
   requestJson,
   STATUS_REFETCH_INTERVAL,
-} from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/utils/types'
+} from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/utils/types'
 import {
   useShowErrorNotification,
   useShowInfoNotification,
   useShowWarningNotification,
 } from '@portal/routes/root/BasePage/Notification'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import { getVersionPath, useNavigation } from '@portal/routes/NavigationProvider'
-import type { IsError, IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsError, IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useMemo } from 'react'
 import { useDownloadPublicationReport } from './useDownloadPublicationReport'
 import { useAsyncInvalidateVersionContent } from '../usePackageVersionContent'
 import {
   useAsyncInvalidatePackageVersions,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 import { useAsyncInvalidatePackage } from '../usePackage'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 const PUBLISH_STATUS_QUERY_KEY = 'publish-status-query-key'
 const OPERATION_GROUP_PUBLISH_STATUS_QUERY_KEY = 'operation-group-publish-status-query-key'

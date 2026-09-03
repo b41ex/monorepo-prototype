@@ -21,10 +21,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { OperationsFilterByDocument } from './OperationsFilterByDocument'
 import { useRefSearchParam } from '../../useRefSearchParam'
 import { useDocumentSearchParam } from '../useDocumentSearchParam'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { Document } from '@portal/entities/documents'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 export type OperationsFilterPanelProps = {
   packageKey: Key

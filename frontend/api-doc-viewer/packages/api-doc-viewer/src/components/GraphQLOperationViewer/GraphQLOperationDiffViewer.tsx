@@ -17,9 +17,9 @@
 import '../../index.css'
 import '../shared-styles/diffs/index.css'
 
-import { createGraphApiDiffTree, DiffMetaKeys, DiffNodeMeta, graphApiNodeKind } from '@netcracker/qubership-apihub-api-data-model'
-import { aggregateDiffsWithRollup, DiffType } from "@netcracker/qubership-apihub-api-diff"
-import { GraphApiState } from '@netcracker/qubership-apihub-api-state-model'
+import { createGraphApiDiffTree, DiffMetaKeys, DiffNodeMeta, graphApiNodeKind } from '@b41ex/qubership-apihub-api-data-model'
+import { aggregateDiffsWithRollup, DiffType } from "@b41ex/qubership-apihub-api-diff"
+import { GraphApiState } from '@b41ex/qubership-apihub-api-state-model'
 import type { FC } from 'react'
 import { useMemo } from 'react'
 import { DEFAULT_EXPANDED_DEPTH, DEFAULT_LAYOUT_MODE } from '../../consts/configuration'

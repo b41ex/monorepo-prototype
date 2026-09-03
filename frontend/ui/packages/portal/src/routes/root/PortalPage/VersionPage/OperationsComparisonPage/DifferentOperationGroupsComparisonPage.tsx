@@ -21,12 +21,12 @@ import {
 } from '@portal/routes/root/PortalPage/VersionPage/OperationContent/OperationView/OperationDisplayMode'
 import { useComparisonObjects } from '@portal/routes/root/PortalPage/VersionPage/useComparisonObjects'
 import { groupOperationPairsByTags, isFullyAddedOperationChange, isFullyRemovedOperationChange } from '@portal/utils/operations'
-import type { ActionType } from '@netcracker/qubership-apihub-api-diff'
-import { DiffAction } from '@netcracker/qubership-apihub-api-diff'
-import type { OperationChanges } from '@netcracker/qubership-apihub-api-processor'
-import { createCopyWithPrefixGroupOperationsOnly, type RestOperationData } from '@netcracker/qubership-apihub-api-processor'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ActionType } from '@b41ex/qubership-apihub-api-diff'
+import { DiffAction } from '@b41ex/qubership-apihub-api-diff'
+import type { OperationChanges } from '@b41ex/qubership-apihub-api-processor'
+import { createCopyWithPrefixGroupOperationsOnly, type RestOperationData } from '@b41ex/qubership-apihub-api-processor'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import type {
   Operation,
   OperationData,
@@ -34,26 +34,26 @@ import type {
   OperationPairsGroupedByTag,
   OptionalOperationPair,
   RestOperation,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { isRestOperation, NO_BWC_API_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { isRestOperation, NO_BWC_API_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import type {
   DashboardComparisonSummary,
   RefComparisonSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
-import { usePackageSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { filterChangesBySeverity } from '@netcracker/qubership-apihub-ui-shared/utils/change-severities'
-import { isObject } from '@netcracker/qubership-apihub-ui-shared/utils/objects'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+import { usePackageSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { filterChangesBySeverity } from '@b41ex/qubership-apihub-ui-shared/utils/change-severities'
+import { isObject } from '@b41ex/qubership-apihub-ui-shared/utils/objects'
 import {
   DOCUMENT_SEARCH_PARAM,
   FILTERS_SEARCH_PARAM,
   GROUP_SEARCH_PARAM,
   OPERATION_SEARCH_PARAM,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import type { FC } from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'

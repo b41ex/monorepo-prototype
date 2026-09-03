@@ -16,9 +16,9 @@
 
 import type { FC } from 'react'
 import { memo } from 'react'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PublicationErrorReportDialog } from '@netcracker/qubership-apihub-ui-shared/components/PublicationErrorReportDialog'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PublicationErrorReportDialog } from '@b41ex/qubership-apihub-ui-shared/components/PublicationErrorReportDialog'
 import type { ShowPublicationErrorReportDetail } from '../../../EventBusProvider'
 import { SHOW_PUBLICATION_ERROR_REPORT_DIALOG } from '../../../EventBusProvider'
 

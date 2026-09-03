@@ -17,7 +17,7 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, memo, useContext } from 'react'
 import { usePortalPageSettings } from '@portal/routes/usePortalPageSettings'
-import type { ExtendedPageSettingsState } from '@netcracker/qubership-apihub-ui-shared/hooks/storages/usePageSettingsState'
+import type { ExtendedPageSettingsState } from '@b41ex/qubership-apihub-ui-shared/hooks/storages/usePageSettingsState'
 
 export const PortalPageSettingsProvider: FC<PropsWithChildren> = memo<PropsWithChildren>(({ children }) => {
   const content = usePortalPageSettings()

@@ -1,4 +1,4 @@
-import { GRAPH_API_NODE_KIND_SCALAR, GRAPH_API_NODE_KIND_UNION, GRAPH_API_VERSION } from "@netcracker/qubership-apihub-graphapi"
+import { GRAPH_API_NODE_KIND_SCALAR, GRAPH_API_NODE_KIND_UNION, GRAPH_API_VERSION } from "@b41ex/qubership-apihub-graphapi"
 import { normalize } from "../../src"
 
 describe('merge in graphapi', () => {

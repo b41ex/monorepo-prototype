@@ -3,8 +3,8 @@ import { type FC, type KeyboardEvent, memo, useCallback, useEffect, useState } f
 import Box from '@mui/material/Box'
 import { styled, type Theme } from '@mui/material/styles'
 
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { PinIcon } from '@netcracker/qubership-apihub-ui-shared/icons/PinIcon'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { PinIcon } from '@b41ex/qubership-apihub-ui-shared/icons/PinIcon'
 
 import { type AiChat, type ChatId, MAX_PINNED_PER_USER } from '../../api/types'
 import { ChatRowActionsMenu } from './ChatRowActionsMenu'

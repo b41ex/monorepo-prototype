@@ -4,8 +4,8 @@ ARG TAG=dev
 
 WORKDIR /workspace
 
-RUN --mount=type=secret,id=npmrc,target=.npmrc mv "$(npm pack @netcracker/qubership-apihub-ui-agents@"$TAG")" qubership-apihub-ui-agents.tgz
-RUN --mount=type=secret,id=npmrc,target=.npmrc mv "$(npm pack @netcracker/qubership-apihub-ui-portal@"$TAG")" qubership-apihub-ui-portal.tgz
+RUN --mount=type=secret,id=npmrc,target=.npmrc mv "$(npm pack @b41ex/qubership-apihub-ui-agents@"$TAG")" qubership-apihub-ui-agents.tgz
+RUN --mount=type=secret,id=npmrc,target=.npmrc mv "$(npm pack @b41ex/qubership-apihub-ui-portal@"$TAG")" qubership-apihub-ui-portal.tgz
 
 FROM docker.io/nginx:1.31.3-alpine3.24
 

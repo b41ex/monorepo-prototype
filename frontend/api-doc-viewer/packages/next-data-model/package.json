@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-next-data-model",
+  "name": "@b41ex/qubership-apihub-next-data-model",
   "version": "0.0.0",
   "license": "Apache-2.0",
   "private": true,
@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@asyncapi/parser": "3.6.0",
-    "@netcracker/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
   }
 }

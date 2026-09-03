@@ -21,7 +21,7 @@ Modified version of [udamir/graphapi](https://github.com/udamir/graphapi)
 
 ## Installation
 ```SH
-npm install @netcracker/qubership-apihub-graphapi --save
+npm install @b41ex/qubership-apihub-graphapi --save
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ npm install @netcracker/qubership-apihub-graphapi --save
 ### Build GraphAPI document from Schema or Introspection
 ```ts
 import { buildSchema, graphqlSync, getIntrospectionQuery } from "graphql"
-import { buildFromSchema, buildFromIntrospection } from '@netcracker/qubership-apihub-graphapi'
+import { buildFromSchema, buildFromIntrospection } from '@b41ex/qubership-apihub-graphapi'
 
 // build from GraphQL schema
 const schema = buildSchema(data)
@@ -46,7 +46,7 @@ const graphapi2 = buildFromIntrospection(introspection)
 ### Print GraphQL schema document from GraphAPI document
 
 ```ts
-import { printGraphApi } from '@netcracker/qubership-apihub-graphapi'
+import { printGraphApi } from '@b41ex/qubership-apihub-graphapi'
 
 const schema = printGraphApi(graphapi)
 console.log(schema)

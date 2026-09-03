@@ -1,5 +1,5 @@
 import { HighlightVariant } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
-import { DiffsClassesBuilder } from "@netcracker/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities"
+import { DiffsClassesBuilder } from "@b41ex/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities"
 import { useMemo } from "react"
 import { DdlApiPropertyValueAppearance, useDdlApiPropertyValueStyles } from "./useDdlApiPropertyValueStyles"
 

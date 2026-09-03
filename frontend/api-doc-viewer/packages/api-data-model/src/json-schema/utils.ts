@@ -1,4 +1,4 @@
-import { JSON_SCHEMA_PROPERTY_REF } from '@netcracker/qubership-apihub-api-unifier'
+import { JSON_SCHEMA_PROPERTY_REF } from '@b41ex/qubership-apihub-api-unifier'
 
 import { IModelTreeNode } from '../abstract/model/types'
 import { modelTreeNodeType } from "../abstract/constants"

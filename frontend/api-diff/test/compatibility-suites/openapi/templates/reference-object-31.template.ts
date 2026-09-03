@@ -1,5 +1,5 @@
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
-import { TEST_SPEC_TYPE_OPEN_API } from '@netcracker/qubership-apihub-compatibility-suites'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
+import { TEST_SPEC_TYPE_OPEN_API } from '@b41ex/qubership-apihub-compatibility-suites'
 import { diffsMatcher, expectOpenApiVersionChange } from '../../../helper/matchers'
 import { annotation, DiffAction } from '../../../../src'
 

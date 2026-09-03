@@ -15,7 +15,7 @@ import { DdlApiTreeNodeKind } from "@apihub/next-data-model/model/ddlapi/types/n
 import { DdlApiTreeNodeMeta } from "@apihub/next-data-model/model/ddlapi/types/node-meta";
 import { isObject } from "@apihub/next-data-model/utilities";
 import { NodeKey } from "@apihub/next-data-model/utility-types";
-import { Diff, DiffType, isDiffAdd, isDiffRemove } from "@netcracker/qubership-apihub-api-diff";
+import { Diff, DiffType, isDiffAdd, isDiffRemove } from "@b41ex/qubership-apihub-api-diff";
 import { DdlApiNodeDiffsAggregatorKindAny } from "./kind-any";
 
 export class DdlApiNodeDiffsAggregatorKindTable extends DdlApiNodeDiffsAggregatorKindAny {

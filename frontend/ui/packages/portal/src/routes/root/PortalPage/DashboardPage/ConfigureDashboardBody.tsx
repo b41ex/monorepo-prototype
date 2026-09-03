@@ -21,7 +21,7 @@ import { ConfigureDashboardTree } from './ConfigureDashboardTree'
 import { PACKAGES_CONFIGURE_DASHBOARD_TAB } from './configure-dashboard'
 import { useActiveTabConfigureDashboard } from './ConfigureDashboardSubPage'
 import { useEventBus } from '@portal/routes/EventBusProvider'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 
 export const ConfigureDashboardBody: FC = memo(() => {
   const activeTab = useActiveTabConfigureDashboard()

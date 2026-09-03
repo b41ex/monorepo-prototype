@@ -4,7 +4,7 @@ import type {
   DiffHighlightingApplicationMode, DiffHiglightingApplicationArea,
   NodeDescendantDiffs,
   NodeDiffsSeverities
-} from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+} from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import type { ReactElement } from "react"
 import { TextValueVariant } from "../TextValue/types"
 import { WithDdlListLastRowProps, WithPrecededByProps } from "../WithPrecededByProps"

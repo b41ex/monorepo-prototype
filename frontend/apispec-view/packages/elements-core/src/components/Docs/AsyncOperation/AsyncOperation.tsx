@@ -1,4 +1,4 @@
-import { IAsyncOperation } from '@netcracker/qubership-apihub-http-spec';
+import { IAsyncOperation } from '@b41ex/qubership-apihub-http-spec';
 import { Extensions } from '../Extensions';
 import { SectionSubtitle } from '../Sections';
 import { Box, Flex, Heading, HStack, isNotEmptyObject, useThemeIsDark, VStack } from '@stoplight/mosaic';

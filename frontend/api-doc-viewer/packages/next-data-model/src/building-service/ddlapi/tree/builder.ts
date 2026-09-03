@@ -6,7 +6,7 @@ import { DdlApiTreeNodeMeta } from "@apihub/next-data-model/model/ddlapi/types/n
 import { TableKey } from "@apihub/next-data-model/shared/ddlapi/types/table-key";
 import { DdlApiTreeBuilderParams } from "@apihub/next-data-model/shared/ddlapi/types/tree-builder-params";
 import { resolveDdlApiIndexNodeKey } from "@apihub/next-data-model/shared/ddlapi/index-title";
-import { syncCrawl } from "@netcracker/qubership-apihub-json-crawl";
+import { syncCrawl } from "@b41ex/qubership-apihub-json-crawl";
 import { ComplexTreeNodeParams, SimpleTreeNodeParams, TreeNodeComplexityTypes } from "../../../model/abstract/tree/tree-node.interface";
 import { isObject } from "../../../utilities";
 import { NodeId, NodeKey } from "../../../utility-types";

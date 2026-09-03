@@ -20,8 +20,8 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import type { To } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
-import { OverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/OverflowTooltip'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
+import { OverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/OverflowTooltip'
 
 export type ViewData = Partial<{
   isSubTable: boolean

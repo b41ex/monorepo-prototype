@@ -4,8 +4,8 @@ import { type FC, memo, useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { ErrorTextField } from '@portal/components/ErrorTextField'
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
-import { PopupDelegate, type PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
+import { PopupDelegate, type PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 
 export const McpRenameEndpointDialog: FC = memo(() => {
   return (

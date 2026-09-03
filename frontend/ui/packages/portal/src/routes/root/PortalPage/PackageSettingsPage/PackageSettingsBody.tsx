@@ -42,11 +42,11 @@ import {
   CONTENT_PLACEHOLDER_AREA,
   NO_PERMISSION,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 import {
   ACCESS_TOKEN_MANAGEMENT_PERMISSION,
   USER_ACCESS_MANAGEMENT_PERMISSION,
-} from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
+} from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
 
 export const PackageSettingsBody: FC<PackageSettingsTabProps> = memo<PackageSettingsTabProps>(({
   packageObject,

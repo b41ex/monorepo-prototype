@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { ChangeSummary, DiffTypeDto } from '@netcracker/qubership-apihub-api-processor'
+import type { ChangeSummary, DiffTypeDto } from '@b41ex/qubership-apihub-api-processor'
 import {
   annotation,
   breaking,
@@ -22,10 +22,10 @@ import {
   nonBreaking,
   unclassified,
   risky,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import type {
   DiffType,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import type { Color } from '../utils/types'
 
 export const ADD_ACTION_TYPE = 'add'

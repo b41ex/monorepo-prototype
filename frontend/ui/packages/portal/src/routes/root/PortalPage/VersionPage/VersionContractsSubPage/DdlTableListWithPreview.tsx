@@ -1,19 +1,19 @@
 import type { ResizeCallback } from 're-resizable'
 import { type FC, memo, useCallback, useMemo } from 'react'
 
-import { DdlTableTitleWithMeta } from '@netcracker/qubership-apihub-ui-shared/components/Ddl/DdlTableTitleWithMeta'
+import { DdlTableTitleWithMeta } from '@b41ex/qubership-apihub-ui-shared/components/Ddl/DdlTableTitleWithMeta'
 import {
   type FetchNextMetaList,
   MetaClickableListWithPreview,
-} from '@netcracker/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
-import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+} from '@b41ex/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
+import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 import {
   DDL_TABLES_EMPTY_MESSAGE,
   type DdlContractEntity,
   getDdlTableListKey,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 
 import { useSelectedPreviewOperation, useSetSelectedPreviewOperation } from '../../SelectedPreviewOperationProvider'
 import { usePackageKind } from '../../usePackageKind'

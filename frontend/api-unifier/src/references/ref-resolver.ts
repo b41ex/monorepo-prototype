@@ -8,7 +8,7 @@ import {
   RefErrorTypes,
   RichReference,
 } from '../types'
-import { CloneState, CrawlHookResponse, CrawlRules, isObject, JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { CloneState, CrawlHookResponse, CrawlRules, isObject, JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { OPEN_API_PROPERTY_DESCRIPTION, OPEN_API_PROPERTY_SUMMARY } from '../rules/openapi.const'
 import {
   evaluateSyntheticTitle,

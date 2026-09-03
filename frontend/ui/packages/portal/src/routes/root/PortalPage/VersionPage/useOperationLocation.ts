@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import type { OperationLocation } from '@portal/entities/operation-location'
 
 export function useOperationLocation(): OperationLocation {

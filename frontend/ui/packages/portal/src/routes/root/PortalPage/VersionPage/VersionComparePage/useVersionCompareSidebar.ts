@@ -1,9 +1,9 @@
 import { createElement, type ReactNode, useEffect, useMemo, useState } from 'react'
 
-import { type ApiType, isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { isDashboardComparisonSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import { isAppliedSearchValueForTag } from '@netcracker/qubership-apihub-ui-shared/utils/tags'
+import { type ApiType, isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { isDashboardComparisonSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import { isAppliedSearchValueForTag } from '@b41ex/qubership-apihub-ui-shared/utils/tags'
 
 import { getDefaultApiType, isApiTypeSelectorShown } from '@portal/utils/operation-types'
 import { useRefSearchParam } from '../../useRefSearchParam'

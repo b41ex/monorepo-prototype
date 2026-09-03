@@ -7,7 +7,7 @@ import {
   toOasExtensionNames,
   toOasSettingsExtensions,
 } from './package-export-config'
-import { GROUP_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { GROUP_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import type { ExportConfig } from '../../useExportConfig'
 
 describe('toOasExtensions', () => {

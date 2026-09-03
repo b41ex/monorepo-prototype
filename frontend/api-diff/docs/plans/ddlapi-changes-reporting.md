@@ -89,7 +89,7 @@ Mirror the per-protocol convention used by `src/asyncapi/` and `src/jsonSchema/`
 | `src/ddl/ddl.const.ts` | Property-name / kind constants re-exported from ddlapi, template-param keys. |
 
 Import the ddlapi model enums (`TypeKind`, `AttrKind`, `ObjectKind`, `ExprKind`,
-`DdlapiProperties`, PG variants) from `@netcracker/qubership-apihub-ddlapi`, exactly as
+`DdlapiProperties`, PG variants) from `@b41ex/qubership-apihub-ddlapi`, exactly as
 api-unifier does — never hand-duplicate the strings (apply the `ddlapi-using` skill).
 
 ## 5. Core SQL vs dialect-specific split
@@ -567,15 +567,15 @@ Verification uses the project's real scripts (`package.json`): lint `npm run lin
 ### T-SETUP — ddlapi + ddlapi-enabled api-unifier dependency  ·  S  ·  (Finding 3)
 
 - **Depends:** — · **Files:** `package.json`, `test/ddl.setup.test.ts`
-- **Do:** `@netcracker/qubership-apihub-ddlapi` is **currently a manual symlink in `node_modules`
+- **Do:** `@b41ex/qubership-apihub-ddlapi` is **currently a manual symlink in `node_modules`
   that is *not* declared in `package.json` and *not* in the `development:link`/`development:unlink`
   scripts** (those link unifier/json-crawl/graphapi/compatibility-suites only). Add it to
   `dependencies` (`"dev"`, matching the others) and to both link/unlink scripts. Ensure the linked
   `api-unifier` is built from the **ddlapi-enabled** source (`/c/git/apihub-ddl/api-unifier`,
   `npm run build` there) so its `dist` exports the ddlapi API. Add a smoke test.
 - **Acceptance:**
-  - `import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi'` resolves and is typed.
-  - `import { SPEC_TYPE_DDL_API_1, DDL_API_NORMALIZE_OPTIONS, resolveSpec } from '@netcracker/qubership-apihub-api-unifier'`
+  - `import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi'` resolves and is typed.
+  - `import { SPEC_TYPE_DDL_API_1, DDL_API_NORMALIZE_OPTIONS, resolveSpec } from '@b41ex/qubership-apihub-api-unifier'`
     resolves (linked unifier exposes the ddlapi exports).
   - `resolveSpec(buildFromDdl('create table t(id int);'))` ⇒ `type === SPEC_TYPE_DDL_API_1`.
 - **Verify:** `npx jest test/ddl.setup.test.ts` · `npx tsc --noEmit`
@@ -836,7 +836,7 @@ the current execution plan (M0–M5)**; when it is taken on it should be decompo
       `ddlRules(version, dialect)` — structurally parallel to `ddlApiRules` ↔ `DdlApiDialect`.
 - [ ] Core handles the closed driver-neutral unions; dialect handles escape-hatch kinds; shared
       generic fallback for unknown kinds.
-- [ ] Model enums/strings imported from `@netcracker/qubership-apihub-ddlapi`.
+- [ ] Model enums/strings imported from `@b41ex/qubership-apihub-ddlapi`.
 - [ ] Comparison runs on **normalized** Realms (api-unifier `DDL_API_NORMALIZE_OPTIONS`), so
       origins and defaulted empty arrays are present for mapping + descriptions.
 
@@ -875,7 +875,7 @@ The ddlapi `dist` bundle ships an emscripten (libpg-query) WASM loader whose
 own jest config sidesteps this by mapping the package to its source. api-diff now does
 the same in `jest.config.ts`:
 
-- `moduleNameMapper`: `'^@netcracker/qubership-apihub-ddlapi$' → '<rootDir>/../ddlapi/src/index.ts'`.
+- `moduleNameMapper`: `'^@b41ex/qubership-apihub-ddlapi$' → '<rootDir>/../ddlapi/src/index.ts'`.
 - ts-jest transform set to `importHelpers: false` (inline TS helpers): compiling ddlapi
   source with api-diff's `importHelpers: true` tsconfig otherwise fails to resolve
   `tslib` from the ddlapi tree (ddlapi neither ships nor needs tslib). Inlining is
@@ -915,7 +915,7 @@ was **moved** into the new `test/core.mapping.test.ts` (importing from `../src/c
 
 ### 17.5 — package.json dependency wiring
 
-T-SETUP added `@netcracker/qubership-apihub-ddlapi` to `dependencies`. Dependency
+T-SETUP added `@b41ex/qubership-apihub-ddlapi` to `dependencies`. Dependency
 versions/links were subsequently finalised by the maintainer (api-unifier/json-crawl/
 graphapi/compatibility-suites pinned to explicit versions; ddlapi kept as a link). The
 T-SETUP intent — ddlapi resolvable & typed, ddlapi-enabled api-unifier — holds.

@@ -1,7 +1,7 @@
 import { ValidationRulesetFileControls } from '@portal/components/ApiQuality/ValidationRulesetFileControls'
 import type { Ruleset } from '@portal/entities/api-quality/rulesets'
 import { Box, Typography } from '@mui/material'
-import { FileIcon } from '@netcracker/qubership-apihub-ui-shared/icons/FileIcon'
+import { FileIcon } from '@b41ex/qubership-apihub-ui-shared/icons/FileIcon'
 import type { FC } from 'react'
 
 type RulesetFilePanelProps = {

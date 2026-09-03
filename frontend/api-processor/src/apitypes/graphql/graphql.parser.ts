@@ -18,7 +18,7 @@ import { buildSchema } from 'graphql/utilities'
 import { FILE_KIND, TextFile } from '../../types'
 import { getFileExtension } from '../../utils'
 import { GRAPHQL_DOCUMENT_TYPE, GRAPHQL_FILE_FORMAT } from './graphql.consts'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 export const parseGraphQLFile = async (fileId: string, source: Blob): Promise<TextFile | undefined> => {
   const sourceString = await source.text()

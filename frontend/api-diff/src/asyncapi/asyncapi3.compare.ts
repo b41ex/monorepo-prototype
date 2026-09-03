@@ -1,7 +1,7 @@
 import { CompareResult, StrictCompareOptions } from '../types'
 import { compare } from '../core'
 import { asyncApi3Rules } from './asyncapi3.rules'
-import { SPEC_TYPE_ASYNCAPI_3 } from '@netcracker/qubership-apihub-api-unifier'
+import { SPEC_TYPE_ASYNCAPI_3 } from '@b41ex/qubership-apihub-api-unifier'
 
 export const compareAsyncApi = (version: typeof SPEC_TYPE_ASYNCAPI_3) => (before: unknown, after: unknown, options: StrictCompareOptions): CompareResult => {
   const effectiveFirstRefKeyProp = options.firstReferenceKeyProperty ?? Symbol('firstReferenceKey')

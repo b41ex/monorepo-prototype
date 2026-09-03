@@ -16,7 +16,7 @@
 
 import { useSnapshots } from '../useSnapshots'
 import { useMemo } from 'react'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 export function useVersionOptions(): string[] {
   const [{ snapshots }] = useSnapshots()

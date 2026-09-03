@@ -1,4 +1,4 @@
-import type { TestSpecType } from '@netcracker/qubership-apihub-compatibility-suites'
+import type { TestSpecType } from '@b41ex/qubership-apihub-compatibility-suites'
 import type { Diff } from '../../src'
 
 declare global {

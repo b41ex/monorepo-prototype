@@ -25,7 +25,7 @@ import {
 } from './asyncapi3.const'
 import { externalDocumentationRules } from './asyncapi3.rules.common'
 import { bindingsRules } from './asyncapi3.bindings'
-import { ASYNCAPI_ACTION_SEND } from '@netcracker/qubership-apihub-api-unifier'
+import { ASYNCAPI_ACTION_SEND } from '@b41ex/qubership-apihub-api-unifier'
 
 /**
  * Keep consisten ordering for the rules

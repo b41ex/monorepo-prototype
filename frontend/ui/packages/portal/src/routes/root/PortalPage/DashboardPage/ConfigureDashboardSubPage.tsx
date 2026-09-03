@@ -20,7 +20,7 @@ import { ConfigureDashboardBody } from './ConfigureDashboardBody'
 import { ConfigureDashboardSidebar } from './ConfigureDashboardSidebar'
 import type { ConfigureDashboardTabs } from './configure-dashboard'
 import { PACKAGES_CONFIGURE_DASHBOARD_TAB } from './configure-dashboard'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 
 export const ConfigureDashboardSubPage: FC = memo(() => {
   const [activeTab, setActiveTab] = useState<ConfigureDashboardTabs>(PACKAGES_CONFIGURE_DASHBOARD_TAB)

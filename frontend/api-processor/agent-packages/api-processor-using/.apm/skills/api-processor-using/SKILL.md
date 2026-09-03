@@ -12,23 +12,23 @@ entries; which one you import decides whether you pull in the DDL parser and its
 
 ## Two entry points: the light root and `/processor`
 
-- **`@netcracker/qubership-apihub-api-processor`** — the **light** surface: shared
+- **`@b41ex/qubership-apihub-api-processor`** — the **light** surface: shared
   types, constants and api-type ids (`BUILD_TYPE`, `REST_API_TYPE`,
   `VERSION_VALIDATION_LEVEL`, `VERSION_STATUS`, `ShareabilityStatus`,
   `VersionsComparison`, …) and pure utilities (`calculateNormalizedRestOperationId`,
   `calculateDdlEntityId`, compare-summary helpers, …). It is parser-free — safe to
   import from anywhere, including main-thread / UI code.
-- **`@netcracker/qubership-apihub-api-processor/processor`** — the **engine**:
+- **`@b41ex/qubership-apihub-api-processor/processor`** — the **engine**:
   `PackageVersionBuilder` plus the build strategy and the compare/build machinery.
-  It transitively imports `@netcracker/qubership-apihub-ddlapi/parser`, so importing
+  It transitively imports `@b41ex/qubership-apihub-ddlapi/parser`, so importing
   it pulls the DDL parser (libpg-query WASM). Import it **only** where spec
   processing actually runs.
 
 ```typescript
 // shared types / constants / utils — from the light root
-import { BUILD_TYPE, VERSION_VALIDATION_LEVEL, type VersionsComparison } from '@netcracker/qubership-apihub-api-processor'
+import { BUILD_TYPE, VERSION_VALIDATION_LEVEL, type VersionsComparison } from '@b41ex/qubership-apihub-api-processor'
 // the build engine — from /processor
-import { PackageVersionBuilder } from '@netcracker/qubership-apihub-api-processor/processor'
+import { PackageVersionBuilder } from '@b41ex/qubership-apihub-api-processor/processor'
 ```
 
 The light root re-exports every type the engine returns (e.g. `VersionsComparison`,
@@ -49,7 +49,7 @@ bundle:
   DDL parse) is fetched only when processing actually happens.
 - ddlapi's browser `/parser` build is self-contained (WASM inlined), so **no
   bundler WASM plugins are needed**. Just keep ddlapi out of esbuild pre-bundling
-  (`optimizeDeps.exclude: ['@netcracker/qubership-apihub-ddlapi']`) so it stays a
+  (`optimizeDeps.exclude: ['@b41ex/qubership-apihub-ddlapi']`) so it stays a
   lazily-loaded chunk.
 
 In Node, import `/processor` directly (CJS `require` resolves the externalized

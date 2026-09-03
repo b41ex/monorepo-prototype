@@ -1,4 +1,4 @@
-import { Diff } from '@netcracker/qubership-apihub-api-diff';
+import { Diff } from '@b41ex/qubership-apihub-api-diff';
 import { safeStringify } from '@stoplight/json';
 import { Box, Flex, isArray, isObject, Panel } from '@stoplight/mosaic';
 import { useAtom } from 'jotai';

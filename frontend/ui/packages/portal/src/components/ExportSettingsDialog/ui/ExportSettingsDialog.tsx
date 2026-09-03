@@ -1,4 +1,4 @@
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import type { FC } from 'react'
 import { ExportSettingsPopup } from './ExportSettingsPopup'
 

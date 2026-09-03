@@ -17,7 +17,7 @@
 import { DOCUMENT_TYPE, FILE_FORMAT, SUPPORTED_FILE_FORMATS } from '../../consts'
 import { BinaryFile, FILE_KIND, FileFormat, TextFile } from '../../types/internal'
 import { getFileExtension } from '../../utils'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 export const parseUnknownFile = async (fileId: string, source: Blob): Promise<TextFile | undefined> => {
   const sourceString = await source.text()

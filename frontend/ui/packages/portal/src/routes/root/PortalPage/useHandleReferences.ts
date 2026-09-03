@@ -18,8 +18,8 @@ import { useAddDeletedReferences, useRemoveDeletedReferences } from './useDelete
 import { useAddDashboardPackages, useRemoveDashboardPackages } from './useDashboardPackages'
 import { useAddConflictedReferences, useResetConflictedReferences } from './useConflictedReferences'
 import type { PackageItem } from './package-references'
-import type { VersionReferences } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import type { PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { VersionReferences } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import type { PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 export function useHandleAddedReferences(): HandleAddedReferences {
   const [addDeletedReferences] = useAddDeletedReferences()

@@ -15,19 +15,19 @@
  */
 
 import { Box, CardContent, Divider } from '@mui/material'
-import { SidebarPanel } from '@netcracker/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
+import { SidebarPanel } from '@b41ex/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
 import {
   NAVIGATION_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
-import { SidebarSkeleton } from '@netcracker/qubership-apihub-ui-shared/components/SidebarSkeleton'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { OperationPairsGroupedByTag } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_TAG } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { isEmpty, isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
+import { SidebarSkeleton } from '@b41ex/qubership-apihub-ui-shared/components/SidebarSkeleton'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { OperationPairsGroupedByTag } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_TAG } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { isEmpty, isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import type { FC } from 'react'
 import { memo, useState } from 'react'
 import { OperationsFilterPanel } from '../OperationPage/OperationsFilterPanel'

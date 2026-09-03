@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import '@netcracker/qubership-apihub-rest-playground'
-import '@netcracker/qubership-apihub-rest-playground/index.css'
+import '@b41ex/qubership-apihub-rest-playground'
+import '@b41ex/qubership-apihub-rest-playground/index.css'
 import { createComponent } from '@lit-labs/react'
 import React from 'react'
 

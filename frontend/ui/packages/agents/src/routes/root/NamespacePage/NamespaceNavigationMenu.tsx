@@ -27,18 +27,18 @@ import {
 } from '../../routes'
 import { useNavigation } from '../../NavigationProvider'
 import { useNcAgentsPageSettings } from '../../useNcAgentsPageSettings'
-import { useActiveTabs } from '@netcracker/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
-import type { SidebarMenu } from '@netcracker/qubership-apihub-ui-shared/components/NavigationMenu'
-import { NavigationMenu } from '@netcracker/qubership-apihub-ui-shared/components/NavigationMenu'
-import { CloudSettingsIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CloudSettingsIcon'
-import { SnapshotsIcon } from '@netcracker/qubership-apihub-ui-shared/icons/SnapshotsIcon'
-import { AutomationIcon } from '@netcracker/qubership-apihub-ui-shared/icons/AutomationIcon'
-import { LockOpenIcon } from '@netcracker/qubership-apihub-ui-shared/icons/LockOpenIcon'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useActiveTabs } from '@b41ex/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
+import type { SidebarMenu } from '@b41ex/qubership-apihub-ui-shared/components/NavigationMenu'
+import { NavigationMenu } from '@b41ex/qubership-apihub-ui-shared/components/NavigationMenu'
+import { CloudSettingsIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CloudSettingsIcon'
+import { SnapshotsIcon } from '@b41ex/qubership-apihub-ui-shared/icons/SnapshotsIcon'
+import { AutomationIcon } from '@b41ex/qubership-apihub-ui-shared/icons/AutomationIcon'
+import { LockOpenIcon } from '@b41ex/qubership-apihub-ui-shared/icons/LockOpenIcon'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import {
   useNcServiceEnabled,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export const NamespaceNavigationMenu: FC = memo(() => {
   const { agentId, namespaceKey: namespaceId } = useParams()

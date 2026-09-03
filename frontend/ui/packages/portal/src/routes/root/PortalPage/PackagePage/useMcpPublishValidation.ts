@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import type { FileLabelsRecord } from '@netcracker/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
-import { MCP_DOCUMENT_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+import type { FileLabelsRecord } from '@b41ex/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
+import { MCP_DOCUMENT_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 
 import type { McpStagedFileMeta } from '@portal/routes/root/PortalPage/PackagePage/mcpPublish'
 import {

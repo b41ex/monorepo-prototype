@@ -16,9 +16,9 @@
 
 import type { FC, PropsWithChildren } from 'react'
 import { memo } from 'react'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { ErrorPage, NOT_FOUND_TITLE } from '@netcracker/qubership-apihub-ui-shared/components/ErrorPage'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { ErrorPage, NOT_FOUND_TITLE } from '@b41ex/qubership-apihub-ui-shared/components/ErrorPage'
 
 export type NoPackagePlaceholderProps = PropsWithChildren<{
   packageObject: Package | null

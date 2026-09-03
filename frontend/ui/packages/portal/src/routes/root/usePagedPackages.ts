@@ -17,10 +17,10 @@
 import type { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import type { PackageKind, Packages } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { HasNextPage, IsFetching, IsFetchingNextPage, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { EMPTY_PAGE_REFERER } from '@netcracker/qubership-apihub-ui-shared/entities/referer-pages-names'
-import { getPackages } from '@netcracker/qubership-apihub-ui-shared/hooks/packages/usePackages'
+import type { PackageKind, Packages } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { HasNextPage, IsFetching, IsFetchingNextPage, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { EMPTY_PAGE_REFERER } from '@b41ex/qubership-apihub-ui-shared/entities/referer-pages-names'
+import { getPackages } from '@b41ex/qubership-apihub-ui-shared/hooks/packages/usePackages'
 
 const PACKAGES_QUERY_KEY = 'packages-query-key'
 

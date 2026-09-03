@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-compatibility-suites",
+  "name": "@b41ex/qubership-apihub-compatibility-suites",
   "version": "2.6.2",
   "license": "Apache-2.0",
   "type": "module",
@@ -25,10 +25,10 @@
     "development:unlink": "npm unlink",
     "generate": "tsx bin/generate-suite-data.ts",
     "type-check": "npm run generate && tsc -p tsconfig.json --noEmit",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "devDependencies": {
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/node": "^24.0.0",
     "tslib": "^2.8.1",
     "tsx": "4.8.1",

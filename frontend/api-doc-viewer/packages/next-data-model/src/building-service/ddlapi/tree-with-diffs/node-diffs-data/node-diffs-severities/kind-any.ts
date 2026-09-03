@@ -2,7 +2,7 @@ import { AbstractNodeDiffsSeveritiesAggregator } from "@apihub/next-data-model/b
 import { NODE_LEVEL_DIFF_KEY, NodeDiffs, NodeDiffsSeverities, NodeDiffsSeverity, NodeDiffsSeverityPlacemennt, ChangedPropertyMetaData } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { DdlApiTreeNodeKind } from "@apihub/next-data-model/model/ddlapi/types/node-kind";
 import { DdlApiTreeNodeValue } from "@apihub/next-data-model/model/ddlapi/tree/node-value";
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 
 export class DdlApiNodeDiffsSeveritiesAggregatorKindAny
   extends AbstractNodeDiffsSeveritiesAggregator<DdlApiTreeNodeValue<DdlApiTreeNodeKind> | null> {

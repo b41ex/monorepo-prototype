@@ -17,13 +17,13 @@
 import { memo, useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { type ApiType, isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { type ApiType, isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
   toRouteApiType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 
 import { usePackageKind } from '../usePackageKind'
 import { SelfManagedOperationFilters } from './SelfManagedOperationFilters'

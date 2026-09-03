@@ -15,7 +15,7 @@
  */
 
 const path = require('path')
-const { prepareJestConfig } = require('@netcracker/qubership-apihub-jest-chrome-in-docker-environment')
+const { prepareJestConfig } = require('@b41ex/qubership-apihub-jest-chrome-in-docker-environment')
 
 process.env.HOST_CHECK_PORT = '6006'
 

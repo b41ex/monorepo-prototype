@@ -97,7 +97,7 @@ Consumers (api-doc-viewer) import:
 
 ```typescript
 import { resolvePlainColumnNodeVisibility } from
-  '@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column'
+  '@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column'
 ```
 
 Never import `building-service/...` paths from viewers unless you are extending

@@ -30,18 +30,18 @@ import type {
   OperationData,
   Operations,
   OperationsData,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { isEmpty, isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { REF_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { isEmpty, isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { REF_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import type { ListChildComponentProps } from 'react-window'
 import { FixedSizeList } from 'react-window'
 import type { Path } from '@remix-run/router'
 import InfiniteLoader from 'react-window-infinite-loader'
 import type { Size } from 'react-virtualized-auto-sizer'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 
 export type OperationListProps = {
   packageContext: PackageContext

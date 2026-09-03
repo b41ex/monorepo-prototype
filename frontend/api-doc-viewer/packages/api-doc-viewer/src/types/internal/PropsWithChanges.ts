@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DiffNodeMeta, DiffNodeValue } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeMeta, DiffNodeValue } from '@b41ex/qubership-apihub-api-data-model'
 import { LayoutMode } from '../LayoutMode'
 
 export type PropsWithChanges = Partial<{

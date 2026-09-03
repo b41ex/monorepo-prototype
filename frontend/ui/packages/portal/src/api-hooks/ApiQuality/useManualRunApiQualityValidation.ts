@@ -1,6 +1,6 @@
 import type { Key } from '@portal/entities/keys'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useMutation } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
 import { API_LINTER_API_V1 } from './constants'

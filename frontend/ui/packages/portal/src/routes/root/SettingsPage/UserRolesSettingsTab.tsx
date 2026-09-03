@@ -25,14 +25,14 @@ import {
   useDeleteRole,
   useRoles,
   useUpdateRole,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
-import { usePermissions } from '@netcracker/qubership-apihub-ui-shared/hooks/user-roles/usePermissions'
-import type { Role } from '@netcracker/qubership-apihub-ui-shared/types/roles'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { RolesTable } from '@netcracker/qubership-apihub-ui-shared/components/RolesTable'
-import { DeleteRoleDialog } from '@netcracker/qubership-apihub-ui-shared/components/DeleteRoleDialog'
-import { EditRoleDialog } from '@netcracker/qubership-apihub-ui-shared/components/EditRoleDialog'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
+import { usePermissions } from '@b41ex/qubership-apihub-ui-shared/hooks/user-roles/usePermissions'
+import type { Role } from '@b41ex/qubership-apihub-ui-shared/types/roles'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { RolesTable } from '@b41ex/qubership-apihub-ui-shared/components/RolesTable'
+import { DeleteRoleDialog } from '@b41ex/qubership-apihub-ui-shared/components/DeleteRoleDialog'
+import { EditRoleDialog } from '@b41ex/qubership-apihub-ui-shared/components/EditRoleDialog'
 
 export const UserRolesSettingsTab: FC = memo(() => {
   const { showDeleteRoleDialog, showEditRoleDialog } = useEventBus()

@@ -2,7 +2,7 @@ import { type FC, memo } from 'react'
 
 import { styled } from '@mui/material/styles'
 
-import { ConfirmationDialog } from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+import { ConfirmationDialog } from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 
 type DeleteChatConfirmationProps = {
   open: boolean

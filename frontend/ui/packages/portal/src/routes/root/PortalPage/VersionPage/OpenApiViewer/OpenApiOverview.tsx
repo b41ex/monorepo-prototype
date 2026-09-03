@@ -16,8 +16,8 @@
 
 import { Fragment, memo, useMemo, type FC } from 'react'
 import { Box, Link } from '@mui/material'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { MarkdownViewer } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/MarkdownViewer'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { MarkdownViewer } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/MarkdownViewer'
 import type { Document } from '@portal/entities/documents'
 import { DocumentLabels } from '@portal/routes/root/PortalPage/VersionPage/VersionDocumentsSubPage/DocumentLabels'
 

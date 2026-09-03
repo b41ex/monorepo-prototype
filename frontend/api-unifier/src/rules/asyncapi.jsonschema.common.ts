@@ -1,5 +1,5 @@
 import { NormalizationRules } from '../types'
-import { CrawlPrefixRules } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlPrefixRules } from '@b41ex/qubership-apihub-json-crawl'
 import * as resolvers from '../resolvers'
 import {
   checkType,

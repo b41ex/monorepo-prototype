@@ -20,7 +20,7 @@ import { useApiKindSearchFilter } from './useApiKindSearchFilters'
 import { useCallback } from 'react'
 import type { OperationsFilterControllers } from './SelfManagedOperationFilters'
 import { useOperationGroupSearchFilter } from './useOperationGroupSearchFilter'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 import { useApiAudienceSearchFilter } from './useApiAudienceSearchFilters'
 
 export function useDefaultOperationFilterControllers(isDashboard: boolean): OperationsFilterControllers {

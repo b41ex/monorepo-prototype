@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { ChangeSummary, ResolvedVersion } from '@netcracker/qubership-apihub-api-processor'
+import type { ChangeSummary, ResolvedVersion } from '@b41ex/qubership-apihub-api-processor'
 import type { ApiType } from '../entities/api-types'
 
 export type VersionChangeSummary = {

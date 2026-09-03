@@ -7,12 +7,12 @@ import {
   SHAREABILITY_STATUS_SHAREABLE,
   SHAREABILITY_STATUS_UNKNOWN,
   type ShareabilityStatus,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 import {
   ShareabilityNonShareableIcon,
   ShareabilityShareableIcon,
   ShareabilityUnknownIcon,
-} from '@netcracker/qubership-apihub-ui-shared/icons/ShareabilityIcons'
+} from '@b41ex/qubership-apihub-ui-shared/icons/ShareabilityIcons'
 
 const ICON_BY_STATUS: Record<ShareabilityStatus, FC<SvgIconProps>> = {
   [SHAREABILITY_STATUS_SHAREABLE]: ShareabilityShareableIcon,

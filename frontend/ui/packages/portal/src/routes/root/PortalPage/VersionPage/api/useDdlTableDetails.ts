@@ -6,10 +6,10 @@ import {
   type DdlContractEntityDetails,
   type DdlContractEntityDetailsDto,
   toDdlContractEntity,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsInitialLoading, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsInitialLoading, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 import { useVersionWithRevision } from '../../../useVersionWithRevision'
 

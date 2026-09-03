@@ -15,7 +15,7 @@
  */
 
 import type { VersionKey } from './keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 
 export type PagedPackageVersions = Readonly<PackageVersions[]>
 

@@ -5,9 +5,9 @@ import {
   resolvePlainColumnAdditionalInfoRowUsesAfterRowPrecededBy,
   resolvePlainColumnListLastRowFlags,
   resolvePlainColumnNodeVisibility,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column"
-import { DdlApiTreeNode } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
-import { DdlApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree/node-visibility/kind-column"
+import { DdlApiTreeNode } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
+import { DdlApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
 import { FC, useCallback, useMemo } from "react"
 import { DEFAULT_LONG_TEXT_COLOR } from "../shared-components/TextRow/consts"
 import { TextRow } from "../shared-components/TextRow/TextRow"

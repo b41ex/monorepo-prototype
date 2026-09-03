@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { TableKey } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
+import { TableKey } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
 import type { DdlSampleCase } from "../utils/ddl-samples-cases";
 import { createDdlSampleById } from "../utils/ddl-samples-cases";
 import {

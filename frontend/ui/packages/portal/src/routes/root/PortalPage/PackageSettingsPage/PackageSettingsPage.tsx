@@ -24,8 +24,8 @@ import { GENERAL_PAGE } from '../../../../routes'
 import { useParams } from 'react-router-dom'
 import { usePackage } from '../../usePackage'
 import { NoPackagePlaceholder } from '../../NoPackagePlaceholder'
-import { useActiveTabs } from '@netcracker/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { useActiveTabs } from '@b41ex/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 
 export const PackageSettingsPage: FC = memo(() => {
   const [menuItem] = useActiveTabs()

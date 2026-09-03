@@ -1,5 +1,5 @@
-import { isHttpOperation, isHttpService, TableOfContentsItem } from '@netcracker/qubership-apihub-apispec-view-elements-core';
-import { ASYNC_OPERATION_NODE_TYPE } from '@netcracker/qubership-apihub-apispec-view-elements-core/types';
+import { isHttpOperation, isHttpService, TableOfContentsItem } from '@b41ex/qubership-apihub-apispec-view-elements-core';
+import { ASYNC_OPERATION_NODE_TYPE } from '@b41ex/qubership-apihub-apispec-view-elements-core/types';
 import { NodeType } from '@stoplight/types';
 import { defaults, entries } from 'lodash';
 

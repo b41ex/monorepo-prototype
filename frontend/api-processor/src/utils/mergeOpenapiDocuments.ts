@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { apiDiff, COMPARE_MODE_DEFAULT, CompareResult, Diff } from '@netcracker/qubership-apihub-api-diff'
+import { apiDiff, COMPARE_MODE_DEFAULT, CompareResult, Diff } from '@b41ex/qubership-apihub-api-diff'
 import { trimPath } from './path'
 import { OpenAPIV3 } from 'openapi-types'
 import { takeIf, takeIfDefined, FillKeys } from './objects'
 import { isEmpty, isNotEmpty } from './arrays'
 import { removeObjectDuplicates } from './builder'
-import { matchPaths, resolveSpec } from '@netcracker/qubership-apihub-api-unifier'
+import { matchPaths, resolveSpec } from '@b41ex/qubership-apihub-api-unifier'
 import { ORIGINS_SYMBOL } from '../consts'
 import { DIFF_RULES, DiffRule, EXTERNAL_DOCS_DIFF_RULES } from './diffRules'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export type ExportTemplate = Partial<OpenAPIV3.Document>
 

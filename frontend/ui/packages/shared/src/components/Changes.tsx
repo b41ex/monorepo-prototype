@@ -25,7 +25,7 @@ import { ChangesTooltip } from './ChangesTooltip'
 import type { ChangeSeverity, ChangesSummary } from '../entities/change-severities'
 import { CHANGE_SEVERITY_COLOR_MAP, CHANGE_SEVERITY_NAME_MAP } from '../entities/change-severities'
 import { severityOrder } from '../utils/api-changes'
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
 
 export type ChangesProps = {
   value: ChangesSummary | undefined

@@ -14,10 +14,10 @@ import {
   pruneMcpEndpoint,
 } from '@portal/routes/root/PortalPage/PackagePage/mcpPublish'
 import { hasDuplicateMcpTypesInBatch } from '@portal/routes/root/PortalPage/PackagePage/mcpValidation'
-import type { FileLabelsRecord } from '@netcracker/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { McpDocumentType, SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+import type { FileLabelsRecord } from '@b41ex/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { McpDocumentType, SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 import { useVersionSources } from '../useVersionSources'
 import { usePackageVersionConfig } from './usePackageVersionConfig'
 

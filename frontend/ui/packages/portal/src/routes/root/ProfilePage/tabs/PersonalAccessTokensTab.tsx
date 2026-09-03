@@ -1,8 +1,8 @@
 import { GeneratePersonalAccessTokenForm } from '@portal/components/GeneratePersonalAccessTokenForm'
 import { PersonalAccessTokensTable } from '@portal/components/PersonalAccessTokensTable'
 import { useShowSuccessNotification } from '@portal/routes/root/BasePage/Notification'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { useDeletePersonalAccessToken, useGeneratePersonalAccessToken, usePersonalAccessTokens } from '@netcracker/qubership-apihub-ui-shared/hooks/tokens/usePersonalAccessTokens'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { useDeletePersonalAccessToken, useGeneratePersonalAccessToken, usePersonalAccessTokens } from '@b41ex/qubership-apihub-ui-shared/hooks/tokens/usePersonalAccessTokens'
 import { useCallback, type FC } from 'react'
 
 const EXPIRATION_VARIANTS = [-1, 7, 30, 60, 90, 180, 365]

@@ -1,5 +1,5 @@
 import { LayoutSide, ORIGIN_LAYOUT_SIDE } from "../../types/internal/LayoutSide"
-import { ChangedPropertyMetaData } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+import { ChangedPropertyMetaData } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 
 export function takeDiffSideIsFontMuted(
   diff: ChangedPropertyMetaData | undefined,

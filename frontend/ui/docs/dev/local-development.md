@@ -53,14 +53,14 @@ From the repository root:
 npm run dev:agents
 ```
 
-Starts the Agent package mock backend and frontend (Lerna scope `@netcracker/qubership-apihub-ui-agents`).
+Starts the Agent package mock backend and frontend (Lerna scope `@b41ex/qubership-apihub-ui-agents`).
 
 ## Building locally
 
-Add a GitHub PAT with `read:packages` to `.npmrc` (private `@netcracker` packages):
+Add a GitHub PAT with `read:packages` to `.npmrc` (private `@b41ex` packages):
 
 ```ini
-@netcracker:registry=https://npm.pkg.github.com/
+@b41ex:registry=https://npm.pkg.github.com/
 //npm.pkg.github.com/:_authToken=ghp_XYZ
 always-auth=true
 ```

@@ -6,7 +6,7 @@ import type { Plugin } from 'vite'
 const requireFromHere = createRequire(import.meta.url)
 
 const APP_PACKAGES = ['portal', 'agents'] as const
-const API_PROCESSOR = '@netcracker/qubership-apihub-api-processor'
+const API_PROCESSOR = '@b41ex/qubership-apihub-api-processor'
 
 /**
  * The version of an installed package, read from the manifest beside its entry point.
@@ -59,7 +59,7 @@ function appVersion(app: string): string | null {
  *
  * Both values used to come from package-manager metadata: `frontendVersion` from
  * lerna.json's `version`, and `apiProcessorVersion` from package-lock.json at
- * `packages['node_modules/@netcracker/qubership-apihub-api-processor'].version`. Neither
+ * `packages['node_modules/@b41ex/qubership-apihub-api-processor'].version`. Neither
  * input survives a change of package manager or layout - lerna goes, and a workspace has
  * one lock file at the repository root with a different shape - and neither needs to be
  * read at all: an application's package.json carries its own version, and an installed

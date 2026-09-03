@@ -18,11 +18,11 @@ import type { FC } from 'react'
 import * as React from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { Box, Button } from '@mui/material'
-import { toRolesOrder, useRoles, useUpdateRolesOrder } from '@netcracker/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { RolesList } from '@netcracker/qubership-apihub-ui-shared/components/RolesList'
+import { toRolesOrder, useRoles, useUpdateRolesOrder } from '@b41ex/qubership-apihub-ui-shared/hooks/user-roles/useRoles'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { RolesList } from '@b41ex/qubership-apihub-ui-shared/components/RolesList'
 
 export const RolesHierarchySettingsTab: FC = memo(() => {
   const { data: roles, isLoading: isRolesLoading } = useRoles()

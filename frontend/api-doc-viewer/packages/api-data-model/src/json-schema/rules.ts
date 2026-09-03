@@ -1,4 +1,4 @@
-import { CrawlRules } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRules } from '@b41ex/qubership-apihub-json-crawl'
 
 import type { JsonSchemaCrawlRule, JsonSchemaNodeKind } from './tree/types'
 import { isNumber } from '../utils'

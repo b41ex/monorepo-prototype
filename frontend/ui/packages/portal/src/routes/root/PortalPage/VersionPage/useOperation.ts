@@ -15,12 +15,12 @@
  */
 
 import { portalRequestJson } from '@portal/utils/requests'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { OperationData, OperationDto, PackagesRefs } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_API_TYPE, toOperation } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { IsInitialLoading, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { OperationData, OperationDto, PackagesRefs } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE, toOperation } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { IsInitialLoading, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { generatePath } from 'react-router-dom'

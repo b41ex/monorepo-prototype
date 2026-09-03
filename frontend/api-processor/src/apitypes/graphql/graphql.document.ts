@@ -19,9 +19,9 @@ import {
   buildFromSchema,
   GraphApiSchema,
   printGraphApi,
-} from '@netcracker/qubership-apihub-graphapi'
+} from '@b41ex/qubership-apihub-graphapi'
 import { buildSchema, type GraphQLSchema, type IntrospectionQuery } from 'graphql'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 import { BuildConfigFile, DocumentDumper, FileFormat, TextFile, VersionDocument } from '../../types'
 import { GRAPHQL_DOCUMENT_TYPE, GRAPHQL_FILE_FORMAT } from './graphql.consts'

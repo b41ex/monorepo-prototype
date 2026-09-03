@@ -18,9 +18,9 @@ import type { FC } from 'react'
 import { memo } from 'react'
 import { useEvent } from 'react-use'
 import { SHOW_ERROR_NOTIFICATION, SHOW_SUCCESS_NOTIFICATION, useEventBus } from '../../EventBusProvider'
-import { useGlobalNotification } from '@netcracker/qubership-apihub-ui-shared/hooks/notifications/useGlobalNotificationPpopup'
-import { ERROR_NOTIFICATION_TYPE, SUCCESS_NOTIFICATION_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/notifications'
-import type { NotificationDetail } from '@netcracker/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
+import { useGlobalNotification } from '@b41ex/qubership-apihub-ui-shared/hooks/notifications/useGlobalNotificationPpopup'
+import { ERROR_NOTIFICATION_TYPE, SUCCESS_NOTIFICATION_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/notifications'
+import type { NotificationDetail } from '@b41ex/qubership-apihub-ui-shared/components/ExceptionSituationHandler'
 
 export const ErrorNotificationHandler: FC = memo(() => {
   const [notification, dataCatcher] = useGlobalNotification()

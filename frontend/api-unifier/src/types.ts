@@ -1,4 +1,4 @@
-import { CrawlRules, JsonPath, SyncCloneHook } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRules, JsonPath, SyncCloneHook } from '@b41ex/qubership-apihub-json-crawl'
 import { EvaluationCacheService, PropertySpreadWithCacheService } from './cache'
 import { HasSelfMetaResolver } from './utils'
 import { ReferenceHandlerArgsWithResolver, ReferenceHandlerResponse } from './references/ref-resolver'

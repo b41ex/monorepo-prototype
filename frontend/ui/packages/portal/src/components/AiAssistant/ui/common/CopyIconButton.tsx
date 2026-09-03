@@ -1,8 +1,8 @@
 import IconButton from '@mui/material/IconButton'
 import { type FC, memo } from 'react'
 
-import { CheckIconMui } from '@netcracker/qubership-apihub-ui-shared/icons/CheckIconMui'
-import { CopyIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CopyIcon'
+import { CheckIconMui } from '@b41ex/qubership-apihub-ui-shared/icons/CheckIconMui'
+import { CopyIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CopyIcon'
 
 type CopyIconButtonProps = {
   ariaLabel: string

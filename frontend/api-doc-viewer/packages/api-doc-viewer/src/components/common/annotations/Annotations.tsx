@@ -22,7 +22,7 @@ import {
   IJsonSchemaBaseType,
   JsonSchemaDiffNodeMeta,
   JsonSchemaDiffNodeValue,
-} from '@netcracker/qubership-apihub-api-data-model'
+} from '@b41ex/qubership-apihub-api-data-model'
 import type { FC } from 'react'
 import { DEFAULT_VALUE_LABEL, EXAMPLES_LABEL, LOCATION_LABEL, PROVIDED_VALUE_LABEL } from '../../../consts/validations'
 import { useLayoutMode } from '../../../contexts/LayoutModeContext'

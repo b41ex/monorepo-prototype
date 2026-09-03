@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { BuildConfig } from '@netcracker/qubership-apihub-api-processor'
+import { BuildConfig } from '@b41ex/qubership-apihub-api-processor'
 import { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { Observable } from 'rxjs'
 

@@ -10,10 +10,10 @@
     "outDir": "dist",
     "moduleResolution": "bundler",
     "paths": {
-      "@netcracker/qubership-apihub-apispec-view-elements-core": [
+      "@b41ex/qubership-apihub-apispec-view-elements-core": [
         "../elements-core/dist"
       ],
-      "@netcracker/qubership-apihub-apispec-view-elements-core/*": [
+      "@b41ex/qubership-apihub-apispec-view-elements-core/*": [
         "../elements-core/dist/*"
       ]
     }

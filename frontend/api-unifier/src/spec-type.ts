@@ -1,4 +1,4 @@
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 
 export const SPEC_TYPE_JSON_SCHEMA_TYPE_FAMILY = 'json-schema'
 export const SPEC_TYPE_JSON_SCHEMA_04 = 'json-schema-04'

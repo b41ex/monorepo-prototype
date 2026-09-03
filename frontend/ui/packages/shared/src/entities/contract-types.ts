@@ -1,4 +1,4 @@
-import { DDL_CONTRACT_TYPE, MCP_CONTRACT_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import { DDL_CONTRACT_TYPE, MCP_CONTRACT_TYPE } from '@b41ex/qubership-apihub-api-processor'
 
 import { API_TYPE_TITLE_MAP, type ApiType, isApiType } from './api-types'
 import { DEFAULT_API_TYPE } from './operations'

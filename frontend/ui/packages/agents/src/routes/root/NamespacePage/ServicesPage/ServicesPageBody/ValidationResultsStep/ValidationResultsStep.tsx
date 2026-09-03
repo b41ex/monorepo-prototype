@@ -22,19 +22,19 @@ import { filterServices } from '../../services'
 import { useSnapshotPublicationInfo } from '../../../useSnapshotPublicationInfo'
 import { Box } from '@mui/material'
 import type { ServicePublishInfo } from '@agents/entities/service-publish-info'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import {
   ERROR_STEP_STATUS,
   RUNNING_STEP_STATUS, SUCCESS_STEP_STATUS,
   useValidationResultsStep,
 } from '../../ServicesPageProvider/ServicesStepsProvider'
 import { ProblemControls } from '../../../../../../components/ProblemControls'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
 import {
   CONTENT_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 
 // TODO: Move to another place
 export const BWC_ERRORS_FILTER = 'bwc-errors'

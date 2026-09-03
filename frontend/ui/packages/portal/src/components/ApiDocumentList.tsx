@@ -15,7 +15,7 @@
  */
 
 import { Link, List, ListItem, ListItemIcon, ListItemText, Skeleton } from '@mui/material'
-import { SpecLogo } from '@netcracker/qubership-apihub-ui-shared/components/SpecLogo'
+import { SpecLogo } from '@b41ex/qubership-apihub-ui-shared/components/SpecLogo'
 import type { FC } from 'react'
 import { memo } from 'react'
 import type { To } from 'react-router-dom'

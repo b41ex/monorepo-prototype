@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "fs"
 import path from "path"
-import { buildFromDdl } from "@netcracker/qubership-apihub-ddlapi/parser"
-import { apiDiff } from "@netcracker/qubership-apihub-api-diff"
+import { buildFromDdl } from "@b41ex/qubership-apihub-ddlapi/parser"
+import { apiDiff } from "@b41ex/qubership-apihub-api-diff"
 import { DdlApiSpecWithDiffsTransformer } from "../../src/building-service/ddlapi/shared/ddlapi-spec-with-diffs-transformer"
 import { createBuildingServiceLogger } from "../../src/loggers"
 

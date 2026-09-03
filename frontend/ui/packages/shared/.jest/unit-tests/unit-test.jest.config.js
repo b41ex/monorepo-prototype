@@ -42,7 +42,7 @@ export default {
   },
   moduleNameMapper: {
     // Each package's paths are relative to its own directory, so each needs its own prefix.
-    // Both declare `@netcracker/qubership-apihub-ui-shared`; the two resolve to the same
+    // Both declare `@b41ex/qubership-apihub-ui-shared`; the two resolve to the same
     // place, so whichever wins the key collision is correct.
     ...pathsToModuleNameMapper(pathsOf('portal'), { prefix: '<rootDir>/../portal/' }),
     ...pathsToModuleNameMapper(pathsOf('agents'), { prefix: '<rootDir>/../agents/' }),

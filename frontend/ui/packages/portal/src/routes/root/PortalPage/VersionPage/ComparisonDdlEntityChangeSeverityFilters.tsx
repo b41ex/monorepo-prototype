@@ -5,9 +5,9 @@ import {
   useSetHasComparisonInternalDocument,
   useSetIsApiDiffResultLoading,
 } from '@portal/routes/root/ApiDiffResultProvider'
-import type { Diff } from '@netcracker/qubership-apihub-api-diff'
-import { ChangeSeverityFilters } from '@netcracker/qubership-apihub-ui-shared/components/ChangeSeverityFilters'
-import type { ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+import type { Diff } from '@b41ex/qubership-apihub-api-diff'
+import { ChangeSeverityFilters } from '@b41ex/qubership-apihub-ui-shared/components/ChangeSeverityFilters'
+import type { ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import type { FC } from 'react'
 import { memo, useEffect, useMemo, useState } from 'react'
 import { useComparedDdlContractsPair } from './ComparedDdlContractsContext'

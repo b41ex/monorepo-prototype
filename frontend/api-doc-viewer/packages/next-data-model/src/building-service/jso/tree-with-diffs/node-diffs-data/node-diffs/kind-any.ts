@@ -7,7 +7,7 @@ import { JsoTreeNodeKind } from "@apihub/next-data-model/model/jso/types/node-ki
 import { JsoTreeNodeMeta } from "@apihub/next-data-model/model/jso/types/node-meta";
 import { isObject } from "@apihub/next-data-model/utilities";
 import { NodeKey } from "@apihub/next-data-model/utility-types";
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 import { JsoRawValueUtilities } from "../../../json-crawl-entities/transformers/raw-jso-property-to-base-jso-node-value";
 
 export class JsoNodeDiffsAggregatorKindAny

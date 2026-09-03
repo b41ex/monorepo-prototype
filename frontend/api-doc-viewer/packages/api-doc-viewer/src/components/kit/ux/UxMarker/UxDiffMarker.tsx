@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { DiffType } from '@b41ex/qubership-apihub-api-diff'
 import type { CSSProperties, FC } from 'react'
 import { UxTooltip } from '../UxTooltip/UxTooltip'
 import './UxDiffMarker.css'

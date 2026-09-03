@@ -22,10 +22,10 @@ import type {
   SystemAdminDto,
   SystemAdmins,
   SystemAdminsDto,
-} from '@netcracker/qubership-apihub-ui-shared/types/system-admins'
-import type { InvalidateQuery, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { requestJson, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/types/system-admins'
+import type { InvalidateQuery, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { requestJson, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 const SYSTEM_ADMINISTRATORS_QUERY_KEY = 'system-administrators-query-key'
 

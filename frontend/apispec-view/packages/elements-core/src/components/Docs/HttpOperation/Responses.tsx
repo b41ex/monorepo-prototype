@@ -1,9 +1,9 @@
-import { JsonSchemaViewer } from '@netcracker/qubership-apihub-api-doc-viewer';
+import { JsonSchemaViewer } from '@b41ex/qubership-apihub-api-doc-viewer';
 import { Extension, Extensions } from '../Extensions';
 import { useSearchPhrase, useOperationSchemaOptionsMode } from '../../../index';
 import { Box, Flex, IntentVals, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@stoplight/mosaic';
 import { IHttpOperationResponse } from '@stoplight/types';
-import { JsonSchemaViewer as OldJsonSchemaViewer } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer';
+import { JsonSchemaViewer as OldJsonSchemaViewer } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer';
 import { isEmpty, sortBy, uniqBy } from 'lodash';
 import { nanoid } from 'nanoid';
 import * as React from 'react';

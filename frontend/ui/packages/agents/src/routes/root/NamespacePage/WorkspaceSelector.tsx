@@ -17,13 +17,13 @@
 import type { FC } from 'react'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { Box } from '@mui/material'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { usePackagesLoader } from '@netcracker/qubership-apihub-ui-shared/hooks/packages/usePacakgesLoader'
-import { PackageSelector } from '@netcracker/qubership-apihub-ui-shared/components/PackageSelector'
-import { useActiveTabs } from '@netcracker/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { usePackagesLoader } from '@b41ex/qubership-apihub-ui-shared/hooks/packages/usePacakgesLoader'
+import { PackageSelector } from '@b41ex/qubership-apihub-ui-shared/components/PackageSelector'
+import { useActiveTabs } from '@b41ex/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
 import { SERVICES_PAGE } from '../../routes'
 import { useInvalidateServices } from './useServices'
 import {
@@ -37,7 +37,7 @@ import { useRunDiscovery } from './ServicesPage/ServicesPageBody/DiscoverService
 import {
   useCreateSnapshotPublicationOptions,
 } from './ServicesPage/ServicesPageProvider/ServicesPublicationOptionsProvider'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
 import { useSystemConfigurationContext } from './SystemConfigurationProvider'
 import { useShowErrorNotification } from '../BasePage/NotificationHandler'
 

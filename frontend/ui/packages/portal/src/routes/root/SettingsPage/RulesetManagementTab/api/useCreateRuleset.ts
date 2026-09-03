@@ -4,7 +4,7 @@ import { API_LINTER_API_V1 } from '@portal/api-hooks/ApiQuality/constants'
 import type { RulesetDto } from '@portal/entities/api-quality/rulesets'
 import { useShowSuccessNotification } from '@portal/routes/root/BasePage/Notification'
 import { portalRequestJson } from '@portal/utils/requests'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useMutation } from '@tanstack/react-query'
 import { useInvalidateRulesets } from './useRulesets'
 

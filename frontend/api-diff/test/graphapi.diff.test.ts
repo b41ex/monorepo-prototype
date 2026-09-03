@@ -2,7 +2,7 @@ import { apiDiff, breaking, deprecated, DiffAction, unclassified } from "../src"
 import { TEST_DEFAULTS_FLAG, TEST_DIFF_FLAG } from "./helper"
 import { graphapi } from "./helper/utils"
 import { diffsMatcher } from './helper/matchers'
-import { GRAPH_API_NODE_KIND_STRING } from "@netcracker/qubership-apihub-graphapi"
+import { GRAPH_API_NODE_KIND_STRING } from "@b41ex/qubership-apihub-graphapi"
 import { COMPARE_SCOPE_OUTPUT } from "../src/graphapi"
 
 describe('e2e tests for GraphAPI', () => {
@@ -78,7 +78,7 @@ describe('e2e tests for GraphAPI', () => {
   })
   //todo case promitive vs union with primitive
 })
-// import { buildFromSchema, GraphApiObject, GraphApiScalar, GraphApiSchema, GraphApiUnion } from '@netcracker/qubership-apihub-graphapi'
+// import { buildFromSchema, GraphApiObject, GraphApiScalar, GraphApiSchema, GraphApiUnion } from '@b41ex/qubership-apihub-graphapi'
 // import { buildSchema } from 'graphql'
 // import { annotation, apiDiff, breaking, CompareOptions, deprecated, Diff, DIFF_META_KEY, DiffAction, nonBreaking, unclassified } from '../src'
 // import { isObject } from '../src/utils'

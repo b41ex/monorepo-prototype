@@ -8,7 +8,7 @@ import {
   JSON_SCHEMA_PROPERTY_ANY_OF,
 } from '../rules/jsonschema.const'
 import { deepEqual } from 'fast-equals'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import {
   copyOriginsForArray,
   resolveOrigins,

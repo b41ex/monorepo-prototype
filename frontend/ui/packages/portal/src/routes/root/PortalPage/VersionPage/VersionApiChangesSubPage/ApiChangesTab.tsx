@@ -18,9 +18,9 @@ import type { FC } from 'react'
 import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { CONTRACT_TYPE_DDL, type ContractType, toRouteApiType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { CONTRACT_TYPE_DDL, type ContractType, toRouteApiType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 import { ChangelogView } from './ChangelogView'
 import { DdlChangelogView } from './DdlChangelogView'

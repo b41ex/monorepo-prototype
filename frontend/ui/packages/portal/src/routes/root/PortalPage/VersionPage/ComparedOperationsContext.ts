@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { OperationData, OptionalOperationPair } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { OperationData, OptionalOperationPair } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import { createContext, useContext } from 'react'
 
 export const ComparedOperationsContext = createContext<OptionalOperationPair<OperationData>>({

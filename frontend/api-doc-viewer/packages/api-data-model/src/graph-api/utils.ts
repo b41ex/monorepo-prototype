@@ -1,6 +1,6 @@
-import { Diff, DiffAction } from "@netcracker/qubership-apihub-api-diff"
-import { GraphApiDirective, isGraphApiDirective, isGraphApiEnumDefinition } from "@netcracker/qubership-apihub-graphapi"
-import { JsonPath, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { Diff, DiffAction } from "@b41ex/qubership-apihub-api-diff"
+import { GraphApiDirective, isGraphApiDirective, isGraphApiEnumDefinition } from "@b41ex/qubership-apihub-graphapi"
+import { JsonPath, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { isDiff, isObject, setValueByPath, wasGraphApiEnumDefinition } from "../utils"
 import { IModelTreeNode } from "../abstract"
 import { graphApiNodeKind } from "./constants"

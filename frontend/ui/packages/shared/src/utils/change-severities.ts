@@ -15,7 +15,7 @@
  */
 
 import { isEmpty } from './arrays'
-import type { ChangeSummary } from '@netcracker/qubership-apihub-api-processor'
+import type { ChangeSummary } from '@b41ex/qubership-apihub-api-processor'
 import type { ChangeSeverity, ChangesSummary } from '../entities/change-severities'
 import {
   ANNOTATION_CHANGE_SEVERITY,

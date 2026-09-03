@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { GraphApiDiffTreeNode, GraphApiTreeNode, JsonSchemaDiffTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { GraphApiDiffTreeNode, GraphApiTreeNode, JsonSchemaDiffTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import { BadgeKind } from '../components/kit/ux/UxBadge/types'
 import { CustomizationOptions } from '../contexts/CustomizationOptionsContext'
 

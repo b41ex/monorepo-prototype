@@ -1,5 +1,5 @@
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
-import { buildFromDdl, DdlNonFatalError } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
+import { buildFromDdl, DdlNonFatalError } from '@b41ex/qubership-apihub-ddlapi/parser'
 import 'jest-extended'
 
 /**

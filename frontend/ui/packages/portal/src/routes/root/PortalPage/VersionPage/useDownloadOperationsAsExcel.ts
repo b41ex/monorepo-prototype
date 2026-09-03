@@ -20,11 +20,11 @@ import type { Key } from '@portal/entities/keys'
 import { useShowErrorNotification } from '../../BasePage/Notification'
 import { generatePath } from 'react-router-dom'
 import { portalRequestBlob } from '@portal/utils/requests'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { ApiAudience, ApiKind } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { ALL_API_KIND, API_AUDIENCE_ALL } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { ApiAudience, ApiKind } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { ALL_API_KIND, API_AUDIENCE_ALL } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 
 export function useDownloadOperationsAsExcel(): [DownloadOperationsAsExcelFunction, IsLoading] {
   const showErrorNotification = useShowErrorNotification()

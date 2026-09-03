@@ -3,12 +3,12 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 import { Avatar, Box, MenuItem, styled } from '@mui/material'
 import { type FC, memo, useCallback, useState } from 'react'
 
-import { MenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/MenuButton'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { UserAvatar } from '@netcracker/qubership-apihub-ui-shared/components/Users/UserAvatar'
-import { useLogoutUser } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization'
-import { useUser } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useUser'
-import { redirectToLogin } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import { MenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/MenuButton'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { UserAvatar } from '@b41ex/qubership-apihub-ui-shared/components/Users/UserAvatar'
+import { useLogoutUser } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization'
+import { useUser } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useUser'
+import { redirectToLogin } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 
 export const UserPanel: FC = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

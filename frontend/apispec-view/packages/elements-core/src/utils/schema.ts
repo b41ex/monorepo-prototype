@@ -1,4 +1,4 @@
-import { stringifyCyclicJso } from '@netcracker/qubership-apihub-api-unifier';
+import { stringifyCyclicJso } from '@b41ex/qubership-apihub-api-unifier';
 import { getOriginalObject } from '../index';
 import { hashCode } from './string';
 import { JSONSchema7 } from 'json-schema';

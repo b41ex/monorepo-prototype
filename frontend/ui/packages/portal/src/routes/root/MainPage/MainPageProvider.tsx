@@ -20,8 +20,8 @@ import { ActivityHistoryFiltersProvider } from './ActivityHistoryFiltersProvider
 import { RecentOperationsProvider } from '../RecentOperationsProvider'
 import { OperationNavigationDataProvider } from '../OperationNavigationDataProvider'
 import { BackwardLocationProvider } from '@portal/routes/BackwardLocationProvider'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { Package, Packages } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { Package, Packages } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import { PortalPageSettingsProvider } from '@portal/routes/PortalPageSettingsProvider'
 import { ApiDiffResultProvider } from '../ApiDiffResultProvider'
 

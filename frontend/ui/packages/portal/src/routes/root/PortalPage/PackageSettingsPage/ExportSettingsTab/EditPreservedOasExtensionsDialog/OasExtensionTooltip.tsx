@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Box, List, ListItem, Tooltip, Typography } from '@mui/material'
 import { OAS_EXTENSION_KIND_INHERITED, type OasSettingsExtension } from '../package-export-config'
-import { OverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/OverflowTooltip'
+import { OverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/OverflowTooltip'
 
 type OasExtensionTooltipProps = {
   extension: OasSettingsExtension

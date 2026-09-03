@@ -18,20 +18,20 @@ import { useMutation } from '@tanstack/react-query'
 import { useShowErrorNotification, useShowSuccessNotification } from '../../../../BasePage/Notification'
 import { useInvalidateVersionContent } from '../../../../usePackageVersionContent'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import type {
   CreateOperationGroupDto,
   UpdateOperationGroupDto,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 import {
   toCreateOperationGroupDto,
   toUpdateOperationGroupDto,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 import { portalRequestVoid } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { API_V3 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { API_V3 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 type CreateOperationGroupData = {
   packageKey: Key

@@ -26,13 +26,13 @@ import {
   BASELINE_VERSION_NOT_FOUND_MESSAGE,
 } from './validationMessages'
 import type {
-  StatusMarkerVariant} from '@netcracker/qubership-apihub-ui-shared/components/StatusMarker'
+  StatusMarkerVariant} from '@b41ex/qubership-apihub-ui-shared/components/StatusMarker'
 import {
   ERROR_STATUS_MARKER_VARIANT,
   StatusMarker,
   SUCCESS_STATUS_MARKER_VARIANT,
   WARNING_STATUS_MARKER_VARIANT,
-} from '@netcracker/qubership-apihub-ui-shared/components/StatusMarker'
+} from '@b41ex/qubership-apihub-ui-shared/components/StatusMarker'
 
 export type BwcStatusTableCellProps = {
   value: Row<CellData>

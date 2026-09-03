@@ -24,7 +24,7 @@ import {
   SpecType,
 } from '../spec-type'
 import { JsonSchema, MetaDefinitions, OriginLeafs, PropertySkipFunction } from '../types'
-import { isArray, isObject, JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject, JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { createEvaluationCacheService } from '../cache'
 import { cleanOrigins, copyOrigins, mergeOrigins, resolveOrigins, setOrigins, setOriginsForArray } from '../origins'
 

@@ -3,13 +3,13 @@ import type { FC } from 'react'
 import { memo, useCallback, useMemo, useState } from 'react'
 
 import type { DocumentValidationSummary } from '@portal/entities/api-quality/package-version-validation-summary'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { LayoutWithSidebar } from '@netcracker/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithSidebar'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { LayoutWithSidebar } from '@b41ex/qubership-apihub-ui-shared/components/PageLayouts/LayoutWithSidebar'
 import {
   CONTENT_PLACEHOLDER_AREA,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder/Placeholder'
-import type { SpecItemUri } from '@netcracker/qubership-apihub-ui-shared/utils/specifications'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder/Placeholder'
+import type { SpecItemUri } from '@b41ex/qubership-apihub-ui-shared/utils/specifications'
 import { ClientValidationStatuses, useApiQualityValidationSummary } from '../ApiQualityValidationSummaryProvider'
 import { ValidatedDocumentSelector } from './ValidatedDocumentSelector'
 import { VersionApiQualityCard } from './VersionApiQualityCard'

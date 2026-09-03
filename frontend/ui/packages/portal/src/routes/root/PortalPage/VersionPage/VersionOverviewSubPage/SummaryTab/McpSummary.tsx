@@ -3,8 +3,8 @@ import { type FC, memo } from 'react'
 import {
   CONTRACT_TYPE_MCP,
   CONTRACT_TYPE_TITLE_MAP,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import type { McpContractsSummary } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import type { McpContractsSummary } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
 
 import { SummaryPanels } from './SummaryPanel'
 import { SummarySection } from './SummarySection'

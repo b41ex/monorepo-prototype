@@ -19,10 +19,10 @@ import type { UpdatingOperations } from '../entities'
 import { useInvalidateVersionContent } from '../../../../../../usePackageVersionContent'
 import { generatePath } from 'react-router-dom'
 import type { EditOperationGroupContentDetails } from '@portal/routes/EventBusProvider'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import { portalRequestVoid } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { API_V3 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { API_V3 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 const UPDATE_OPERATION_GROUP_MUTATION_KEY = 'update-operation-group-mutation-key'
 

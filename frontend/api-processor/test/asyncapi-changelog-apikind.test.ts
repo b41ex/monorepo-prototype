@@ -22,7 +22,7 @@ import { createAsyncApiCompatibilityScopeFunction } from '../src/components/comp
 import {
   API_COMPATIBILITY_KIND_BACKWARD_COMPATIBLE,
   API_COMPATIBILITY_KIND_NOT_BACKWARD_COMPATIBLE,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 
 const BWC = APIHUB_API_COMPATIBILITY_KIND_BWC

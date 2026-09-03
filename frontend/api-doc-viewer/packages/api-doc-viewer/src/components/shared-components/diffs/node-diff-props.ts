@@ -5,7 +5,7 @@ import {
   NodeDiffs,
   NodeDiffsSeverities,
   NodeDiffsSeverityPlacemennt,
-} from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+} from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import { useMemo } from "react"
 
 type NodeWithDiffState<V extends object = object> = {

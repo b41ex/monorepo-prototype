@@ -19,15 +19,15 @@ import { useQuery } from '@tanstack/react-query'
 import type { Documents } from '@portal/entities/documents'
 import { toDocuments } from '@portal/entities/documents'
 import { useVersionWithRevision } from '../../useVersionWithRevision'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   isContractType,
   type ContractType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { DocumentsDto } from '@netcracker/qubership-apihub-ui-shared/entities/documents'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { getResolvedVersionDocuments } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { DocumentsDto } from '@b41ex/qubership-apihub-ui-shared/entities/documents'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { getResolvedVersionDocuments } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 
 export const DOCUMENTS_QUERY_KEY = 'documents-query-key'
 

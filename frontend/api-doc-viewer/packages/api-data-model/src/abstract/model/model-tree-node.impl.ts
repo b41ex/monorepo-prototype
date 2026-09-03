@@ -1,4 +1,4 @@
-import { CrawlRules, isObject, JsonPath, syncCrawl, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl';
+import { CrawlRules, isObject, JsonPath, syncCrawl, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl';
 import { modelTreeNodeType } from "../constants";
 import { ExpandingCallback, SchemaCrawlRule } from "../types";
 import { ModelTreeComplexNode } from './model-tree-complex-node.impl';

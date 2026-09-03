@@ -4,9 +4,9 @@ import {
   MCP_COLLECTION_INIT,
   type McpCollection,
   parseMcpCollectionParam,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
 
 // Query key stays `mcpEntity`: the name is a poor fit for a collection selector,
 // but renaming it to `mcpCollection` breaks existing bookmarks and browser history.

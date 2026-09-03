@@ -1,10 +1,10 @@
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
 import {
   DDL_KIND,
   type DdlKind,
   type DiffTypeDto,
   replacePropertyInChangesSummary,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 
 import { hasNoChangesInSummary } from '../utils/change-severities'
 import { toOptionalTrimmedString, truncateDescription } from '../utils/strings'

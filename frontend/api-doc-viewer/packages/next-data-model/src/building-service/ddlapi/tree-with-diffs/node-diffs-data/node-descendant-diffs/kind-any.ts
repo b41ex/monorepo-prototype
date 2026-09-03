@@ -10,7 +10,7 @@ import {
   NodeDescendantDiffs,
 } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { isObject, takeIfDiffsRecord } from "@apihub/next-data-model/utilities";
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 
 export class DdlApiNodeDescendantDiffsAggregatorKindAny extends AbstractNodeDescendantsDiffsAggregator {
   private readonly DEFAULT_DIFF_STYLES: DiffStyles = {

@@ -1,6 +1,6 @@
 import { isMessageChannelNode, isMessageContentNode, isMessageOperationNode } from "../../utils/async-api/node-type-checkers";
-import { AsyncApiTreeNode } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/aliases";
-import { AsyncApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-kind";
+import { AsyncApiTreeNode } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/aliases";
+import { AsyncApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-kind";
 import { FC } from "react";
 import { ATTRIBUTE_PRECEDED_BY, WithPrecededByProps } from "../shared-components/WithPrecededByProps";
 import { MessageChannelNodeViewer } from "./MessageChannelNodeViewer";

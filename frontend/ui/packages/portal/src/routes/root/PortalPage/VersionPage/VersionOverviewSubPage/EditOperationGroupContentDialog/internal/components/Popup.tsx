@@ -32,7 +32,7 @@ import { toUpdatingOperations } from '../entities'
 import { useRearrangedOperationsByDelta } from '../hooks/useRearrangedOperationsByDelta'
 import { useGroupOperationsActualCount } from '../hooks/useGroupOperationsActualCount'
 import { useClearExcessivePagedGroupOperations, usePagedGroupOperations } from './usePagedGroupOperations'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import type { EditOperationGroupContentDetails } from '@portal/routes/EventBusProvider'
 import {
   API_AUDIENCE_SELECTED,
@@ -42,21 +42,21 @@ import {
   REF_PACKAGE_SELECTED,
   TAG_SELECTED,
 } from '@portal/routes/EventBusProvider'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 import type {
   ApiAudience,
   ApiKind,
   Operation,
   Operations,
   OperationsData,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { isEmpty, isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { DEFAULT_DEBOUNCE } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { API_TYPE_TITLE_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { isEmpty, isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { DEFAULT_DEBOUNCE } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { API_TYPE_TITLE_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export const Popup: FC<PopupProps> = (props) => {
   const { open, setOpen } = props

@@ -3,7 +3,7 @@ import { CompareOptions, DiffType } from '../src/types'
 import { apiDiff } from '../src/api'
 import { DiffAction, annotation, unclassified } from '../src/core/constants'
 import { diffsMatcher } from './helper/matchers'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import base from './helper/resources/openapi-specification-extensions/base.json'
 
 type PathWithExpectedType = {

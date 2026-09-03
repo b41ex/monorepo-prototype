@@ -1,8 +1,8 @@
 import { ChangedPropertyMetaData, DiffHighlightingApplicationMode, HighlightVariant } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { CHANGED_LAYOUT_SIDE, LayoutSide, ORIGIN_LAYOUT_SIDE } from "../../../types/internal/LayoutSide";
 import { ArrayUtils } from "../../../utils/common/arrays";
-import { isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
-import { DiffsClassesBuilder } from "@netcracker/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities";
+import { isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
+import { DiffsClassesBuilder } from "@b41ex/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities";
 import { Dispatch, FC, memo, ReactNode, SetStateAction, useCallback, useMemo, useState } from "react";
 import { TitleRowUsage } from "../TitleRow/types";
 import './TextValue.css';

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import type { Realm } from "@netcracker/qubership-apihub-ddlapi";
+import type { Realm } from "@b41ex/qubership-apihub-ddlapi";
 import {
   emptyRealmLike,
   realmHasTables,

@@ -1,18 +1,18 @@
 import { type ValidationSummary } from '@portal/entities/api-quality/package-version-validation-summary'
 import { Link } from '@mui/material'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { API_TYPE_GRAPHQL } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { API_TYPE_GRAPHQL } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
   type ContractType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 import type { FC, PropsWithChildren, ReactNode} from 'react'
 import { useMemo } from 'react'
 import { createContext, memo, useContext } from 'react'
 import { usePackageKind } from '@portal/routes/root/PortalPage/usePackageKind'
-import { PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { ASYNCAPI_API_TYPE, REST_API_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import { PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { ASYNCAPI_API_TYPE, REST_API_TYPE } from '@b41ex/qubership-apihub-api-processor'
 import { isAsyncApiLinterType, isOasLinterType } from '@portal/entities/api-quality/linter-api-types'
 
 export const ClientValidationStatuses = {

@@ -32,8 +32,8 @@ import { OperationGroupsCard } from './OperationGroupsCard/OperationGroupsCard'
 import { useNavigation } from '../../../../NavigationProvider'
 import { RevisionsHistoryCard } from './RevisionsHistoryCard'
 import { ActivityHistoryByPackageCard } from './ActivityHistoryByPackageCard'
-import { useActiveTabs } from '@netcracker/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { useActiveTabs } from '@b41ex/qubership-apihub-ui-shared/hooks/pathparams/useActiveTabs'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 
 export const VersionOverviewSubPage: FC = memo(() => {
   const [, sidebarItem] = useActiveTabs()

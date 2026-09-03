@@ -16,7 +16,7 @@
 
 import type { FC, PropsWithChildren, ReactElement } from 'react'
 import { memo, useEffect } from 'react'
-import { API_V1, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { API_V1, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export const ErrorHandler: FC<PropsWithChildren> = memo<PropsWithChildren>(({ children }) => {
   useEffect(() => {

@@ -1,7 +1,7 @@
-import type { PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router'
 

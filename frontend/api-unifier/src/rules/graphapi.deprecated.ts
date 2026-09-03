@@ -1,7 +1,7 @@
 import { Jso } from '../types'
 import { getJsoProperty } from '../utils'
 import { GRAPH_API_PROPERTY_DEPRECATED_DIRECTIVE } from './graphapi.const'
-import { isGraphApiDirective } from '@netcracker/qubership-apihub-graphapi'
+import { isGraphApiDirective } from '@b41ex/qubership-apihub-graphapi'
 
 export const GRAPH_API_DEPRECATION_PREDICATE: (value: Jso<unknown>) => string | undefined = (value) => {
   const deprecatedDirectiveProperty = getJsoProperty(value, GRAPH_API_PROPERTY_DEPRECATED_DIRECTIVE)

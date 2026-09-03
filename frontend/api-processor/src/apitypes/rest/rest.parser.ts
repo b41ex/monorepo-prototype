@@ -22,7 +22,7 @@ import swagger from './schemas/swagger.json'
 import { REST_DOCUMENT_TYPE, REST_FILE_FORMAT } from './rest.consts'
 import { getFileExtension, validateDocument } from '../../utils'
 import { FILE_KIND, TextFile } from '../../types'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 //TODO: add unit tests for parseRestFile
 

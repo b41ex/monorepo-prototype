@@ -20,15 +20,15 @@ import {
   API_AUDIENCE_INTERNAL,
   API_AUDIENCE_UNKNOWN,
   type ApiAudienceTransition,
-} from '@netcracker/qubership-apihub-api-processor'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { API_TYPE_TITLE_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+} from '@b41ex/qubership-apihub-api-processor'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { API_TYPE_TITLE_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import {
   DEFAULT_CHANGE_SEVERITY_MAP,
-} from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
-import { DefaultWarningIcon, RedWarningIcon } from '@netcracker/qubership-apihub-ui-shared/icons/WarningIcon'
+} from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import { DefaultWarningIcon, RedWarningIcon } from '@b41ex/qubership-apihub-ui-shared/icons/WarningIcon'
 import type { FC, ReactNode } from 'react'
 import { memo, useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'

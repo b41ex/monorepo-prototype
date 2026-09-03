@@ -6,7 +6,7 @@ import {
   ValidateState,
   ValidateSyncCloneHook,
 } from './types'
-import { isArray, isObject, JSON_ROOT_KEY, syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject, JSON_ROOT_KEY, syncClone } from '@b41ex/qubership-apihub-json-crawl'
 import { resolveSpec, SPEC_TYPE_OPEN_API_30 } from './spec-type'
 import { createCycledJsoHandlerHook } from './cycle-jso'
 import { RULES } from './rules'

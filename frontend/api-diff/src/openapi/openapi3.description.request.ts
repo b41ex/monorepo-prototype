@@ -10,7 +10,7 @@ import {
   OPEN_API_PROPERTY_REQUEST_BODY,
   PREDICATE_ANY_VALUE,
   startFromOpenApiComponents,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { calculateComponentsPath } from './openapi3.description'
 
 export const requestParamsCalculator: DiffTemplateParamsCalculator = (diff, _) => {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 import {
   ANNOTATION_CHANGE_TYPE,
   BREAKING_CHANGE_TYPE,
@@ -28,7 +28,7 @@ import {
   ValidationRulesSeverity,
 } from './types'
 import { OpenAPIV3 } from 'openapi-types'
-import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
+import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
 
 export const DEFAULT_BATCH_SIZE = 32
 

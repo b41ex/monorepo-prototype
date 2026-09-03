@@ -7,7 +7,7 @@ import {
   JSON_SCHEMA_PROPERTY_ONE_OF,
   JSON_SCHEMA_PROPERTY_TYPE,
   setOrigins,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { NativeAnySchemaFactory } from './jsonSchema.types'
 
 type CombinerPropertyKey = typeof JSON_SCHEMA_PROPERTY_ONE_OF | typeof JSON_SCHEMA_PROPERTY_ANY_OF

@@ -1,12 +1,12 @@
 import { DiffBadge } from "../../common/diffs/DiffBadge"
 import { useLayoutMode } from "../../../contexts/LayoutModeContext"
 import { LayoutSide, ORIGIN_LAYOUT_SIDE } from "../../../types/internal/LayoutSide"
-import { Diff } from "@netcracker/qubership-apihub-api-diff"
+import { Diff } from "@b41ex/qubership-apihub-api-diff"
 import { takeDiffSideTextHighlighterColor } from "../../../utils/diffs/take-diff-side-text-highlighter-color"
-import { ChangedPropertyMetaData } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
-import { isDdlFlagBadgeDiffHighlighted } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
-import { DdlApiForeignKeyTarget } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree/node-value"
-import { formatForeignKeyTargetKey } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
+import { ChangedPropertyMetaData } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+import { isDdlFlagBadgeDiffHighlighted } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
+import { DdlApiForeignKeyTarget } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree/node-value"
+import { formatForeignKeyTargetKey } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
 import { FC, memo, ReactNode, useMemo } from "react"
 import {
   DDL_API_FOREIGN_KEY_BADGE_COLOR_SCHEMA,

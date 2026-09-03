@@ -22,8 +22,8 @@ import { useParams } from 'react-router-dom'
 import { useLocation, useSearchParam } from 'react-use'
 import { usePackageVersionContent } from '../../usePackageVersionContent'
 import { useVersionWithRevision } from '../../useVersionWithRevision'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import { SHOW_COMPARE_REVISIONS_DIALOG } from '@portal/routes/EventBusProvider'
 import { REVISION_DELIMITER } from '@portal/entities/versions'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
@@ -32,16 +32,16 @@ import {
   PACKAGE_SEARCH_PARAM,
   REF_SEARCH_PARAM,
   VERSION_SEARCH_PARAM,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import { getDefaultApiType } from '@portal/utils/operation-types'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import { useAllRevisions } from '@portal/routes/root/PortalPage/VersionPage/usePagedRevisions'
 import type {
   CompareRevisionsDialogData,
   CompareRevisionsDialogFormData,
-} from '@netcracker/qubership-apihub-ui-shared/components/CompareRevisionsDialogForm'
-import { CompareRevisionsDialogForm } from '@netcracker/qubership-apihub-ui-shared/components/CompareRevisionsDialogForm'
+} from '@b41ex/qubership-apihub-ui-shared/components/CompareRevisionsDialogForm'
+import { CompareRevisionsDialogForm } from '@b41ex/qubership-apihub-ui-shared/components/CompareRevisionsDialogForm'
 import { useNavigation } from '@portal/routes/NavigationProvider'
 import { useRefSearchParam } from '@portal/routes/root/PortalPage/useRefSearchParam'
 

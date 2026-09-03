@@ -15,8 +15,8 @@
  */
 
 import { OpenAPIV3 } from 'openapi-types'
-import { normalize, OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier'
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { normalize, OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 
 export const removeOasExtensions = (document: OpenAPIV3.Document, allowedOasExtensions?: OpenApiExtensionKey[]): OpenAPIV3.Document => {
   return normalize(

@@ -18,7 +18,7 @@ import type { FileKey, Key } from './keys'
 import type { OperationDto, PackagesRefs } from './operations'
 import type { SpecType } from '../utils/specs'
 import type { FileFormat } from './file-formats'
-import type { ShareabilityStatus } from '@netcracker/qubership-apihub-api-processor'
+import type { ShareabilityStatus } from '@b41ex/qubership-apihub-api-processor'
 
 export type DocumentsDto = Readonly<{
   documents: ReadonlyArray<DocumentDto>

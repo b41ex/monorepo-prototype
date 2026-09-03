@@ -19,22 +19,22 @@ import type {
   BuildConfigRef,
   BuildType,
   VersionStatus,
-} from '@netcracker/qubership-apihub-api-processor'
-import { BUILD_TYPE } from '@netcracker/qubership-apihub-api-processor'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import { useUser } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useUser'
+} from '@b41ex/qubership-apihub-api-processor'
+import { BUILD_TYPE } from '@b41ex/qubership-apihub-api-processor'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import { useUser } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useUser'
 import {
   useAsyncInvalidatePackageVersions,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { PublishDetails } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { PublishDetails } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 import {
   COMPLETE_PUBLISH_STATUS,
   ERROR_PUBLISH_STATUS,
-} from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
-import { isTokenRefreshed, onMutationUnauthorized } from '@netcracker/qubership-apihub-ui-shared/utils/security'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
+import { isTokenRefreshed, onMutationUnauthorized } from '@b41ex/qubership-apihub-ui-shared/utils/security'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'

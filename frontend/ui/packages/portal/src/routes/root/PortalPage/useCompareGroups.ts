@@ -15,12 +15,12 @@
  */
 
 import { useGroupComparisons } from './VersionPage/useGroupComparisons'
-import type { VersionsComparison } from '@netcracker/qubership-apihub-api-processor'
+import type { VersionsComparison } from '@b41ex/qubership-apihub-api-processor'
 import { useVersionWithRevision } from '../useVersionWithRevision'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useChangesSummaryContext } from '@portal/routes/root/PortalPage/VersionPage/ChangesSummaryProvider'
-import type { VersionChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+import type { VersionChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 
 export type UseCompareGroupsOptions = Partial<{
   changedPackageKey: Key

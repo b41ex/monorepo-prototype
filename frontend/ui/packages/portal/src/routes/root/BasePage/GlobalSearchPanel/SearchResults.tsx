@@ -41,14 +41,14 @@ import type { GlobalSearchPanelDetails } from '@portal/routes/EventBusProvider'
 import { APPLY_GLOBAL_SEARCH_FILTERS } from '@portal/routes/EventBusProvider'
 import type { Level, SearchCriteria } from '@portal/entities/global-search'
 import { DOCUMENT_LEVEL, OPERATION_LEVEL, PACKAGE_LEVEL } from '@portal/entities/global-search'
-import { getOptionalBody } from '@netcracker/qubership-apihub-ui-shared/utils/request-bodies'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { getOptionalBody } from '@b41ex/qubership-apihub-ui-shared/utils/request-bodies'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import {
   CONTENT_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 
 export const SearchResults: FC = memo(() => {
   const searchText = useGlobalSearchText()

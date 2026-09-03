@@ -20,7 +20,7 @@ import {
   JsonSchemaNode,
   JsonSchemaTreeNode,
   NodeChangesSummary
-} from '@netcracker/qubership-apihub-api-data-model'
+} from '@b41ex/qubership-apihub-api-data-model'
 import { NodesChangesSummary } from '../../../api-doc-viewer/src/types/aliases/changes'
 import { NodeId } from '../../../api-doc-viewer/src/types/aliases/nodes'
 import { modelStateNodeType } from '../consts'

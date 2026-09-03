@@ -15,9 +15,9 @@
  */
 
 import type { DiffMetaKeys } from '@portal/entities/diff-meta-keys'
-import '@netcracker/qubership-apihub-apispec-view'
-import type { DiffOperationView } from '@netcracker/qubership-apihub-apispec-view'
-import type { ChangeSeverity } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+import '@b41ex/qubership-apihub-apispec-view'
+import type { DiffOperationView } from '@b41ex/qubership-apihub-apispec-view'
+import type { ChangeSeverity } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import type { OperationViewElementProps } from '../OperationView/OperationViewElement'
 
 export type DiffOperationViewElementProps = OperationViewElementProps & {

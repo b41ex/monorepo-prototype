@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Diff, DiffAction, DiffAdd, DiffRemove, DiffReplace, DiffType } from "@netcracker/qubership-apihub-api-diff";
-import { JsonPath } from "@netcracker/qubership-apihub-json-crawl";
+import { Diff, DiffAction, DiffAdd, DiffRemove, DiffReplace, DiffType } from "@b41ex/qubership-apihub-api-diff";
+import { JsonPath } from "@b41ex/qubership-apihub-json-crawl";
 import {
   diffAdd,
   diffRemove,

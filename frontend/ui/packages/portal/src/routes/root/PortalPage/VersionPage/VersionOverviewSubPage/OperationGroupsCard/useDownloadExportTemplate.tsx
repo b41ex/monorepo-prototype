@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useMutation } from '@tanstack/react-query'
 import type { Key } from '@portal/entities/keys'
 import fileDownload from 'js-file-download'
 import { useShowErrorNotification } from '@portal/routes/root/BasePage/Notification'
-import { fetchExportTemplate } from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { fetchExportTemplate } from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export function useDownloadExportTemplate(): [DownloadExportTemplate, IsLoading] {
   const showErrorNotification = useShowErrorNotification()

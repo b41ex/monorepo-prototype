@@ -15,7 +15,7 @@
  */
 
 import { ApiDocument, ApiOperation, BuildResult, OperationIdNormalizer, VersionDocument } from '../types'
-import { GraphApiComponents, GraphApiDirectiveDefinition } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiComponents, GraphApiDirectiveDefinition } from '@b41ex/qubership-apihub-graphapi'
 import { OpenAPIV3 } from 'openapi-types'
 import { isObject } from './objects'
 import { capitalize, serializeDocument } from './document'
@@ -27,17 +27,17 @@ import {
   slugify,
 } from './slugify'
 import { normalizePath, removeFirstSlash } from './builder'
-import { Diff, DiffAction } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DiffAction } from '@b41ex/qubership-apihub-api-diff'
 import {
   denormalize,
   matchPaths,
   NormalizeOptions,
   OPEN_API_PROPERTY_PATHS,
   PREDICATE_ANY_VALUE,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { DirectiveLocation } from 'graphql/language'
 import { HTTP_METHODS_SET, INLINE_REFS_FLAG } from '../consts'
-import { syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { RestOperationData } from '../apitypes/rest/rest.types'
 import { AsyncOperationData } from '../apitypes'
 

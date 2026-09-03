@@ -18,8 +18,8 @@ import type { FC } from 'react'
 import { memo, useCallback, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material'
 import type { Emails } from '@agents/entities/settings'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { DeleteIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIcon'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { DeleteIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIcon'
 
 const boxSX = {
   backgroundColor: '#fff',

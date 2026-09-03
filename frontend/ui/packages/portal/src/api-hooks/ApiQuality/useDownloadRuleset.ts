@@ -1,6 +1,6 @@
 import type { Key } from '@portal/entities/keys'
-import { requestBlob } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { requestBlob } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { useMutation } from '@tanstack/react-query'
 import fileDownload from 'js-file-download'
 import { generatePath } from 'react-router'

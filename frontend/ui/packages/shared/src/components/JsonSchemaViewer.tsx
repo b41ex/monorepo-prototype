@@ -17,9 +17,9 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import { Box } from '@mui/material'
-import type { JsonSchemaViewerProps as JsonSchemaViewerElementProps } from '@netcracker/qubership-apihub-api-doc-viewer'
-import { JsonSchemaViewer as JsonSchemaViewerElement } from '@netcracker/qubership-apihub-api-doc-viewer'
-import '@netcracker/qubership-apihub-api-doc-viewer/dist/style.css'
+import type { JsonSchemaViewerProps as JsonSchemaViewerElementProps } from '@b41ex/qubership-apihub-api-doc-viewer'
+import { JsonSchemaViewer as JsonSchemaViewerElement } from '@b41ex/qubership-apihub-api-doc-viewer'
+import '@b41ex/qubership-apihub-api-doc-viewer/dist/style.css'
 
 export type JsonSchemaViewerProps = JsonSchemaViewerElementProps
 

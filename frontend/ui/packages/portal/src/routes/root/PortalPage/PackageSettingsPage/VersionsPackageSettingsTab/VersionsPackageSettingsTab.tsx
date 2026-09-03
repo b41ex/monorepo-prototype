@@ -20,13 +20,13 @@ import type { PackageSettingsTabProps } from '../package-settings'
 import { PackageVersionsTable } from './PackageVersionsTable'
 import { PackageVersionsSettingsControls } from './PackageVersionsSettingsControls'
 import { EditPackageVersionDialog } from './EditPackageVersionDialog'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import { useEventBus } from '@portal/routes/EventBusProvider'
-import type { PackageVersion } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import type { PackageVersion } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 import { useDeletePackageVersion } from '@portal/routes/root/usePackageVersions'
 
 export const VersionsPackageSettingsTab: FC<PackageSettingsTabProps> = memo<PackageSettingsTabProps>(({ packageObject }) => {

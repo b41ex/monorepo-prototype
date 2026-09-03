@@ -1,4 +1,4 @@
-import { isArray, isObject, JSON_ROOT_KEY } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject, JSON_ROOT_KEY } from '@b41ex/qubership-apihub-json-crawl'
 import {
   JSON_SCHEMA_PROPERTY_ALL_OF,
   JSON_SCHEMA_PROPERTY_ANY_OF,

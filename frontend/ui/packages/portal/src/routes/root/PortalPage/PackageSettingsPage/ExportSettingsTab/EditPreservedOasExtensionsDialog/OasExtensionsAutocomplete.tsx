@@ -4,14 +4,14 @@ import { Box, Chip, TextField } from '@mui/material'
 import { ErrorRounded } from '@mui/icons-material'
 import {
   LabellessAutocomplete,
-} from '@netcracker/qubership-apihub-ui-shared/components/Autocompletes/LabellessAutocomplete/LabellessAutocomplete'
+} from '@b41ex/qubership-apihub-ui-shared/components/Autocompletes/LabellessAutocomplete/LabellessAutocomplete'
 import { OasExtensionTooltip } from './OasExtensionTooltip'
 import {
   OAS_EXTENSION_KIND_INHERITED,
   OAS_EXTENSION_PREFIX,
   type OasSettingsExtension,
 } from '../package-export-config'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 interface OasExtensionsAutocompleteProps {
   value: OasSettingsExtension[]

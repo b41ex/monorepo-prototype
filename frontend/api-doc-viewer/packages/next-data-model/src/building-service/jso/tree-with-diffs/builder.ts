@@ -11,8 +11,8 @@ import { JsoPropertyValueTypes } from "@apihub/next-data-model/model/jso/types/n
 import { JsoTreeWithDiffsBuilderParams } from "@apihub/next-data-model/shared/jso/types/tree-builder-params";
 import { isObject } from "@apihub/next-data-model/utilities";
 import { NodeId, NodeKey } from "@apihub/next-data-model/utility-types";
-import { annotation, breaking, deprecated, DiffType, isDiffAdd, isDiffRemove, isDiffReplace, nonBreaking, risky, unclassified } from "@netcracker/qubership-apihub-api-diff";
-import { syncCrawl } from "@netcracker/qubership-apihub-json-crawl";
+import { annotation, breaking, deprecated, DiffType, isDiffAdd, isDiffRemove, isDiffReplace, nonBreaking, risky, unclassified } from "@b41ex/qubership-apihub-api-diff";
+import { syncCrawl } from "@b41ex/qubership-apihub-json-crawl";
 import { BuildingServiceLogger, createBuildingServiceLogger } from "../../../loggers";
 import { TreeWithDiffsBuilder } from "../../abstract/tree-with-diffs/builder";
 import { DiffMetaKeys } from "../../abstract/tree-with-diffs/node-diffs-data/diff-meta-keys";

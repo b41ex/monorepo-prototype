@@ -18,12 +18,12 @@ import type { FC, PropsWithChildren, ReactNode, SyntheticEvent } from 'react'
 import React, { memo, useMemo } from 'react'
 import TreeItem from '@mui/lab/TreeItem'
 import type { SectionKey } from './OperationModelList'
-import { joinedJsonPath } from '@netcracker/qubership-apihub-ui-shared/utils/operations'
-import type { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { joinedJsonPath } from '@b41ex/qubership-apihub-ui-shared/utils/operations'
+import type { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import type { OpenApiCustomSchemaObject } from '@portal/entities/operation-structure'
 import type {
   HashWithTitle,
-} from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
+} from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
 
 type ItemProps = PropsWithChildren & {
   label: ReactNode

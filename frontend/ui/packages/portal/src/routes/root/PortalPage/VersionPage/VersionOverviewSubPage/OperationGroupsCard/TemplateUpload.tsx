@@ -20,11 +20,11 @@ import {
   JSON_FILE_EXTENSION,
   YAML_FILE_EXTENSION,
   YML_FILE_EXTENSION,
-} from '@netcracker/qubership-apihub-ui-shared/utils/files'
+} from '@b41ex/qubership-apihub-ui-shared/utils/files'
 import { useDownloadExportTemplate } from './useDownloadExportTemplate'
 import { useParams } from 'react-router-dom'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { FileUploadField } from '@netcracker/qubership-apihub-ui-shared/components/FileUploadField'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { FileUploadField } from '@b41ex/qubership-apihub-ui-shared/components/FileUploadField'
 
 export type TemplateUploadProps = {
   uploadedFile: File | undefined

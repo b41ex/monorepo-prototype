@@ -16,8 +16,8 @@
 
 import type { AgentKey, NamespaceKey, PackageKey, ServiceKey, VersionKey, WorkspaceKey } from './keys'
 import type { PublishConfigDto } from './publish-config'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import { API_V2, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import { API_V2, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export type Snapshots = {
   packageKey: PackageKey

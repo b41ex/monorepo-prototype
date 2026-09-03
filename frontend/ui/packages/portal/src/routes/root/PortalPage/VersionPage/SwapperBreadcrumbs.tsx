@@ -18,7 +18,7 @@ import type { FC, ReactElement } from 'react'
 import React, { memo } from 'react'
 import { ComparedPackagesBreadcrumbs } from '../../ComparedPackagesBreadcrumbs'
 import { Box, Typography } from '@mui/material'
-import { OverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/OverflowTooltip'
+import { OverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/OverflowTooltip'
 import type { ComparedPackagesBreadcrumbsData } from './breadcrumbs'
 import { isLinkedComparedBreadcrumbPathItem } from './breadcrumbs'
 

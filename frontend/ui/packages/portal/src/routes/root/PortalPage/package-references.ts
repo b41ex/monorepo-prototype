@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import type { Key, PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { VersionReferences } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import type { Key, PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { VersionReferences } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export type CountInDashboard = number
 export type CountPackageInDashboardMap = Map<PackageKey, CountInDashboard>

@@ -3,7 +3,7 @@ import { type FC, memo } from 'react'
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
 
 type HistorySearchFieldProps = {
   value: string

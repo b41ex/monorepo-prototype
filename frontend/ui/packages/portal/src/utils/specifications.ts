@@ -16,11 +16,11 @@
 
 import type { JSONSchema } from '@stoplight/spectral-core'
 import { Resolver } from '@stoplight/json-ref-resolver'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { MethodType } from '@netcracker/qubership-apihub-ui-shared/entities/method-types'
-import { JSON_FILE_FORMAT, YAML_FILE_FORMAT } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import type { OpenapiSchema, PathItemObject, SpecItemUri } from '@netcracker/qubership-apihub-ui-shared/utils/specifications'
-import { toJsonSchema, toYaml } from '@netcracker/qubership-apihub-ui-shared/utils/specifications'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { MethodType } from '@b41ex/qubership-apihub-ui-shared/entities/method-types'
+import { JSON_FILE_FORMAT, YAML_FILE_FORMAT } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import type { OpenapiSchema, PathItemObject, SpecItemUri } from '@b41ex/qubership-apihub-ui-shared/utils/specifications'
+import { toJsonSchema, toYaml } from '@b41ex/qubership-apihub-ui-shared/utils/specifications'
 
 export type SpecPathKey = [Key, MethodType]
 

@@ -1,7 +1,7 @@
-import { Diff } from '@netcracker/qubership-apihub-api-diff';
-import { combineDiffMetas, useValueFromObjWithDiff, WithDiffMetaKey } from '@netcracker/qubership-apihub-apispec-view-diff-block';
+import { Diff } from '@b41ex/qubership-apihub-api-diff';
+import { combineDiffMetas, useValueFromObjWithDiff, WithDiffMetaKey } from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { pick } from 'lodash';
-import { useDiffsMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
+import { useDiffsMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
 
 export function useDescriptionWithMeta(data: WithDiffMetaKey<unknown>): [string, Diff | undefined] {
   const diffMetaKey = useDiffsMetaKey()

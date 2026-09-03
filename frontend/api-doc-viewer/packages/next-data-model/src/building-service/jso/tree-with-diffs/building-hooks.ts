@@ -2,7 +2,7 @@ import { JsoTreeNodeValueWithDiffs } from "@apihub/next-data-model/model/jso/tre
 import { JsoTreeNodeWithDiffs } from "@apihub/next-data-model/model/jso/types/aliases";
 import { JsoTreeNodeKind } from "@apihub/next-data-model/model/jso/types/node-kind";
 import { JsoTreeNodeMeta } from "@apihub/next-data-model/model/jso/types/node-meta";
-import { SyncCrawlHook } from "@netcracker/qubership-apihub-json-crawl";
+import { SyncCrawlHook } from "@b41ex/qubership-apihub-json-crawl";
 import { JsoWithDiffsCrawlRule } from "../json-crawl-entities/rules/types";
 import { JsoTreeWithDiffsCrawlState } from "../json-crawl-entities/state/types";
 import { createTreeBuildingHooks, TreeBuildingHooksFactoryParams } from "../../abstract/json-crawl-entities/hooks/builder";

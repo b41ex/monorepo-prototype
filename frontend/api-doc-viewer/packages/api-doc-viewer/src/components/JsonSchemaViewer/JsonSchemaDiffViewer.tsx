@@ -16,9 +16,9 @@
 
 import '../../index.css'
 
-import { createJsonSchemaDiffTree, DiffMetaKeys, JsonSchemaDiffTreeNode } from '@netcracker/qubership-apihub-api-data-model'
-import { aggregateDiffsWithRollup, DiffType } from '@netcracker/qubership-apihub-api-diff'
-import { JsonSchemaState } from '@netcracker/qubership-apihub-api-state-model'
+import { createJsonSchemaDiffTree, DiffMetaKeys, JsonSchemaDiffTreeNode } from '@b41ex/qubership-apihub-api-data-model'
+import { aggregateDiffsWithRollup, DiffType } from '@b41ex/qubership-apihub-api-diff'
+import { JsonSchemaState } from '@b41ex/qubership-apihub-api-state-model'
 import { FC, useMemo } from 'react'
 import { DEFAULT_DISPLAY_MODE, DEFAULT_EXPANDED_DEPTH, DEFAULT_LAYOUT_MODE, } from '../../consts/configuration'
 import { ChangeSeverityFiltersContext } from '../../contexts/ChangeSeverityFiltersContext'

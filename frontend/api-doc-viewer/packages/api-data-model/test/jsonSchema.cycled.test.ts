@@ -1,4 +1,4 @@
-import { denormalize, normalize, NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { denormalize, normalize, NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 import { JSONSchema4 } from 'json-schema'
 
 import { createJsonSchemaTree, JsonSchemaTreeNode } from '../src'

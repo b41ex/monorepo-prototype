@@ -1,4 +1,4 @@
-import type { OperationType } from '@netcracker/qubership-apihub-api-processor'
+import type { OperationType } from '@b41ex/qubership-apihub-api-processor'
 
 import { CONTRACT_TYPE_DDL } from './contract-types'
 import {

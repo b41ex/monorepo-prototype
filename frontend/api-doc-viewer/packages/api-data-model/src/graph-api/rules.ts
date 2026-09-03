@@ -1,4 +1,4 @@
-import { CrawlRules } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRules } from '@b41ex/qubership-apihub-json-crawl'
 
 import { graphApiNodeKind, graphSchemaNodeKind } from './constants'
 import type { GraphApiCrawlRule, GraphApiNodeKind, GraphSchemaNodeKind } from './tree/types'

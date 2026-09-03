@@ -11,7 +11,7 @@ exitIfInsideNodeModules(import.meta.url)
 
 // Dynamic import: must run after exitIfInsideNodeModules because static import breaks the UI component build
 const { getCompatibilitySuites, TEST_SPEC_TYPE_GRAPH_QL } = await import(
-  '@netcracker/qubership-apihub-compatibility-suites'
+  '@b41ex/qubership-apihub-compatibility-suites'
 )
 
 const TESTS_OUT_DIR = './src/it/compatibility-suite'

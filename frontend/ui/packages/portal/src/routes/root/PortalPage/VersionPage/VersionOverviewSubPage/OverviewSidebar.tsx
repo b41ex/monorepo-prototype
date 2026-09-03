@@ -17,8 +17,8 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import { OverviewNavigation } from './OverviewNavigation'
-import { SidebarPanel } from '@netcracker/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
-import { PageTitle } from '@netcracker/qubership-apihub-ui-shared/components/Titles/PageTitle'
+import { SidebarPanel } from '@b41ex/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
+import { PageTitle } from '@b41ex/qubership-apihub-ui-shared/components/Titles/PageTitle'
 
 export const OverviewSidebar: FC = memo(() => {
   return (

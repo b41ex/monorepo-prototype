@@ -17,13 +17,13 @@
 import { useMutation } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
 import { useShowErrorNotification } from '../BasePage/Notification'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { API_V2, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import type { PackageId, VersionStatus } from '@netcracker/qubership-apihub-api-processor'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { API_V2, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import type { PackageId, VersionStatus } from '@b41ex/qubership-apihub-api-processor'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 type PublishDashboardVersionFromCSVData = {
   packageKey: Key

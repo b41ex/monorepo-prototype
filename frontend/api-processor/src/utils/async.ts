@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { normalize } from '@netcracker/qubership-apihub-api-unifier'
+import { normalize } from '@b41ex/qubership-apihub-api-unifier'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 import { FIRST_REFERENCE_KEY_PROPERTY, INLINE_REFS_FLAG } from '../consts'
 import { removeComponents } from './operations.utils'

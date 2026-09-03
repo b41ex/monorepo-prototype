@@ -1,6 +1,6 @@
 import { AbstractNodeDescendantsDiffsSummaryAggregator } from "@apihub/next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/node-descendants-diffs-summary-aggregator";
 import { NodeDescendantDiffs, NodeDescendantDiffsSummary, NodeDiffs } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { isDiffAdd, isDiffRemove } from "@netcracker/qubership-apihub-api-diff";
+import { isDiffAdd, isDiffRemove } from "@b41ex/qubership-apihub-api-diff";
 import { DiffMetaKeys } from "@apihub/next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/diff-meta-keys";
 
 export class DdlApiNodeDescendantDiffsSummaryAggregatorKindAny extends AbstractNodeDescendantsDiffsSummaryAggregator {

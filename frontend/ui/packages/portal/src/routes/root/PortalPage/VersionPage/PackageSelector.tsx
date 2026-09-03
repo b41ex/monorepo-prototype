@@ -18,13 +18,13 @@ import type { FC } from 'react'
 import { memo, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useVersionSearchParam } from '../../useVersionSearchParam'
-import { usePackageSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+import { usePackageSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
 import { useRefSearchParam } from '../useRefSearchParam'
 import { useFilteredPackageRefs } from '../../useRefPackage'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import { PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { DropdownPackageReferenceSelector } from '@netcracker/qubership-apihub-ui-shared/components/DropdownPackageReferenceSelector'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import { PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { DropdownPackageReferenceSelector } from '@b41ex/qubership-apihub-ui-shared/components/DropdownPackageReferenceSelector'
 
 export const PackageSelector: FC = memo(() => {
   const [searchValue, setSearchValue] = useState('')

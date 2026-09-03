@@ -29,11 +29,11 @@ import {
   useSetActivityHistoryFiltersContext,
 } from '../ActivityHistoryFiltersProvider'
 import { ActivityHistoryCard } from './ActivityHistoryCard'
-import { READ_PERMISSION } from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
-import { isBoolean } from '@netcracker/qubership-apihub-ui-shared/utils/types'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { READ_PERMISSION } from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
+import { isBoolean } from '@b41ex/qubership-apihub-ui-shared/utils/types'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
 import { MainPageCard } from '@portal/routes/root/MainPage/MainPageCard'
-import { CONTENT_PLACEHOLDER_AREA, NO_PERMISSION, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+import { CONTENT_PLACEHOLDER_AREA, NO_PERMISSION, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 
 export const WorkspacePage: FC = memo(() => {
   const { workspaceKey = '' } = useParams()

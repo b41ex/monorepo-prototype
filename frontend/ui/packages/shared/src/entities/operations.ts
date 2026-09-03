@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import type { DeprecateItem, ReferencedPackageKind } from '@netcracker/qubership-apihub-api-processor'
+import type { DeprecateItem, ReferencedPackageKind } from '@b41ex/qubership-apihub-api-processor'
 import {
   API_AUDIENCE_EXTERNAL,
   API_AUDIENCE_INTERNAL,
   API_AUDIENCE_UNKNOWN,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 import type { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query'
 import type { IsLoading } from '../utils/aliases'
 import type { ApiType } from './api-types'

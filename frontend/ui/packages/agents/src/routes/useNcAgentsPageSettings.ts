@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { usePageSettingsState } from '@netcracker/qubership-apihub-ui-shared/hooks/storages/usePageSettingsState'
+import { usePageSettingsState } from '@b41ex/qubership-apihub-ui-shared/hooks/storages/usePageSettingsState'
 
 export function useNcAgentsPageSettings(): NcAgentsPageSettingsState {
   const { expandMainMenu, toggleExpandMainMenu } = usePageSettingsState()

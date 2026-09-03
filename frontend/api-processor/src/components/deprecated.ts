@@ -17,7 +17,7 @@
 import { BuilderContext, DeprecateItem, NotificationMessage, OperationsApiType, ResolvedOperation } from '../types'
 import { DEFAULT_BATCH_SIZE, HASH_FLAG, MESSAGE_SEVERITY } from '../consts'
 import { executeInBatches, isDeprecatedOperationItem, isString, keyBy } from '../utils'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { areDeclarationPathsEqual } from '../utils/path'
 import {
   DeferredHash,
@@ -26,7 +26,7 @@ import {
   matchPaths,
   OPEN_API_PROPERTY_COMPONENTS,
   PREDICATE_UNCLOSED_END,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 
 export const calculateHistoryForDeprecatedItems = async (
   apiType: OperationsApiType,

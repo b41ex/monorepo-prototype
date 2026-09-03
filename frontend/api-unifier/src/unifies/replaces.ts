@@ -1,5 +1,5 @@
 import { InternalUnifyOptions, OriginLeafs, UnifyFunction } from '../types'
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { isBroken, isPureCombiner } from './type'
 import { JsonPrimitiveValue } from './defaults'
 import { deepEqual } from 'fast-equals'

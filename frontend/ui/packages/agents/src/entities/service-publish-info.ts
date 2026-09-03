@@ -15,10 +15,10 @@
  */
 
 import type { PackageKey, ServicePublishInfoKey } from './keys'
-import type { ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { DiffTypeDto } from '@netcracker/qubership-apihub-api-processor'
-import { replacePropertyInChangesSummary } from '@netcracker/qubership-apihub-api-processor'
+import type { ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { DiffTypeDto } from '@b41ex/qubership-apihub-api-processor'
+import { replacePropertyInChangesSummary } from '@b41ex/qubership-apihub-api-processor'
 
 export type ServicePublishInfo = Readonly<{
   key: ServicePublishInfoKey

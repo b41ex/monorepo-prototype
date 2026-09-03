@@ -3,7 +3,7 @@ import { DiffOperationAPI } from '../../containers/DiffOperationAPI'
 import {
   getMergedDocument
 } from './helpers/getMergedDocument'
-import { aggregatedDiffsMetaKey, diffsMetaKey } from '@netcracker/qubership-apihub-apispec-view-diff-block'
+import { aggregatedDiffsMetaKey, diffsMetaKey } from '@b41ex/qubership-apihub-apispec-view-diff-block'
 import React from 'react'
 import '../index'
 

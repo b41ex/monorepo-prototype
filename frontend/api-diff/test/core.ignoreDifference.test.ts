@@ -1,4 +1,4 @@
-import { createEvaluationCacheService } from '@netcracker/qubership-apihub-api-unifier'
+import { createEvaluationCacheService } from '@b41ex/qubership-apihub-api-unifier'
 import { allNonBreaking, nestedCompare } from '../src/core'
 import { isObject } from '../src/utils'
 import {

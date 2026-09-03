@@ -10,7 +10,7 @@
     "module": "CommonJS",
     "rootDir": ".",
     "paths": {
-      "@netcracker/qubership-apihub-ddlapi": ["./src/index.ts"]
+      "@b41ex/qubership-apihub-ddlapi": ["./src/index.ts"]
     }
   },
   "include": ["src/**/*", "test/**/*"]

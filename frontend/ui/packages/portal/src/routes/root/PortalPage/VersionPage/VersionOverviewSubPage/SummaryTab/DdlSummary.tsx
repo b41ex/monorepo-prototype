@@ -1,11 +1,11 @@
 import { type FC, memo } from 'react'
 
-import { DEFAULT_CHANGE_SEVERITY_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+import { DEFAULT_CHANGE_SEVERITY_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_TITLE_MAP,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import type { DdlContractsSummary } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import type { DdlContractsSummary } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
 
 import { buildBwcValidationMetrics } from './bwcValidationMetrics'
 import { SUMMARY_IMPACTED_ENTITY_TABLES } from './entities'

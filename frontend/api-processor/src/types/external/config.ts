@@ -23,7 +23,7 @@ import {
   FILE_FORMAT_YAML,
   VERSION_STATUS,
 } from '../../consts'
-import { OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier'
+import { OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier'
 import { ShareabilityStatus } from './documents'
 import type { ReferencedPackageKind } from './references'
 

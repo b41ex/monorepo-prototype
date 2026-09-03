@@ -4,7 +4,7 @@ import {
   type DdlChangesPage,
   type DdlEntityChangeEntry,
   EMPTY_DDL_CHANGES,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
 
 type FlatDdlChanges = Readonly<{
   entities: ReadonlyArray<DdlEntityChangeEntry>

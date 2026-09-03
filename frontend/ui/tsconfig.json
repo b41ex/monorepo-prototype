@@ -24,22 +24,22 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@netcracker/qubership-apihub-ui-shared": [
+      "@b41ex/qubership-apihub-ui-shared": [
         "./packages/shared/src"
       ],
-      "@netcracker/qubership-apihub-ui-shared/*": [
+      "@b41ex/qubership-apihub-ui-shared/*": [
         "./packages/shared/src/*"
       ],
-      "@netcracker/qubership-apihub-ui-portal": [
+      "@b41ex/qubership-apihub-ui-portal": [
         "./packages/portal/src"
       ],
-      "@netcracker/qubership-apihub-ui-portal/*": [
+      "@b41ex/qubership-apihub-ui-portal/*": [
         "./packages/portal/src/*"
       ],
-      "@netcracker/qubership-apihub-ui-agents": [
+      "@b41ex/qubership-apihub-ui-agents": [
         "./packages/agents/src"
       ],
-      "@netcracker/qubership-apihub-ui-agents/*": [
+      "@b41ex/qubership-apihub-ui-agents/*": [
         "./packages/agents/src/*"
       ]
     }

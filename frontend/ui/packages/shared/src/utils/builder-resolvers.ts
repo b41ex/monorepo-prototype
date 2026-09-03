@@ -30,7 +30,7 @@ import type {
   VersionOperationsResolver,
   VersionReferencesResolver,
   VersionResolver,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 import { getPublishedDocumentRawBlob } from '../hooks/documents/usePublishedDocumentRaw'
 
 export async function packageVersionResolver(): Promise<VersionResolver> {

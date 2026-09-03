@@ -1,5 +1,5 @@
 import type { LayoutSide } from "../../../types/internal/LayoutSide"
-import type { ChangedPropertyMetaData, NodeDescendantDiffs, NodeDiffsSeverities, NodeDiffsSeverityPlacemennt } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+import type { ChangedPropertyMetaData, NodeDescendantDiffs, NodeDiffsSeverities, NodeDiffsSeverityPlacemennt } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import { TextValueVariant } from "../TextValue/types"
 import { WithPrecededByProps } from "../WithPrecededByProps"
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
 import { generatePath } from 'react-router-dom'
 import type { ApiType } from '../../../entities/api-types'
 import type { ContractType } from '../../../entities/contract-types'

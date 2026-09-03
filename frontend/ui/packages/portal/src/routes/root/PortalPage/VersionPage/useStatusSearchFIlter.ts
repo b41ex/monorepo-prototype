@@ -15,9 +15,9 @@
  */
 
 import { useMemo } from 'react'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
-import type { DeprecatedQueryStatus } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import type { DeprecatedQueryStatus } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 
 export function useStatusSearchFilter(): [DeprecatedQueryStatus, SetStatusFilter] {
   const searchParam = useSearchParam<DeprecatedStatus>('status')

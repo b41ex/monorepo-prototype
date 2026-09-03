@@ -26,8 +26,8 @@ import {
   CONTENT_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 import { Box } from '@mui/material'
 
 export type ActivityListBodyProps = Partial<{

@@ -16,11 +16,11 @@
 
 import { useMemo } from 'react'
 import { useVersionReferences } from './useVersionReferences'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 type PackageReferencesQueryContent = {
   data: PackageReference[]

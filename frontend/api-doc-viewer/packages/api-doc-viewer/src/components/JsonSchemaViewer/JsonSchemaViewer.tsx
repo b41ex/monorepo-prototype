@@ -17,8 +17,8 @@
 import '../../index.css'
 
 import { CustomizationOptionsContext, CustomizationOptions } from '../../contexts/CustomizationOptionsContext'
-import { createJsonSchemaTree, JsonSchemaTreeNode } from '@netcracker/qubership-apihub-api-data-model'
-import { JsonSchemaState } from '@netcracker/qubership-apihub-api-state-model'
+import { createJsonSchemaTree, JsonSchemaTreeNode } from '@b41ex/qubership-apihub-api-data-model'
+import { JsonSchemaState } from '@b41ex/qubership-apihub-api-state-model'
 import { FC, useMemo } from 'react'
 import { DEFAULT_DISPLAY_MODE, DEFAULT_EXPANDED_DEPTH } from '../../consts/configuration'
 import { DisplayModeContext } from '../../contexts/DisplayModeContext'

@@ -10,13 +10,13 @@ import { useLayoutMode } from "../../../../contexts/LayoutModeContext";
 import { useLevelContext } from "../../../../contexts/LevelContext";
 import { CHANGED_LAYOUT_SIDE, LayoutSide, ORIGIN_LAYOUT_SIDE } from "../../../../types/internal/LayoutSide";
 import { INLINE_DIFFS_LAYOUT_MODE, SIDE_BY_SIDE_DIFFS_LAYOUT_MODE } from "../../../../types/LayoutMode";
-import { DiffMetaKeys, IJsonSchemaBaseType, NodeChange } from "@netcracker/qubership-apihub-api-data-model";
-import { isDiffAdd, isDiffRemove, isDiffReplace, type Diff, type DiffType } from "@netcracker/qubership-apihub-api-diff";
-import { JsonPath } from "@netcracker/qubership-apihub-json-crawl";
-import { DiffsClassesBuilder } from "@netcracker/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities";
-import { HighlightVariant } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { isSpecificationExtensionKey, SpecificationExtensionKey } from "@netcracker/qubership-apihub-next-data-model/model/specification-extension-key";
-import { getValueByPath, takeIfDiffsRecord } from "@netcracker/qubership-apihub-next-data-model/utilities";
+import { DiffMetaKeys, IJsonSchemaBaseType, NodeChange } from "@b41ex/qubership-apihub-api-data-model";
+import { isDiffAdd, isDiffRemove, isDiffReplace, type Diff, type DiffType } from "@b41ex/qubership-apihub-api-diff";
+import { JsonPath } from "@b41ex/qubership-apihub-json-crawl";
+import { DiffsClassesBuilder } from "@b41ex/qubership-apihub-next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/utilities";
+import { HighlightVariant } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
+import { isSpecificationExtensionKey, SpecificationExtensionKey } from "@b41ex/qubership-apihub-next-data-model/model/specification-extension-key";
+import { getValueByPath, takeIfDiffsRecord } from "@b41ex/qubership-apihub-next-data-model/utilities";
 import { FC, memo, useMemo } from "react";
 
 type ExtensionsSubheaderProps = {

@@ -1,8 +1,8 @@
 import { isRegularNode, SchemaNode } from '@stoplight/json-schema-tree';
 import { Box } from '@stoplight/mosaic';
-import { applyReplacedFromMeta, useDiffContext } from '@netcracker/qubership-apihub-apispec-view-diff-block';
+import { applyReplacedFromMeta, useDiffContext } from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import * as React from 'react';
-import { useDiffMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
+import { useDiffMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
 
 type FormatProps = {
   schemaNode: SchemaNode;

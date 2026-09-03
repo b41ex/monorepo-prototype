@@ -2,7 +2,7 @@ import { ChangedPropertyMetaData, DIFF_HIGHLIGHTING_MODES_DEFAULT, HighlightVari
 import { AsyncApiTreeNodeKinds } from "@apihub/next-data-model/model/async-api/types/node-kind";
 import { AsyncApiTreeNodeValue } from "@apihub/next-data-model/model/async-api/types/node-value";
 import { isObject } from "@apihub/next-data-model/utilities";
-import { ActionType, DiffAction, isDiffAdd, isDiffRemove } from "@netcracker/qubership-apihub-api-diff";
+import { ActionType, DiffAction, isDiffAdd, isDiffRemove } from "@b41ex/qubership-apihub-api-diff";
 import { AsyncApiNodeDiffsAggregatorKindAny } from "./kind-any";
 
 export class AsyncApiNodeDiffsAggregatorKindBindings extends AsyncApiNodeDiffsAggregatorKindAny {

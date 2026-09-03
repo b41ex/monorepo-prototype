@@ -19,7 +19,7 @@ import { memo } from 'react'
 import { Box, Typography } from '@mui/material'
 import type { SxProps } from '@mui/system'
 import type { Theme } from '@mui/material/styles'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
 
 export type TitledValueProps = { sx?: SxProps<Theme> } & {
   title: string

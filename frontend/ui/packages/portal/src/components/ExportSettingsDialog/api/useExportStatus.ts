@@ -1,7 +1,7 @@
 import { useShowErrorNotification } from '@portal/routes/root/BasePage/Notification'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1, requestUnknown } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1, requestUnknown } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router'
 

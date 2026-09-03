@@ -19,7 +19,7 @@ import {
   WithAggregatedDiffs,
   WithDiffMetaRecord,
 } from '../../types'
-import { Diff, DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
 import { isPathParamRenameDiff } from '../../utils'
 
 import { dump, getCustomTags, resolveApiAudience } from '../../utils/apihubSpecificationExtensions'

@@ -2,12 +2,12 @@ import {
   getCompatibilitySuite,
   SpecificationVersionPair,
   TestSpecType,
-} from '@netcracker/qubership-apihub-compatibility-suites'
+} from '@b41ex/qubership-apihub-compatibility-suites'
 import { DiffOperationAPI } from '../../../containers/DiffOperationAPI'
 import { getCompareResult } from './getMergedDocument'
 import { stringifyDiffs } from './stringifyDiffs'
 import { parse } from '@stoplight/yaml'
-import { aggregatedDiffsMetaKey, diffsMetaKey } from '@netcracker/qubership-apihub-apispec-view-diff-block'
+import { aggregatedDiffsMetaKey, diffsMetaKey } from '@b41ex/qubership-apihub-apispec-view-diff-block'
 import FontFaceObserver from 'fontfaceobserver'
 import React, { useState } from 'react'
 

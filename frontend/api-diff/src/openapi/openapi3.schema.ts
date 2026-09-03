@@ -37,7 +37,7 @@ import {
   SPEC_TYPE_JSON_SCHEMA_07,
   SPEC_TYPE_OPEN_API_30,
   SPEC_TYPE_OPEN_API_31,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { schemaParamsCalculator } from './openapi3.description.schema'
 import { openApiSpecificationExtensionRulesFunction } from './openapi3.compare.rules'
 import { isArray, isObject } from '../utils'

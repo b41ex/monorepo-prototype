@@ -4,7 +4,7 @@ import { LayoutModeContext } from "../../contexts/LayoutModeContext";
 import { LevelContext } from "../../contexts/LevelContext";
 import { DisplayMode } from "../../types/DisplayMode";
 import { DOCUMENT_LAYOUT_MODE } from "../../types/LayoutMode";
-import { AsyncApiTreeBuilder, createAsyncApiLogger } from "@netcracker/qubership-apihub-next-data-model";
+import { AsyncApiTreeBuilder, createAsyncApiLogger } from "@b41ex/qubership-apihub-next-data-model";
 import { FC, memo, useMemo } from "react";
 import { ErrorBoundary } from "../services/ErrorBoundary";
 import { ErrorBoundaryFallback } from "../services/ErrorBoundaryFallback";

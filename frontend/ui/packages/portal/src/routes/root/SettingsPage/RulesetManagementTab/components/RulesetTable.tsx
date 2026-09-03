@@ -1,18 +1,18 @@
 import { Box, capitalize, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { type Ruleset, RulesetStatuses } from '@portal/entities/api-quality/rulesets'
-import { CustomTableHeadCell } from '@netcracker/qubership-apihub-ui-shared/components/CustomTableHeadCell'
-import { FormattedDate } from '@netcracker/qubership-apihub-ui-shared/components/FormattedDate'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { TableCellSkeleton } from '@netcracker/qubership-apihub-ui-shared/components/TableCellSkeleton'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { useResizeObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
+import { CustomTableHeadCell } from '@b41ex/qubership-apihub-ui-shared/components/CustomTableHeadCell'
+import { FormattedDate } from '@b41ex/qubership-apihub-ui-shared/components/FormattedDate'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { TableCellSkeleton } from '@b41ex/qubership-apihub-ui-shared/components/TableCellSkeleton'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { useResizeObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useResizeObserver'
 import {
   type ColumnModel,
   DEFAULT_CONTAINER_WIDTH,
   useColumnsSizing,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
-import { createComponents } from '@netcracker/qubership-apihub-ui-shared/utils/components'
-import { DEFAULT_NUMBER_SKELETON_ROWS } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+import { createComponents } from '@b41ex/qubership-apihub-ui-shared/utils/components'
+import { DEFAULT_NUMBER_SKELETON_ROWS } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
 import {
   type ColumnSizingInfoState,
   type ColumnSizingState,

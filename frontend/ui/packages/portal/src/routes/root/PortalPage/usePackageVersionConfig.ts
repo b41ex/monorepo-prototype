@@ -17,13 +17,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
 import { useVersionWithRevision } from '../useVersionWithRevision'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type { PackageVersionConfig, PackageVersionConfigDto } from '@portal/entities/package-version-config'
 import { toPackageVersionConfig } from '@portal/entities/package-version-config'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestJson } from '@portal/utils/requests'
-import { API_V2 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import { API_V2 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 
 const PACKAGE_VERSION_CONFIG_QUERY_KEY = 'package-version-config-query-key'
 

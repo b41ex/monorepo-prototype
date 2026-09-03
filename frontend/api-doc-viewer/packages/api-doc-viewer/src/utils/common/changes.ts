@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DiffNodeMeta, DiffRecord, isDiff, isDiffMetaRecord, isObject, NodeChange, NodeChangesSummary } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeMeta, DiffRecord, isDiff, isDiffMetaRecord, isObject, NodeChange, NodeChangesSummary } from '@b41ex/qubership-apihub-api-data-model'
 import {
   Diff,
   DiffAdd,
@@ -26,9 +26,9 @@ import {
   isDiffRemove,
   isDiffRename,
   isDiffReplace
-} from '@netcracker/qubership-apihub-api-diff'
-import { IModelStateNode } from '@netcracker/qubership-apihub-api-state-model'
-import { startFromOpenApiComponents } from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-diff'
+import { IModelStateNode } from '@b41ex/qubership-apihub-api-state-model'
+import { startFromOpenApiComponents } from '@b41ex/qubership-apihub-api-unifier'
 import { CHANGE_SEVERITIES } from '../../consts/changes'
 import { CHANGED_LAYOUT_SIDE, LayoutSide, ORIGIN_LAYOUT_SIDE } from '../../types/internal/LayoutSide'
 import {
@@ -38,7 +38,7 @@ import {
   SIDE_BY_SIDE_DIFFS_LAYOUT_MODE
 } from '../../types/LayoutMode'
 import { isDefined } from './checkers'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export function diffAdd(diff?: Diff): diff is DiffAdd {
   return !!diff && isDiffAdd(diff)

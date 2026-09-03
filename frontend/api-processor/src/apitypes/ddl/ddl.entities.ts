@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { AttrKind, findAttr, Realm, Table } from '@netcracker/qubership-apihub-ddlapi'
+import { AttrKind, findAttr, Realm, Table } from '@b41ex/qubership-apihub-ddlapi'
 import { DDL_KIND, DdlEntitiesBuilder, DdlEntityDescriptor, DdlEntityId, DdlKind } from '../../types'
 import { SLUG_OPTIONS_OPERATION_ID, slugify } from '../../utils'
 import { ParsedDdlData } from './ddl.types'

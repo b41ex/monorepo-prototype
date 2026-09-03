@@ -15,9 +15,9 @@
  */
 
 import { useMemo } from 'react'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
 
 export function useBranchSearchParam(): [Key | undefined, SetBranchSearchParam] {
   const param = useSearchParam<Key>('branch')

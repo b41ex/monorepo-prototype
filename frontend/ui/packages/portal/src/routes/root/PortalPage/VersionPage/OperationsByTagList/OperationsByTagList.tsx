@@ -16,9 +16,9 @@
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography } from '@mui/material'
-import type { OperationPairsGroupedByTag } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { GROUP_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import type { OperationPairsGroupedByTag } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { GROUP_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import type { Dispatch, FC, SetStateAction } from 'react'
 import { memo, useCallback, useMemo } from 'react'
 import { OperationsListOnComparison } from './OperationsListOnComparison'

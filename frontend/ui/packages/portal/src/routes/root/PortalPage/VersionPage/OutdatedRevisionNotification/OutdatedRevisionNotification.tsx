@@ -31,10 +31,10 @@ import {
 } from '../../../usePackageVersionContent'
 import { useActualVersion } from './useActualVersion'
 import { VERSION_ID } from '../../../../../routes'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 
 export const OutdatedRevisionNotification: FC = memo(() => {
   const [open, setOpen] = useState(false)

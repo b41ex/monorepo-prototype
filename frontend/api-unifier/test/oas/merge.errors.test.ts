@@ -1,4 +1,4 @@
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { normalize, RefErrorType, RefErrorTypes } from '../../src'
 
 describe("merge errors handling", function () {

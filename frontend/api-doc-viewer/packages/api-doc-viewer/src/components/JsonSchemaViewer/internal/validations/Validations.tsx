@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IJsonSchemaNumberType, isDiff, JsonSchemaDiffNodeMeta, JsonSchemaDiffNodeValue } from '@netcracker/qubership-apihub-api-data-model'
+import { IJsonSchemaNumberType, isDiff, JsonSchemaDiffNodeMeta, JsonSchemaDiffNodeValue } from '@b41ex/qubership-apihub-api-data-model'
 import type { FC } from 'react'
 import {
   ADDITIONAL_PROPERTY_NAME_PATTERN_LABEL,

@@ -1,7 +1,7 @@
 import { createCustomEqual } from 'fast-equals'
 import type { State } from 'fast-equals'
 import { EvaluationCacheService } from '../cache'
-import { anyArrayKeys } from '@netcracker/qubership-apihub-json-crawl'
+import { anyArrayKeys } from '@b41ex/qubership-apihub-json-crawl'
 
 export const ANY_VALUE = Symbol('any-value')
 

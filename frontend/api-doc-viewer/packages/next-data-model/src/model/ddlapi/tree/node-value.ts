@@ -1,4 +1,4 @@
-import { PgTypeKind, TypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { PgTypeKind, TypeKind } from '@b41ex/qubership-apihub-ddlapi'
 import { DdlApiTreeNodeKind, DdlApiTreeNodeKinds } from '../types/node-kind'
 
 /**

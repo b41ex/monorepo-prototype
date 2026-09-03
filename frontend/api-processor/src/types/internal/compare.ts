@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Diff, DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DiffType } from '@b41ex/qubership-apihub-api-diff'
 import {
   BuildConfig,
   ChangeSummary,

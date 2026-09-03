@@ -42,8 +42,8 @@ import { LoadingButton } from '@mui/lab'
 import { EmailNotificationList } from './EmailNotificationList'
 import { useBaselineOptions } from '../useBaselineOptions'
 import { useVersionOptions } from './useVersionOptions'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { RadioCustom } from '@netcracker/qubership-apihub-ui-shared/components/RadioCustom'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { RadioCustom } from '@b41ex/qubership-apihub-ui-shared/components/RadioCustom'
 import type {
   AutodiscoveryStatus} from '../../../../entities/statuses'
 import {
@@ -52,7 +52,7 @@ import {
 } from '../../../../entities/statuses'
 import type { VersionKey } from '../../../../entities/keys'
 import type { Emails, Schedules } from '../../../../entities/settings'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

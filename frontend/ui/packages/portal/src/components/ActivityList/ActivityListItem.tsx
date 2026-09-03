@@ -22,8 +22,8 @@ import { NavLink } from 'react-router-dom'
 import type { Activity } from '../../entities/activities'
 import type { ActivityMessage } from '../../utils/activities'
 import { EMPTY_ACTIVITY_MESSAGE, getActivityMessageServiceInstance, LINK_PLACEHOLDER } from '../../utils/activities'
-import { FormattedDate } from '@netcracker/qubership-apihub-ui-shared/components/FormattedDate'
-import { PrincipalView } from '@netcracker/qubership-apihub-ui-shared/components/PrincipalView'
+import { FormattedDate } from '@b41ex/qubership-apihub-ui-shared/components/FormattedDate'
+import { PrincipalView } from '@b41ex/qubership-apihub-ui-shared/components/PrincipalView'
 
 type ActivitiesListItemProps = {
   activity: Activity

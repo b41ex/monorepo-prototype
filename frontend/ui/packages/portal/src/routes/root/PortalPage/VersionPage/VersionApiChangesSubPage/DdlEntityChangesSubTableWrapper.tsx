@@ -1,9 +1,9 @@
 import { type FC, memo, useMemo } from 'react'
 
-import { getDdlEntityChangesRequestIds } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
-import { sortChanges } from '@netcracker/qubership-apihub-ui-shared/utils/api-changes'
-import type { DdlSubTableComponentProps } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/DdlChangesViewTable'
-import { DdlEntityChangesSubTable } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/DdlEntityChangesSubTable'
+import { getDdlEntityChangesRequestIds } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
+import { sortChanges } from '@b41ex/qubership-apihub-ui-shared/utils/api-changes'
+import type { DdlSubTableComponentProps } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/DdlChangesViewTable'
+import { DdlEntityChangesSubTable } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/DdlEntityChangesSubTable'
 
 import { usePackageVersionContent } from '@portal/routes/root/usePackageVersionContent'
 

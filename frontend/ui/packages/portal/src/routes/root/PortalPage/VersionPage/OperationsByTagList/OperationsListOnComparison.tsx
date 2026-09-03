@@ -16,16 +16,16 @@
 
 import { buildOperationPairKey, useHandledOperationPairsContext } from '@portal/components/HandledOperationPairsProvider'
 import { useHasComparisonInternalDocument, useSetIsApiDiffResultLoading } from '@portal/routes/root/ApiDiffResultProvider'
-import { CustomListItemButton } from '@netcracker/qubership-apihub-ui-shared/components/CustomListItemButton'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { OperationPair } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import { CustomListItemButton } from '@b41ex/qubership-apihub-ui-shared/components/CustomListItemButton'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { OperationPair } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
-import { useRefWithAutoScroll } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useRefWithAutoScroll'
-import { usePackageSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+import { useRefWithAutoScroll } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useRefWithAutoScroll'
+import { usePackageSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import {
   DOCUMENT_SEARCH_PARAM,
   FILTERS_SEARCH_PARAM,
@@ -35,7 +35,7 @@ import {
   REF_SEARCH_PARAM,
   SEARCH_TEXT_PARAM_KEY,
   VERSION_SEARCH_PARAM,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import type { Dispatch, FC } from 'react'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'

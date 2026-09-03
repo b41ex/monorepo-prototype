@@ -1,5 +1,5 @@
 import { Link } from '@mui/material'
-import type { NavigationLinkProps } from '@netcracker/qubership-apihub-api-doc-viewer'
+import type { NavigationLinkProps } from '@b41ex/qubership-apihub-api-doc-viewer'
 import type { FC } from 'react'
 import { memo } from 'react'
 import { NavLink } from 'react-router-dom'

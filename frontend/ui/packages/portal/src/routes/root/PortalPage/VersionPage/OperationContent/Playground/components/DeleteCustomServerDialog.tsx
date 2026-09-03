@@ -1,9 +1,9 @@
 import type { FC } from 'react'
 import { memo, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { ConfirmationDialog } from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { ConfirmationDialog } from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 import { SHOW_DELETE_CUSTOM_SERVER_DIALOG } from '@portal/routes/EventBusProvider'
 import { useCustomServersPackageMap } from '../hooks/useCustomServersPackageMap'
 

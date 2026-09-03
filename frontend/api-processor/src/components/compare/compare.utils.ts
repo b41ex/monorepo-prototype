@@ -46,7 +46,7 @@ import {
   slugify,
   takeIfDefined,
 } from '../../utils'
-import { Diff } from '@netcracker/qubership-apihub-api-diff'
+import { Diff } from '@b41ex/qubership-apihub-api-diff'
 
 export function calculateTotalChangeSummary(
   summaries: ChangeSummary[],

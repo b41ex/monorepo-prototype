@@ -15,8 +15,8 @@
  */
 
 import type { OpenAPIV3 } from 'openapi-types'
-import type { CombinerType } from '@netcracker/qubership-apihub-api-visitor'
-import { OpenApiWalker, PROPERTY_ALIAS_ADDITIONAL_PROPERTIES } from '@netcracker/qubership-apihub-api-visitor'
+import type { CombinerType } from '@b41ex/qubership-apihub-api-visitor'
+import { OpenApiWalker, PROPERTY_ALIAS_ADDITIONAL_PROPERTIES } from '@b41ex/qubership-apihub-api-visitor'
 import {
   SCHEMA_TYPE,
   type SchemaClass,
@@ -31,7 +31,7 @@ import type {
   Hash,
   NormalizeOptions,
   OriginLeafs,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import {
   denormalize,
   JSON_SCHEMA_NODE_SYNTHETIC_TYPE_ANY,
@@ -49,9 +49,9 @@ import {
   OPEN_API_PROPERTY_COMPONENTS,
   OPEN_API_PROPERTY_SCHEMAS,
   pathItemToFullPath,
-} from '@netcracker/qubership-apihub-api-unifier'
-import { PROPERTY_TYPE_LEAF, RELATION_TYPE_PROPERTY_TO_CLASS_REFERENCE } from '@netcracker/qubership-apihub-class-view'
-import type { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+} from '@b41ex/qubership-apihub-api-unifier'
+import { PROPERTY_TYPE_LEAF, RELATION_TYPE_PROPERTY_TO_CLASS_REFERENCE } from '@b41ex/qubership-apihub-class-view'
+import type { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { isArray } from 'lodash-es'
 import {
   resolveSharedSchemaNames,

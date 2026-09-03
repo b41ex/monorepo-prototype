@@ -1,8 +1,8 @@
 import { DdlTableDiffsViewer } from "../../components/DdlTableViewer/DdlTableDiffsViewer";
 import { DisplayMode } from "../../types/DisplayMode";
-import { apiDiff } from "@netcracker/qubership-apihub-api-diff";
-import type { Realm } from "@netcracker/qubership-apihub-ddlapi";
-import { TableKey } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
+import { apiDiff } from "@b41ex/qubership-apihub-api-diff";
+import type { Realm } from "@b41ex/qubership-apihub-ddlapi";
+import { TableKey } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
 import { FC, useEffect, useState } from "react";
 import {
   buildFromDdlInBrowser,

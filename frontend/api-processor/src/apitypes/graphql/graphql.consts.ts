@@ -15,7 +15,7 @@
  */
 import { ResolvedVersionDocument, ZippableDocument } from '../../types'
 import { NORMALIZE_OPTIONS, ORIGINS_SYMBOL } from '../../consts'
-import { NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 import { DirectiveLocation } from 'graphql/language'
 
 export const GRAPHQL_DOCUMENT_TYPE = {

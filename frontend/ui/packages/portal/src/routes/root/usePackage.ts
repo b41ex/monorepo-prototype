@@ -20,7 +20,7 @@ import { useRefetchAllPackages, useRefetchPackages } from './usePackages'
 import { generatePath, useParams } from 'react-router-dom'
 import { useNavigation } from '../NavigationProvider'
 import { portalRequestJson, portalRequestVoid } from '@portal/utils/requests'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type {
   CreatePackageProps,
   LastReleaseVersionDetails,
@@ -28,23 +28,23 @@ import type {
   Package,
   PackageDto,
   PackageKind,
-} from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+} from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import {
   DASHBOARD_KIND,
   PACKAGE_KIND,
   PRIVATE_PACKAGE_ROLE,
   PUBLIC_PACKAGE_ROLE,
   WORKSPACE_KIND,
-} from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+} from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import type {
   InvalidateQuery,
   IsLoading,
   IsSuccess,
   OptionInvalidateQuery,
-} from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { toPackage } from '@netcracker/qubership-apihub-ui-shared/hooks/packages/usePackage'
+} from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { toPackage } from '@b41ex/qubership-apihub-ui-shared/hooks/packages/usePackage'
 
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 import { MAIN_PAGE_REFERER } from '@portal/entities/referer-pages-names'
 
 const PACKAGE_QUERY_KEY = 'package-query-key'

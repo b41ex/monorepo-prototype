@@ -15,8 +15,8 @@
  */
 
 import { Box, Button, Typography } from '@mui/material'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { useUser } from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useUser'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { useUser } from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useUser'
 import type { FC } from 'react'
 import { memo, useCallback } from 'react'
 import { MainPageCard } from '../../MainPageCard'

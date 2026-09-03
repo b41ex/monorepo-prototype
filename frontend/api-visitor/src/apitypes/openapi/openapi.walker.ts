@@ -15,8 +15,8 @@
  */
 
 import { DEFAULT_OPTION_ORIGINS_META_KEY, InternalVisitorOptions, OpenApiPathVisitor, VisitorOptions, VisitorCrawlState, VisitorCrawlRule, VisitorCrawlHook } from './openapi.types'
-import { createSelfMetaCrawlHook, denormalize, normalize, NormalizeOptions, OriginLeafs } from '@netcracker/qubership-apihub-api-unifier'
-import { isObject, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { createSelfMetaCrawlHook, denormalize, normalize, NormalizeOptions, OriginLeafs } from '@b41ex/qubership-apihub-api-unifier'
+import { isObject, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { openApiRules } from './openapi.rules'
 
 export class OpenApiWalker {

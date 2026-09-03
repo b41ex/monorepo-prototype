@@ -1,5 +1,5 @@
 import { CompareMode, type StrictCompareOptions } from '../types'
-import type { OpenApiSpecVersion } from '@netcracker/qubership-apihub-api-unifier'
+import type { OpenApiSpecVersion } from '@b41ex/qubership-apihub-api-unifier'
 
 export type OpenApi3RulesOptions = {
   version: OpenApiSpecVersion

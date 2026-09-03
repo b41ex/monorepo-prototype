@@ -23,10 +23,10 @@ import {
   COMPARISON_OBJECT_TYPE_PACKAGE_REVISION,
 } from '@portal/routes/root/PortalPage/VersionPage/breadcrumbs'
 import { useVersionWithRevision } from '@portal/routes/root/useVersionWithRevision'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { Package, PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DASHBOARD_KIND, PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { Package, PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DASHBOARD_KIND, PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import { useMemo } from 'react'
 
 type UseComparisonObjectsOptions = Partial<{

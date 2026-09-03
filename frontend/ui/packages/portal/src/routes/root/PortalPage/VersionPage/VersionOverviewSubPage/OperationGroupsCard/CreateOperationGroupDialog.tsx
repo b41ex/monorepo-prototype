@@ -19,11 +19,11 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useCreateOperationGroup } from './useManageOperationGroup'
 import type { OperationGroupParameters } from './OperationGroupParametersPopup'
 import { OperationGroupParametersPopup } from './OperationGroupParametersPopup'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import type { CreateOperationGroupDetail } from '@portal/routes/EventBusProvider'
 import { SHOW_CREATE_OPERATION_GROUP_DIALOG, useEventBus } from '@portal/routes/EventBusProvider'
-import type { OperationGroup } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+import type { OperationGroup } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 
 export const CreateOperationGroupDialog: FC = memo(() => {
   return (

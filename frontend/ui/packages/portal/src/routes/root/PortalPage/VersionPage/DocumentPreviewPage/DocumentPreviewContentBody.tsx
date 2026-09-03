@@ -22,17 +22,17 @@ import { useDocument } from '../useDocument'
 import { usePackageParamsWithRef } from '../../usePackageParamsWithRef'
 import { useSchemaViewMode } from './useSchemaViewMode'
 import { useSpecViewMode } from './useSpecViewMode'
-import { RawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
-import { DETAILED_SCHEMA_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/schema-view-mode'
-import { useSpecItemUriHashParam } from '@netcracker/qubership-apihub-ui-shared/hooks/hashparams/useSpecItemUriHashParam'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { RawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
+import { DETAILED_SCHEMA_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/schema-view-mode'
+import { useSpecItemUriHashParam } from '@b41ex/qubership-apihub-ui-shared/hooks/hashparams/useSpecItemUriHashParam'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   DOC_OPERATION_VIEW_MODE,
   RAW_OPERATION_VIEW_MODE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
 import { DocSpecView } from '@portal/components/DocSpecView'
-import { JSON_FILE_FORMAT } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import { toFormattedJsonString } from '@netcracker/qubership-apihub-ui-shared/utils/strings'
+import { JSON_FILE_FORMAT } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import { toFormattedJsonString } from '@b41ex/qubership-apihub-ui-shared/utils/strings'
 
 export type DocumentPreviewContentBodyProps = {
   apiDescriptionDocument: string

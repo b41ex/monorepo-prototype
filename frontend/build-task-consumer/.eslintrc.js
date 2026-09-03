@@ -39,15 +39,15 @@ module.exports = {
       {
         paths: [
           {
-            name: '@netcracker/qubership-apihub-api-processor/processor',
+            name: '@b41ex/qubership-apihub-api-processor/processor',
             message:
-              "Heavy spec-processing engine (pulls the DDL parser + libpg-query WASM). Import it only where building actually runs (builder.service.ts); use the light '@netcracker/qubership-apihub-api-processor' root elsewhere.",
+              "Heavy spec-processing engine (pulls the DDL parser + libpg-query WASM). Import it only where building actually runs (builder.service.ts); use the light '@b41ex/qubership-apihub-api-processor' root elsewhere.",
             allowTypeImports: true,
           },
           {
-            name: '@netcracker/qubership-apihub-ddlapi/parser',
+            name: '@b41ex/qubership-apihub-ddlapi/parser',
             message:
-              "Pulls the DDL parser + libpg-query WASM. Use the parser-free '@netcracker/qubership-apihub-ddlapi' model root instead.",
+              "Pulls the DDL parser + libpg-query WASM. Use the parser-free '@b41ex/qubership-apihub-ddlapi' model root instead.",
             allowTypeImports: true,
           },
         ],

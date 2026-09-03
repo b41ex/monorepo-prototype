@@ -1,4 +1,4 @@
-import { ActionType, DiffType } from '@netcracker/qubership-apihub-api-diff';
+import { ActionType, DiffType } from '@b41ex/qubership-apihub-api-diff';
 import { Box } from '@stoplight/mosaic';
 import { useAtom } from 'jotai';
 import React, { CSSProperties } from 'react';
@@ -8,7 +8,7 @@ import { DIFF_TYPE_COLOR_MAP, DIFF_TYPE_NAME_MAP } from './constants'
 import { useDiffBlockIdPrefixContext } from './DiffBlockIdPrefixContext';
 import { useDiffContext } from './DiffContext';
 import { diffBlockHeight, diffBlockTop } from './state';
-import { useChangeSeverityFilters } from "@netcracker/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
+import { useChangeSeverityFilters } from "@b41ex/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
 
 // eslint-disable-next-line
 const resetTypeIfExcluded = (

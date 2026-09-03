@@ -19,14 +19,14 @@ A JavaScript library for interactive, customizable representation of entities an
 Include `qubership-apihub-class-view` into your project using npm:
 
 ```bash
-npm install @netcracker/qubership-apihub-class-view --save
+npm install @b41ex/qubership-apihub-class-view --save
 ```
 
 Import the ClassView component in your source code:
 
 ```javascript
-import { ClassViewComponent } from '@netcracker/qubership-apihub-class-view';
-import '@netcracker/qubership-apihub-class-view/class-view.css';
+import { ClassViewComponent } from '@b41ex/qubership-apihub-class-view';
+import '@b41ex/qubership-apihub-class-view/class-view.css';
 ```
 
 Create and get Class View:
@@ -464,8 +464,8 @@ Here's how to integrate Class View within a React component:
 
 ```jsx
 import React, { useRef, useEffect, useState } from 'react';
-import { ClassViewComponent, EVENT_SELECTION_CHANGE } from '@netcracker/qubership-apihub-class-view';
-import '@netcracker/qubership-apihub-class-view/class-view.css';
+import { ClassViewComponent, EVENT_SELECTION_CHANGE } from '@b41ex/qubership-apihub-class-view';
+import '@b41ex/qubership-apihub-class-view/class-view.css';
 
 // Custom hook for handling event subscriptions
 function useMemoSubscription(view, eventType, handler, transformer) {

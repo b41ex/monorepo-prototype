@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Toggler } from '@netcracker/qubership-apihub-ui-shared/components/Toggler'
-import type { OperationViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { Toggler } from '@b41ex/qubership-apihub-ui-shared/components/Toggler'
+import type { OperationViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
 import type { FC } from 'react'
 import { memo, useCallback } from 'react'
 import { useOperationViewMode } from './useOperationViewMode'

@@ -21,7 +21,7 @@ Modify `.npmrc` file by adding GitHub PAT (personal access token) with access to
 The file content sample:
 
 ```text
-@netcracker:registry=https://npm.pkg.github.com/
+@b41ex:registry=https://npm.pkg.github.com/
 //npm.pkg.github.com/:_authToken=ghp_XYZ
 always-auth=true
 ```

@@ -1,7 +1,7 @@
 import { normalize, RefErrorType, RefErrorTypes } from '../../src'
 import jsonschemaExtraKeys from '../resources/jsonschema/resolve-ref.jsonschema.json'
 import jsonschemaExtraKeys31 from '../resources/jsonschema/resolve-ref.jsonschema31.json'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 describe('Schema References', () => {
   describe('OAS 3.x.', () => {

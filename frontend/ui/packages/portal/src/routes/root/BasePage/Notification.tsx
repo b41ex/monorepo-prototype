@@ -31,7 +31,7 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined'
 import InfoIcon from '@mui/icons-material/Info'
-import { YellowWarningIcon } from '@netcracker/qubership-apihub-ui-shared/icons/WarningIcon'
+import { YellowWarningIcon } from '@b41ex/qubership-apihub-ui-shared/icons/WarningIcon'
 
 export const Notification: FC = memo(() => {
   const [open, setOpen] = useState(false)

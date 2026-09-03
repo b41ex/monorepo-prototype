@@ -1,4 +1,4 @@
-import { syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { syncClone } from '@b41ex/qubership-apihub-json-crawl'
 
 import {
   ClassifyRule,

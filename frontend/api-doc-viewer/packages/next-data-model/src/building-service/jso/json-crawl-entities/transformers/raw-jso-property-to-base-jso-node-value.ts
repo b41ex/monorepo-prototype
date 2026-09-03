@@ -1,6 +1,6 @@
 import { JsoTreeNodeValue, JsoTreeNodeValueBase } from "@apihub/next-data-model/model/jso/tree/node-value"
 import { JsoPropertyValueType, JsoPropertyValueTypes } from "@apihub/next-data-model/model/jso/types/node-value-type"
-import { isDiffReplace } from "@netcracker/qubership-apihub-api-diff"
+import { isDiffReplace } from "@b41ex/qubership-apihub-api-diff"
 import {
   JSON_SCHEMA_NODE_TYPES,
   JSON_SCHEMA_PROPERTY_ADDITIONAL_ITEMS,
@@ -40,7 +40,7 @@ import {
   JSON_SCHEMA_PROPERTY_TYPE,
   JSON_SCHEMA_PROPERTY_UNIQUE_ITEMS,
   JSON_SCHEMA_PROPERTY_WRITE_ONLY
-} from "@netcracker/qubership-apihub-api-unifier"
+} from "@b41ex/qubership-apihub-api-unifier"
 import { isObject, isObjective, takeIfDiffsRecord } from "../../../../utilities"
 
 export class JsoRawValueUtilities {

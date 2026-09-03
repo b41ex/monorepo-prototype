@@ -23,10 +23,10 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import { SubOpenApiTable } from './SubOpenApiTable'
 import { COLUMNS_SIZES_MAP } from './operation-table'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
 import { groupOperationsByTags } from '@portal/utils/operations'
-import type { OperationData, OperationsData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { API_AUDIENCE_COLUMN_ID, API_KIND_COLUMN_ID, ENDPOINT_COLUMN_ID } from '@netcracker/qubership-apihub-ui-shared/entities/table-columns'
+import type { OperationData, OperationsData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { API_AUDIENCE_COLUMN_ID, API_KIND_COLUMN_ID, ENDPOINT_COLUMN_ID } from '@b41ex/qubership-apihub-ui-shared/entities/table-columns'
 
 export type OpenApiTableTreeProps = {
   documentSlug: string

@@ -16,11 +16,11 @@
 
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, memo, useCallback, useContext, useMemo, useState } from 'react'
-import type { GraphViewPort } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView'
+import type { GraphViewPort } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView'
 import type {
   VisitorNavigationDetails,
-} from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
-import { joinedJsonPath } from '@netcracker/qubership-apihub-ui-shared/utils/operations'
+} from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
+import { joinedJsonPath } from '@b41ex/qubership-apihub-ui-shared/utils/operations'
 
 export const OperationNavigationDataProvider: FC<PropsWithChildren> = memo<PropsWithChildren>(({ children }) => {
   const [navigationDetails, setNavigationDetails] = useState<VisitorNavigationDetails>()

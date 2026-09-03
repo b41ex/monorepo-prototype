@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { GraphApiTreeNode, graphSchemaNodeKind, IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { GraphApiTreeNode, graphSchemaNodeKind, IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import { isArgumentsNode, isOutputNode, isUsedDirectivesNode } from '../../../api-doc-viewer/src/utils/nodes'
 import { JsonSchemaState, JsonSchemaStateCombinaryNode, JsonSchemaStatePropNode } from '../json-schema'
 import { IModelStateCombinaryNode, IModelStateNode, IModelStatePropNode } from '../types'
-import { BUILT_IN_DIRECTIVE_DEPRECATED } from '@netcracker/qubership-apihub-graphapi'
+import { BUILT_IN_DIRECTIVE_DEPRECATED } from '@b41ex/qubership-apihub-graphapi'
 
 export class GraphSchemaStateCombinaryNode<T extends IModelTreeNode<any, any, any> = GraphApiTreeNode> extends JsonSchemaStateCombinaryNode<T> {
 }

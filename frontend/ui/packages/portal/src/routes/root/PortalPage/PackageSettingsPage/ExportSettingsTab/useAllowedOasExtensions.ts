@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { generatePath } from 'react-router'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import type {
   OasSettingsExtensions,
 } from '@portal/routes/root/PortalPage/PackageSettingsPage/ExportSettingsTab/package-export-config'

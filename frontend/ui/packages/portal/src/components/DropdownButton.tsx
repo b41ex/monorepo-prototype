@@ -31,8 +31,8 @@ import {
 } from '@mui/material'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
-import { CheckIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CheckIcon'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
+import { CheckIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CheckIcon'
 
 export type DropdownButtonProps = Readonly<{
   label?: string

@@ -31,31 +31,31 @@ import { useVersionSearchParam } from '@portal/routes/root/useVersionSearchParam
 import { isApiTypeSelectorShown } from '@portal/utils/operation-types'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Box, IconButton, Typography } from '@mui/material'
-import type { ChangesTooltipCategory } from '@netcracker/qubership-apihub-ui-shared/components/ChangesTooltip'
-import { CATEGORY_OPERATION, CATEGORY_PACKAGE } from '@netcracker/qubership-apihub-ui-shared/components/ChangesTooltip'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { CHANGE_SEVERITIES, type ChangesSummary } from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
-import { CONTRACT_TYPE_DDL, getRouteApiTypeTitle, isApiContract } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { getDashboardComparisonApiTypes } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-changes-summary'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { ChangesTooltipCategory } from '@b41ex/qubership-apihub-ui-shared/components/ChangesTooltip'
+import { CATEGORY_OPERATION, CATEGORY_PACKAGE } from '@b41ex/qubership-apihub-ui-shared/components/ChangesTooltip'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { CHANGE_SEVERITIES, type ChangesSummary } from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
+import { CONTRACT_TYPE_DDL, getRouteApiTypeTitle, isApiContract } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { getDashboardComparisonApiTypes } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-changes-summary'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import {
   COMPARE_VIEW_MODES_BY_API_TYPE,
   type CompareViewModeApiType,
   DEFAULT_VIEW_MODE_MAP_BY_API_TYPE,
   OPERATION_COMPARE_VIEW_MODES,
   RAW_OPERATION_VIEW_MODE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { DdlEntityChangeEntry } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
-import type { VersionChanges } from '@netcracker/qubership-apihub-ui-shared/entities/version-changelog'
-import { isDashboardComparisonSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { DdlEntityChangeEntry } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl-changelog'
+import type { VersionChanges } from '@b41ex/qubership-apihub-ui-shared/entities/version-changelog'
+import { isDashboardComparisonSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
 import {
   usePackageSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
 import type { FC, ReactNode } from 'react'
 import { memo, useCallback, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'

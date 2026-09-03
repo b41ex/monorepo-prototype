@@ -15,8 +15,8 @@
  */
 
 import type { OpenAPIV3 } from 'openapi-types'
-import type { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
-import type { HashWithTitle } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
+import type { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
+import type { HashWithTitle } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/oasToClassDiagramService'
 
 export const OPEN_API_SECTION_PARAMETERS = 'parameters'
 export const OPEN_API_SECTION_REQUESTS = 'requests'

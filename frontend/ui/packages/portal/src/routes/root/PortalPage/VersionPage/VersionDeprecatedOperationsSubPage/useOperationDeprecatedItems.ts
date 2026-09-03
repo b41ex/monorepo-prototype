@@ -16,13 +16,13 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { DeprecatedItem, DeprecatedItems, DeprecatedItemsDto } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { DeprecatedItem, DeprecatedItems, DeprecatedItemsDto } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestJson } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 const OPERATION_DEPRECATED_ITEMS_QUERY_KEY = 'operation-deprecated-items-query-key'
 

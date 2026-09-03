@@ -1,4 +1,4 @@
-import { Realm, PgAttrKind, PgObjectKind, PgTypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { Realm, PgAttrKind, PgObjectKind, PgTypeKind } from '@b41ex/qubership-apihub-ddlapi'
 import { denormalize, normalize, DDL_API_NORMALIZE_OPTIONS } from '../../src'
 import { buildRealmAndAssertValid } from '../helpers/ddlapi'
 import { commonOriginsCheck, TEST_DEFAULTS_FLAG, TEST_ORIGINS_FLAG, TEST_ORIGINS_FOR_DEFAULTS } from '../helpers'

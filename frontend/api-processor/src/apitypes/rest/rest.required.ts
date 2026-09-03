@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { isArray, isObject, syncCrawl as newSyncCrawl, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
-import { Diff, DIFF_META_KEY, DiffAction, DiffMetaRecord } from '@netcracker/qubership-apihub-api-diff'
-import { getJsoProperty, JSON_SCHEMA_PROPERTY_REQUIRED } from '@netcracker/qubership-apihub-api-unifier'
+import { isArray, isObject, syncCrawl as newSyncCrawl, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
+import { Diff, DIFF_META_KEY, DiffAction, DiffMetaRecord } from '@b41ex/qubership-apihub-api-diff'
+import { getJsoProperty, JSON_SCHEMA_PROPERTY_REQUIRED } from '@b41ex/qubership-apihub-api-unifier'
 import { BEFORE_VALUE_NORMALIZED_PROPERTY } from '../../consts'
 
 export function findRequiredRemovedProperties(mergedJso: unknown, diffs: Diff[]): RequiredDiff[] | undefined {

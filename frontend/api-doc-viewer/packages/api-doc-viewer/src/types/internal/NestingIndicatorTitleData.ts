@@ -15,7 +15,7 @@
  */
 
 import { NodeTypeData } from '../NodeTypeData'
-import { DiffNodeMeta, DiffNodeValue } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeMeta, DiffNodeValue } from '@b41ex/qubership-apihub-api-data-model'
 
 export interface NestingIndicatorTitleData {
   nodeTypeData: NodeTypeData

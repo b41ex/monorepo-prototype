@@ -24,23 +24,23 @@ import { usePackageVersionConfig } from '@portal/routes/root/PortalPage/usePacka
 import { CopyPackageVersionButton } from '@portal/routes/root/PortalPage/VersionPage/CopyPackageVersionButton'
 import { getDefaultApiType } from '@portal/utils/operation-types'
 import { Box, Button, Divider, Typography } from '@mui/material'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
-import { Toolbar } from '@netcracker/qubership-apihub-ui-shared/components/Toolbar'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { API_TYPE_ASYNCAPI, API_TYPE_GRAPHQL, API_TYPE_REST } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
+import { Toolbar } from '@b41ex/qubership-apihub-ui-shared/components/Toolbar'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { API_TYPE_ASYNCAPI, API_TYPE_GRAPHQL, API_TYPE_REST } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
   type ContractType,
   toRouteApiType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { CREATE_VERSION_PERMISSIONS } from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
-import { DASHBOARD_KIND, PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { VERSION_STATUS_MANAGE_PERMISSIONS } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { AddIcon } from '@netcracker/qubership-apihub-ui-shared/icons/AddIcon'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { CREATE_VERSION_PERMISSIONS } from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
+import { DASHBOARD_KIND, PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { VERSION_STATUS_MANAGE_PERMISSIONS } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { AddIcon } from '@b41ex/qubership-apihub-ui-shared/icons/AddIcon'
 import type { FC } from 'react'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
@@ -54,7 +54,7 @@ import { VersionSelector } from '../VersionSelector'
 import { ComparisonSelectorButton } from './ComparisonSelectorButton'
 import { EditButton } from './EditButton'
 import { usePackageVersionApiTypes } from './usePackageVersionApiTypes'
-import { WarningApiProcessorVersion } from '@netcracker/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
+import { WarningApiProcessorVersion } from '@b41ex/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
 
 export const VersionPageToolbar: FC = memo(() => {
   const { packageId, versionId, apiType } = useParams()

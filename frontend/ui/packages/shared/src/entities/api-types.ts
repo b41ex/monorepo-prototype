@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ASYNCAPI_API_TYPE, GRAPHQL_API_TYPE, REST_API_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import { ASYNCAPI_API_TYPE, GRAPHQL_API_TYPE, REST_API_TYPE } from '@b41ex/qubership-apihub-api-processor'
 import { isNotEmpty } from '../utils/arrays'
 
 export const API_TYPE_REST = REST_API_TYPE

@@ -1,4 +1,4 @@
-import { IAsyncOperation } from '@netcracker/qubership-apihub-http-spec';
+import { IAsyncOperation } from '@b41ex/qubership-apihub-http-spec';
 import type { IMarkdownViewerProps } from '@stoplight/markdown-viewer';
 import { isArray } from '@stoplight/mosaic';
 import { IHttpOperation, IHttpService, INode } from '@stoplight/types';

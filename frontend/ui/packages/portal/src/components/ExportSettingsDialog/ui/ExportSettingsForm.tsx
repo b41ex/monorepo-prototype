@@ -18,13 +18,13 @@ import {
   SHAREABILITY_STATUS_SHAREABLE,
   SHAREABILITY_STATUSES,
   type ShareabilityStatus,
-} from '@netcracker/qubership-apihub-api-processor'
-import { AlertCustom } from '@netcracker/qubership-apihub-ui-shared/components/AlertCustom'
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
-import { RadioCustom } from '@netcracker/qubership-apihub-ui-shared/components/RadioCustom'
-import type { Key, PackageKey, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
-import { isExportableSpecType, type SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+} from '@b41ex/qubership-apihub-api-processor'
+import { AlertCustom } from '@b41ex/qubership-apihub-ui-shared/components/AlertCustom'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
+import { RadioCustom } from '@b41ex/qubership-apihub-ui-shared/components/RadioCustom'
+import type { Key, PackageKey, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import { isExportableSpecType, type SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 import type { ExportConfig } from '../../../routes/root/PortalPage/useExportConfig'
 import {
   ExportedEntityKind,

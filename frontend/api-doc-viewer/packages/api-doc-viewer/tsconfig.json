@@ -10,13 +10,13 @@
       root rejects as outside it (TS6059). */
     "rootDir": "../",
     "paths": {
-      "@netcracker/qubership-apihub-api-state-model": [
+      "@b41ex/qubership-apihub-api-state-model": [
         "./../api-state-model/src"
       ],
-      "@netcracker/qubership-apihub-api-data-model": [
+      "@b41ex/qubership-apihub-api-data-model": [
         "./../api-data-model/src"
       ],
-      "@netcracker/qubership-apihub-api-data-model/*": [
+      "@b41ex/qubership-apihub-api-data-model/*": [
         "./../api-data-model/src/*"
       ],
       "@apihub/api-data-model": [
@@ -25,10 +25,10 @@
       "@apihub/api-data-model/*": [
         "./../api-data-model/src/*"
       ],
-      "@netcracker/qubership-apihub-next-data-model": [
+      "@b41ex/qubership-apihub-next-data-model": [
         "./../next-data-model/src"
       ],
-      "@netcracker/qubership-apihub-next-data-model/*": [
+      "@b41ex/qubership-apihub-next-data-model/*": [
         "./../next-data-model/src/*"
       ],
       "@apihub/next-data-model": [
@@ -37,10 +37,10 @@
       "@apihub/next-data-model/*": [
         "./../next-data-model/src/*"
       ],
-      "@netcracker/qubership-apihub-samples": [
+      "@b41ex/qubership-apihub-samples": [
         "./../samples/src"
       ],
-      "@netcracker/qubership-apihub-samples/*": [
+      "@b41ex/qubership-apihub-samples/*": [
         "./../samples/src/*"
       ]
     }

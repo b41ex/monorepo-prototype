@@ -16,18 +16,18 @@
 
 import type { PublishStatus } from '@agents/entities/statuses'
 import type {
-  StatusMarkerVariant} from '@netcracker/qubership-apihub-ui-shared/components/StatusMarker'
+  StatusMarkerVariant} from '@b41ex/qubership-apihub-ui-shared/components/StatusMarker'
 import {
   ERROR_STATUS_MARKER_VARIANT,
   LOADING_STATUS_MARKER_VARIANT,
   SUCCESS_STATUS_MARKER_VARIANT,
-} from '@netcracker/qubership-apihub-ui-shared/components/StatusMarker'
+} from '@b41ex/qubership-apihub-ui-shared/components/StatusMarker'
 import {
   COMPLETE_PUBLISH_STATUS,
   ERROR_PUBLISH_STATUS,
   NONE_PUBLISH_STATUS,
   RUNNING_PUBLISH_STATUS,
-} from '@netcracker/qubership-apihub-ui-shared/utils/packages-builder'
+} from '@b41ex/qubership-apihub-ui-shared/utils/packages-builder'
 import type {
   StepStatus} from './ServicesPage/ServicesPageProvider/ServicesStepsProvider'
 import {

@@ -8,7 +8,7 @@ import {
 } from '../../src'
 import 'jest-extended'
 import { defineOriginsAndResolveRef } from '../../src/define-origins-and-resolve-ref'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { getValueByPath, setValueAtPath, TEST_INLINE_REFS_FLAG, TEST_ORIGINS_FLAG, TEST_LAST_REFERENCE_KEY_PROPERTY, TEST_SYNTHETIC_TITLE_FLAG } from '../helpers'
 import defineResponseViaReferenceObjectChain
   from '../resources/reference-object/define-response-via-reference-object-chain.json'

@@ -22,8 +22,8 @@ import { DdlApiTreeNodeKind } from "@apihub/next-data-model/model/ddlapi/types/n
 import { DdlApiTreeNodeMeta } from "@apihub/next-data-model/model/ddlapi/types/node-meta";
 import { isObject } from "@apihub/next-data-model/utilities";
 import { NodeKey } from "@apihub/next-data-model/utility-types";
-import { TypeKind } from "@netcracker/qubership-apihub-ddlapi";
-import { Diff, DiffAction, isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { TypeKind } from "@b41ex/qubership-apihub-ddlapi";
+import { Diff, DiffAction, isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 import { isDdlScalarColumnTypeName } from "@apihub/next-data-model/shared/ddlapi/guards/column-type-name";
 import { DdlApiNodeDiffsAggregatorKindAny } from "./kind-any";
 

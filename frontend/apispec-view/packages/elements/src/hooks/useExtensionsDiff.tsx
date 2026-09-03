@@ -1,8 +1,8 @@
-import { Extension, ExtensionMeta } from '@netcracker/qubership-apihub-apispec-view-diff-elements-core/components/Docs/Extensions';
-import { useDocument } from '@netcracker/qubership-apihub-apispec-view-elements-core/context/InlineRefResolver';
+import { Extension, ExtensionMeta } from '@b41ex/qubership-apihub-apispec-view-diff-elements-core/components/Docs/Extensions';
+import { useDocument } from '@b41ex/qubership-apihub-apispec-view-elements-core/context/InlineRefResolver';
 import { entries, mergeWith } from 'lodash';
 import * as React from 'react';
-import { useDiffsMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
+import { useDiffsMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
 
 // If you have OVERWRITING original specification, look at this place
 

@@ -7,7 +7,7 @@ import {
   CONTRACT_TYPE_MCP,
   type ContractType,
   isContractType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 import { DdlTablePage } from './OperationPage/DdlTablePage'
 import { McpEntityPage } from './OperationPage/McpEntityPage'

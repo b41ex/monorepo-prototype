@@ -20,37 +20,37 @@ import { isRevisionCompare } from '@portal/routes/root/PortalPage/VersionPage/Ve
 import { getDefaultApiType } from '@portal/utils/operation-types'
 import { Box, Card, CardContent, Grid, ListItem, ListItemText, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import type { OperationType } from '@netcracker/qubership-apihub-api-processor'
-import { calculateTotalChangeSummary, EMPTY_CHANGE_SUMMARY } from '@netcracker/qubership-apihub-api-processor'
-import { ChangeSeverityIndicator } from '@netcracker/qubership-apihub-ui-shared/components/ChangeSeverityIndicator'
-import { Changes } from '@netcracker/qubership-apihub-ui-shared/components/Changes'
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { OverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/OverflowTooltip'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { WarningApiProcessorVersion } from '@netcracker/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
-import { API_TYPE_TITLE_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { OperationType } from '@b41ex/qubership-apihub-api-processor'
+import { calculateTotalChangeSummary, EMPTY_CHANGE_SUMMARY } from '@b41ex/qubership-apihub-api-processor'
+import { ChangeSeverityIndicator } from '@b41ex/qubership-apihub-ui-shared/components/ChangeSeverityIndicator'
+import { Changes } from '@b41ex/qubership-apihub-ui-shared/components/Changes'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { OverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/OverflowTooltip'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { WarningApiProcessorVersion } from '@b41ex/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
+import { API_TYPE_TITLE_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   ACTION_TYPE_COLOR_MAP,
   ADD_ACTION_TYPE,
   type ChangeSeverity,
   type ChangesSummary,
   REMOVE_ACTION_TYPE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/change-severities'
+} from '@b41ex/qubership-apihub-ui-shared/entities/change-severities'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_TITLE_MAP,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { getComparisonApiTypesFromSummary, type VersionComparisonContractsSummary } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-changes-summary'
-import { hasDdlComparisonChanges } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import { calculateAction } from '@netcracker/qubership-apihub-ui-shared/entities/version-changelog'
-import type { DashboardComparisonSummary } from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { getComparisonApiTypesFromSummary, type VersionComparisonContractsSummary } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-changes-summary'
+import { hasDdlComparisonChanges } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import { calculateAction } from '@b41ex/qubership-apihub-ui-shared/entities/version-changelog'
+import type { DashboardComparisonSummary } from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { getMajorSeverity } from '@netcracker/qubership-apihub-ui-shared/utils/change-severities'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { getMajorSeverity } from '@b41ex/qubership-apihub-ui-shared/utils/change-severities'
 import {
   API_TYPE_SEARCH_PARAM,
   FILTERS_SEARCH_PARAM,
@@ -58,9 +58,9 @@ import {
   PACKAGE_SEARCH_PARAM,
   REF_SEARCH_PARAM,
   VERSION_SEARCH_PARAM,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { format } from '@netcracker/qubership-apihub-ui-shared/utils/strings'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { format } from '@b41ex/qubership-apihub-ui-shared/utils/strings'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import type { FC } from 'react'
 import { memo, useCallback, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'

@@ -1,7 +1,7 @@
-import { ComplexTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/complex-node.impl";
-import { SimpleTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/simple-node.impl";
-import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/aliases";
-import { AsyncApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-kind";
+import { ComplexTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/complex-node.impl";
+import { SimpleTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/simple-node.impl";
+import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/aliases";
+import { AsyncApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-kind";
 
 /**
  * Generic type guard that narrows a tree node to its "with diffs" representation.

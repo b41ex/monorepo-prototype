@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useMutation } from '@tanstack/react-query'
 import type { Key } from '@agents/entities/keys'
 import fileDownload from 'js-file-download'
-import { API_V3, requestBlob } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { API_V3, requestBlob } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { generatePath } from 'react-router-dom'
 import {
   useGetNcServicePrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export function useDownloadRoutingReportSources(): [DownloadRoutingReportSourcesFunction, IsLoading] {
   const prefix = useGetNcServicePrefix()

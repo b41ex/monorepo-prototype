@@ -16,7 +16,7 @@
 
 // Main tabs
 
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
 
 export const FAVORITE_PAGE = 'favorite'
 export const SHARED_PAGE = 'shared'

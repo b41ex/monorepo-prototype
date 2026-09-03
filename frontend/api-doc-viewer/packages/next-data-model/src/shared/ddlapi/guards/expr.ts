@@ -1,4 +1,4 @@
-import { Expr, ExprKind, Literal, RawExpr } from '@netcracker/qubership-apihub-ddlapi'
+import { Expr, ExprKind, Literal, RawExpr } from '@b41ex/qubership-apihub-ddlapi'
 import { isObject } from '../../../utilities'
 
 export function isLiteralExpr(value: Expr): value is Literal {

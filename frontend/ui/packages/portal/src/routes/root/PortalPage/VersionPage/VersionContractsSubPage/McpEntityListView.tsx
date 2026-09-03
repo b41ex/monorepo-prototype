@@ -1,19 +1,19 @@
 import type { ColumnDef } from '@tanstack/table-core'
 import { type FC, memo, useCallback, useMemo } from 'react'
 
-import { CustomTableHeadCell } from '@netcracker/qubership-apihub-ui-shared/components/CustomTableHeadCell'
-import { McpEntityTitleWithMeta } from '@netcracker/qubership-apihub-ui-shared/components/Mcp/McpEntityTitleWithMeta'
-import type { FetchNextMetaList } from '@netcracker/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { CustomTableHeadCell } from '@b41ex/qubership-apihub-ui-shared/components/CustomTableHeadCell'
+import { McpEntityTitleWithMeta } from '@b41ex/qubership-apihub-ui-shared/components/Mcp/McpEntityTitleWithMeta'
+import type { FetchNextMetaList } from '@b41ex/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
 import {
   MCP_COLLECTION_EMPTY_MESSAGES,
   getMcpContractEntityListKey,
   type McpListCollection,
   type McpContractEntity,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { ColumnModel } from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { ColumnModel } from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
 
 import { usePackageKind } from '../../usePackageKind'
 import { useRefSearchParam } from '../../useRefSearchParam'

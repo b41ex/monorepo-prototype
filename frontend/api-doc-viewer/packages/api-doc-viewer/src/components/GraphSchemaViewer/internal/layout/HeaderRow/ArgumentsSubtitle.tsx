@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { DiffNodeMeta, GraphApiDiffTreeNode, GraphApiTreeNode } from '@netcracker/qubership-apihub-api-data-model'
-import { DiffAction } from '@netcracker/qubership-apihub-api-diff'
-import { IModelStatePropNode } from '@netcracker/qubership-apihub-api-state-model'
+import { DiffNodeMeta, GraphApiDiffTreeNode, GraphApiTreeNode } from '@b41ex/qubership-apihub-api-data-model'
+import { DiffAction } from '@b41ex/qubership-apihub-api-diff'
+import { IModelStatePropNode } from '@b41ex/qubership-apihub-api-state-model'
 import { FC, ReactNode } from 'react'
 import { buildNodeTitleData } from '../../../../../builders/nodes'
 import { INLINE_CONTENT_DIFF_COLOR_SCHEMAS } from '../../../../../consts/changes'

@@ -1,4 +1,4 @@
-import type { TableKey } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
+import type { TableKey } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/table-key";
 
 export type RawDdlSources = Record<string, string>;
 

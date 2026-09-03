@@ -1,4 +1,4 @@
-import { isObject } from '@netcracker/qubership-apihub-json-crawl';
+import { isObject } from '@b41ex/qubership-apihub-json-crawl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ComponentProps } from 'react';
 import { parse } from 'yaml';

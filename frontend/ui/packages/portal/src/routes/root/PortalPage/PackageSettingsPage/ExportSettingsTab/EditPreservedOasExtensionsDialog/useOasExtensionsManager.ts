@@ -8,7 +8,7 @@ import {
   type OasSettingsExtension,
   separateExtensionsByInheritance,
 } from '../package-export-config'
-import { isEmpty, sortByProperty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { isEmpty, sortByProperty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export type EditOasExtensionsForm = {
   oasExtensions: OasSettingsExtension[] | undefined

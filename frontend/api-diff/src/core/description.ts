@@ -11,7 +11,7 @@ import {
 } from '../types'
 import { isArray, isEmptyArray, objectKeys } from '../utils'
 import { DiffAction } from './constants'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export const diffDescription: DiffDescription = (descriptionTemplate) => {
   const diffDescriptionRule: DiffDescriptionRule = (diff, ctx) => {

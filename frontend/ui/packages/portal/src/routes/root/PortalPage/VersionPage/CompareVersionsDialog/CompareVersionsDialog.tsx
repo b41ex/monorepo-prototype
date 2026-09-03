@@ -20,33 +20,33 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { useEffectOnce, useLocation } from 'react-use'
-import { useInvalidatePackageVersions, usePackageVersions } from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+import { useInvalidatePackageVersions, usePackageVersions } from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 import { usePackage } from '../../../usePackage'
 import { usePackages } from '../../../usePackages'
 import { usePackageVersionContent } from '../../../usePackageVersionContent'
 import { generateVersionWithRevision } from './generateVersionWithRevision'
 import { useVersionCandidate } from './useVersionCandidate'
 import { useNavigation } from '../../../../NavigationProvider'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import { SHOW_COMPARE_VERSIONS_DIALOG } from '@portal/routes/EventBusProvider'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DASHBOARD_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { getSplittedVersionKey, handleVersionsRevision } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DASHBOARD_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { getSplittedVersionKey, handleVersionsRevision } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
 import {
   API_TYPE_SEARCH_PARAM,
   PACKAGE_SEARCH_PARAM,
   VERSION_SEARCH_PARAM,
-} from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { getDefaultApiType } from '@portal/utils/operation-types'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import type {
   CompareVersionsDialogData,
   CompareVersionsDialogFormData,
-} from '@netcracker/qubership-apihub-ui-shared/components/CompareVersionsDialogForm'
-import { CompareVersionsDialogForm } from '@netcracker/qubership-apihub-ui-shared/components/CompareVersionsDialogForm'
+} from '@b41ex/qubership-apihub-ui-shared/components/CompareVersionsDialogForm'
+import { CompareVersionsDialogForm } from '@b41ex/qubership-apihub-ui-shared/components/CompareVersionsDialogForm'
 
 export const CompareVersionsDialog: FC = memo(() => {
   return (

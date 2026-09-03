@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { isEmpty } from 'lodash'
-import { isAbsoluteHttpUrl } from '@netcracker/qubership-apihub-ui-shared/utils/urls'
+import { isAbsoluteHttpUrl } from '@b41ex/qubership-apihub-ui-shared/utils/urls'
 
 export const useFirstSpecPath = (specUrls: string[] | undefined): string => {
   return useMemo((): string => {

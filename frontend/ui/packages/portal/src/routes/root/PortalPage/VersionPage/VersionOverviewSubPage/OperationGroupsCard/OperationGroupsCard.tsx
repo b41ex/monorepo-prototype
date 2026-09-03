@@ -26,20 +26,20 @@ import { useDeleteOperationGroup } from './useManageOperationGroup'
 import { useGroupingNamesByApiType } from './useGroupingNamesByApiType'
 import { EditOperationGroupContentDialog } from '../EditOperationGroupContentDialog/EditOperationGroupContentDialog'
 import { useFullMainVersion } from '../../../FullMainVersionProvider'
-import type { OperationGroup } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+import type { OperationGroup } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 import { useEventBus } from '@portal/routes/EventBusProvider'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 import { useCurrentPackage } from '@portal/components/CurrentPackageProvider'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
 import {
   DRAFT_VERSION_STATUS,
   VERSION_STATUS_MANAGE_PERMISSIONS,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import { PublishOperationGroupPackageVersionDialog } from './PublishOperationGroupPackageVersionDialog'
 import type { IRequestDataExportWithoutFormat } from '@portal/components/ExportSettingsDialog/api/useExport'
 import {
@@ -49,7 +49,7 @@ import {
   useExport,
   useRemoveExportResult,
 } from '@portal/components/ExportSettingsDialog/api/useExport'
-import { ASYNCAPI_API_TYPE, REST_API_TYPE, GRAPHQL_API_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import { ASYNCAPI_API_TYPE, REST_API_TYPE, GRAPHQL_API_TYPE } from '@b41ex/qubership-apihub-api-processor'
 import { useExportStatus } from '@portal/components/ExportSettingsDialog/api/useExportStatus'
 import { useShowErrorNotification, useShowInfoNotification } from '@portal/routes/root/BasePage/Notification'
 

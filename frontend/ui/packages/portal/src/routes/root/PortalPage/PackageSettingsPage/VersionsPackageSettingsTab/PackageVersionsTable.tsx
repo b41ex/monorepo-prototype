@@ -19,21 +19,21 @@ import type { FC } from 'react'
 import { memo, useCallback, useMemo, useRef } from 'react'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { VersionHistoryTable } from '../../VersionHistoryTable'
-import type { PackagePermissions } from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
-import type { PackageVersion } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import { VERSION_STATUS_MANAGE_PERMISSIONS } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import { handleVersionsRevision } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import { useIntersectionObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
+import type { PackagePermissions } from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
+import type { PackageVersion } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import { VERSION_STATUS_MANAGE_PERMISSIONS } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import { handleVersionsRevision } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import { useIntersectionObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
 import {
   NAVIGATION_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import { DeleteIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIcon'
-import { usePackageVersions } from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { DeleteIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIcon'
+import { usePackageVersions } from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 
 export type PackageVersionsTableProps = Readonly<{
   packageKey: string

@@ -1,4 +1,4 @@
-import { TEST_SPEC_TYPE_OPEN_API } from '@netcracker/qubership-apihub-compatibility-suites'
+import { TEST_SPEC_TYPE_OPEN_API } from '@b41ex/qubership-apihub-compatibility-suites'
 import { compareFiles, TEST_DEFAULTS_DECLARATION_PATHS } from '../utils'
 import { diffsMatcher, expectOpenApiVersionChange } from '../../helper/matchers'
 import { annotation, breaking, deprecated, DiffAction, nonBreaking } from '../../../src'

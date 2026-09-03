@@ -1,4 +1,4 @@
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff"
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff"
 import {
   LayoutSide,
   ORIGIN_LAYOUT_SIDE,

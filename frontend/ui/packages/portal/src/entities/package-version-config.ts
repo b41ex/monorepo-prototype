@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import type { BuildType } from '@netcracker/qubership-apihub-api-processor'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { PublishMeta, PublishMetaDto } from '@netcracker/qubership-apihub-ui-shared/entities/publish-meta'
+import type { BuildType } from '@b41ex/qubership-apihub-api-processor'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { PublishMeta, PublishMetaDto } from '@b41ex/qubership-apihub-ui-shared/entities/publish-meta'
 
 export type PackageVersionConfigDto = Readonly<{
   sources?: string

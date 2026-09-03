@@ -16,7 +16,7 @@
 
 import { DeprecateItem } from '../types'
 import { ORIGINS_SYMBOL } from '../consts'
-import { JSON_SCHEMA_PROPERTY_DEPRECATED, resolveOrigins } from '@netcracker/qubership-apihub-api-unifier'
+import { JSON_SCHEMA_PROPERTY_DEPRECATED, resolveOrigins } from '@b41ex/qubership-apihub-api-unifier'
 
 export const isOperationDeprecated = Symbol('deprecated-operation')
 

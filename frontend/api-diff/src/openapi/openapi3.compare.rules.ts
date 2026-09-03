@@ -1,4 +1,4 @@
-import { CrawlPrefixRules, JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlPrefixRules, JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { allUnclassified } from '../core'
 import { DIFF_ACTION_TO_ACTION_MAP, DIFF_ACTION_TO_PREPOSITION_MAP, getDeclarationPathsForDiff } from '../core/description'
 import { ClassifyRule, CompareRule, CompareRules, Diff } from '../types'

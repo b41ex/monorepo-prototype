@@ -18,14 +18,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Services, ServicesDto } from '@agents/entities/services'
 import { EMPTY_SERVICES, getServices, toServices } from '@agents/entities/services'
 import { useParams } from 'react-router-dom'
-import type { InvalidateQuery, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { InvalidateQuery, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { RUNNING_DISCOVERY_STATUS } from '@agents/entities/statuses'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { STATUS_REFETCH_INTERVAL } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { STATUS_REFETCH_INTERVAL } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import {
   useGetAgentPrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 const SERVICES_QUERY_KEY = 'services-query-key'
 

@@ -4,7 +4,7 @@ import {
   createEvaluationCacheService,
   DDL_API_NORMALIZE_OPTIONS,
   SPEC_TYPE_DDL_API_1,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { ddlRules } from './ddl.rules'
 import { DIALECT_DIFF_POSTGRES } from './ddl.postgres'
 

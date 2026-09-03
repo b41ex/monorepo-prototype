@@ -42,10 +42,10 @@ Do not call a `const` helper during module initialization from a line above its 
   2. then `ui-shared` package imports,
   3. then all other local project imports.
      Keep exactly one empty line between each import group.
-- Use explicit package aliases instead of generic `@apihub/*` shortcuts. Prefer concrete monorepo aliases (for example: `@netcracker/qubership-apihub-ui-portal`, `@netcracker/qubership-apihub-ui-shared`, etc.) according to local tsconfig path setup.
+- Use explicit package aliases instead of generic `@apihub/*` shortcuts. Prefer concrete monorepo aliases (for example: `@b41ex/qubership-apihub-ui-portal`, `@b41ex/qubership-apihub-ui-shared`, etc.) according to local tsconfig path setup.
 - Inline type imports in named imports to avoid duplicate import statements from the same source, e.g.:
   - `import { type FC, memo, useCallback, useMemo, useRef } from 'react';`
-  - `import { type ApiResult, apiClient } from '@netcracker/...';`
+  - `import { type ApiResult, apiClient } from '@b41ex/...';`
 - Prefer `import type` when the statement contains only types.
 
 ## React patterns

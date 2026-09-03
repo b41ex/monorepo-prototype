@@ -20,7 +20,7 @@ import {
   UnifyState,
   UnifySyncCloneHook,
 } from './types'
-import { isArray, JSON_ROOT_KEY, syncClone } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, JSON_ROOT_KEY, syncClone } from '@b41ex/qubership-apihub-json-crawl'
 import { resolveSpec, SPEC_TYPE_ASYNCAPI_3, SPEC_TYPE_GRAPH_API, SpecType } from './spec-type'
 import { createCycledJsoHandlerHook } from './cycle-jso'
 import { RULES } from './rules'

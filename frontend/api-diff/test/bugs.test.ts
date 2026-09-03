@@ -59,7 +59,7 @@ import unexpectedFieldsAfter from './helper/resources/unexpected-fields-in-the-s
 
 import { diffsMatcher, expectOpenApiVersionChange } from './helper/matchers'
 import { TEST_DIFF_FLAG, TEST_ORIGINS_FLAG } from './helper'
-import { JSON_SCHEMA_NODE_SYNTHETIC_TYPE_NOTHING } from '@netcracker/qubership-apihub-api-unifier'
+import { JSON_SCHEMA_NODE_SYNTHETIC_TYPE_NOTHING } from '@b41ex/qubership-apihub-api-unifier'
 
 const OPTIONS: CompareOptions = {
   // syntheticTitleFlag: TEST_SYNTHETIC_TITLE_FLAG,

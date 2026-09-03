@@ -5,7 +5,7 @@ import { AsyncApiTreeNodeMeta } from "@apihub/next-data-model/model/async-api/ty
 import { AsyncApiTreeNodeValue } from "@apihub/next-data-model/model/async-api/types/node-value";
 import { OperationKeys } from "@apihub/next-data-model/shared/async-api/types/operation-keys";
 import { AsyncApiTreeBuilderParams } from "@apihub/next-data-model/shared/async-api/types/tree-builder-params";
-import { syncCrawl } from "@netcracker/qubership-apihub-json-crawl";
+import { syncCrawl } from "@b41ex/qubership-apihub-json-crawl";
 import { ComplexTreeNodeParams, SimpleTreeNodeParams, TreeNodeComplexityTypes } from "../../../model/abstract/tree/tree-node.interface";
 import { isObject } from "../../../utilities";
 import { NodeId, NodeKey } from "../../../utility-types";

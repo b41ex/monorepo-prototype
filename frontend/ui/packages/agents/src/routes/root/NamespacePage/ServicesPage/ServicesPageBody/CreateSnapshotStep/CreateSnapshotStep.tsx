@@ -27,8 +27,8 @@ import { CreateSnapshotStepTable } from './CreateSnapshotStepTable'
 import { useSetSnapshotTableSelectable, useSnapshotTableSelectable } from '../../SnapshotTableProvider'
 import { useVersionOptions } from '../../../AutomationPage/useVersionOptions'
 import { useBaselineOptions } from '../../../useBaselineOptions'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
-import type { IsLoading, IsSuccess } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
+import type { IsLoading, IsSuccess } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useCreateSnapshotPublicationOptions } from '../../ServicesPageProvider/ServicesPublicationOptionsProvider'
 import {
   ERROR_STEP_STATUS,
@@ -39,9 +39,9 @@ import {
   usePromoteVersionStep,
   useValidationResultsStep,
 } from '../../ServicesPageProvider/ServicesStepsProvider'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import type { ServiceKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { checkVersionRestrictedSymbols } from '@netcracker/qubership-apihub-ui-shared/utils/validations'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import type { ServiceKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { checkVersionRestrictedSymbols } from '@b41ex/qubership-apihub-ui-shared/utils/validations'
 
 export const CreateSnapshotStep: FC = memo(() => {
   const [createSnapshot, isLoading] = useCreateSnapshot()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 import {
   CUSTOM_PARAMETER_API_AUDIENCE,
   FILE_FORMAT_JSON,

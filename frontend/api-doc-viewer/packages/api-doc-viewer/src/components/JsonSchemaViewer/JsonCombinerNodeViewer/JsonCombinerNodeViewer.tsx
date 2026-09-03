@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DiffNodeValue, JsonSchemaDiffNodeMeta } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeValue, JsonSchemaDiffNodeMeta } from '@b41ex/qubership-apihub-api-data-model'
 import type { FC } from 'react'
 import { useMemo, useState } from 'react'
 import { buildNodeTypeData } from '../../../builders/nodes'

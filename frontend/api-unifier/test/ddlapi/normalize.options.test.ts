@@ -1,4 +1,4 @@
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
 import { DDL_API_NORMALIZE_OPTIONS, normalize } from '../../src'
 import { buildRealmAndAssertValid } from '../helpers/ddlapi'
 

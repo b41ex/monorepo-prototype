@@ -28,29 +28,29 @@ import {
 } from '@mui/material'
 import { Header } from './internal/Header'
 import { useSpecsRaw } from '../../useSpecRaw'
-import type { Spec } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
-import { GRAPHQL_SCHEMA_SPEC_TYPE, isGraphQlSpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+import type { Spec } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
+import { GRAPHQL_SCHEMA_SPEC_TYPE, isGraphQlSpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 import { useMergedGraphQlSpec } from './useMergedGraphQlSpec'
-import { OptionItem } from '@netcracker/qubership-apihub-ui-shared/components/OptionItem'
-import { GRAPHQL_FILE_EXTENSION } from '@netcracker/qubership-apihub-ui-shared/utils/files'
+import { OptionItem } from '@b41ex/qubership-apihub-ui-shared/components/OptionItem'
+import { GRAPHQL_FILE_EXTENSION } from '@b41ex/qubership-apihub-ui-shared/utils/files'
 import type { Service } from '@agents/entities/services'
 import { CommonSpecificationPopup } from './CommonSpecificationPopup'
 import { sortBy } from 'lodash-es'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { KeyIcon } from '@netcracker/qubership-apihub-ui-shared/icons/KeyIcon'
+import { KeyIcon } from '@b41ex/qubership-apihub-ui-shared/icons/KeyIcon'
 import { useIdentityProviderUrl, useSetIdentityProviderUrl } from '../../IdpUrlContextProvider'
-import type { IdpAuthTokenFormData } from '@netcracker/qubership-apihub-ui-shared/components/IdpAuthTokenForm'
-import { IdpAuthTokenForm } from '@netcracker/qubership-apihub-ui-shared/components/IdpAuthTokenForm'
+import type { IdpAuthTokenFormData } from '@b41ex/qubership-apihub-ui-shared/components/IdpAuthTokenForm'
+import { IdpAuthTokenForm } from '@b41ex/qubership-apihub-ui-shared/components/IdpAuthTokenForm'
 import { useIdpAuthToken } from './useIdpAuthToken'
 import { useLocalIdpAuthToken } from '../../useLocalIdpAuthToken'
 import { useEffectOnce } from 'react-use'
 import {
   useGetAgentPrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 import {
   DEFAULT_GRAPHQL_ENDPOINT,
   getAgentProxyServerUrl,
-} from '@netcracker/qubership-apihub-ui-shared/utils/agent-proxy'
+} from '@b41ex/qubership-apihub-ui-shared/utils/agent-proxy'
 
 export type GraphQlSpecificationPopupProps = {
   clickedSpec: Spec

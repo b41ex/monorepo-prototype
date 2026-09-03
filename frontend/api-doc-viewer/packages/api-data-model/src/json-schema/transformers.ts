@@ -1,4 +1,4 @@
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 import { SchemaTransformFunc } from '../abstract/types'
 import { isObject } from '../utils'
 import { JsonSchemaCrawlState } from './tree/types'

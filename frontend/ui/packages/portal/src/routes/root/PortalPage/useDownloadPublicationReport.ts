@@ -20,8 +20,8 @@ import type { Key } from '@portal/entities/keys'
 import { generatePath } from 'react-router-dom'
 import { portalRequestBlob } from '@portal/utils/requests'
 import { useShowErrorNotification } from '@portal/routes/root/BasePage/Notification'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export function useDownloadPublicationReport(): [DownloadPublicationReportFunction, IsLoading] {
   const showErrorNotification = useShowErrorNotification()

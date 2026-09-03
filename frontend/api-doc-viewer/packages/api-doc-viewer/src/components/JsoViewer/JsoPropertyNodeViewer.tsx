@@ -1,7 +1,7 @@
 import { useDisplayMode } from "../../contexts/DisplayModeContext"
 import { LevelContext, useLevelContext } from "../../contexts/LevelContext"
 import { prepareJsonSchemaForJsoViewer } from "../../utils/jso/prepare-json-schema-to-jso-viewers"
-import { JsoTreeNode } from "@netcracker/qubership-apihub-next-data-model/model/jso/types/aliases"
+import { JsoTreeNode } from "@b41ex/qubership-apihub-next-data-model/model/jso/types/aliases"
 import { FC, useCallback, useMemo, useState } from "react"
 import { JsonSchemaViewer } from "../JsonSchemaViewer/JsonSchemaViewer"
 import { TextValueVariant } from "../shared-components/TextValue/types"

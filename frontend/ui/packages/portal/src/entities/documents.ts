@@ -22,20 +22,20 @@ import type {
   PackageRef,
   PackagesRefs,
   Tags,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { toPackageRef } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import { UNKNOWN_SPEC_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import type { FileFormat } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import { getFileFormat } from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import type { MethodType } from '@netcracker/qubership-apihub-ui-shared/entities/method-types'
-import type { GraphQlOperationType } from '@netcracker/qubership-apihub-ui-shared/entities/graphql-operation-types'
-import { type DocumentsDto } from '@netcracker/qubership-apihub-ui-shared/entities/documents'
-import { UNKNOWN_FILE_FORMAT } from '@netcracker/qubership-apihub-ui-shared/entities/file-formats'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { toPackageRef } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import { UNKNOWN_SPEC_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import type { FileFormat } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import { getFileFormat } from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import type { MethodType } from '@b41ex/qubership-apihub-ui-shared/entities/method-types'
+import type { GraphQlOperationType } from '@b41ex/qubership-apihub-ui-shared/entities/graphql-operation-types'
+import { type DocumentsDto } from '@b41ex/qubership-apihub-ui-shared/entities/documents'
+import { UNKNOWN_FILE_FORMAT } from '@b41ex/qubership-apihub-ui-shared/entities/file-formats'
 import {
   SHAREABILITY_STATUS_UNKNOWN,
   type ShareabilityStatus,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 
 export type Documents = ReadonlyArray<Document>
 

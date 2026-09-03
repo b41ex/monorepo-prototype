@@ -10,7 +10,7 @@ import {
   isDiffAdd,
   isDiffRemove,
   isDiffReplace,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import {
   GRAPH_API_NODE_KIND_INPUT_OBJECT,
   GRAPH_API_NODE_KIND_INTERFACE,
@@ -29,7 +29,7 @@ import {
   isGraphApiObjectiveDefinition,
   isGraphApiOperation,
   isGraphApiRef
-} from '@netcracker/qubership-apihub-graphapi'
+} from '@b41ex/qubership-apihub-graphapi'
 import { DiffNodeMeta, DiffNodeValue, DiffRecord, NodeChange } from '../../abstract/diff'
 import { LazyBuildingContext } from '../../abstract/model/model-tree-node.impl'
 import { CreateNodeResult, IModelTreeNode } from '../../abstract/model/types'

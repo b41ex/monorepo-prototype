@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { GraphApiTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { GraphApiTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import {
   IModelStateCombinaryNode,
   IModelStateNode,
   IModelStatePropNode,
   modelStateNodeType
-} from '@netcracker/qubership-apihub-api-state-model'
+} from '@b41ex/qubership-apihub-api-state-model'
 
 export function isPropNodeState(
   state: IModelStateNode<GraphApiTreeNode> | null

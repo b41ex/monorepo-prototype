@@ -28,49 +28,49 @@ import {
 import { getFileDetails } from '@portal/utils/file-details'
 import { isAsyncApiSpecification } from '@portal/utils/internal-documents/type-guards'
 import { Box } from '@mui/material'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   CONTENT_PLACEHOLDER_AREA,
   Placeholder,
   PLACEHOLDER_MESSAGE_NO_INTERNAL_DOCUMENT,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 import {
   SEARCH_RAINY_DAY_PLACEHOLDER_VARIANT,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder/Placeholder'
-import { RawSpecDiffView } from '@netcracker/qubership-apihub-ui-shared/components/RawSpecDiffView'
-import { RawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
-import { Toggler } from '@netcracker/qubership-apihub-ui-shared/components/Toggler'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder/Placeholder'
+import { RawSpecDiffView } from '@b41ex/qubership-apihub-ui-shared/components/RawSpecDiffView'
+import { RawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
+import { Toggler } from '@b41ex/qubership-apihub-ui-shared/components/Toggler'
 import {
   WarningApiProcessorVersion,
-} from '@netcracker/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/components/WarningApiProcessorVersion'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   API_TYPE_ASYNCAPI,
   API_TYPE_GRAPHQL,
   API_TYPE_REST,
-} from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { FileViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import { FILE_FORMAT_VIEW, YAML_FILE_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import { DEFAULT_VIEW_MODE_MAP_BY_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
-import type { OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+} from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { FileViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import { FILE_FORMAT_VIEW, YAML_FILE_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import { DEFAULT_VIEW_MODE_MAP_BY_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
+import type { OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import {
   DEFAULT_API_TYPE,
   isAsyncApiOperation,
   isGraphQlOperation,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { useSystemInfo } from '@netcracker/qubership-apihub-ui-shared/features/system-info'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { useSystemInfo } from '@b41ex/qubership-apihub-ui-shared/features/system-info'
 import {
   useSeverityFiltersSearchParam,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
-import { usePublishedDocumentRaw } from '@netcracker/qubership-apihub-ui-shared/hooks/documents/usePublishedDocumentRaw'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/change-severities/useSeverityFiltersSearchParam'
+import { usePublishedDocumentRaw } from '@b41ex/qubership-apihub-ui-shared/hooks/documents/usePublishedDocumentRaw'
 import {
   useIsDocOperationViewMode,
   useIsGraphOperationViewMode,
   useIsRawOperationViewMode,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operations/useOperationMode'
 import {
   useOperationsPairStringified,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/operations/useOperationsPairAsStrings'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/operations/useOperationsPairAsStrings'
 import type { FC, ReactNode } from 'react'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'

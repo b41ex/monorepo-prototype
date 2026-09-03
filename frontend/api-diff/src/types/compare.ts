@@ -1,8 +1,8 @@
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 import { CompareContext, CompareRules } from './rules'
 import { ClassifierType, DiffAction, JSO_ROOT } from '../core'
-import { EvaluationCacheService, NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { EvaluationCacheService, NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 
 export type ActionType = keyof typeof DiffAction
 export type DiffType = typeof ClassifierType[keyof typeof ClassifierType]

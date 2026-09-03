@@ -28,7 +28,7 @@ import {
 import { dump } from '../../utils/apihubSpecificationExtensions'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 import { AsyncDocumentInfo } from './async.types'
-import { OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier'
+import { OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier'
 import { removeOasExtensions } from '../../utils/removeOasExtensions'
 import { toExternalDocumentationObject, toTagObjects } from './async.utils'
 

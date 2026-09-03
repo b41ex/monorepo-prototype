@@ -1,7 +1,7 @@
 import { ExportedEntityTransformation, ExportedFileFormat } from '../api/useExport'
 import type { ExportConfig } from '../../../routes/root/PortalPage/useExportConfig'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import { ASYNCAPI_3_SPEC_TYPE } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import { ASYNCAPI_3_SPEC_TYPE } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 
 export type ExportSettingsFormFieldOption<L extends string = string, V extends string = string> = Readonly<{
   label: L

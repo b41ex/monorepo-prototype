@@ -16,11 +16,11 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { portalRequestJson } from '@portal/utils/requests'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { Users, UsersDto } from '@netcracker/qubership-apihub-ui-shared/types/user'
-import { toUsers } from '@netcracker/qubership-apihub-ui-shared/types/user'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { Users, UsersDto } from '@b41ex/qubership-apihub-ui-shared/types/user'
+import { toUsers } from '@b41ex/qubership-apihub-ui-shared/types/user'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 const USERS_QUERY_KEY = 'users-query-key'
 

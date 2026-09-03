@@ -19,8 +19,8 @@ import React, { memo } from 'react'
 import { Box, IconButton } from '@mui/material'
 import { SwapperBreadcrumbs } from './SwapperBreadcrumbs'
 import { VERSION_SWAPPER_HEIGHT } from './shared-styles'
-import { Swapper } from '@netcracker/qubership-apihub-ui-shared/components/Swapper'
-import { EditIcon } from '@netcracker/qubership-apihub-ui-shared/icons/EditIcon'
+import { Swapper } from '@b41ex/qubership-apihub-ui-shared/components/Swapper'
+import { EditIcon } from '@b41ex/qubership-apihub-ui-shared/icons/EditIcon'
 import type { ComparedPackagesBreadcrumbsData } from './breadcrumbs'
 
 export type ComparisonSwapper = {

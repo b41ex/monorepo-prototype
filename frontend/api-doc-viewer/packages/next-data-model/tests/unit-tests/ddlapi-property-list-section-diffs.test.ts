@@ -12,8 +12,8 @@ import {
   isDdlPropertyRowContentVisible,
   isDdlPropertySubheaderVisible,
 } from '../../src/model/ddlapi/tree-with-diffs/property-row-diffs'
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
-import { apiDiff, breaking, Diff, DiffAction, DiffType, nonBreaking } from '@netcracker/qubership-apihub-api-diff'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
+import { apiDiff, breaking, Diff, DiffAction, DiffType, nonBreaking } from '@b41ex/qubership-apihub-api-diff'
 import {
   aggregateUniformWholeNodeDescendantDiff,
   buildPropertyListSectionWholeNodeChangedPropertyMetaData,

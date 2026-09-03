@@ -28,7 +28,7 @@ import {
   JsonSchemaNodeKind,
   JsonSchemaNodeMeta,
   JsonSchemaNodeValue,
-} from '@netcracker/qubership-apihub-api-data-model'
+} from '@b41ex/qubership-apihub-api-data-model'
 
 export type NodeId = string
 export type AnyTreeNode =

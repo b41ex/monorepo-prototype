@@ -1,4 +1,4 @@
-import { MCP_KIND, type McpKind } from '@netcracker/qubership-apihub-api-processor'
+import { MCP_KIND, type McpKind } from '@b41ex/qubership-apihub-api-processor'
 
 import { MCP_DOCUMENT_TYPE, type McpDocumentType } from '../utils/specs'
 import { toOptionalTrimmedString, truncateDescription } from '../utils/strings'

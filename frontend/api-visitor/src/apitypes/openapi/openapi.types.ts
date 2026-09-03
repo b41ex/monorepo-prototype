@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { ChainItem, HasSelfMetaResolver, Jso, JSON_SCHEMA_PROPERTY_ALL_OF, JSON_SCHEMA_PROPERTY_ANY_OF, JSON_SCHEMA_PROPERTY_ONE_OF, OpenApiHttpMethod, OriginLeafs } from '@netcracker/qubership-apihub-api-unifier'
-import { CrawlRules, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
+import { ChainItem, HasSelfMetaResolver, Jso, JSON_SCHEMA_PROPERTY_ALL_OF, JSON_SCHEMA_PROPERTY_ANY_OF, JSON_SCHEMA_PROPERTY_ONE_OF, OpenApiHttpMethod, OriginLeafs } from '@b41ex/qubership-apihub-api-unifier'
+import { CrawlRules, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
 import { OpenAPIV3 } from 'openapi-types'
 
 export interface VisitorCrawlRule {

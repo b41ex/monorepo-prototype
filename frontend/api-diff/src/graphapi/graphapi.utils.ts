@@ -1,8 +1,8 @@
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 import { AdapterContext } from '../types'
-import { copyOrigins, GRAPH_API_PROPERTY_DIRECTIVES, GRAPH_API_PROPERTY_KIND, GRAPH_API_PROPERTY_ONE_OF, GRAPH_API_PROPERTY_TITLE, GRAPH_API_PROPERTY_TYPE, setOrigins } from '@netcracker/qubership-apihub-api-unifier'
+import { copyOrigins, GRAPH_API_PROPERTY_DIRECTIVES, GRAPH_API_PROPERTY_KIND, GRAPH_API_PROPERTY_ONE_OF, GRAPH_API_PROPERTY_TITLE, GRAPH_API_PROPERTY_TYPE, setOrigins } from '@b41ex/qubership-apihub-api-unifier'
 import { RUNTIME_DIRECTIVE_LOCATIONS } from './graphapi.const'
-import { GRAPH_API_NODE_KIND_UNION } from '@netcracker/qubership-apihub-graphapi'
+import { GRAPH_API_NODE_KIND_UNION } from '@b41ex/qubership-apihub-graphapi'
 
 export const wrapBySingletonUnion = (value: Record<PropertyKey, unknown>, ctx: AdapterContext<Record<PropertyKey, unknown>>): Record<PropertyKey, unknown> => {
   return ctx.transformer(value, GRAPH_API_PROPERTY_ONE_OF, value => {

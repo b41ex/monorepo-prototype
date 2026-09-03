@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { ErrorPage, NOT_FOUND_TITLE } from '@netcracker/qubership-apihub-ui-shared/components/ErrorPage'
-import { LoginPage } from '@netcracker/qubership-apihub-ui-shared/pages/login'
+import { ErrorPage, NOT_FOUND_TITLE } from '@b41ex/qubership-apihub-ui-shared/components/ErrorPage'
+import { LoginPage } from '@b41ex/qubership-apihub-ui-shared/pages/login'
 import type { FC } from 'react'
 import { memo } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'

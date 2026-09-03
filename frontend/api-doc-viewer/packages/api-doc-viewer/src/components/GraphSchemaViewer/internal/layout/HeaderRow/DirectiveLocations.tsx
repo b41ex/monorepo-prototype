@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { DiffRecord, isDiffMetaRecord } from '@netcracker/qubership-apihub-api-data-model'
-import { Diff, DiffAction } from "@netcracker/qubership-apihub-api-diff"
+import { DiffRecord, isDiffMetaRecord } from '@b41ex/qubership-apihub-api-data-model'
+import { Diff, DiffAction } from "@b41ex/qubership-apihub-api-diff"
 import type { FC } from 'react'
 import { ReactNode } from 'react'
 import { INLINE_CONTENT_DIFF_COLOR_SCHEMAS } from '../../../../../consts/changes'

@@ -1,4 +1,4 @@
-import { Diff, DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DiffType } from '@b41ex/qubership-apihub-api-diff'
 import { calcChanges, isCombinerNode, isDiff, isEqualSets, isObject, mergeSets } from '../utils'
 import { DiffNodeMeta, DiffNodeValue, NodeChangesSummary } from './diff'
 import { LazyBuildingContext } from './model/model-tree-node.impl'

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { PackageVersionContent } from '@netcracker/qubership-apihub-ui-shared/entities/version-contents'
-import type { PackageVersion } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
+import type { PackageVersionContent } from '@b41ex/qubership-apihub-ui-shared/entities/version-contents'
+import type { PackageVersion } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
 
 export function generateVersionWithRevision(versionContent: PackageVersionContent | null): PackageVersion | null {
   if (!versionContent) {

@@ -1,5 +1,5 @@
 import React, { FC, memo, PropsWithChildren, useContext, useMemo } from 'react';
-import { useChangeSeverityFilters } from "@netcracker/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
+import { useChangeSeverityFilters } from "@b41ex/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
 
 export type DiffSide = 'before' | 'after' | 'undefined';
 

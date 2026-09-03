@@ -17,7 +17,7 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import type { ActivityType } from '@portal/entities/activity-enums'
-import { CollapsedPanel } from '@netcracker/qubership-apihub-ui-shared/components/CollapsedPanel'
+import { CollapsedPanel } from '@b41ex/qubership-apihub-ui-shared/components/CollapsedPanel'
 import { ActivityHistoryPanel } from '@portal/components/ActivityList/ActivityHistoryPanel'
 import type { ActivityHistoryQueryResult } from '@portal/routes/root/useActivityHistory'
 import { usePortalPageSettingsContext } from '@portal/routes/PortalPageSettingsProvider'

@@ -21,7 +21,7 @@ import { useParams } from 'react-router-dom'
 import { useDashboardReferences, useSetDashboardReferences } from './DashboardReferencesProvider'
 import { useHandleRemovedReferences } from '../useHandleReferences'
 import { useSetRecursiveDashboardName } from './RecursiveDashboardNameContextProvider'
-import type { ReferenceKind } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { ReferenceKind } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 import { useSetReferences } from '@portal/routes/root/PortalPage/PackagesAndDashboardsTree/useSetReferences'
 import {
   PackagesAndDashboardsTree,

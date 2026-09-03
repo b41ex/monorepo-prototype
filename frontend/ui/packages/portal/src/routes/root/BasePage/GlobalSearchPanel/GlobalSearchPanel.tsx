@@ -17,8 +17,8 @@
 import { type FC, memo } from 'react'
 import { Box, Divider, IconButton, Typography, styled } from '@mui/material'
 
-import { SidePanelDrawer } from '@netcracker/qubership-apihub-ui-shared/components/SidePanelDrawer'
-import { CloseIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CloseIcon'
+import { SidePanelDrawer } from '@b41ex/qubership-apihub-ui-shared/components/SidePanelDrawer'
+import { CloseIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CloseIcon'
 
 import { GLOBAL_SEARCH_PANEL, useSidePanel } from '../PanelManager/SidePanelManager'
 import { FILTERS_COLUMN_WIDTH, RESULTS_COLUMN_WIDTH } from './globalSearchConstants'

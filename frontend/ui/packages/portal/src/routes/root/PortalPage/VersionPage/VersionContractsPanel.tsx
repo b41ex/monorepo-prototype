@@ -20,25 +20,25 @@ import { memo, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { isApiTypeSelectorShown } from '@portal/utils/operation-types'
-import { RichFiltersLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayouts/RichFiltersLayout'
-import { ListBox } from '@netcracker/qubership-apihub-ui-shared/components/Panels/ListBox'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
-import { PageTitle } from '@netcracker/qubership-apihub-ui-shared/components/Titles/PageTitle'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { RichFiltersLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayouts/RichFiltersLayout'
+import { ListBox } from '@b41ex/qubership-apihub-ui-shared/components/Panels/ListBox'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
+import { PageTitle } from '@b41ex/qubership-apihub-ui-shared/components/Titles/PageTitle'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   CONTRACT_TYPE_MCP,
   type ContractType,
   toRouteApiType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DEFAULT_API_TYPE } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
-import { SegmentItemIcon } from '@netcracker/qubership-apihub-ui-shared/icons/SegmentItemIcon'
-import type { OperationsViewMode } from '@netcracker/qubership-apihub-ui-shared/types/views'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DEFAULT_API_TYPE } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import { SegmentItemIcon } from '@b41ex/qubership-apihub-ui-shared/icons/SegmentItemIcon'
+import type { OperationsViewMode } from '@b41ex/qubership-apihub-ui-shared/types/views'
 import {
   DETAILED_OPERATIONS_VIEW_MODE,
   LIST_OPERATIONS_VIEW_MODE,
-} from '@netcracker/qubership-apihub-ui-shared/types/views'
+} from '@b41ex/qubership-apihub-ui-shared/types/views'
 import { usePackage } from '../../usePackage'
 import { useSetSelectedPreviewOperation } from '../SelectedPreviewOperationProvider'
 import { useCheckOperationFiltersApplied } from './useCheckOperationFiltersApplied'

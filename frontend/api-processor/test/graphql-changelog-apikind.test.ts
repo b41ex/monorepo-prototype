@@ -32,7 +32,7 @@ import { createGraphqlApiCompatibilityScopeFunction } from '../src/components/co
 import {
   API_COMPATIBILITY_KIND_BACKWARD_COMPATIBLE,
   API_COMPATIBILITY_KIND_NOT_BACKWARD_COMPATIBLE,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import { changesSummaryMatcher, Editor, LocalRegistry } from './helpers'
 import { takeIfDefined } from '../src/utils'
 

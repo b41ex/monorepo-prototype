@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-class-view",
+  "name": "@b41ex/qubership-apihub-class-view",
   "version": "1.0.6",
   "license": "Apache-2.0",
   "type": "module",
@@ -44,8 +44,8 @@
     "svg-round-corners": "0.4.1"
   },
   "devDependencies": {
-    "@netcracker/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@storybook/addon-actions": "^7.5.2",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-links": "^7.5.2",

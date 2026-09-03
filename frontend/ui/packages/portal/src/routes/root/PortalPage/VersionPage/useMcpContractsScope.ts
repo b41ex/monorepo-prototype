@@ -8,7 +8,7 @@ import {
   type McpCollection,
   type McpContractsSummary,
   type McpEndpointSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
 
 import { usePackageVersionContent } from '@portal/routes/root/usePackageVersionContent'
 import { usePackageParamsWithRef } from '../usePackageParamsWithRef'

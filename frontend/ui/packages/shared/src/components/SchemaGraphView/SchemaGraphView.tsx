@@ -17,8 +17,8 @@
 import type { FC } from 'react'
 import { memo, useEffect, useMemo, useRef } from 'react'
 import Box from '@mui/material/Box'
-import '@netcracker/qubership-apihub-class-view/class-view.css'
-import type { DomainObject, Point, SelectableObject, SelectionChangeData, Shape } from '@netcracker/qubership-apihub-class-view'
+import '@b41ex/qubership-apihub-class-view/class-view.css'
+import type { DomainObject, Point, SelectableObject, SelectionChangeData, Shape } from '@b41ex/qubership-apihub-class-view'
 import {
   ClassViewComponent,
   EVENT_SELECTION_CHANGE,
@@ -27,7 +27,7 @@ import {
   PROPERTY_TYPE_LEAF,
   SHAPE_RECTANGLE,
   SHAPE_ROUND_RECTANGLE,
-} from '@netcracker/qubership-apihub-class-view'
+} from '@b41ex/qubership-apihub-class-view'
 import { useMemoSubscription } from './useMemoSubscription'
 import type { VisitorNavigationDetails } from './oasToClassDiagramService'
 import { schemaHashWithTitle, transformOasToEffectiveClassDiagram } from './oasToClassDiagramService'

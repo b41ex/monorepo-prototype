@@ -4,7 +4,7 @@
 
 - Draft
 - Owner: API Doc Viewer team
-- Scope: JSO diff rendering pipeline in `@netcracker/qubership-apihub-api-doc-viewer` and `@apihub/next-data-model`
+- Scope: JSO diff rendering pipeline in `@b41ex/qubership-apihub-api-doc-viewer` and `@apihub/next-data-model`
 
 ## Background
 

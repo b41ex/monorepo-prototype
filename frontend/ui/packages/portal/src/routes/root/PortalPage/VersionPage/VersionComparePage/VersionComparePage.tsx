@@ -1,7 +1,7 @@
 import { type FC, memo, type ReactNode, useMemo } from 'react'
 
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 
 import { useCompareBreadcrumbs } from '@portal/routes/root/PortalPage/VersionPage/useCompareBreadcrumbs'
 import { useComparisonObjects } from '@portal/routes/root/PortalPage/VersionPage/useComparisonObjects'

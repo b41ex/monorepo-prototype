@@ -15,7 +15,7 @@
  */
 
 import { ExportSettingsDialog } from '@portal/components/ExportSettingsDialog/ui/ExportSettingsDialog'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
 import type { FC } from 'react'
 import { memo } from 'react'
 import { DocumentPreviewCard } from './DocumentPreviewCard'

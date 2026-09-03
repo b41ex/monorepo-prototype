@@ -19,7 +19,7 @@ import { mergeOpenapiDocuments } from '../../../src/utils'
 import path from 'path'
 import fs from 'fs/promises'
 import { OpenAPIV3 } from 'openapi-types'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 const TEST_DIR = 'test'
 const SUITE_ID = 'merge/openapi'

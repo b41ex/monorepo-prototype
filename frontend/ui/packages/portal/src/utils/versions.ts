@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { PackageVersion } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import type { PackageVersion } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 export function handleVersionsRevision(versions: ReadonlyArray<PackageVersion>): ReadonlyArray<PackageVersion> {
   return versions.map(handleVersionRevision)

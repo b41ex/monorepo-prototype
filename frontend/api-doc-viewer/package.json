@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-api-doc-viewer-workspace",
+  "name": "@b41ex/qubership-apihub-api-doc-viewer-workspace",
   "license": "Apache-2.0",
   "private": true,
   "workspaces": [
@@ -15,23 +15,23 @@
     "regenerate-screenshots": "lerna run regenerate-screenshots",
     "regenerate-screenshots-single-suite": "lerna run regenerate-screenshots-test-suite",
     "development:storybook": "lerna run development:storybook",
-    "development:link": "yarn link --workspace @netcracker/qubership-apihub-api-doc-viewer && yarn link @netcracker/qubership-apihub-graphapi --save-dev && yarn link @netcracker/qubership-apihub-api-diff --save && yarn link @netcracker/qubership-apihub-api-unifier --save-dev && yarn link @netcracker/qubership-apihub-json-crawl --save-dev",
-    "development:unlink": "yarn unlink @netcracker/qubership-apihub-graphapi --no-save && yarn unlink @netcracker/qubership-apihub-api-diff --no-save && yarn unlink @netcracker/qubership-apihub-api-unifier --no-save && yarn unlink @netcracker/qubership-apihub-json-crawl --no-save",
+    "development:link": "yarn link --workspace @b41ex/qubership-apihub-api-doc-viewer && yarn link @b41ex/qubership-apihub-graphapi --save-dev && yarn link @b41ex/qubership-apihub-api-diff --save && yarn link @b41ex/qubership-apihub-api-unifier --save-dev && yarn link @b41ex/qubership-apihub-json-crawl --save-dev",
+    "development:unlink": "yarn unlink @b41ex/qubership-apihub-graphapi --no-save && yarn unlink @b41ex/qubership-apihub-api-diff --no-save && yarn unlink @b41ex/qubership-apihub-api-unifier --no-save && yarn unlink @b41ex/qubership-apihub-json-crawl --no-save",
     "lint:check": "eslint -c .eslintrc.json . --ext .js,.cjs,.ts,.json --ignore-path .gitignore --max-warnings 0 --report-unused-disable-directives",
     "lint:fix": "npm run lint:check -- --fix",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "dependencies": {
-    "@netcracker/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
+    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure"
   },
   "devDependencies": {
-    "@netcracker/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-compatibility-suites": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/jest": "30.0.0",
     "@types/jest-image-snapshot": "6.1.0",
     "@types/lodash-es": "^4.17.12",

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * List every @netcracker/@b41ex dependency declared anywhere in the workspace, with the
+ * List every @b41ex/@b41ex dependency declared anywhere in the workspace, with the
  * spec, and say whether a workspace package provides it.
  *
  * A scoped dependency that no workspace package provides is an *external* one: rescoping

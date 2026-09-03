@@ -17,21 +17,21 @@
 import { TitledValue } from '@portal/components/TitledValue'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Typography } from '@mui/material'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   CREATE_AND_UPDATE_PACKAGE_PERMISSION,
   DELETE_PACKAGE_PERMISSION,
   NO_PERMISSION_TO_EDIT_PACKAGE,
-} from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
-import { DASHBOARD_KIND, GROUP_KIND, PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DeleteIcon } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIcon'
-import { transformStringValue } from '@netcracker/qubership-apihub-ui-shared/utils/strings'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
+import { DASHBOARD_KIND, GROUP_KIND, PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DeleteIcon } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIcon'
+import { transformStringValue } from '@b41ex/qubership-apihub-ui-shared/utils/strings'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import type { FC } from 'react'
 import * as React from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'

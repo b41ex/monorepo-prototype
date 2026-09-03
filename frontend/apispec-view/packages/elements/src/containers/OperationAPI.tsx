@@ -13,11 +13,11 @@ import {
   withQueryClientProvider,
   withRouter,
   withStyles,
-} from '@netcracker/qubership-apihub-apispec-view-elements-core'
-import { IServer } from '@netcracker/qubership-apihub-apispec-view-elements-core/utils/http-spec/IServer'
+} from '@b41ex/qubership-apihub-apispec-view-elements-core'
+import { IServer } from '@b41ex/qubership-apihub-apispec-view-elements-core/utils/http-spec/IServer'
 import { Box, Flex, Icon, Provider } from '@stoplight/mosaic'
 import { IHttpOperation } from '@stoplight/types'
-import { SchemaViewMode } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer'
+import { SchemaViewMode } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer'
 import { flow } from 'lodash'
 import * as React from 'react'
 import { useEffect, useMemo } from 'react'
@@ -26,7 +26,7 @@ import { APIWithOperation } from '../components/API/APIWithOperation'
 import { useExportDocumentProps } from '../hooks/useExportDocumentProps'
 import { transformOasToServiceNode } from '../utils/oas'
 
-// import '@netcracker/qubership-apihub-api-doc-viewer/dist/style.css'
+// import '@b41ex/qubership-apihub-api-doc-viewer/dist/style.css'
 
 export type APIProps = APIPropsWithOperation;
 

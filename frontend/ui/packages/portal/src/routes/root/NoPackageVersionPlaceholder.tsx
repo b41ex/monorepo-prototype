@@ -18,10 +18,10 @@ import type { FC, PropsWithChildren } from 'react'
 import { memo } from 'react'
 import { useParams } from 'react-router-dom'
 import { usePackageVersionContent } from './usePackageVersionContent'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { ErrorPage, NOT_FOUND_TITLE } from '@netcracker/qubership-apihub-ui-shared/components/ErrorPage'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { ErrorPage, NOT_FOUND_TITLE } from '@b41ex/qubership-apihub-ui-shared/components/ErrorPage'
 
 export type NoPackageVersionPlaceholderProps = PropsWithChildren<{
   packageObject: Package | null

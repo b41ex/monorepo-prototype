@@ -20,7 +20,7 @@ import {
   IJsonSchemaStringType,
   JsonSchemaDiffNodeMeta,
   JsonSchemaDiffNodeValue
-} from '@netcracker/qubership-apihub-api-data-model'
+} from '@b41ex/qubership-apihub-api-data-model'
 import { BADGE_KIND_ALTERNATIVE_INFO, BADGE_KIND_INFO } from '../components/kit/ux/UxBadge/types'
 import { UNKNOWN_TYPE_TEXT } from '../consts/types'
 import { GraphNodeTitleDataOptions, JsonNodeTitleDataOptions, NodeTitleData, } from '../types/NodeTitleData'

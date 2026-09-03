@@ -1,5 +1,5 @@
-import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/aliases";
-import { AsyncApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/async-api/types/node-kind";
+import { AsyncApiTreeNode, AsyncApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/aliases";
+import { AsyncApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/async-api/types/node-kind";
 
 // Message
 

@@ -14,7 +14,7 @@ import {
 } from "@apihub/next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-column"
 import { ORIGIN_LAYOUT_SIDE, CHANGED_LAYOUT_SIDE } from "@apihub/next-data-model/model/abstract/layout-side"
 import { DdlApiTreeNodeKinds } from "@apihub/next-data-model/model/ddlapi/types/node-kind"
-import { DiffAction, breaking, nonBreaking } from "@netcracker/qubership-apihub-api-diff"
+import { DiffAction, breaking, nonBreaking } from "@b41ex/qubership-apihub-api-diff"
 
 function makePlainColumnNode(value: Record<string, unknown> | null) {
   return {

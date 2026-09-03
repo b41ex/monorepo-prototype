@@ -15,13 +15,13 @@
  */
 
 import { useComparisonParams } from '@portal/routes/root/PortalPage/VersionPage/useComparisonParams'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 import {
   usePreviousReleasePackageKey,
   usePreviousReleaseVersion,
   useSetPreviousReleasePackageKey,
   useSetPreviousReleaseVersion,
-} from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/PreviousReleaseOptionsProvider'
+} from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/PreviousReleaseOptionsProvider'
 import type { FC } from 'react'
 import { memo, useEffect, useMemo } from 'react'
 import { usePackageVersionContent } from '../../../usePackageVersionContent'

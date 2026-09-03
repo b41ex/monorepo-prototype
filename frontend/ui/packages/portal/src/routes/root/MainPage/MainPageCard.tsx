@@ -26,9 +26,9 @@ import { FLAT_TABLE_MODE, TREE_TABLE_MODE, useTableMode } from '../useTableMode'
 import { useSelectedWorkspaceContexts } from './MainPageProvider'
 import { useDeepCompareEffect } from 'react-use'
 import { usePackage } from '../usePackage'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DASHBOARD_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DASHBOARD_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 export type MainPageCardProps = Readonly<{
   title?: string | React.ReactNode

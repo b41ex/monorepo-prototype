@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import '@netcracker/qubership-apihub-apispec-view'
-import type { OperationView } from '@netcracker/qubership-apihub-apispec-view'
+import '@b41ex/qubership-apihub-apispec-view'
+import type { OperationView } from '@b41ex/qubership-apihub-apispec-view'
 
 export type OperationViewElementProps = {
   router: 'history' | 'memory' | 'hash' | 'static'

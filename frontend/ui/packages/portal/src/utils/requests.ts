@@ -19,8 +19,8 @@ import type {
   RequestJsonExtraOptions,
   RequestTextExtraOptions,
   RequestVoidExtraOptions,
-} from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { API_V2, requestBlob, requestJson, requestText, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { API_V2, requestBlob, requestJson, requestText, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export function portalRequestJson<T extends object | null>(
   input: RequestInfo | URL,

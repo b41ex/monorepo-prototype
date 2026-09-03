@@ -25,14 +25,14 @@ import {
   VERSIONS_PAGE,
 } from '../../../../routes'
 import { getPackageSettingsPath } from '../../../NavigationProvider'
-import type { Package, PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DASHBOARD_KIND, GROUP_KIND, WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Package, PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DASHBOARD_KIND, GROUP_KIND, WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import {
   ACCESS_TOKEN_MANAGEMENT_PERMISSION,
   type PackagePermissions,
   USER_ACCESS_MANAGEMENT_PERMISSION,
-} from '@netcracker/qubership-apihub-ui-shared/entities/package-permissions'
+} from '@b41ex/qubership-apihub-ui-shared/entities/package-permissions'
 
 const PACKAGE_KINDS_WITHOUT_VERSIONS = [GROUP_KIND, WORKSPACE_KIND]
 const PACKAGE_KINDS_WITHOUT_API_SPECIFIC_CONFIGURATION = [GROUP_KIND, WORKSPACE_KIND, DASHBOARD_KIND]

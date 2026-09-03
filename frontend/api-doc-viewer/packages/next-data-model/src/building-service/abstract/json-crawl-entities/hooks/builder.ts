@@ -1,7 +1,7 @@
 import { ITreeNodeWithDiffs } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
-import { buildPointer } from "@netcracker/qubership-apihub-api-unifier";
-import { isArray, SyncCrawlHook } from "@netcracker/qubership-apihub-json-crawl";
+import { isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
+import { buildPointer } from "@b41ex/qubership-apihub-api-unifier";
+import { isArray, SyncCrawlHook } from "@b41ex/qubership-apihub-json-crawl";
 import { ITreeNode } from "../../../../model/abstract/tree/tree-node.interface";
 import { isObject } from "../../../../utilities";
 import { NodeId, NodeKey } from "../../../../utility-types";

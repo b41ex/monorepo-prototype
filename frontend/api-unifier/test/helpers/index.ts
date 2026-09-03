@@ -1,10 +1,10 @@
-import { anyArrayKeys, isArray, isObject, JsonPath, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { anyArrayKeys, isArray, isObject, JsonPath, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { ChainItem, Hash, JsonSchema, loadYaml, OriginLeafs, OriginsMetaRecord } from '../../src'
 import { isSymbol } from '../../src/utils'
 import { OpenAPIV3 } from 'openapi-types'
 import 'jest-extended'
 import { deepEqual } from 'fast-equals'
-import { buildFromSchema, GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { buildFromSchema, GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 import { buildSchema } from 'graphql/utilities'
 
 export const yaml = (strings: TemplateStringsArray): object => {

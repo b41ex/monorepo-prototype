@@ -17,7 +17,7 @@
 import { useServices } from './useServices'
 import { useMemo } from 'react'
 import { NO_PREVIOUS_VERSION_OPTION } from '@agents/entities/snapshots'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 export function useBaselineOptions(withDefaultOption = false): string[] {
   const [{ services }] = useServices()

@@ -21,10 +21,10 @@ import { useNavigation } from '../../../NavigationProvider'
 import { useFullMainVersion, useIsLatestRevision } from '../FullMainVersionProvider'
 import { useBackwardLocation } from '../../useBackwardLocation'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import { OutlinedIconButton } from '@netcracker/qubership-apihub-ui-shared/components/OutlinedIconButton'
-import { EditIcon } from '@netcracker/qubership-apihub-ui-shared/icons/EditIcon'
-import { DISABLED_BUTTON_COLOR, ENABLED_BUTTON_COLOR } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import { OutlinedIconButton } from '@b41ex/qubership-apihub-ui-shared/components/OutlinedIconButton'
+import { EditIcon } from '@b41ex/qubership-apihub-ui-shared/icons/EditIcon'
+import { DISABLED_BUTTON_COLOR, ENABLED_BUTTON_COLOR } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
 
 export type OperationsFilterByDocumentProps = {
   disabled: boolean

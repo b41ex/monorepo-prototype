@@ -52,7 +52,7 @@ empty prefix keys are ignored; global `/**` re-attaches on the merged result.
 
 ## Zero-deps constraint in tests
 
-Do not import other `@netcracker/*` packages into this repository's tests — the
+Do not import other `@b41ex/*` packages into this repository's tests — the
 library itself has no runtime dependencies and tests should stay self-contained.
 
 ## Before submitting

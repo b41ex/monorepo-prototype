@@ -1,4 +1,4 @@
-import { IAsyncOperation } from '@netcracker/qubership-apihub-http-spec'
+import { IAsyncOperation } from '@b41ex/qubership-apihub-http-spec'
 import type { IMarkdownViewerProps } from '@stoplight/markdown-viewer'
 import { IHttpOperation, IHttpService, NodeType } from '@stoplight/types'
 import { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'

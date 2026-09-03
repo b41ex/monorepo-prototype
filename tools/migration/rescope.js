@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Rename the npm scope @netcracker -> @b41ex across the workspace.
+ * Rename the npm scope @b41ex -> @b41ex across the workspace.
  *
  * The prototype runs in a personal sandbox: rescoping is what makes it structurally
  * incapable of resolving from, or publishing to, the real Netcracker namespace. The real
@@ -17,7 +17,7 @@ const fs = require('fs')
 const { execFileSync } = require('child_process')
 
 const SKIP = /(^|\/)(package-lock\.json|npm-shrinkwrap\.json)$|^tools\/migration\/resolutions-before\.json$/
-const PATTERN = /@netcracker(?!\.)/g
+const PATTERN = /@b41ex(?!\.)/g
 
 const files = execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 1 << 28 })
   .split('\n')
@@ -37,7 +37,7 @@ for (const f of files) {
   }
   if (buf.includes(0)) continue // binary
   const src = buf.toString('utf8')
-  if (!src.includes('@netcracker')) continue
+  if (!src.includes('@b41ex')) continue
   const out = src.replace(PATTERN, '@b41ex')
   if (out === src) continue
   const n = (src.match(PATTERN) || []).length

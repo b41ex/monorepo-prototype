@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { Operation } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { Operation } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import type { OperationsMovementDetails } from '@portal/routes/EventBusProvider'
 
 export type PackageContext = {

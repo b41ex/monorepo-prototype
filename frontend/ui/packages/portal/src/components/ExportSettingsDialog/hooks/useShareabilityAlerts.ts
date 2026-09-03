@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import type { ShareabilityStatus } from '@netcracker/qubership-apihub-api-processor'
+import type { ShareabilityStatus } from '@b41ex/qubership-apihub-api-processor'
 import { ExportedEntityKind } from '../api/useExport'
 import { ExportSettingsFormFieldOptionScope } from '../entities/export-settings-form-field'
 import {

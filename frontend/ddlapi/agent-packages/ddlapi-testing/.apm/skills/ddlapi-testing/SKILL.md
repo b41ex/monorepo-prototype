@@ -28,7 +28,7 @@ do not parallelise the suite to "speed it up".
 | `test/sqlSamples.test.ts` | Auto-discovers **every** `.sql` under `test/resources/` and asserts it is valid PostgreSQL. |
 
 Model-only tests import through the public package name
-(`@netcracker/qubership-apihub-ddlapi`, mapped to `src/index.ts` by
+(`@b41ex/qubership-apihub-ddlapi`, mapped to `src/index.ts` by
 `moduleNameMapper`); parser tests import from the relative source
 (`../src` / `../../src`). Follow the convention already used by neighbouring
 files rather than mixing the two.
@@ -58,7 +58,7 @@ about cross-statement interaction or errors, as `buildFromDdl.test.ts` does.
   string and cast to read extra properties:
 
   ```typescript
-  import { PgAttrKind } from '@netcracker/qubership-apihub-ddlapi'
+  import { PgAttrKind } from '@b41ex/qubership-apihub-ddlapi'
   const ident = idCol.attrs!.find(a => a.kind === PgAttrKind.Identity) as { generation: string } | undefined
   expect(ident!.generation).toBe('ALWAYS')
   ```

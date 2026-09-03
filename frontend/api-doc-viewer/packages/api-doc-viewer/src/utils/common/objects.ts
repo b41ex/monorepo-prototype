@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isObject } from '@netcracker/qubership-apihub-api-data-model'
+import { isObject } from '@b41ex/qubership-apihub-api-data-model'
 
 export function safePropertyIn(value: unknown, key: PropertyKey, context?: string): boolean {
   try {

@@ -17,17 +17,17 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import { OperationChangesSubTableWrapper } from './OperationChangesSubTableWrapper'
-import type { OperationChangeBase } from '@netcracker/qubership-apihub-ui-shared/entities/version-changelog'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { FetchNextPage } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/ChangesViewTable'
-import { ChangesViewTable } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/ChangesViewTable'
+import type { OperationChangeBase } from '@b41ex/qubership-apihub-ui-shared/entities/version-changelog'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { FetchNextPage } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/ChangesViewTable'
+import { ChangesViewTable } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/components/ChangesViewTable'
 import {
   CONTENT_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export type ChangesViewWidgetProps = {
   changes: ReadonlyArray<OperationChangeBase>

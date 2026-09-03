@@ -1,7 +1,7 @@
 import { compareFiles } from '../utils'
 import { diffsMatcher } from '../../helper/matchers'
 import { annotation, breaking, DiffAction, nonBreaking, unclassified } from '../../../src'
-import { TEST_SPEC_TYPE_GRAPH_QL } from '@netcracker/qubership-apihub-compatibility-suites'
+import { TEST_SPEC_TYPE_GRAPH_QL } from '@b41ex/qubership-apihub-compatibility-suites'
 import { COMPARE_SCOPE_ROOT } from '../../../src/types'
 
 const SUITE_ID = 'root-type-general'

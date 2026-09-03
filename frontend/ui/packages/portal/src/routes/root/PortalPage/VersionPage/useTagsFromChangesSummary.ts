@@ -20,14 +20,14 @@ import type {
   PackageComparisonSummary,
   RefComparisonSummary,
   VersionChangesSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
 import {
   hasNoVersionChanges,
   isDashboardComparisonSummary,
   isPackageComparisonSummary,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-changes-summary'
-import { DEFAULT_TAG, EMPTY_TAG } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-changes-summary'
+import { DEFAULT_TAG, EMPTY_TAG } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export function useTagsFromChangesSummary(
   apiType: ApiType | undefined,

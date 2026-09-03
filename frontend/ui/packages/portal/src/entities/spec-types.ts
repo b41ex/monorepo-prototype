@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 import {
   ASYNCAPI_3_SPEC_TYPE,
   JSON_SCHEMA_SPEC_TYPE,
   OPENAPI_3_0_SPEC_TYPE,
   OPENAPI_3_1_SPEC_TYPE,
   UNKNOWN_SPEC_TYPE,
-} from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+} from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 
 const ASYNCAPI_SPEC_TYPES: ReadonlyArray<SpecType> = [
   ASYNCAPI_3_SPEC_TYPE,

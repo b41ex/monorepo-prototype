@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-json-crawl",
+  "name": "@b41ex/qubership-apihub-json-crawl",
   "version": "1.2.3",
   "description": "Async and sync crawler for json object",
   "module": "./dist/index.es.js",
@@ -23,7 +23,7 @@
     "development:unlink": "npm unlink",
     "test": "jest --verbose",
     "test:coverage": "jest --verbose --coverage",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "keywords": [
     "json",
@@ -35,7 +35,7 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/jest": "30.0.0",
     "@types/node": "^24.0.0",
     "jest": "30.4.2",

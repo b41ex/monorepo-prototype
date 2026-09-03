@@ -2,17 +2,17 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { generatePath } from 'react-router-dom'
 
-import type { FetchNextMetaList } from '@netcracker/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
+import type { FetchNextMetaList } from '@b41ex/qubership-apihub-ui-shared/components/MetaClickableListWithPreview'
 import type {
   McpCollection,
   McpEntitiesDto,
   McpContractEntity,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { mcpCollectionToApiSegment, toMcpContractEntities } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import type { Key, PackageKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { mcpCollectionToApiSegment, toMcpContractEntities } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import type { Key, PackageKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 import { useVersionWithRevision } from '../../../useVersionWithRevision'
 

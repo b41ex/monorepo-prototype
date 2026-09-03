@@ -1,4 +1,4 @@
-import { NavigationLinkBuilder } from "@netcracker/qubership-apihub-next-data-model/shared/ddlapi/types/navigation-link-builder"
+import { NavigationLinkBuilder } from "@b41ex/qubership-apihub-next-data-model/shared/ddlapi/types/navigation-link-builder"
 import { createContext, useContext } from "react"
 import type { NavigationLinkComponent } from "./DefaultNavigationLink"
 

@@ -22,24 +22,24 @@ import {
   useOperationPathViewPort,
   useSetOperationPathViewPort,
 } from '../../../OperationNavigationDataProvider'
-import type { SelectableObject } from '@netcracker/qubership-apihub-class-view'
-import type { SchemaGraphMeta } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/schema-graph-content'
+import type { SelectableObject } from '@b41ex/qubership-apihub-class-view'
+import type { SchemaGraphMeta } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/schema-graph-content'
 import {
   isNamedObject,
   isProperty,
   isSchema,
-} from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/schema-graph-content'
-import type { OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { Action, NavigationState, ViewPortCenter } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView'
-import { FIT_TO_SCREEN_ACTION, SchemaGraphView } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView'
+} from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/schema-graph-content'
+import type { OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { Action, NavigationState, ViewPortCenter } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView'
+import { FIT_TO_SCREEN_ACTION, SchemaGraphView } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView'
 import { CONTEXT_PANEL_DEFAULT_WIDTH, SchemaContextPanel } from '@portal/components/SchemaContextPanel'
-import { ZoomPanel } from '@netcracker/qubership-apihub-ui-shared/components/ZoomPanel'
-import { ResizableSidebar } from '@netcracker/qubership-apihub-ui-shared/components/ResizableSidebar'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { NAVIGATION_MAX_WIDTH } from '@netcracker/qubership-apihub-ui-shared/utils/page-layouts'
+import { ZoomPanel } from '@b41ex/qubership-apihub-ui-shared/components/ZoomPanel'
+import { ResizableSidebar } from '@b41ex/qubership-apihub-ui-shared/components/ResizableSidebar'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { NAVIGATION_MAX_WIDTH } from '@b41ex/qubership-apihub-ui-shared/utils/page-layouts'
 import type { OpenAPIV3 } from 'openapi-types'
-import { VISITOR_FLAG_INLINE_REFS } from '@netcracker/qubership-apihub-ui-shared/components/SchemaGraphView/visitor-utils'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { VISITOR_FLAG_INLINE_REFS } from '@b41ex/qubership-apihub-ui-shared/components/SchemaGraphView/visitor-utils'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export type OperationModelsGraphProps = {
   operationData: OperationData | null | undefined

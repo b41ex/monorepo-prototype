@@ -15,10 +15,10 @@
  */
 
 import { useMemo } from 'react'
-import type { ApiKind } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { ALL_API_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { useSetSearchParams } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
+import type { ApiKind } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { ALL_API_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { useSetSearchParams } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSetSearchParams'
 
 export function useApiKindSearchFilter(): [ApiKind, SetApiKingFilter] {
   const param = useSearchParam<ApiKind>(KIND_SEARCH_PARAM)

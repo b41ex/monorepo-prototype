@@ -15,9 +15,9 @@
  */
 
 import type { FileKey, Key } from './keys'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import type { ChangeStatus } from '@netcracker/qubership-apihub-ui-shared/entities/change-statuses'
-import type { FileFormat } from '@netcracker/qubership-apihub-ui-shared/entities/file-formats'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import type { ChangeStatus } from '@b41ex/qubership-apihub-ui-shared/entities/change-statuses'
+import type { FileFormat } from '@b41ex/qubership-apihub-ui-shared/entities/file-formats'
 
 export type FileData = {
   content: FileContent

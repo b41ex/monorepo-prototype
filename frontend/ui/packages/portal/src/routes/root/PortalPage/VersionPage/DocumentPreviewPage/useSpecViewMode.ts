@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import type { SpecViewMode } from '@netcracker/qubership-apihub-ui-shared/components/SpecViewToggler'
-import { DOC_OPERATION_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/operation-view-mode'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { MODE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import type { SpecViewMode } from '@b41ex/qubership-apihub-ui-shared/components/SpecViewToggler'
+import { DOC_OPERATION_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/operation-view-mode'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { MODE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useHash } from 'react-use'

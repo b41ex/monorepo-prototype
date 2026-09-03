@@ -1,5 +1,5 @@
-import { API_V1, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import type { PackageKey, VersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/types'
+import { API_V1, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import type { PackageKey, VersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/types'
 import { useQuery } from '@tanstack/react-query'
 import { generatePath } from 'react-router'
 import type { InternalDocuments, QueryResult } from './shared-types'

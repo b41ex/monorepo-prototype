@@ -19,7 +19,7 @@ import {
   type DdlDocumentType,
   MCP_DOCUMENT_TYPE,
   type McpDocumentType,
-} from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-api-processor'
 
 export { DDL_DOCUMENT_TYPE, type DdlDocumentType, MCP_DOCUMENT_TYPE, type McpDocumentType }
 

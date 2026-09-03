@@ -17,12 +17,12 @@
 import type { FC } from 'react'
 import { memo } from 'react'
 import { ChangesViewWidget } from './ChangesViewWidget'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { useFlatVersionChangelog } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { useFlatVersionChangelog } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
 import {
   usePagedVersionChangelog,
-} from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/useCommonPagedVersionChangelog'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/useCommonPagedVersionChangelog'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export type ChangesViewAgentWidgetProps = {
   versionKey: Key

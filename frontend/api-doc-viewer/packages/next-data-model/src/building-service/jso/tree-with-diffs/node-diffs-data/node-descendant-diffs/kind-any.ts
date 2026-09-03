@@ -1,7 +1,7 @@
 import { AbstractNodeDescendantsDiffsAggregator } from "@apihub/next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/node-descendants-diffs-aggregator";
 import { DiffFlags, DiffHighlightingModesByArea, DiffStyles, DIFF_HIGHLIGHTING_MODES_DEFAULT, DIFF_HIGHLIGHTING_MODES_JSO_PROPERTY_CHANGED_DIRECTLY, DIFF_HIGHLIGHTING_MODES_JSO_PROPERTY_CHANGED_INDIRECTLY, HighlightVariant, NodeDescendantDiffs } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { isObject, takeIfDiffsRecord } from "@apihub/next-data-model/utilities";
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 import { JsoRawValueUtilities } from "../../../json-crawl-entities/transformers/raw-jso-property-to-base-jso-node-value";
 import { DiffMetaKeys } from "@apihub/next-data-model/building-service/abstract/tree-with-diffs/node-diffs-data/diff-meta-keys";
 

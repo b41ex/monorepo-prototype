@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { DiffMetaKeys, isObject } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffMetaKeys, isObject } from '@b41ex/qubership-apihub-api-data-model'
 import {
   apiDiff,
   COMPARE_MODE_OPERATION, DIFF_META_KEY
-} from '@netcracker/qubership-apihub-api-diff'
-import { denormalize, normalize, NormalizeOptions, RefErrorType, stringifyCyclicJso } from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-diff'
+import { denormalize, normalize, NormalizeOptions, RefErrorType, stringifyCyclicJso } from '@b41ex/qubership-apihub-api-unifier'
 import { ObjectUtils } from '../utils/common/objects'
 import { TEST_DIFF_META_KEYS } from './async-api-diffs-suite/shared-test-data'
 import { TEST_REFERENCE_NAME_PROPERTY } from './async-api-suite/shared-test-data'

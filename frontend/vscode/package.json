@@ -67,11 +67,11 @@
     "test:unit": "node ./out/test/runTest.js",
     "test:ui": "extest setup-and-run './out/ui-test/*.test.js' --code_settings settings.json --extensions_dir .test-extensions",
     "test:ui-and-be": "concurrently --kill-others --success first  \"npm run dev:backend\" \"npm run test:ui\"",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/chai": "^4.3.16",
     "@types/express": "^5.0.1",
     "@types/mocha": "^10.0.10",

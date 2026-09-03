@@ -4,7 +4,7 @@ TypeScript/Node.js library that processes API source specifications (REST/OpenAP
 unknown files) into a **package-version build result**: parsed documents, extracted operations,
 optional version comparisons (changelog), export artifacts, and notifications.
 
-This repository is published as `@netcracker/qubership-apihub-api-processor`.
+This repository is published as `@b41ex/qubership-apihub-api-processor`.
 
 ## What it does (high level)
 
@@ -33,21 +33,21 @@ The builder produces a `BuildResult` that contains:
 - **Build**: `tsc` (CommonJS) + `vite` (ES/UMD bundle + types via `vite-plugin-dts`)
 - **Testing**: Jest + `ts-jest`
 - **API parsing & processing**: `graphql`, `swagger2openapi`, `js-yaml`, `ajv`, plus Netcracker ApiHub libraries:
-  - `@netcracker/qubership-apihub-api-diff`
-  - `@netcracker/qubership-apihub-api-unifier`
-  - `@netcracker/qubership-apihub-graphapi`
-  - `@netcracker/qubership-apihub-json-crawl`
+  - `@b41ex/qubership-apihub-api-diff`
+  - `@b41ex/qubership-apihub-api-unifier`
+  - `@b41ex/qubership-apihub-graphapi`
+  - `@b41ex/qubership-apihub-json-crawl`
 
 ## Installation (as a dependency)
 
 ```bash
-npm i @netcracker/qubership-apihub-api-processor
+npm i @b41ex/qubership-apihub-api-processor
 ```
 
 ## Basic usage
 
 ```typescript
-import { PackageVersionBuilder } from '@netcracker/qubership-apihub-api-processor'
+import { PackageVersionBuilder } from '@b41ex/qubership-apihub-api-processor'
 
 const builder = new PackageVersionBuilder(config, {
   resolvers: {
@@ -196,7 +196,7 @@ pluggable **strategies** (by build type), reusable **components**, and per-api-t
 api-processor supports **DDL** (PostgreSQL `.sql` / `.ddl`) as a contract type, for both `build` and
 `changelog`. The **table is the contract unit** (indexes, foreign keys, comments, and types are parts of
 a table, not separate entities). api-processor never parses SQL itself — it delegates to
-`@netcracker/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`), normalizes via the unifier's
+`@b41ex/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`), normalizes via the unifier's
 `DDL_API_NORMALIZE_OPTIONS`, and diffs via api-diff (which dispatches `SPEC_TYPE_DDL_API_1`).
 
 DDL is **additive**: a single package/version may mix DDL with REST/async/graphql/MCP content, and

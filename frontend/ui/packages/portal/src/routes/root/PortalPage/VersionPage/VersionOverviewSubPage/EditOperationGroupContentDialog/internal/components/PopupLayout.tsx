@@ -27,7 +27,7 @@ import {
   OVERRIDE_RIGHT_SECTION_INDENTS,
 } from '../consts'
 import { OperationGroupLimit } from './OperationGroupLimit'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 
 export type EditOperationGroupContentPopupLayoutProps = {
   navigation: ReactNode

@@ -1,4 +1,4 @@
-import { CrawlRulesContext } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRulesContext } from '@b41ex/qubership-apihub-json-crawl'
 import {
   jsonSchemaAdapter,
   jsonSchemaRules,
@@ -23,7 +23,7 @@ import {
   normalize,
   SPEC_TYPE_JSON_SCHEMA_07,
   SPEC_TYPE_OPEN_API_30,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { COMPARE_MODE_DEFAULT } from '../types'
 import { COMPARE_SCOPE_RECEIVE } from './asyncapi3.const'
 import { asyncApiSpecificationExtensionRulesFunction } from './asyncapi3.compare.rules'

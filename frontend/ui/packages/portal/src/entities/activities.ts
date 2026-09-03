@@ -15,11 +15,11 @@
  */
 
 import type { ActivityEventType, EventType } from './activity-enums'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { Principal } from '@netcracker/qubership-apihub-ui-shared/entities/principals'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ShareabilityStatus } from '@netcracker/qubership-apihub-api-processor'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { Principal } from '@b41ex/qubership-apihub-ui-shared/entities/principals'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ShareabilityStatus } from '@b41ex/qubership-apihub-api-processor'
 
 type Version = string
 

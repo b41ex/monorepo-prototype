@@ -1,5 +1,5 @@
 import type { CompareRules, InternalCompareOptions, StrictCompareOptions } from '../types'
-import { JsonSchemaSpecVersion, OriginLeafs } from '@netcracker/qubership-apihub-api-unifier'
+import { JsonSchemaSpecVersion, OriginLeafs } from '@b41ex/qubership-apihub-api-unifier'
 
 export type JsonSchemaRulesOptions = {
   version: JsonSchemaSpecVersion

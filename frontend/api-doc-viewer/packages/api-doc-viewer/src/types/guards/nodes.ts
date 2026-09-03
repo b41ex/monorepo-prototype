@@ -22,13 +22,13 @@ import {
   JsonSchemaDiffNodeMeta,
   JsonSchemaDiffNodeValue,
   JsonSchemaDiffTreeNode,
-} from '@netcracker/qubership-apihub-api-data-model'
+} from '@b41ex/qubership-apihub-api-data-model'
 import {
   IModelStateCombinaryNode,
   IModelStateNode,
   IModelStatePropNode,
   modelStateNodeType
-} from '@netcracker/qubership-apihub-api-state-model'
+} from '@b41ex/qubership-apihub-api-state-model'
 import { safePropertyIn } from '../../utils/common/objects'
 import { AnyTreeNode, AnyTreeNodeMeta, AnyTreeNodeValue } from '../aliases/nodes'
 

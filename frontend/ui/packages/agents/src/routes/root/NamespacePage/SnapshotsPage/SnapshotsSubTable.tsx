@@ -21,7 +21,7 @@ import { memo } from 'react'
 import { useSnapshotPublicationInfo } from '../useSnapshotPublicationInfo'
 import { Skeleton, TableCell, TableRow, Typography } from '@mui/material'
 import type { SnapshotsTableData } from './SnapshotsTable'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export type SnapshotsSubTableProps = {
   value: Row<SnapshotsTableData>

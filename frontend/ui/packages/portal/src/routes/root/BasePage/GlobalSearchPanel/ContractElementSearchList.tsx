@@ -1,20 +1,20 @@
 import { type FC, memo, useRef } from 'react'
 import { Marker } from 'react-mark.js'
 
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import {
   OperationPathMeta,
   useOperationTitleMeta,
-} from '@netcracker/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
-import { CONTRACT_TYPE_MCP } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+} from '@b41ex/qubership-apihub-ui-shared/components/Operations/OperationTitleWithMeta'
+import { CONTRACT_TYPE_MCP } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 import {
   getMcpKindDefinition,
   MCP_COLLECTION_INIT,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { useIntersectionObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { useIntersectionObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 import {
   type ContractElementSearchResult,

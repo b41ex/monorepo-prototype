@@ -9,7 +9,7 @@ import {
   GRAPH_API_NODE_KIND_STRING,
   GRAPH_API_NODE_KIND_UNION,
   GRAPH_API_VERSION
-} from '@netcracker/qubership-apihub-graphapi'
+} from '@b41ex/qubership-apihub-graphapi'
 import {
   convertOriginToHumanReadable,
   DEFAULT_TYPE_FLAG_PURE,

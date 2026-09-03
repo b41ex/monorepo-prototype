@@ -31,7 +31,7 @@ dialect-specific details that have no driver-neutral representation.
 ## Installation
 
 ```bash
-npm install @netcracker/qubership-apihub-ddlapi
+npm install @b41ex/qubership-apihub-ddlapi
 ```
 
 The package ships dual ESM/CJS builds with type declarations. The model runs anywhere. The `/parser` entry runs
@@ -41,7 +41,7 @@ inlined, so no bundler plugins are needed).
 ## Quick start
 
 ```typescript
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 const realm = await buildFromDdl(`
   CREATE TABLE public.users (
@@ -80,7 +80,7 @@ Discriminate every union node on its `kind` using the exported constant groups �
 nodes — rather than bare string literals, and always handle the open `default` branch:
 
 ```typescript
-import { TypeKind } from '@netcracker/qubership-apihub-ddlapi'
+import { TypeKind } from '@b41ex/qubership-apihub-ddlapi'
 
 switch (column.type?.type.kind) {
   case TypeKind.IntegerType: /* type: 'smallint' | 'integer' | 'bigint' | … */ break
@@ -121,7 +121,7 @@ constructors — no validation, no graph wiring, no deduplication.** Object iden
 the *same* `Column` reference everywhere it should appear.
 
 ```typescript
-import { newColumn, columnType, integerType, newTable, newPrimaryKey } from '@netcracker/qubership-apihub-ddlapi'
+import { newColumn, columnType, integerType, newTable, newPrimaryKey } from '@b41ex/qubership-apihub-ddlapi'
 
 const id = newColumn('id', { type: columnType(integerType('bigint'), { null: false }) })
 const users = newTable('users', { columns: [id], primaryKey: newPrimaryKey([id]) })
@@ -139,7 +139,7 @@ subset per table — distinct from `buildFromDdl`, which builds the structured `
 *original SQL text* relevant to one table, not a model.
 
 ```typescript
-import { prepareDdlExtractor } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { prepareDdlExtractor } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 const extractor = await prepareDdlExtractor(ddl)   // heavy work once (async, WASM)
 for (const ref of extractor.tables()) {            // { schema, name }, in source order
@@ -173,7 +173,7 @@ still returned (exposed as `DdlBuildError.realm`). **Absence of `onError` does n
 complete** — use `{ strict: true }` for pipelines that require completeness.
 
 ```typescript
-import { buildFromDdl, DdlParseError, DdlBuildError } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { buildFromDdl, DdlParseError, DdlBuildError } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 try {
   const realm = await buildFromDdl(ddl, { strict: true })
@@ -205,16 +205,16 @@ try {
 The public API is split across two entries; import from whichever you need, and never from internal module paths
 (they are unstable).
 
-- **`@netcracker/qubership-apihub-ddlapi`** — the parser-free **data model**: the schema model types, the `Pg*` and
+- **`@b41ex/qubership-apihub-ddlapi`** — the parser-free **data model**: the schema model types, the `Pg*` and
   core `*Kind` constants, the factories, and the `utils` helpers. Re-exported from [`src/index.ts`](src/index.ts).
-- **`@netcracker/qubership-apihub-ddlapi/parser`** — the WASM-bearing **parser**: `buildFromDdl` (with
+- **`@b41ex/qubership-apihub-ddlapi/parser`** — the WASM-bearing **parser**: `buildFromDdl` (with
   `DdlParseError`, `DdlBuildError`, `BuildFromDdlOptions`, `DdlNonFatalError`) and `prepareDdlExtractor` (with
   `DdlExtractor`, `TableRef`, `TableDdlSlice`, `DdlExtractorWarning`, `DdlExtractorWarningKind`), plus `SourceRange`.
   Re-exported from [`src/parser.ts`](src/parser.ts).
 
 ```typescript
-import { newTable, TypeKind /* … */ } from '@netcracker/qubership-apihub-ddlapi'
-import { buildFromDdl, prepareDdlExtractor } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { newTable, TypeKind /* … */ } from '@b41ex/qubership-apihub-ddlapi'
+import { buildFromDdl, prepareDdlExtractor } from '@b41ex/qubership-apihub-ddlapi/parser'
 ```
 
 The split keeps the parser and its ~1.1 MB WASM out of code that only needs the model — import `/parser` **only**

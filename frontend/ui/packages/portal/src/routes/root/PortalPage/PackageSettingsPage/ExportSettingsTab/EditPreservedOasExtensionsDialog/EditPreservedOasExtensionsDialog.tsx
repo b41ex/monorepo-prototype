@@ -3,12 +3,12 @@ import { Controller } from 'react-hook-form'
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useUpdateAllowedOasExtensions } from '../useAllowedOasExtensions'
-import { PopupDelegate, type PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate, type PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import {
   SHOW_EDIT_PRESERVED_OAS_EXTENSIONS_DIALOG,
   type ShowEditPreservedOasExtensionsDetail,
 } from '@portal/routes/EventBusProvider'
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
 import { OAS_EXTENSION_KIND_INHERITED } from '../package-export-config'
 import { type EditOasExtensionsForm, useOasExtensionsManager } from './useOasExtensionsManager'
 import { OasExtensionsAutocomplete } from './OasExtensionsAutocomplete'

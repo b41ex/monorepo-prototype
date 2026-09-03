@@ -46,7 +46,7 @@ import {
   JSON_SCHEMA_PROPERTY_MINIMUM,
   normalize,
   SPEC_TYPE_JSON_SCHEMA_04
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { isBoolean, isNumber, isString } from '../utils'
 import { createEffectiveLowerBoundClassifier, createEffectiveUpperBoundClassifier } from './jsonSchema.numeric-bounds'
 

@@ -30,10 +30,10 @@ import { useDisfavorPackage } from '../../useDisfavorPackage'
 import { usePackage } from '../../../usePackage'
 import { ActivityHistoryCard } from '../ActivityHistoryCard'
 import { TableSkeleton } from '../../PackagesTable'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { isBoolean } from '@netcracker/qubership-apihub-ui-shared/utils/types'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { isBoolean } from '@b41ex/qubership-apihub-ui-shared/utils/types'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { CONTENT_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
 
 type PrivatePageTable = {
   workspaceId: Key

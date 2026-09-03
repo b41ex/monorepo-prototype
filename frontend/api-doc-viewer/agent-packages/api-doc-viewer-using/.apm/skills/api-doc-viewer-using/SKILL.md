@@ -5,7 +5,7 @@ description: Integrate api-doc-viewer React components in a host application —
 # Using api-doc-viewer
 
 Embed human-readable API specification viewers from
-`@netcracker/qubership-apihub-api-doc-viewer` in a React host application.
+`@b41ex/qubership-apihub-api-doc-viewer` in a React host application.
 Import only from the **package root** and the published CSS subpath — internal
 module paths are not part of the public contract.
 
@@ -33,8 +33,8 @@ import {
   type NavigationLinkProps,
   type NavigationLinkComponent,
   buildOpenApiDiffCause,
-} from '@netcracker/qubership-apihub-api-doc-viewer'
-import '@netcracker/qubership-apihub-api-doc-viewer/dist/style.css'
+} from '@b41ex/qubership-apihub-api-doc-viewer'
+import '@b41ex/qubership-apihub-api-doc-viewer/dist/style.css'
 ```
 
 Styles are **not** bundled into components — import the CSS once at the
@@ -66,7 +66,7 @@ Diffs viewers need the same `DiffMetaKeys` the build pipeline stamped on the
 merged document:
 
 ```typescript
-import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
+import { DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
 
 const diffMetaKeys: DiffMetaKeys = {
   diffsMetaKey: DIFF_META_KEY,
@@ -84,7 +84,7 @@ highlights with no runtime error.
 
 AsyncAPI viewers require a stable **`referenceNamePropertyKey`** symbol shared
 with the normalisation/diff pipeline — use `FIRST_REFERENCE_KEY_PROPERTY` from
-`@netcracker/qubership-apihub-api-processor` (same symbol in normalize and
+`@b41ex/qubership-apihub-api-processor` (same symbol in normalize and
 `apiDiff` calls).
 
 Optional **`operationKeys`** narrow which operation/message to render when the
@@ -100,7 +100,7 @@ same `FIRST_REFERENCE_KEY_PROPERTY` and `DiffMetaKeys` as the build pipeline.
 
 ## GraphQL-specific wiring
 
-Build a GraphAPI schema with `@netcracker/qubership-apihub-graphapi` before
+Build a GraphAPI schema with `@b41ex/qubership-apihub-graphapi` before
 passing to `GraphQLOperationViewer`. Select the operation via
 `operationPath` (e.g. `#/queries/getEntity`) or legacy `operationType` +
 `operationName` on the diff viewer.
@@ -129,7 +129,7 @@ import {
   type NavigationLinkBuilder,
   type NavigationLinkComponent,
   type NavigationLinkProps,
-} from '@netcracker/qubership-apihub-api-doc-viewer'
+} from '@b41ex/qubership-apihub-api-doc-viewer'
 
 const navigationLinkBuilder: NavigationLinkBuilder = (schemaName, tableName, _column) => {
   const tableEntityId = buildTableEntityId(schemaName, tableName) // host-specific

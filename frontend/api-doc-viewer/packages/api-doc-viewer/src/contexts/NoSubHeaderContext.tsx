@@ -16,7 +16,7 @@
 
 import { createContext, FC, PropsWithChildren, useContext } from 'react'
 import { LayoutSide } from '../types/internal/LayoutSide'
-import { IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 
 type Value = LayoutSide | undefined
 type SetValue = ((stateNode?: IModelTreeNode<any, any, any>) => void) | undefined

@@ -1,7 +1,7 @@
 import { isOpenApiExtensionKey } from '@apihub/api-data-model/oas-extension-key';
-import { Diff, DiffType, isDiffReplace } from '@netcracker/qubership-apihub-api-diff';
-import { buildPointer, OpenApiExtensionKey } from '@netcracker/qubership-apihub-api-unifier';
-import { isArray } from '@netcracker/qubership-apihub-json-crawl';
+import { Diff, DiffType, isDiffReplace } from '@b41ex/qubership-apihub-api-diff';
+import { buildPointer, OpenApiExtensionKey } from '@b41ex/qubership-apihub-api-unifier';
+import { isArray } from '@b41ex/qubership-apihub-json-crawl';
 import { UNKNOWN_TYPE } from '../../abstract/constants';
 import { DiffMetaKeys, DiffNodeMeta, DiffNodeValue, DiffRecord, NodeChange } from '../../abstract/diff';
 import { ChangesSummaryUtils } from '../../abstract/diff-tree-utils';

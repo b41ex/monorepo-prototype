@@ -17,8 +17,8 @@
 import { useDefaultOperationFilterControllers } from './useDefaultOperationFilterControllers'
 import { useTagSearchFilter } from './useTagSearchFilter'
 import { useMemo } from 'react'
-import { ALL_OPERATION_GROUPS } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
-import { ALL_API_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import { ALL_OPERATION_GROUPS } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
+import { ALL_API_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 
 export function useCheckOperationFiltersApplied(isDashboard: boolean): boolean {
   const {

@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
 import { type FC, memo, type ReactNode } from 'react'
 
 import { SUMMARY_SECTION_SPACING } from './consts'

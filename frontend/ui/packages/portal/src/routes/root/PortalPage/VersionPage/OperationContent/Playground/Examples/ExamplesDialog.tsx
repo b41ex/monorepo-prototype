@@ -21,8 +21,8 @@ import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import { Examples } from './Examples'
 import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material'
 import { SHOW_EXAMPLES_DIALOG } from '@portal/routes/EventBusProvider'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 
 export type ExamplesDialogProps = {
   document: string

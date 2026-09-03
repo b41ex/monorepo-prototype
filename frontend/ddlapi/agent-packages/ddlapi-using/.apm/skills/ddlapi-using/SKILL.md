@@ -14,10 +14,10 @@ the contracts that the type signatures alone do not make obvious.
 ddlapi splits its public API across two entries so that code which only needs the
 data model never pulls in the SQL parser (pgsql / libpg-query, ~1.1 MB WASM):
 
-- **`@netcracker/qubership-apihub-ddlapi`** — the parser-free **data model**: types,
+- **`@b41ex/qubership-apihub-ddlapi`** — the parser-free **data model**: types,
   the `kind` constant groups, factories, and model utilities (`findAttr`, …). Safe
   to import from anywhere, including main-thread / UI code.
-- **`@netcracker/qubership-apihub-ddlapi/parser`** — the WASM-bearing **parser**:
+- **`@b41ex/qubership-apihub-ddlapi/parser`** — the WASM-bearing **parser**:
   `buildFromDdl`, `prepareDdlExtractor`, and the parser error/warning types
   (`DdlParseError`, `DdlBuildError`, `DdlNonFatalError`, `DdlExtractor…`). Import
   this **only** where you actually parse DDL, ideally behind a dynamic `import()`
@@ -25,9 +25,9 @@ data model never pulls in the SQL parser (pgsql / libpg-query, ~1.1 MB WASM):
 
 ```typescript
 // model — from the root
-import { TypeKind, ObjectKind, PgAttrKind, newTable, columnType } from '@netcracker/qubership-apihub-ddlapi'
+import { TypeKind, ObjectKind, PgAttrKind, newTable, columnType } from '@b41ex/qubership-apihub-ddlapi'
 // parser — from the /parser subpath
-import { buildFromDdl, prepareDdlExtractor } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { buildFromDdl, prepareDdlExtractor } from '@b41ex/qubership-apihub-ddlapi/parser'
 ```
 
 `Realm` / `Schema` / `Table` and all model types come from the **root** — the value
@@ -201,7 +201,7 @@ into a verbatim subset per table — distinct from `buildFromDdl`, which builds 
 not a structured model.
 
 ```typescript
-import { prepareDdlExtractor } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { prepareDdlExtractor } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 const extractor = await prepareDdlExtractor(ddl)   // heavy work once
 for (const ref of extractor.tables()) {            // { schema, name }, source order
@@ -235,7 +235,7 @@ Contract details that the signatures do not make obvious:
   (`table`).
 
   ```typescript
-  import { DdlExtractorWarningKind } from '@netcracker/qubership-apihub-ddlapi/parser'
+  import { DdlExtractorWarningKind } from '@b41ex/qubership-apihub-ddlapi/parser'
 
   for (const w of slice.warnings) {
     if (w.kind === DdlExtractorWarningKind.OmittedForeignKeyTarget) {

@@ -15,8 +15,8 @@
  */
 
 import type { OpenAPIV3 } from 'openapi-types'
-import type { NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
-import { denormalize, normalize } from '@netcracker/qubership-apihub-api-unifier'
+import type { NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
+import { denormalize, normalize } from '@b41ex/qubership-apihub-api-unifier'
 
 export const SYNTHETIC_TITLE_FLAG = Symbol('synthetic-title')
 

@@ -1,4 +1,4 @@
-import { CrawlRules } from "@netcracker/qubership-apihub-json-crawl";
+import { CrawlRules } from "@b41ex/qubership-apihub-json-crawl";
 import { AsyncApiTreeNodeKind, AsyncApiTreeNodeKinds } from "../../../../model/async-api/types/node-kind";
 import { AsyncApiTreeCrawlState } from "../state/types";
 import { collectRawValues } from "../transformers/collect-raw-values";

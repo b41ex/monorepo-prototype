@@ -1,5 +1,5 @@
-import { TestSpecType } from '@netcracker/qubership-apihub-compatibility-suites'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { TestSpecType } from '@b41ex/qubership-apihub-compatibility-suites'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import { annotation, breaking, DiffAction, nonBreaking, risky } from '../../../src'
 import { diffsMatcher, expectSpecVersionChange } from '../../helper/matchers'
 import {

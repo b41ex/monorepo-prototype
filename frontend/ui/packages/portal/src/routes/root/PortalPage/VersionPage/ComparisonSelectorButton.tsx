@@ -25,7 +25,7 @@ import { CompareVersionsDialog } from './CompareVersionsDialog/CompareVersionsDi
 import { CompareOperationPathsDialog } from './CompareOperationPathsDialog'
 import { CompareRestGroupsDialog } from './CompareRestGroupsDialog'
 import { useOperationGroupComparison } from './useOperationGroupComparison'
-import { MenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/MenuButton'
+import { MenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/MenuButton'
 import { useEventBus } from '@portal/routes/EventBusProvider'
 
 type ComparisonSelectorButtonProps = {

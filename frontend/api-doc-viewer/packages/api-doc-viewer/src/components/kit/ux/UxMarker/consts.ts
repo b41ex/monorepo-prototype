@@ -1,4 +1,4 @@
-import { annotation, breaking, deprecated, DiffType, nonBreaking, risky, unclassified } from "@netcracker/qubership-apihub-api-diff"
+import { annotation, breaking, deprecated, DiffType, nonBreaking, risky, unclassified } from "@b41ex/qubership-apihub-api-diff"
 
 export const DIFF_TYPE_COLORS: Record<DiffType, string> = {
   [breaking]: '#ED4A54',

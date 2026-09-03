@@ -17,17 +17,17 @@
 import { useQuery } from '@tanstack/react-query'
 import { useVersionWithRevision } from '../../../useVersionWithRevision'
 import { generatePath } from 'react-router-dom'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import type {
   VersionDeprecatedSummary,
   VersionDeprecatedSummaryDto,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-contents'
-import { isDashboardDeprecatedSummaryDto } from '@netcracker/qubership-apihub-ui-shared/entities/version-contents'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-contents'
+import { isDashboardDeprecatedSummaryDto } from '@b41ex/qubership-apihub-ui-shared/entities/version-contents'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { portalRequestJson } from '@portal/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { toPackageRef } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { toApiTypeMap } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { toPackageRef } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { toApiTypeMap } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 const DEPRECATED_SUMMARY_QUERY_KEY = 'deprecated-summary-query-key'
 

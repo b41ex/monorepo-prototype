@@ -16,15 +16,15 @@
 
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { usePackageSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
+import { usePackageSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/routes/package/usePackageSearchParam'
 import { useVersionSearchParam } from '../../useVersionSearchParam'
 import { usePackage } from '../../usePackage'
 import { useApiTypeSearchParam } from './useApiTypeSearchParam'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key, VersionKey } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { toRouteApiType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key, VersionKey } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { toRouteApiType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 export type ComparisonParams = Partial<{
   originPackage: Package | null

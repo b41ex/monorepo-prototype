@@ -18,7 +18,7 @@ import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { JsonPropNodeBody } from './JsonPropNodeBody'
 import { JsonPropNodeChildren } from './JsonPropNodeChildren'
-import { DiffNodeMeta, DiffNodeValue, IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { DiffNodeMeta, DiffNodeValue, IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import {
   findNoSubHeaderSide,
   isArrayValue,

@@ -20,8 +20,8 @@ import {
   usePlaygroundEvents,
 } from './Playground/hooks/usePlaygroundEvents'
 import { Box } from '@mui/material'
-import { ModuleFetchingErrorBoundary } from '@netcracker/qubership-apihub-ui-shared/components/ModuleFetchingErrorBoundary/ModuleFetchingErrorBoundary'
-import { NAVIGATION_MAX_WIDTH } from '@netcracker/qubership-apihub-ui-shared/utils/page-layouts'
+import { ModuleFetchingErrorBoundary } from '@b41ex/qubership-apihub-ui-shared/components/ModuleFetchingErrorBoundary/ModuleFetchingErrorBoundary'
+import { NAVIGATION_MAX_WIDTH } from '@b41ex/qubership-apihub-ui-shared/utils/page-layouts'
 import { Resizable } from 're-resizable'
 import type { FC, ReactNode } from 'react'
 import { memo } from 'react'

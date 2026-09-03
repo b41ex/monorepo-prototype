@@ -2,7 +2,7 @@ import { NODE_LEVEL_DIFF_KEY } from "@apihub/next-data-model/model/abstract/tree
 import { isSpecificationExtensionKey } from "@apihub/next-data-model/model/specification-extension-key";
 import { OperationKeys } from "@apihub/next-data-model/shared/async-api/types/operation-keys";
 import { findKeyByValue, getValueByPath, isArray, isObject, isObjective, takeIfDiffsRecord } from "@apihub/next-data-model/utilities";
-import { aggregateDiffsWithRollup, Diff, DiffType } from "@netcracker/qubership-apihub-api-diff";
+import { aggregateDiffsWithRollup, Diff, DiffType } from "@b41ex/qubership-apihub-api-diff";
 import { DiffMetaKeys } from "../../abstract/tree-with-diffs/node-diffs-data/diff-meta-keys";
 import { BuildingServiceLogger } from "../../../loggers";
 import {

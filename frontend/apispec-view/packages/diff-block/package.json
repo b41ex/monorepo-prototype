@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-apispec-view-diff-block",
+  "name": "@b41ex/qubership-apihub-apispec-view-diff-block",
   "version": "0.0.0",
   "private": "true",
   "keywords": [],
@@ -10,7 +10,7 @@
     "**/*"
   ],
   "devDependencies": {
-    "@netcracker/qubership-apihub-api-diff": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
     "@stoplight/mosaic": "^1.40.0",
     "jotai": "1.6.3",
     "lodash": "^4.17.21",

@@ -18,31 +18,31 @@ import type { FC } from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { usePackage } from '../../usePackage'
-import { usePackageVersions } from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+import { usePackageVersions } from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 import { useParams } from 'react-router-dom'
 import { useFiles } from '../FilesProvider'
 import { usePublishPackageVersion } from '../usePublishPackageVersion'
 import { useDashboardReferences } from './DashboardReferencesProvider'
 import { filesRecordToArray } from '../PackagePage/files'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import { SHOW_PUBLISH_PACKAGE_VERSION_DIALOG } from '@portal/routes/EventBusProvider'
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { DASHBOARD_KIND, PACKAGE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { getSplittedVersionKey, getVersionLabelsMap } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { DASHBOARD_KIND, PACKAGE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { getSplittedVersionKey, getVersionLabelsMap } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import {
   DRAFT_VERSION_STATUS,
   NO_PREVIOUS_RELEASE_VERSION_OPTION,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { VersionFormData } from '@netcracker/qubership-apihub-ui-shared/components/VersionDialogForm'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { VersionFormData } from '@b41ex/qubership-apihub-ui-shared/components/VersionDialogForm'
 import {
   getVersionOptions,
   replaceEmptyPreviousVersion,
   VersionDialogForm,
-} from '@netcracker/qubership-apihub-ui-shared/components/VersionDialogForm'
-import { takeIf } from '@netcracker/qubership-apihub-ui-shared/utils/objects'
+} from '@b41ex/qubership-apihub-ui-shared/components/VersionDialogForm'
+import { takeIf } from '@b41ex/qubership-apihub-ui-shared/utils/objects'
 import { usePackageVersionConfig } from '@portal/routes/root/PortalPage/usePackageVersionConfig'
 import { useMcpPublishValidation } from '@portal/routes/root/PortalPage/PackagePage/useMcpPublishValidation'
 

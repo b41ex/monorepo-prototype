@@ -2,8 +2,8 @@ import { hasDdlPropertyTitleRowDiff } from "../../../shared/ddlapi/guards/proper
 import { formatDefaultValueDisplayString, formatDefaultValueForDisplay } from "../../../shared/ddlapi/format-ddl-expr"
 import { formatForeignKeyTargetKey } from "../../../shared/ddlapi/foreign-key-target-key"
 import { isObject } from "../../../utilities"
-import { isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff"
-import { Expr } from "@netcracker/qubership-apihub-ddlapi"
+import { isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff"
+import { Expr } from "@b41ex/qubership-apihub-ddlapi"
 import {
   LayoutSide,
   ORIGIN_LAYOUT_SIDE,

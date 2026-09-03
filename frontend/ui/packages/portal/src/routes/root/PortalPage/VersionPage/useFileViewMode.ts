@@ -17,10 +17,10 @@
 import { useCallback } from 'react'
 import { useHash } from 'react-use'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import type { FileViewMode } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import { YAML_FILE_VIEW_MODE } from '@netcracker/qubership-apihub-ui-shared/entities/file-format-view'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { FILE_VIEW_MODE_PARAM_KEY } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import type { FileViewMode } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import { YAML_FILE_VIEW_MODE } from '@b41ex/qubership-apihub-ui-shared/entities/file-format-view'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { FILE_VIEW_MODE_PARAM_KEY } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 export function useFileViewMode(): [FileViewMode | undefined, SetFileViewModeParam] {
   const mode = useSearchParam<FileViewMode>(FILE_VIEW_MODE_PARAM_KEY)

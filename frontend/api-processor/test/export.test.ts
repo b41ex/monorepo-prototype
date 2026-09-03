@@ -24,7 +24,7 @@ import {
   TRANSFORMATION_KIND_MERGED,
   TRANSFORMATION_KIND_REDUCED,
 } from '../src'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 // import fs from 'fs/promises'
 // import AdmZip = require('adm-zip')
 

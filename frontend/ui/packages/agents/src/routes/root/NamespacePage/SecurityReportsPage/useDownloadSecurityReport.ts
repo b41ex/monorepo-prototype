@@ -20,12 +20,12 @@ import type { Key } from '@agents/entities/keys'
 import type { SecurityReportType } from './useSecurityReports'
 import { SECURITY_REPORT_TYPE_AUTH_CHECK, SECURITY_REPORT_TYPE_GATEWAY_ROUTING } from './useSecurityReports'
 import { generatePath } from 'react-router-dom'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { API_V2, API_V3, requestBlob } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { API_V2, API_V3, requestBlob } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import {
   useGetAgentPrefix,
   useGetNcServicePrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export function useDownloadSecurityReport(): [DownloadSecurityReportFunction, IsLoading] {
   const agentPrefix = useGetAgentPrefix()

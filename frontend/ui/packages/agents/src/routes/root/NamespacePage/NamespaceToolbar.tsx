@@ -20,7 +20,7 @@ import { Box, Divider, Typography } from '@mui/material'
 import { NamespaceSelector } from './NamespaceSelector'
 import { WorkspaceSelector } from './WorkspaceSelector'
 import { AgentsSelector } from './AgentsSelector'
-import { CloudIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CloudIcon'
+import { CloudIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CloudIcon'
 
 export const NamespaceToolbar: FC = memo(() => {
   return (

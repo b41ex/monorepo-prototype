@@ -22,9 +22,9 @@ import { PackageBreadcrumbs } from '../../PackageBreadcrumbs'
 import type { PackageSettingsTabProps } from './package-settings'
 import { PACKAGE_KINDS_NAMES_MAP } from './package-settings'
 import { useBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { Toolbar } from '@netcracker/qubership-apihub-ui-shared/components/Toolbar'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import { ExitIcon } from '@netcracker/qubership-apihub-ui-shared/icons/ExitIcon'
+import { Toolbar } from '@b41ex/qubership-apihub-ui-shared/components/Toolbar'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { ExitIcon } from '@b41ex/qubership-apihub-ui-shared/icons/ExitIcon'
 
 export const PackageSettingsToolbar: FC<PackageSettingsTabProps> = memo<PackageSettingsTabProps>(({
   packageObject,

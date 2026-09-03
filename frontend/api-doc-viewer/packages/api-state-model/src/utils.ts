@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { graphApiNodeKind, graphSchemaNodeKind, IModelTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { graphApiNodeKind, graphSchemaNodeKind, IModelTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import { isArgumentsNode, isOutputNode, isUsedDirectivesNode } from '../../api-doc-viewer/src/utils/nodes'
 import { IModelStateNode, IModelStatePropNode } from './types'
 

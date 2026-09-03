@@ -3,12 +3,12 @@ import { Box, Button, Typography } from '@mui/material'
 import type { Path } from '@remix-run/router'
 import { type FC, memo, useCallback, useState } from 'react'
 
-import { MenuButtonItems } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/MenuButton'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { McpEntityWithMetaList } from '@netcracker/qubership-apihub-ui-shared/components/Mcp/McpEntityWithMetaList'
-import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import type { McpContractEntity } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
+import { MenuButtonItems } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/MenuButton'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { McpEntityWithMetaList } from '@b41ex/qubership-apihub-ui-shared/components/Mcp/McpEntityWithMetaList'
+import { NAVIGATION_PLACEHOLDER_AREA, Placeholder } from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import type { McpContractEntity } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
 
 export type McpEntitySelectorProps = {
   entities: ReadonlyArray<McpContractEntity>

@@ -20,7 +20,7 @@ import { Box } from '@mui/material'
 import { RawSpecView } from './RawSpecView'
 import type { SpecViewMode } from '../SpecViewToggler'
 import { DOC_SPEC_VIEW_MODE, RAW_SPEC_VIEW_MODE } from '../SpecViewToggler'
-import { JsonSchemaViewer } from '@netcracker/qubership-apihub-api-doc-viewer'
+import { JsonSchemaViewer } from '@b41ex/qubership-apihub-api-doc-viewer'
 import { toJsonSchema } from '../../utils/specifications'
 import type { Spec } from '../../entities/specs'
 

@@ -21,7 +21,7 @@ import {
   JSON_SCHEMA_PROPERTY_ANY_OF,
   JSON_SCHEMA_PROPERTY_ONE_OF,
   parseRef,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 
 export const ALL_OF_COMBINER = JSON_SCHEMA_PROPERTY_ALL_OF
 export const ONE_OF_COMBINER = JSON_SCHEMA_PROPERTY_ONE_OF

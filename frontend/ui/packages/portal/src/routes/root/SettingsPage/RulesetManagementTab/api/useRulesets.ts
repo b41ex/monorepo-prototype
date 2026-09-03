@@ -1,7 +1,7 @@
 import { API_LINTER_API_V1 } from '@portal/api-hooks/ApiQuality/constants'
 import type { Ruleset, RulesetDto } from '@portal/entities/api-quality/rulesets'
 import { portalRequestJson } from '@portal/utils/requests'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 

@@ -1,9 +1,9 @@
 import { getPublicLink, useDownloadRuleset } from '@portal/api-hooks/ApiQuality/useDownloadRuleset'
 import type { Key } from '@portal/entities/keys'
 import { useShowSuccessNotification } from '@portal/routes/root/BasePage/Notification'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
-import { DownloadIconMui } from '@netcracker/qubership-apihub-ui-shared/icons/DownloadIconMui'
-import { LinkIcon } from '@netcracker/qubership-apihub-ui-shared/icons/LinkIcon'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { DownloadIconMui } from '@b41ex/qubership-apihub-ui-shared/icons/DownloadIconMui'
+import { LinkIcon } from '@b41ex/qubership-apihub-ui-shared/icons/LinkIcon'
 import type { FC } from 'react'
 import { useCopyToClipboard, useLocation } from 'react-use'
 

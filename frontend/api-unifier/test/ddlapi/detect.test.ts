@@ -1,4 +1,4 @@
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
 import {
   normalize,
   resolveSpec,

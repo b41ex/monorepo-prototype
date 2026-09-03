@@ -1,6 +1,6 @@
 import { ExtensionsDiff } from '../ExtensionsDiff';
-import { useOperationExtensionsWithDiff } from '@netcracker/qubership-apihub-apispec-view/hooks/useExtensionsDiff';
-import { ExportButtonProps, useDocument } from '@netcracker/qubership-apihub-apispec-view-elements-core';
+import { useOperationExtensionsWithDiff } from '@b41ex/qubership-apihub-apispec-view/hooks/useExtensionsDiff';
+import { ExportButtonProps, useDocument } from '@b41ex/qubership-apihub-apispec-view-elements-core';
 import { Box, Flex, HStack, isNotEmptyObject, useThemeIsDark, VStack } from '@stoplight/mosaic';
 import { ITypographyProps } from '@stoplight/mosaic/enhancers/typography';
 import { ErrorBoundaryProps, withErrorBoundary } from '@stoplight/react-error-boundary';
@@ -12,10 +12,10 @@ import {
   DiffContainer,
   useValueFromObjWithDiff,
   WithDiffMetaKey
-} from '@netcracker/qubership-apihub-apispec-view-diff-block';
+} from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { Location } from 'history';
 import { useAtomValue } from 'jotai/utils';
-import { SchemaViewMode } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer';
+import { SchemaViewMode } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer';
 import { entries, pick } from 'lodash';
 import * as React from 'react';
 
@@ -24,13 +24,13 @@ import { chosenServerAtom } from '../../TryIt';
 import { TwoColumnLayout } from '../TwoColumnLayout';
 import { Request } from './Request';
 import { Responses } from './Responses';
-import { Description } from "@netcracker/qubership-apihub-apispec-view-diff-elements-core/components/Docs/HttpOperation/Description";
-import { Summary } from "@netcracker/qubership-apihub-apispec-view-diff-elements-core/components/Docs/HttpOperation/Summary";
+import { Description } from "@b41ex/qubership-apihub-apispec-view-diff-elements-core/components/Docs/HttpOperation/Description";
+import { Summary } from "@b41ex/qubership-apihub-apispec-view-diff-elements-core/components/Docs/HttpOperation/Summary";
 import { useState, memo, FC } from "react";
-import { Diff } from "@netcracker/qubership-apihub-api-diff";
+import { Diff } from "@b41ex/qubership-apihub-api-diff";
 import { defaultErrorHandler } from "../../../../../system";
-import { useDiffsMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
-import { buildOpenApiDiffCause } from "@netcracker/qubership-apihub-api-doc-viewer";
+import { useDiffsMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DiffsMetaKeyContext";
+import { buildOpenApiDiffCause } from "@b41ex/qubership-apihub-api-doc-viewer";
 
 interface BaseDocsProps {
   /**

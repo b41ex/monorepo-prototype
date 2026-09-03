@@ -1,5 +1,5 @@
-import { anyArrayKeys, isArray, isObject, syncClone } from '@netcracker/qubership-apihub-json-crawl'
-import { DdlapiProperties, ObjectKind } from '@netcracker/qubership-apihub-ddlapi'
+import { anyArrayKeys, isArray, isObject, syncClone } from '@b41ex/qubership-apihub-json-crawl'
+import { DdlapiProperties, ObjectKind } from '@b41ex/qubership-apihub-ddlapi'
 import { ChainItem, OriginCache, OriginsMetaRecord, ResolveOptions } from './types'
 import { createCycledJsoHandlerHook } from './cycle-jso'
 import { setJsoProperty } from './utils'

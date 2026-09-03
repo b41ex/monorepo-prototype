@@ -22,11 +22,11 @@ import { Breadcrumbs, Link } from '@mui/material'
 import { useBackwardLocation } from './useBackwardLocation'
 import { useVersionWithRevision } from './useVersionWithRevision'
 import { getGroupPath, getOverviewPath, getWorkspacePath } from '../NavigationProvider'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import { useBackwardLocationContext, useSetBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 export type PackageBreadcrumbsProps = Partial<{
   packageObject: Package | null

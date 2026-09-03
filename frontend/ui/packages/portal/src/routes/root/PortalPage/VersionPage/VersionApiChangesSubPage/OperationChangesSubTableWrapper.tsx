@@ -18,11 +18,11 @@ import type { FC } from 'react'
 import { memo, useMemo } from 'react'
 
 import { useOperationChangelog } from '../useOperationChangelog'
-import type { SubTableComponentProps } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
-import { OperationChangesSubTable } from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
+import type { SubTableComponentProps } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
+import { OperationChangesSubTable } from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget'
 import { usePackageVersionContent } from '@portal/routes/root/usePackageVersionContent'
-import { sortChanges } from '@netcracker/qubership-apihub-ui-shared/utils/api-changes'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
+import { sortChanges } from '@b41ex/qubership-apihub-ui-shared/utils/api-changes'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
 
 export type OperationChangesSubTableWrapper = SubTableComponentProps
 

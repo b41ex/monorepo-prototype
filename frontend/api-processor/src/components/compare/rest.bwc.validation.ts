@@ -21,12 +21,12 @@ import {
   SPECIFICATION_EXTENSION_PREFIX,
 } from '../../consts'
 import { isObject, isValidHttpMethod } from '../../utils'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 import {
   API_COMPATIBILITY_KIND_BACKWARD_COMPATIBLE,
   API_COMPATIBILITY_KIND_NOT_BACKWARD_COMPATIBLE,
   ApiCompatibilityKind,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import { getApiKindProperty } from '../document'
 import { OpenAPIV3 } from 'openapi-types'
 import { ApiCompatibilityScopeFunctionFactory } from './bwc.validation.types'

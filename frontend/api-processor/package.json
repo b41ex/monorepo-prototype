@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-api-processor",
+  "name": "@b41ex/qubership-apihub-api-processor",
   "version": "5.7.1",
   "description": "",
   "license": "Apache-2.0",
@@ -36,8 +36,8 @@
     "build:web": "vite build",
     "performance:build": "vite build --sourcemap=inline -c=vite.performance.config.ts",
     "performance:run-inspect": "node --inspect dist/index.es.js",
-    "development:link": "npm link && npm link @netcracker/qubership-apihub-json-crawl && npm link @netcracker/qubership-apihub-api-unifier && npm link @netcracker/qubership-apihub-api-diff && npm link @netcracker/qubership-apihub-graphapi",
-    "development:unlink": "npm unlink && npm unlink @netcracker/qubership-apihub-json-crawl && npm unlink @netcracker/qubership-apihub-api-unifier && npm unlink @netcracker/qubership-apihub-api-diff && npm unlink @netcracker/qubership-apihub-graphapi",
+    "development:link": "npm link && npm link @b41ex/qubership-apihub-json-crawl && npm link @b41ex/qubership-apihub-api-unifier && npm link @b41ex/qubership-apihub-api-diff && npm link @b41ex/qubership-apihub-graphapi",
+    "development:unlink": "npm unlink && npm unlink @b41ex/qubership-apihub-json-crawl && npm unlink @b41ex/qubership-apihub-api-unifier && npm unlink @b41ex/qubership-apihub-api-diff && npm unlink @b41ex/qubership-apihub-graphapi",
     "unit-test:local": "jest -c jest.config.ts --verbose",
     "test": "jest -c jest.config.ts --verbose --maxWorkers 3",
     "test:disk": "cross-env FS_MODE=disk npm test",
@@ -45,15 +45,15 @@
     "operation:test": "node ./test/operation.js",
     "profile": "node --inspect-brk ./test/profile.js",
     "test:coverage": "jest --verbose --coverage",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "dependencies": {
     "@asyncapi/parser": "^3.6.0",
-    "@netcracker/qubership-apihub-api-diff": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-graphapi": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-diff": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-api-unifier": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-ddlapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-graphapi": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-json-crawl": "bugfix-update-infrastructure",
     "adm-zip": "0.6.0",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@jest/globals": "30.4.1",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@types/jest": "30.0.0",
     "@types/mime-types": "^3.0.0",
     "@types/node": "^24.0.0",

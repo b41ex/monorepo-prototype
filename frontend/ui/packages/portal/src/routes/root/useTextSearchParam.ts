@@ -18,8 +18,8 @@ import { useCallback } from 'react'
 import type { Key } from '@portal/entities/keys'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useHash } from 'react-use'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { SEARCH_TEXT_PARAM_KEY } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { SEARCH_TEXT_PARAM_KEY } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 export function useTextSearchParam(): [Key | undefined, SetTextSearchParam] {
   const text = useSearchParam<Key>(SEARCH_TEXT_PARAM_KEY)

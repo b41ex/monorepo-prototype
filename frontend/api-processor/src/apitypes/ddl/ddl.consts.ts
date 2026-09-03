@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DDL_API_NORMALIZE_OPTIONS, NormalizeOptions } from '@netcracker/qubership-apihub-api-unifier'
+import { DDL_API_NORMALIZE_OPTIONS, NormalizeOptions } from '@b41ex/qubership-apihub-api-unifier'
 import { KeyOfConstType, ResolvedVersionDocument, ZippableDocument } from '../../types'
 import { FILE_FORMAT_DDL, FILE_FORMAT_SQL, ORIGINS_SYMBOL } from '../../consts'
 

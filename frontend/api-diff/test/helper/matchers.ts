@@ -6,7 +6,7 @@ import {
   TEST_SPEC_TYPE_ASYNC_API,
   TEST_SPEC_TYPE_OPEN_API,
   TestSpecType,
-} from '@netcracker/qubership-apihub-compatibility-suites'
+} from '@b41ex/qubership-apihub-compatibility-suites'
 
 import CustomEqualityTester = jasmine.CustomEqualityTester
 

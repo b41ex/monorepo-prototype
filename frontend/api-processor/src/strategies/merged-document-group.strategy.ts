@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 import { OpenAPIV3 } from 'openapi-types'
 import { BUILD_TYPE, FILE_FORMAT_JSON, REST_API_TYPE } from '../consts'
 import { BuilderStrategy, BuildResult, BuildTypeContexts, MergedSpecificationBuildConfig } from '../types'

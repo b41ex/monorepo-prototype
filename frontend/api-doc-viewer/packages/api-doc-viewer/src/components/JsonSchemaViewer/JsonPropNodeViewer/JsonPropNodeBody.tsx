@@ -15,8 +15,8 @@
  */
 
 import { useCustomizationOptions } from '../../../contexts/CustomizationOptionsContext'
-import { DiffNodeMeta, DiffNodeValue } from '@netcracker/qubership-apihub-api-data-model'
-import { isExpandableTreeNode } from '@netcracker/qubership-apihub-api-state-model'
+import { DiffNodeMeta, DiffNodeValue } from '@b41ex/qubership-apihub-api-data-model'
+import { isExpandableTreeNode } from '@b41ex/qubership-apihub-api-state-model'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import { buildNodeTitleData, buildNodeTypeData } from '../../../builders/nodes'

@@ -8,13 +8,13 @@ import {
   isDdlPropertySubheaderVisible,
   resolveIndexPartNamesSideDisplay,
   takeIndexDescriptionDiff,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
 import {
   resolveIndexListLastRowFlags,
   resolveIndexNodeVisibility,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-index"
-import { DdlApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
-import { DdlApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-index"
+import { DdlApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
+import { DdlApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
 import { LayoutSide } from "../../types/internal/LayoutSide"
 import { FC, useCallback, useMemo } from "react"
 import { TextRow } from "../shared-components/TextRow/TextRow"

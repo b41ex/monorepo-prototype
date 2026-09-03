@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Diff, DiffAction } from "@netcracker/qubership-apihub-api-diff"
+import { Diff, DiffAction } from "@b41ex/qubership-apihub-api-diff"
 import { FC } from 'react'
 import { BLOCK_CONTENT_DIFF_COLOR_MAP, DEFAULT_MUTED_VALUE_CLASS } from '../../../consts/changes'
 import { useChangeSeverityFilters } from '../../../contexts/ChangeSeverityFiltersContext'

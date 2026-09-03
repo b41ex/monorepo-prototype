@@ -1,5 +1,5 @@
-import type { Realm } from "@netcracker/qubership-apihub-ddlapi";
-import type { BuildFromDdlOptions } from "@netcracker/qubership-apihub-ddlapi/parser";
+import type { Realm } from "@b41ex/qubership-apihub-ddlapi";
+import type { BuildFromDdlOptions } from "@b41ex/qubership-apihub-ddlapi/parser";
 
 export {
   emptyRealmLike,
@@ -19,6 +19,6 @@ export async function buildFromDdlInBrowser(
   ddl: string,
   options?: BuildFromDdlOptions,
 ): Promise<Realm> {
-  const { buildFromDdl } = await import("@netcracker/qubership-apihub-ddlapi/parser");
+  const { buildFromDdl } = await import("@b41ex/qubership-apihub-ddlapi/parser");
   return buildFromDdl(ddl, options);
 }

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { DiffType } from "@netcracker/qubership-apihub-api-diff";
+import { DiffType } from "@b41ex/qubership-apihub-api-diff";
 
 export const ChangeSeverityFiltersContext = createContext<DiffType[]>([])
 

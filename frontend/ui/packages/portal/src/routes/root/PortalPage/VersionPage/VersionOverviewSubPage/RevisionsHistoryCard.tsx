@@ -21,18 +21,18 @@ import { useParams } from 'react-router-dom'
 import { VersionHistoryTable } from '../../VersionHistoryTable'
 import { Box, Tooltip, Typography } from '@mui/material'
 import { useFullMainVersion } from '../../FullMainVersionProvider'
-import { useIntersectionObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import { useIntersectionObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 import {
   NAVIGATION_PLACEHOLDER_AREA,
   NO_SEARCH_RESULTS,
   Placeholder,
-} from '@netcracker/qubership-apihub-ui-shared/components/Placeholder'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
+} from '@b41ex/qubership-apihub-ui-shared/components/Placeholder'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
 import { MetaDataContent } from '@portal/components/MetaDataContent'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
-import type { Revision } from '@netcracker/qubership-apihub-ui-shared/entities/revisions'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import type { Revision } from '@b41ex/qubership-apihub-ui-shared/entities/revisions'
 
 export const RevisionsHistoryCard: FC = memo(() => {
   const { packageId } = useParams()

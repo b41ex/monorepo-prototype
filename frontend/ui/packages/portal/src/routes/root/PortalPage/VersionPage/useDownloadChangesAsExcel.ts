@@ -20,16 +20,16 @@ import type { Key } from '@portal/entities/keys'
 import { useShowErrorNotification } from '../../BasePage/Notification'
 import { generatePath } from 'react-router-dom'
 import { portalRequestBlob } from '@portal/utils/requests'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import type { ApiAudience, ApiKind } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { ALL_API_KIND, API_AUDIENCE_ALL } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import { API_V3 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import type { ApiAudience, ApiKind } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { ALL_API_KIND, API_AUDIENCE_ALL } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import { API_V3 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
 import {
   replaceStringDiffTypeForDTO,
-} from '@netcracker/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/getOperationChangelog'
-import { type DiffType } from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-ui-shared/widgets/ChangesViewWidget/api/getOperationChangelog'
+import { type DiffType } from '@b41ex/qubership-apihub-api-diff'
 
 export function useDownloadChangesAsExcel(): [DownloadChangesAsExcelFunction, IsLoading] {
   const showErrorNotification = useShowErrorNotification()

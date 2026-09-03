@@ -2,7 +2,7 @@ import {
   GRAPH_API_KIND_TO_GRAPH_QL_TYPE,
   GraphApiOperation,
   isGraphApiListDefinition,
-} from '@netcracker/qubership-apihub-graphapi'
+} from '@b41ex/qubership-apihub-graphapi'
 
 /**
  * Extracts the base type name from a normalized GraphAPI typeDef.

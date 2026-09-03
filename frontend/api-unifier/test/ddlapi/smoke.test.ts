@@ -1,4 +1,4 @@
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 // Smoke test: the ddlapi parser is linked and importable from the '/parser' entry.
 describe('ddlapi link smoke test', () => {

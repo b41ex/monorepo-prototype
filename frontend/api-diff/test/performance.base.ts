@@ -2,9 +2,9 @@ import { TEST_DIFF_FLAG, TEST_SYNTHETIC_TITLE_FLAG } from './helper'
 import { CompareOptions } from '../src/types'
 import { apiDiff } from '../src'
 import { buildSchema } from 'graphql'
-import { buildFromSchema } from '@netcracker/qubership-apihub-graphapi'
+import { buildFromSchema } from '@b41ex/qubership-apihub-graphapi'
 import { readFileSync } from 'fs'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 const OPTIONS = {
   unify: true,

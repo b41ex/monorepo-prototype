@@ -16,8 +16,8 @@
 
 import { APIHUB_API_COMPATIBILITY_KIND_BWC } from '../../consts'
 import { isObject } from '../../utils'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
-import { ApiCompatibilityKind } from '@netcracker/qubership-apihub-api-diff'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
+import { ApiCompatibilityKind } from '@b41ex/qubership-apihub-api-diff'
 import { GRAPHQL_TYPE_KEYS } from '../../apitypes/graphql/graphql.consts'
 import { ApiCompatibilityScopeFunctionFactory } from './bwc.validation.types'
 import { toApiCompatibilityKind } from './bwc.validation.utils'

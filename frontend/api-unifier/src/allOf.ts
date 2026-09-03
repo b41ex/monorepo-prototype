@@ -1,4 +1,4 @@
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { InternalMergeOptions, JsonSchema, RawJsonSchema, ValueWithOrigins } from './types'
 
 import { resolveOrigins } from './origins'

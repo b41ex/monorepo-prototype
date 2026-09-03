@@ -17,24 +17,24 @@
 import type { ChangeEvent, FC, ReactNode } from 'react'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { Box, Tooltip } from '@mui/material'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
 import { useEventBus } from '../../../EventBusProvider'
 import { useFileActions, useFiles, useFilesLoading } from '../FilesProvider'
-import { specTypeViewers } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/useSpecViewer'
-import { isEmpty, isNotEmptyRecord } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { SpecLogo } from '@netcracker/qubership-apihub-ui-shared/components/SpecLogo'
-import { getFileExtension, transformFileListToFileArray } from '@netcracker/qubership-apihub-ui-shared/utils/files'
+import { specTypeViewers } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/useSpecViewer'
+import { isEmpty, isNotEmptyRecord } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { SpecLogo } from '@b41ex/qubership-apihub-ui-shared/components/SpecLogo'
+import { getFileExtension, transformFileListToFileArray } from '@b41ex/qubership-apihub-ui-shared/utils/files'
 import {
   FileActions,
   FileInfoIcon,
   FileTableUpload,
-} from '@netcracker/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
-import { SearchBar } from '@netcracker/qubership-apihub-ui-shared/components/SearchBar'
+} from '@b41ex/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
+import { SearchBar } from '@b41ex/qubership-apihub-ui-shared/components/SearchBar'
 import { sortFilesRecord } from '@portal/routes/root/PortalPage/PackagePage/files'
 import { ConfigureFileTableTree } from '@portal/routes/root/PortalPage/PackagePage/ConfigureFileTableTree'
 import { find } from 'lodash-es'
-import { UploadButton } from '@netcracker/qubership-apihub-ui-shared/components/UploadButton'
+import { UploadButton } from '@b41ex/qubership-apihub-ui-shared/components/UploadButton'
 
 const PREVIEWABLE_FILE_TYPES = Object.keys(specTypeViewers)
 

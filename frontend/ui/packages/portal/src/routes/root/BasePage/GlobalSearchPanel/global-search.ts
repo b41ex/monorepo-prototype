@@ -17,10 +17,10 @@
 import type { FetchNextPageOptions, InfiniteQueryObserverResult } from '@tanstack/react-query'
 import omit from 'lodash-es/omit'
 
-import { isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { getOptionalBody } from '@netcracker/qubership-apihub-ui-shared/utils/request-bodies'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { API_V4, requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { getOptionalBody } from '@b41ex/qubership-apihub-ui-shared/utils/request-bodies'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { API_V4, requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 import type {
   DdlContractSearchResult,

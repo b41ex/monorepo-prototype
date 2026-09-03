@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { GraphApiDiffTreeNode, GraphApiTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { GraphApiDiffTreeNode, GraphApiTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import type { FC } from 'react'
-import { IModelStateNode } from '@netcracker/qubership-apihub-api-state-model'
+import { IModelStateNode } from '@b41ex/qubership-apihub-api-state-model'
 import { useLayoutMode } from '../../../contexts/LayoutModeContext'
 import { isCombinerNodeState, isPropNodeState } from '../../../types/guards/nodes'
 import { GraphSchemaNestingIndicatorTitleData } from '../../../types/internal/NestingIndicatorTitleData'

@@ -11,7 +11,7 @@ exitIfInsideNodeModules(import.meta.url)
 
 // Dynamic import: must run after exitIfInsideNodeModules because static import breaks the UI component build
 const { getCompatibilitySuites, TEST_SPEC_TYPE_GRAPH_QL } = await import(
-  '@netcracker/qubership-apihub-compatibility-suites'
+  '@b41ex/qubership-apihub-compatibility-suites'
 )
 
 const STORIES_OUT_DIR = './src/stories/compatibility-suite'
@@ -42,7 +42,7 @@ const printStoryFile = (config, suiteId, testIds) => {
   return `import '../../index'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ${config.storyArgsGetter}, ${config.storyArgsTypeName}, ${config.storyComponentName} } from '${UTILS_IMPORT_PATH}'
-import { ${config.specTypeConst} } from '@netcracker/qubership-apihub-compatibility-suites'
+import { ${config.specTypeConst} } from '@b41ex/qubership-apihub-compatibility-suites'
 
 const meta: Meta<${config.storyArgsTypeName}> = {
   id: '${metaId}',

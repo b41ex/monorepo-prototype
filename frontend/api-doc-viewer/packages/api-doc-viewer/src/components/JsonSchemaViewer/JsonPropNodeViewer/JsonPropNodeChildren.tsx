@@ -15,9 +15,9 @@
  */
 
 import type { FC } from 'react'
-import { JsonSchemaDiffTreeNode } from '@netcracker/qubership-apihub-api-data-model'
+import { JsonSchemaDiffTreeNode } from '@b41ex/qubership-apihub-api-data-model'
 import { JsonPropNodeViewer } from './JsonPropNodeViewer'
-import { IModelStateNode } from '@netcracker/qubership-apihub-api-state-model'
+import { IModelStateNode } from '@b41ex/qubership-apihub-api-state-model'
 import { PropsWithDisabledNestingIndicatorTitle } from '../../../types/internal/PropsWithState'
 import { PropsWithChanges } from '../../../types/internal/PropsWithChanges'
 import { isCombinerNodeState, isPropNodeState } from '../types/nodes.guards'

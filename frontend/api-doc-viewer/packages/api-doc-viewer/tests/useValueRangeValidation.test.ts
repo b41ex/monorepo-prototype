@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { DiffAction, DiffAdd, DiffRemove, DiffReplace, DiffType } from '@netcracker/qubership-apihub-api-diff'
+import { DiffAction, DiffAdd, DiffRemove, DiffReplace, DiffType } from '@b41ex/qubership-apihub-api-diff'
 import {
   useValueRangeValidation,
   ValueRangeDiffData,

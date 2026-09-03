@@ -25,9 +25,9 @@ import { RISKY_CHANGE_SEVERITY } from '../../../entities/change-severities'
 import type { ApiType } from '../../../entities/api-types'
 import type { ContractType } from '../../../entities/contract-types'
 import { DEFAULT_API_TYPE } from '../../../entities/operations'
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
-import type { DiffTypeDto} from '@netcracker/qubership-apihub-api-processor'
-import { SEMI_BREAKING_CHANGE_TYPE } from '@netcracker/qubership-apihub-api-processor'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
+import type { DiffTypeDto} from '@b41ex/qubership-apihub-api-processor'
+import { SEMI_BREAKING_CHANGE_TYPE } from '@b41ex/qubership-apihub-api-processor'
 
 export type UseOperationChangelogOptions = {
   packageKey: Key

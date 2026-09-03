@@ -23,9 +23,9 @@ import type { Key } from '@agents/entities/keys'
 import { useParams } from 'react-router-dom'
 import { useCheckSecurity } from './useCheckSecurity'
 import { useDownloadSecurityReport } from './useDownloadSecurityReport'
-import { SecurityReportsTable } from '@netcracker/qubership-apihub-ui-shared/components/SecurityReportsTable'
-import { useSearchParam } from '@netcracker/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
-import { WORKSPACE_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+import { SecurityReportsTable } from '@b41ex/qubership-apihub-ui-shared/components/SecurityReportsTable'
+import { useSearchParam } from '@b41ex/qubership-apihub-ui-shared/hooks/searchparams/useSearchParam'
+import { WORKSPACE_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 
 // High Order Component //
 export const AuthenticationReports: FC = memo(() => {

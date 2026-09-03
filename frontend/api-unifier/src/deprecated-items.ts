@@ -1,4 +1,4 @@
-import { isObject, syncCrawl } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, syncCrawl } from '@b41ex/qubership-apihub-json-crawl'
 import { resolveOrigins } from './origins'
 import { JSON_SCHEMA_PROPERTY_DEPRECATED } from './rules/jsonschema.const'
 import { pathItemToFullPath } from './utils'

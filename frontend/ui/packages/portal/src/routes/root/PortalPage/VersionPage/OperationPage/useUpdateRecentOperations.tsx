@@ -16,7 +16,7 @@
 
 import { useEffect } from 'react'
 import { useSetRecentOperations } from '../../../RecentOperationsProvider'
-import type { OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 
 export function useUpdateRecentOperations(operation: OperationData | undefined): void {
   const setRecentOperations = useSetRecentOperations()

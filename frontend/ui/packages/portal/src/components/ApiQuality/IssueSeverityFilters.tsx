@@ -3,7 +3,7 @@ import { ISSUE_SEVERITIES_LIST } from '@portal/entities/api-quality/issue-severi
 import type { Issue } from '@portal/entities/api-quality/issues'
 import { IssueSeverityMarker } from '@portal/routes/root/PortalPage/VersionPage/VersionApiQualitySubPage/IssueSeverityMarker'
 import { Box, ToggleButton, Typography } from '@mui/material'
-import { CustomToggleButtonGroup } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/CustomToggleButtonGroup'
+import { CustomToggleButtonGroup } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/CustomToggleButtonGroup'
 import { memo, useMemo, type FC } from 'react'
 
 type IssueSeverityFiltersProps = {

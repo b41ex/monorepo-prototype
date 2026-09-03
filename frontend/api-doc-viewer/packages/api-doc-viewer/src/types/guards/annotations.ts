@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { isDiff } from "@netcracker/qubership-apihub-api-data-model";
-import { Diff, DiffMetaRecord } from "@netcracker/qubership-apihub-api-diff";
+import { isDiff } from "@b41ex/qubership-apihub-api-data-model";
+import { Diff, DiffMetaRecord } from "@b41ex/qubership-apihub-api-diff";
 import { diffReplace } from "../../utils/common/changes";
 import { safePropertyIn } from "../../utils/common/objects";
 

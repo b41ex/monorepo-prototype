@@ -1,9 +1,9 @@
 import { type FC, memo } from 'react'
 
-import { SidebarPanel } from '@netcracker/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
-import { SidebarWithTags } from '@netcracker/qubership-apihub-ui-shared/components/SidebarWithTags/SidebarWithTags'
-import { type ApiType, isApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import { SidebarPanel } from '@b41ex/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
+import { SidebarWithTags } from '@b41ex/qubership-apihub-ui-shared/components/SidebarWithTags/SidebarWithTags'
+import { type ApiType, isApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 import { isApiTypeSelectorShown } from '@portal/utils/operation-types'
 import { ApiTypeListSelector } from './ApiTypeListSelector'

@@ -6,7 +6,7 @@ import {
   isOpenApiSpecType,
   OPENAPI_SPEC_TYPE,
   type SpecType,
-} from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+} from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 import { useCallback, useMemo } from 'react'
 import { useLocalStorage } from 'react-use'
 import type { ExportedEntityKind } from '../api/useExport'

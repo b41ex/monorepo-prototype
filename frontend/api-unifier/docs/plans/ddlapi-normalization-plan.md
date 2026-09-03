@@ -4,7 +4,7 @@
 
 Teach **api-unifier** to normalize (and denormalize) **ddlapi** specifications — the
 driver-neutral database-schema model produced by
-`@netcracker/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`). After this work, a
+`@b41ex/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`). After this work, a
 ddlapi document flows through the same `normalize` / `denormalize` pipeline as
 OpenAPI / AsyncAPI / JSON Schema / GraphAPI, so that:
 
@@ -444,7 +444,7 @@ are repo-relative; the ddlapi checkout is assumed at `../ddlapi` (adjust to your
 
 **Task 0a — Link ddlapi & smoke test · S · deps: none**
 Files: `package.json`, `test/ddlapi/smoke.test.ts`
-- [ ] In `../ddlapi`: `npm run build && npm link`; in this repo: `npm link @netcracker/qubership-apihub-ddlapi`; add it to `package.json` `dependencies`.
+- [ ] In `../ddlapi`: `npm run build && npm link`; in this repo: `npm link @b41ex/qubership-apihub-ddlapi`; add it to `package.json` `dependencies`.
 - [ ] `buildFromDdl('CREATE TABLE t(id int)')` imported from the package root returns a `Realm`.
 - Verify: `npm run build && npm test -- test/ddlapi/smoke.test.ts`
 
@@ -617,7 +617,7 @@ These refine, not reverse, the decisions above. Marked **[UPDATE]** for traceabi
 
 Tests use Jest under `test/`, grouped by family. Add `test/ddlapi/` with `*.test.ts` files.
 Import the engine from the package root (`from '../../src'`). Build fixtures with
-`buildFromDdl(ddl)` from `@netcracker/qubership-apihub-ddlapi` (the ddlapi analogue of the
+`buildFromDdl(ddl)` from `@b41ex/qubership-apihub-ddlapi` (the ddlapi analogue of the
 ` graphapi`...` ` template tag) — this guarantees fixtures are *real* ddlapi documents.
 
 Each file below is authored **within the task that introduces its behavior** (see the

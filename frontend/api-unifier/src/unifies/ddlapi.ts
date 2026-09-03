@@ -1,4 +1,4 @@
-import { isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import {
   DEFAULT_TYPE_FLAG_PURE,
   DEFAULT_TYPE_FLAG_SYNTHETIC,
@@ -11,7 +11,7 @@ import { isBroken, isPureCombiner } from './type'
 import { cleanOrigins, resolveOrigins, setOrigins } from '../origins'
 import { getJsoProperty, setJsoProperty } from '../utils'
 import { ErrorMessage } from '../errors'
-import { DdlapiProperties } from '@netcracker/qubership-apihub-ddlapi'
+import { DdlapiProperties } from '@b41ex/qubership-apihub-ddlapi'
 
 // The set of Column instances participating in the table's primary key, keyed by
 // reference identity against primaryKey.parts[].column (the very same Column instances).

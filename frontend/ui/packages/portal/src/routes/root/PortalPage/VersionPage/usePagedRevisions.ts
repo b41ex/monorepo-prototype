@@ -24,13 +24,13 @@ import type {
   InvalidateQuery,
   IsFetchingNextPage,
   IsLoading,
-} from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import { optionalSearchParams } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
-import { getPackageRedirectDetails } from '@netcracker/qubership-apihub-ui-shared/utils/redirects'
-import { API_V3 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
-import type { Revisions, RevisionsDto } from '@netcracker/qubership-apihub-ui-shared/entities/revisions'
-import { toRevisions } from '@netcracker/qubership-apihub-ui-shared/entities/revisions'
+} from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import { optionalSearchParams } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
+import { getPackageRedirectDetails } from '@b41ex/qubership-apihub-ui-shared/utils/redirects'
+import { API_V3 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
+import type { Revisions, RevisionsDto } from '@b41ex/qubership-apihub-ui-shared/entities/revisions'
+import { toRevisions } from '@b41ex/qubership-apihub-ui-shared/entities/revisions'
 
 const REVISIONS_QUERY_KEY = 'revisions-query-key'
 export type FetchNextRevisionList = (options?: FetchNextPageOptions) => Promise<InfiniteQueryObserverResult<Revisions, Error>>

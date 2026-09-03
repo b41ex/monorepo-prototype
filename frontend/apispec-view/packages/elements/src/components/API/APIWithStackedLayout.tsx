@@ -5,11 +5,11 @@ import {
   HttpMethodColors,
   ParsedDocs,
   TryItWithRequestSamples,
-} from '@netcracker/qubership-apihub-apispec-view-elements-core';
+} from '@b41ex/qubership-apihub-apispec-view-elements-core';
 import { Box, Flex, Icon, Tab, TabList, TabPanel, TabPanels, Tabs } from '@stoplight/mosaic';
 import { NodeType } from '@stoplight/types';
 import cn from 'classnames';
-import { SchemaViewMode } from '@netcracker/qubership-apihub-apispec-view-json-schema-viewer';
+import { SchemaViewMode } from '@b41ex/qubership-apihub-apispec-view-json-schema-viewer';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 

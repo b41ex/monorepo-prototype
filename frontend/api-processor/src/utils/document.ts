@@ -43,7 +43,7 @@ import {
   SERIALIZE_SYMBOL_STRING_MAPPING,
 } from '../consts'
 import { isNotEmpty } from './arrays'
-import { RefErrorType, RefErrorTypes, serialize } from '@netcracker/qubership-apihub-api-unifier'
+import { RefErrorType, RefErrorTypes, serialize } from '@b41ex/qubership-apihub-api-unifier'
 
 const REST_FILE_FORMATS = [FILE_FORMAT_YAML, FILE_FORMAT_JSON] as const
 type RestFileFormat = typeof REST_FILE_FORMATS[number]

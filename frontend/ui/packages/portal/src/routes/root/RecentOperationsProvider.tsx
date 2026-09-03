@@ -16,7 +16,7 @@
 
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, memo, useContext, useState } from 'react'
-import type { OperationData } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { OperationData } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 
 export const RecentOperationsProvider: FC<PropsWithChildren> = memo<PropsWithChildren>(({ children }) => {
   const [operations, setOperations] = useState<OperationData[]>([])

@@ -15,9 +15,9 @@
  */
 
 import type { OperationListsDelta } from './types'
-import type { ApiAudience, ApiKind, Operation, Operations } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { ApiAudience, ApiKind, Operation, Operations } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 import type { OperationsMovementDetails } from '@portal/routes/EventBusProvider'
-import type { PackageReference } from '@netcracker/qubership-apihub-ui-shared/entities/version-references'
+import type { PackageReference } from '@b41ex/qubership-apihub-ui-shared/entities/version-references'
 
 // TODO 06.10.23 // Can I optimize it?
 export function isOperationMovedWithAction(

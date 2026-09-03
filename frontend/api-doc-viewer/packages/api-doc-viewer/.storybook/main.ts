@@ -59,7 +59,7 @@ const config: StorybookConfig = {
         // esbuild pre-bundling so the ddl-suite stories' dynamic import stays a
         // lazily-loaded chunk instead of eagerly pulling the ~1.9 MB parser.
         exclude: [
-          "@netcracker/qubership-apihub-ddlapi",
+          "@b41ex/qubership-apihub-ddlapi",
         ],
       },
     });

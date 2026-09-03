@@ -16,8 +16,8 @@
 
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
 import { createContext, memo, useContext, useState } from 'react'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { PackageRef } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { PackageRef } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
 
 export const SelectedPreviewOperationProvider: FC<PropsWithChildren> = memo<PropsWithChildren>(({ children }) => {
   const [selectedOperationData, setSelectedOperationData] = useState<SelectedOperationData | undefined>(undefined)

@@ -39,10 +39,10 @@ import {
   JsonSchemaNodeType,
   JsonSchemaNodeValue,
   modelTreeNodeType,
-} from '@netcracker/qubership-apihub-api-data-model'
-import { Diff } from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-data-model'
+import { Diff } from '@b41ex/qubership-apihub-api-diff'
 import { Dispatch, SetStateAction } from 'react'
-import { IModelStatePropNode, modelStateNodeType } from '@netcracker/qubership-apihub-api-state-model'
+import { IModelStatePropNode, modelStateNodeType } from '@b41ex/qubership-apihub-api-state-model'
 import { INFINITY_EXPANDING_DEPTH } from '../consts/configuration'
 import { AnyTreeNode } from '../types/aliases/nodes'
 import { ExpandingMode } from '../types/internal/ExpandingMode'

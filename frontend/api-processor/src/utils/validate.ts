@@ -16,7 +16,7 @@
 
 import Ajv, { ErrorObject, ValidateFunction } from 'ajv'
 import addFormats from 'ajv-formats'
-import { loadYaml } from '@netcracker/qubership-apihub-api-unifier'
+import { loadYaml } from '@b41ex/qubership-apihub-api-unifier'
 
 const ajv = new Ajv({ strict: false })
 addFormats(ajv)

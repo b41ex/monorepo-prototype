@@ -1,6 +1,6 @@
 import type { LinterApiType } from '@portal/entities/api-quality/linter-api-types'
 import type { Linters, LintersDto } from '@portal/entities/api-quality/linters'
-import { requestJson } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { requestJson } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 import { useQuery } from '@tanstack/react-query'
 import { API_LINTER_API_V1 } from './constants'
 

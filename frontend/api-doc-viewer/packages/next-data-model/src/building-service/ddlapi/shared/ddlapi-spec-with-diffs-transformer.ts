@@ -2,7 +2,7 @@ import { NODE_LEVEL_DIFF_KEY } from "@apihub/next-data-model/model/abstract/tree
 import { DdlApiColumnRowValue, DdlApiColumnTypeValue, DdlApiIndexRowValue } from "@apihub/next-data-model/model/ddlapi/tree/node-value";
 import { TableKey } from "@apihub/next-data-model/shared/ddlapi/types/table-key";
 import { DiffsRecord, isObject, takeIfDiffsRecord } from "@apihub/next-data-model/utilities";
-import { aggregateDiffsWithRollup, Diff, DiffAction, DiffAdd, DiffRemove, isDiffAdd, isDiffRemove, isDiffReplace } from "@netcracker/qubership-apihub-api-diff";
+import { aggregateDiffsWithRollup, Diff, DiffAction, DiffAdd, DiffRemove, isDiffAdd, isDiffRemove, isDiffReplace } from "@b41ex/qubership-apihub-api-diff";
 import {
   AttrKind,
   Column,
@@ -14,7 +14,7 @@ import {
   Schema,
   Table,
   TypeKind,
-} from "@netcracker/qubership-apihub-ddlapi";
+} from "@b41ex/qubership-apihub-ddlapi";
 import { formatForeignKeyTargetKey } from "@apihub/next-data-model/shared/ddlapi/foreign-key-target-key";
 import { formatDefaultValueDisplayString, formatDefaultValueForDisplay } from "@apihub/next-data-model/shared/ddlapi/format-ddl-expr";
 import { isNamedIndexTitle, resolveDdlApiIndexDescendantDiffKey } from "@apihub/next-data-model/shared/ddlapi/index-title";

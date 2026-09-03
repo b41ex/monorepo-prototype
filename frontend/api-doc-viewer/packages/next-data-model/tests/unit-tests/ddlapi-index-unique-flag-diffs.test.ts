@@ -7,8 +7,8 @@ import {
   takeColumnFlagDiffs,
   takeIndexFlagDiffs,
 } from '@apihub/next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs'
-import { buildFromDdl } from '@netcracker/qubership-apihub-ddlapi/parser'
-import { apiDiff, DiffAction } from '@netcracker/qubership-apihub-api-diff'
+import { buildFromDdl } from '@b41ex/qubership-apihub-ddlapi/parser'
+import { apiDiff, DiffAction } from '@b41ex/qubership-apihub-api-diff'
 import { DdlApiSpecWithDiffsTransformer } from '../../src/building-service/ddlapi/shared/ddlapi-spec-with-diffs-transformer'
 import { DdlApiTreeWithDiffsBuilder } from '../../src/building-service/ddlapi/tree-with-diffs/builder'
 import { DdlApiTreeNodeKinds } from '../../src/model/ddlapi/types/node-kind'

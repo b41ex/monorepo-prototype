@@ -29,8 +29,8 @@ import {
   USER_ROLES_PAGE,
 } from '../../../routes'
 import { getSettingsPath } from '../../NavigationProvider'
-import type { TestableProps } from '@netcracker/qubership-apihub-ui-shared/components/Testable'
-import { useLinterEnabled } from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+import type { TestableProps } from '@b41ex/qubership-apihub-ui-shared/components/Testable'
+import { useLinterEnabled } from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
 
 export const SettingsNavigation: FC = memo(() => {
   const activeTab = useActiveTabContentContext()

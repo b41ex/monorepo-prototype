@@ -4,7 +4,7 @@ import {
   isGraphApiAnyDefinition,
   isGraphApiDirective,
   isGraphApiListDefinition
-} from '@netcracker/qubership-apihub-graphapi';
+} from '@b41ex/qubership-apihub-graphapi';
 import { CreateNodeResult, IModelTreeNode } from '../../abstract/model/types';
 import { JsonSchemaCreateNodeParams, JsonSchemaModelTree } from '../../json-schema';
 import { getNodeComplexityType, isObject, pick } from '../../utils';

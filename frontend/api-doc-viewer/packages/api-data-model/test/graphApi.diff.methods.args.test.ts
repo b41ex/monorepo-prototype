@@ -1,4 +1,4 @@
-import { DiffAction, annotation, breaking, nonBreaking } from "@netcracker/qubership-apihub-api-diff"
+import { DiffAction, annotation, breaking, nonBreaking } from "@b41ex/qubership-apihub-api-diff"
 import { buildGraphApi, createGraphApiDiffTreeForTests, diffMetaKeys, graphapi } from "./helpers/graphql"
 
 describe('args', () => {

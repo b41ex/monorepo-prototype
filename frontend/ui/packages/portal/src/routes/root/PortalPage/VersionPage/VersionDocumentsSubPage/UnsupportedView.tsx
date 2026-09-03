@@ -16,8 +16,8 @@
 
 import { memo, useCallback, type FC } from 'react'
 import { usePackageParamsWithRef } from '../../usePackageParamsWithRef'
-import { UnsupportedFilePlaceholder } from '@netcracker/qubership-apihub-ui-shared/components/UnsupportedFilePlaceholder'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import { UnsupportedFilePlaceholder } from '@b41ex/qubership-apihub-ui-shared/components/UnsupportedFilePlaceholder'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 import { ExportedEntityKind } from '@portal/components/ExportSettingsDialog/api/useExport'
 import { useEventBus } from '@portal/routes/EventBusProvider'
 import { useDocument } from '../useDocument'

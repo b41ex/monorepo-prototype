@@ -6,12 +6,12 @@ import {
   type RulesetDto,
   RulesetStatuses,
 } from '@portal/entities/api-quality/rulesets'
-import { ButtonWithHint } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
+import { ButtonWithHint } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ButtonWithHint'
 import {
   ConfirmationDialog,
-} from '@netcracker/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
-import { DeleteIconMui } from '@netcracker/qubership-apihub-ui-shared/icons/DeleteIconMui'
-import { PlayIcon } from '@netcracker/qubership-apihub-ui-shared/icons/PlayIcon'
+} from '@b41ex/qubership-apihub-ui-shared/components/ConfirmationDialog/ConfirmationDialog'
+import { DeleteIconMui } from '@b41ex/qubership-apihub-ui-shared/icons/DeleteIconMui'
+import { PlayIcon } from '@b41ex/qubership-apihub-ui-shared/icons/PlayIcon'
 import { type FC, memo, useCallback, useState } from 'react'
 import { useActivateRuleset } from '../api/useActivateRuleset'
 import { useDeleteRuleset } from '../api/useDeleteRuleset'

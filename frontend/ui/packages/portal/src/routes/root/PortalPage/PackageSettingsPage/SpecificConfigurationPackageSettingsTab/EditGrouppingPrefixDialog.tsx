@@ -21,12 +21,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button, Checkbox, DialogActions, DialogContent, DialogTitle, FormControlLabel, TextField } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useRecalculatePackageVersionGroups, useUpdatePackage } from '../../../usePackage'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
 import type { ShowEditPackagePrefixDetail } from '@portal/routes/EventBusProvider'
 import { SHOW_EDIT_PACKAGE_PREFIX_DIALOG } from '@portal/routes/EventBusProvider'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DialogForm } from '@netcracker/qubership-apihub-ui-shared/components/DialogForm'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DialogForm } from '@b41ex/qubership-apihub-ui-shared/components/DialogForm'
 
 export const EditGrouppingPrefixDialog: FC = memo(() => {
   return (

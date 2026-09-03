@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { Realm } from '@netcracker/qubership-apihub-ddlapi'
-import type { DdlExtractor, DdlNonFatalError } from '@netcracker/qubership-apihub-ddlapi/parser'
+import type { Realm } from '@b41ex/qubership-apihub-ddlapi'
+import type { DdlExtractor, DdlNonFatalError } from '@b41ex/qubership-apihub-ddlapi/parser'
 
 export interface ParsedDdlData {
   // the Realm produced by buildFromDdl for this single `.sql` file (per-file, self-sufficient — D6)

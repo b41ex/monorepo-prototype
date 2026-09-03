@@ -18,8 +18,8 @@ import {
   APIHUB_API_COMPATIBILITY_KIND_BWC,
   ApihubApiCompatibilityKind,
 } from '../../consts'
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
-import { ApiCompatibilityKind } from '@netcracker/qubership-apihub-api-diff'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
+import { ApiCompatibilityKind } from '@b41ex/qubership-apihub-api-diff'
 import { getApiKindProperty } from '../document'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 import { ApiCompatibilityScopeFunctionFactory } from './bwc.validation.types'

@@ -7,7 +7,7 @@ import {
   ValueWithOrigins,
 } from '../types'
 import { ErrorMessage } from '../errors'
-import { getNodeRules, isArray, isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { getNodeRules, isArray, isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { prepareTitleForMerge, RichTitle } from './title'
 import {
   JSON_SCHEMA_PROPERTY_ALL_OF,

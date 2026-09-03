@@ -26,26 +26,26 @@ import type { ColumnDef } from '@tanstack/table-core'
 import { Box, Typography } from '@mui/material'
 import Tooltip from '@mui/material/Tooltip'
 import type { Row } from '@tanstack/react-table'
-import type { ColumnModel } from '@netcracker/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
+import type { ColumnModel } from '@b41ex/qubership-apihub-ui-shared/hooks/table-resizing/useColumnResizing'
 import type {
   FetchNextOperationList,
   OperationsData,
   OperationWithDeprecations,
-} from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+} from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { HasNextPage, IsFetchingNextPage, IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { useCurrentPackage } from '@portal/components/CurrentPackageProvider'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { CustomTableHeadCell } from '@netcracker/qubership-apihub-ui-shared/components/CustomTableHeadCell'
-import { InfoContextIcon } from '@netcracker/qubership-apihub-ui-shared/icons/InfoContextIcon'
-import { TextWithOverflowTooltip } from '@netcracker/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { CustomTableHeadCell } from '@b41ex/qubership-apihub-ui-shared/components/CustomTableHeadCell'
+import { InfoContextIcon } from '@b41ex/qubership-apihub-ui-shared/icons/InfoContextIcon'
+import { TextWithOverflowTooltip } from '@b41ex/qubership-apihub-ui-shared/components/TextWithOverflowTooltip'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import {
   API_AUDIENCE_COLUMN_ID,
   API_KIND_COLUMN_ID,
   ENDPOINT_COLUMN_ID,
   PACKAGE_COLUMN_ID,
   TAGS_COLUMN_ID,
-} from '@netcracker/qubership-apihub-ui-shared/entities/table-columns'
+} from '@b41ex/qubership-apihub-ui-shared/entities/table-columns'
 
 export const DETAILS_COLUMN_ID = 'details'
 export const DEPRECATED_SINCE_COLUMN_ID = 'deprecated-since'

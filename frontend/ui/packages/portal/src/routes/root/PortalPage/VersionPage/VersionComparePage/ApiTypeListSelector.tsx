@@ -2,11 +2,11 @@ import { type FC, memo } from 'react'
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 
 import { useApiTypeSearchParam } from '../useApiTypeSearchParam'
-import { API_TYPE_TITLE_MAP, API_TYPES, type ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { API_TYPE_TITLE_MAP, API_TYPES, type ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import {
   getRouteApiTypeTitle,
   type ContractType,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 export type ApiTypeListSelectorProps = {
   allowedApiTypes?: ReadonlyArray<ApiType | ContractType>

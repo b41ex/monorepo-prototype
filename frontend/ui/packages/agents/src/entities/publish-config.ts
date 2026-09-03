@@ -15,7 +15,7 @@
  */
 
 import type { Key, PackageKey, PublishKey, ServiceKey, VersionKey } from './keys'
-import type { BuildConfigRef, ResolvedOperation, VersionStatus } from '@netcracker/qubership-apihub-api-processor'
+import type { BuildConfigRef, ResolvedOperation, VersionStatus } from '@b41ex/qubership-apihub-api-processor'
 
 export type PublishConfig = Readonly<{
   snapshotConfig?: SnapshotConfig

@@ -1,5 +1,5 @@
 {
-  "name": "@netcracker/qubership-apihub-rest-playground",
+  "name": "@b41ex/qubership-apihub-rest-playground",
   "version": "1.3.4",
   "description": "Web Component for Try It",
   "sideEffects": [
@@ -41,7 +41,7 @@
     "storybook": "storybook dev -p 9001",
     "development:link": "echo please run \"npm link\" manually in console to avoid using the deprecated node_modules/.bin/npm as it will reinstall all dependencies",
     "development:unlink": "echo please run \"npm unlink\" manually in console to avoid using the deprecated node_modules/.bin/npm as it will reinstall all dependencies",
-    "update-lock-file": "update-lock-file @netcracker"
+    "update-lock-file": "update-lock-file @b41ex"
   },
   "rollup": {
     "bundleDeps": [
@@ -67,8 +67,8 @@
     "@mui/lab": "5.0.0-alpha.120",
     "@mui/material": "5.11.10",
     "@mui/private-theming": "5.11.9",
-    "@netcracker/qubership-apihub-http-spec": "bugfix-update-infrastructure",
-    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@b41ex/qubership-apihub-http-spec": "bugfix-update-infrastructure",
+    "@b41ex/qubership-apihub-npm-gitflow": "3.1.1",
     "@stoplight/eslint-config": "3.0.0",
     "@stoplight/json": "^3.18.1",
     "@stoplight/json-schema-sampler": "^0.2.2",

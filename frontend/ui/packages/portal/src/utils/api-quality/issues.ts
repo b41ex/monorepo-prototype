@@ -2,7 +2,7 @@ import { IssueSeverities } from '@portal/entities/api-quality/issue-severities'
 import type { Issue } from '@portal/entities/api-quality/issues'
 import type { Linter } from '@portal/entities/api-quality/linters'
 import type { OriginalDocumentFileFormat } from '@portal/routes/root/PortalPage/VersionPage/VersionApiQualitySubPage/types'
-import { findLocationByPath, parseWithPointers } from '@netcracker/qubership-apihub-ui-shared/utils/specifications.v2'
+import { findLocationByPath, parseWithPointers } from '@b41ex/qubership-apihub-ui-shared/utils/specifications.v2'
 import { type editor as Editor, MarkerSeverity } from 'monaco-editor'
 import { getLinterName } from './linters'
 

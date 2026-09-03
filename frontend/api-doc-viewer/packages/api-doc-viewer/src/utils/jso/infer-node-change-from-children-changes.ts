@@ -1,5 +1,5 @@
-import { ActionType } from "@netcracker/qubership-apihub-api-diff";
-import { JsoTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/jso/types/aliases";
+import { ActionType } from "@b41ex/qubership-apihub-api-diff";
+import { JsoTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/jso/types/aliases";
 
 export function isSameDiffActionForAll(jsoProperties: JsoTreeNodeWithDiffs[]): boolean {
   let diffAction: ActionType | undefined

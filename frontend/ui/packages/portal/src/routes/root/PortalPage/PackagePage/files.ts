@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import type { FileLabelsRecord } from '@netcracker/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
-import { includes } from '@netcracker/qubership-apihub-ui-shared/utils/filters'
+import type { FileLabelsRecord } from '@b41ex/qubership-apihub-ui-shared/components/FileTableUpload/FileTableUpload'
+import { includes } from '@b41ex/qubership-apihub-ui-shared/utils/filters'
 import { sortBy } from 'lodash-es'
 
 export function createFilesRecord(files: File[], filesWithLabels: FileLabelsRecord): FileLabelsRecord {

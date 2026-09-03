@@ -19,10 +19,10 @@ import { calculateGraphqlOperationId, createSerializedInternalDocument, removeCo
 import type { OperationsBuilder } from '../../types'
 import { GRAPHQL_TYPE, GRAPHQL_TYPE_KEYS } from './graphql.consts'
 import { INLINE_REFS_FLAG } from '../../consts'
-import { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 import { buildGraphQLOperation } from './graphql.operation'
 import { asyncFunction } from '../../utils/async'
-import { normalize } from '@netcracker/qubership-apihub-api-unifier'
+import { normalize } from '@b41ex/qubership-apihub-api-unifier'
 import { GRAPHQL_EFFECTIVE_NORMALIZE_OPTIONS } from '../graphql'
 
 export const buildGraphQLOperations: OperationsBuilder<GraphApiSchema> = async (document, ctx) => {

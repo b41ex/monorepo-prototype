@@ -1,9 +1,9 @@
 import type { AsyncAPIDocumentInterface } from '@asyncapi/parser'
-import { isDdlApi } from '@netcracker/qubership-apihub-api-unifier'
-import type { Realm } from '@netcracker/qubership-apihub-ddlapi'
-import type { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
-import { isGraphApi } from '@netcracker/qubership-apihub-graphapi'
-import { isObject } from '@netcracker/qubership-apihub-ui-shared/utils/objects'
+import { isDdlApi } from '@b41ex/qubership-apihub-api-unifier'
+import type { Realm } from '@b41ex/qubership-apihub-ddlapi'
+import type { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
+import { isGraphApi } from '@b41ex/qubership-apihub-graphapi'
+import { isObject } from '@b41ex/qubership-apihub-ui-shared/utils/objects'
 import type { OpenAPIV3 } from 'openapi-types'
 
 export function isOpenApiSpecification(specification: unknown): specification is OpenAPIV3.Document {

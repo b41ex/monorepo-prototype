@@ -78,14 +78,14 @@ here
 
 ## Usage
 1. Install it
-`npm install --save-dev @netcracker/qubership-apihub-jest-chrome-in-docker-environment@version`
+`npm install --save-dev @b41ex/qubership-apihub-jest-chrome-in-docker-environment@version`
 2. Create common Jest configuration settings (e. g. `common-it-test.jest.config.js`) for running on CI and local PC. See example in API section.
 3. Create common puppeteer configuration settings (e. g. `common-puppeteer.config.js`) for running on CI and local PC. See example in API section.
 4. Create Jest config for running on CI
     ```javascript
     // it-test.jest.config.js
     const path = require("path");
-    const {prepareJestConfig} = require("@netcracker/qubership-apihub-jest-chrome-in-docker-environment");
+    const {prepareJestConfig} = require("@b41ex/qubership-apihub-jest-chrome-in-docker-environment");
     module.exports = prepareJestConfig(
        path.resolve(__dirname, "./common-it-test.jest.config.js"),  // <--- common jest configuration settings
        path.resolve(__dirname, "./common-puppeteer.config.js"), // <--- common puppeteer configuration settings
@@ -96,7 +96,7 @@ here
     ```javascript
     // it-test-docker.jest.config.js
     const path = require("path");
-    const {prepareJestConfig} = require("@netcracker/qubership-apihub-jest-chrome-in-docker-environment");
+    const {prepareJestConfig} = require("@b41ex/qubership-apihub-jest-chrome-in-docker-environment");
     module.exports = prepareJestConfig(
        path.resolve(__dirname, "./common-it-test.jest.config.js"),  // <--- common jest configuration settings
        path.resolve(__dirname, "./common-puppeteer.config.js"), // <--- common puppeteer configuration settings

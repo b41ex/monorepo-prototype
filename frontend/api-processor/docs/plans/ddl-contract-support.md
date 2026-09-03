@@ -6,9 +6,9 @@ Status: **Draft for review** · Author: planning session 2026-06-12 · Branch: `
 
 Add a new contract type — **DDL** (PostgreSQL `.sql` / `.ddl` files) — to api-processor for
 both `build` and `changelog` build types. api-processor never parses SQL itself: it delegates to
-`@netcracker/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`), normalizes via
-`@netcracker/qubership-apihub-api-unifier` (`DDL_API_NORMALIZE_OPTIONS`), and diffs via
-`@netcracker/qubership-apihub-api-diff` (`apiDiff`, which dispatches `SPEC_TYPE_DDL_API_1`).
+`@b41ex/qubership-apihub-ddlapi` (`buildFromDdl` → `Realm`), normalizes via
+`@b41ex/qubership-apihub-api-unifier` (`DDL_API_NORMALIZE_OPTIONS`), and diffs via
+`@b41ex/qubership-apihub-api-diff` (`apiDiff`, which dispatches `SPEC_TYPE_DDL_API_1`).
 
 The **table is the contract unit** (the operation/entity analog). Indexes, foreign keys, comments,
 triggers, and types are parts of a table, not separate entities. `view` is reserved for a later
@@ -391,12 +391,12 @@ Publish config (no per-file metadata; schema comes from the SQL):
 
 #### Task 1: Add ddlapi dependency, consts, and package types
 
-**Description:** Add `@netcracker/qubership-apihub-ddlapi` as an npm dependency and introduce the
+**Description:** Add `@b41ex/qubership-apihub-ddlapi` as an npm dependency and introduce the
 DDL constants, the `BuilderType` union member, and `src/types/package/ddl.ts`. No behavior yet.
 
 **Acceptance criteria:**
 
-- [x] **Done (2026-06-12):** `@netcracker/qubership-apihub-ddlapi`, `api-diff`, `api-unifier` are
+- [x] **Done (2026-06-12):** `@b41ex/qubership-apihub-ddlapi`, `api-diff`, `api-unifier` are
       installed at their `feature-ddl` versions with DDL support present (Risk R1 resolved). Remaining
       Task-1 work below is the `package.json` dep entries already added + the consts/types.
 - [x] **Done (2026-06-12):** `DDL_CONTRACT_TYPE`, `FILE_FORMAT_SQL`/`FILE_FORMAT_DDL`,

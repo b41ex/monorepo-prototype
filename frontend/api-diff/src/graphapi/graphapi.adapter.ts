@@ -1,8 +1,8 @@
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 import type { AdapterContext, AdapterResolver } from '../types'
 import { isObject } from '../utils'
 import { wrapBySingletonUnion } from './graphapi.utils'
-import { GRAPH_API_NODE_KIND_UNION } from '@netcracker/qubership-apihub-graphapi'
+import { GRAPH_API_NODE_KIND_UNION } from '@b41ex/qubership-apihub-graphapi'
 
 export const graphApiSchemaAdapter: AdapterResolver = (value, reference, ctx) => {
   if (!isObject(value) || !isObject(reference)) { return value }

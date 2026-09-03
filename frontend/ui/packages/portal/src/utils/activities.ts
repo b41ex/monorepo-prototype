@@ -36,11 +36,11 @@ import {
   GROUP_PARAMETER_OPERATIONS,
   GROUP_PARAMETER_TEMPLATE,
 } from '@portal/entities/activities'
-import { format } from '@netcracker/qubership-apihub-ui-shared/utils/strings'
-import { SPECIAL_VERSION_KEY } from '@netcracker/qubership-apihub-ui-shared/entities/versions'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
-import { GROUP_TYPE_MANUAL, GROUP_TYPE_REST_PATH_PREFIX } from '@netcracker/qubership-apihub-ui-shared/entities/operation-groups'
-import { API_TYPE_TITLE_MAP } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+import { format } from '@b41ex/qubership-apihub-ui-shared/utils/strings'
+import { SPECIAL_VERSION_KEY } from '@b41ex/qubership-apihub-ui-shared/entities/versions'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
+import { GROUP_TYPE_MANUAL, GROUP_TYPE_REST_PATH_PREFIX } from '@b41ex/qubership-apihub-ui-shared/entities/operation-groups'
+import { API_TYPE_TITLE_MAP } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 
 export const EMPTY_ACTIVITY_MESSAGE: ActivityMessage = {
   messageTemplate: '',

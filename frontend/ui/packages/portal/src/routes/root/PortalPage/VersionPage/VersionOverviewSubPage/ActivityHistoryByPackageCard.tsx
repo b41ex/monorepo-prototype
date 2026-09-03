@@ -20,7 +20,7 @@ import { usePackageActivityHistory } from '../../../useActivityHistory'
 import { useParams } from 'react-router-dom'
 import { Box, Typography } from '@mui/material'
 import { ActivityListBody } from '@portal/components/ActivityList/ActivityListBody'
-import { BodyCard } from '@netcracker/qubership-apihub-ui-shared/components/BodyCard'
+import { BodyCard } from '@b41ex/qubership-apihub-ui-shared/components/BodyCard'
 import {
   useActivityHistoryFiltersContext,
   useSetActivityHistoryFiltersContext,

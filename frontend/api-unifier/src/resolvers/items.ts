@@ -7,7 +7,7 @@ import {
 } from '../rules/jsonschema.const'
 import { unifyBooleanSchemas } from '../allOf'
 import { and } from './basic'
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 import { jsonSchemaMergeResolver } from './jsonschema'
 
 export const itemsMergeResolver: MergeResolver<RawJsonSchema | RawJsonSchema[]> = (args, ctx) => {

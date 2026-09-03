@@ -6,7 +6,7 @@ import {
   JSON_SCHEMA_PROPERTY_PATTERN_PROPERTIES,
   JSON_SCHEMA_PROPERTY_PROPERTIES,
 } from '../rules/jsonschema.const'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { allOrigins, and } from './basic'
 import { groupValuesByProperty, jsonSchemaMergeResolver } from './jsonschema'
 import { unifyBooleanSchemas } from '../allOf'

@@ -23,8 +23,8 @@ import type { Principal } from './principals'
 import type { ApiType } from './api-types'
 import { toDdlContractsSummary, type DdlContractsSummary, type DdlContractsSummaryDto } from './contracts-ddl'
 import { toMcpContractsSummary, type McpContractsSummary, type McpContractsSummaryDto } from './contracts-mcp'
-import type { ApiAudienceTransition, DiffTypeDto } from '@netcracker/qubership-apihub-api-processor'
-import type { DiffType } from '@netcracker/qubership-apihub-api-diff'
+import type { ApiAudienceTransition, DiffTypeDto } from '@b41ex/qubership-apihub-api-processor'
+import type { DiffType } from '@b41ex/qubership-apihub-api-diff'
 
 export type PackageVersionContent = Readonly<{
   version: Key

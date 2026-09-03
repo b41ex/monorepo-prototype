@@ -2,7 +2,7 @@ import { DdlApiTreeNode } from "@apihub/next-data-model/model/ddlapi/types/alias
 import { DdlApiTreeNodeKind } from "@apihub/next-data-model/model/ddlapi/types/node-kind";
 import { DdlApiTreeNodeMeta } from "@apihub/next-data-model/model/ddlapi/types/node-meta";
 import { DdlApiTreeNodeValue } from "@apihub/next-data-model/model/ddlapi/tree/node-value";
-import { SyncCrawlHook } from "@netcracker/qubership-apihub-json-crawl";
+import { SyncCrawlHook } from "@b41ex/qubership-apihub-json-crawl";
 import { createTreeBuildingHooks, TreeBuildingHooksFactoryParams } from "../../abstract/json-crawl-entities/hooks/builder";
 import { DdlApiCrawlRule } from "../json-crawl-entities/rules/types";
 import { DdlApiTreeCrawlState } from "../json-crawl-entities/state/types";

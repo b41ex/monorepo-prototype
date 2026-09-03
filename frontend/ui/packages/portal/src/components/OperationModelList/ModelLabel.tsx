@@ -18,8 +18,8 @@ import type { FC } from 'react'
 import React, { memo } from 'react'
 import { Box, MenuItem, Tooltip, Typography } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { MenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/MenuButton'
-import { YellowWarningIcon } from '@netcracker/qubership-apihub-ui-shared/icons/WarningIcon'
+import { MenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/MenuButton'
+import { YellowWarningIcon } from '@b41ex/qubership-apihub-ui-shared/icons/WarningIcon'
 
 export type ModelLabelProps = {
   title: string

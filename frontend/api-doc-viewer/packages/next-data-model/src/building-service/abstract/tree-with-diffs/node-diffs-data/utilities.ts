@@ -1,5 +1,5 @@
 import { HighlightVariant } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { DiffType } from "@netcracker/qubership-apihub-api-diff";
+import { DiffType } from "@b41ex/qubership-apihub-api-diff";
 
 export class DiffsClassesBuilder {
   public static highlighter(variant: HighlightVariant | undefined) {

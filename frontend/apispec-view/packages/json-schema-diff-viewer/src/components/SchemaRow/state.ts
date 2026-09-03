@@ -1,6 +1,6 @@
 import { extractPointerFromRef, pointerToPath } from '@stoplight/json';
 import { isMirroredNode, isReferenceNode, isRegularNode, SchemaNode } from '@stoplight/json-schema-tree';
-import { schemaIdKey } from '@netcracker/qubership-apihub-apispec-view-diff-block';
+import { schemaIdKey } from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { atom, PrimitiveAtom, WritableAtom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 import { isEqual, last } from 'lodash';

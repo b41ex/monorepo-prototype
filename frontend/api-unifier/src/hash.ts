@@ -6,7 +6,7 @@ import {
   NormalizationRule,
 } from './types'
 import { resolveSpec, SPEC_TYPE_GRAPH_API } from './spec-type'
-import { CrawlRules, isObject, syncClone, SyncCloneHook, syncCrawl, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl'
+import { CrawlRules, isObject, syncClone, SyncCloneHook, syncCrawl, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl'
 import { RULES } from './rules'
 import objectHash, { NotUndefined } from 'object-hash'
 

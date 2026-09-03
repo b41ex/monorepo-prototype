@@ -15,20 +15,20 @@
  */
 
 import type { Labels } from './documents'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { MethodType } from '@netcracker/qubership-apihub-ui-shared/entities/method-types'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import type { ApiType } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import type { ContractType } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { MethodType } from '@b41ex/qubership-apihub-ui-shared/entities/method-types'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import type { ApiType } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import type { ContractType } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 import {
   CONTRACT_TYPE_DDL,
   CONTRACT_TYPE_MCP,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import type { DdlEntityKind } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-ddl'
-import type { McpKind } from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import type { ApiKind, Operation } from '@netcracker/qubership-apihub-ui-shared/entities/operations'
-import type { ApiAudience } from '@netcracker/qubership-apihub-api-processor'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import type { DdlEntityKind } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-ddl'
+import type { McpKind } from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import type { ApiKind, Operation } from '@b41ex/qubership-apihub-ui-shared/entities/operations'
+import type { ApiAudience } from '@b41ex/qubership-apihub-api-processor'
 
 export type ApiContract = ApiType | ContractType
 

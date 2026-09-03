@@ -19,9 +19,9 @@ import { memo, useCallback, useMemo } from 'react'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { LARGE_TOOLBAR_SIZE, Toolbar } from '@netcracker/qubership-apihub-ui-shared/components/Toolbar'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import { ExitIcon } from '@netcracker/qubership-apihub-ui-shared/icons/ExitIcon'
+import { LARGE_TOOLBAR_SIZE, Toolbar } from '@b41ex/qubership-apihub-ui-shared/components/Toolbar'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { ExitIcon } from '@b41ex/qubership-apihub-ui-shared/icons/ExitIcon'
 
 export const SettingsToolbar: FC = memo(() => {
   const navigate = useNavigate()

@@ -16,9 +16,9 @@
 
 import { usePackageKind } from './usePackageKind'
 import { useRefSearchParam } from './useRefSearchParam'
-import type { PackageKind } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
+import type { PackageKind } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
 
 export type IsPackageFromDashboard = boolean
 export type RefPackageKey = Key

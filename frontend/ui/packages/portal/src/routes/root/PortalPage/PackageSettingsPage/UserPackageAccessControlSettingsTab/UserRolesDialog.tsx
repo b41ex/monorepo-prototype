@@ -17,15 +17,15 @@
 import type { FC } from 'react'
 import * as React from 'react'
 import { memo, useCallback } from 'react'
-import type { Role } from '@netcracker/qubership-apihub-ui-shared/types/roles'
-import type { PopupProps } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import { PopupDelegate } from '@netcracker/qubership-apihub-ui-shared/components/PopupDelegate'
-import type { Permission } from '@netcracker/qubership-apihub-ui-shared/types/permissions'
-import { RolesTable } from '@netcracker/qubership-apihub-ui-shared/components/RolesTable'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
+import type { Role } from '@b41ex/qubership-apihub-ui-shared/types/roles'
+import type { PopupProps } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import { PopupDelegate } from '@b41ex/qubership-apihub-ui-shared/components/PopupDelegate'
+import type { Permission } from '@b41ex/qubership-apihub-ui-shared/types/permissions'
+import { RolesTable } from '@b41ex/qubership-apihub-ui-shared/components/RolesTable'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material'
-import { SHOW_USER_ROLES_DIALOG } from '@netcracker/qubership-apihub-ui-shared/types/dialogs'
+import { SHOW_USER_ROLES_DIALOG } from '@b41ex/qubership-apihub-ui-shared/types/dialogs'
 
 export type UserRolesDialogProps = {
   permissions: ReadonlyArray<Permission>

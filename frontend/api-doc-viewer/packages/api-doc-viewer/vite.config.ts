@@ -66,10 +66,10 @@ export default defineConfig({
   resolve: {
     alias: {
       // Cross-package aliases (external dependencies)
-      '@netcracker/qubership-apihub-api-state-model': path.resolve(__dirname, '../api-state-model/src'),
-      '@netcracker/qubership-apihub-api-data-model': path.resolve(__dirname, '../api-data-model/src'),
-      '@netcracker/qubership-apihub-next-data-model': path.resolve(__dirname, '../next-data-model/src'),
-      '@netcracker/qubership-apihub-samples': path.resolve(__dirname, '../samples/src'),
+      '@b41ex/qubership-apihub-api-state-model': path.resolve(__dirname, '../api-state-model/src'),
+      '@b41ex/qubership-apihub-api-data-model': path.resolve(__dirname, '../api-data-model/src'),
+      '@b41ex/qubership-apihub-next-data-model': path.resolve(__dirname, '../next-data-model/src'),
+      '@b41ex/qubership-apihub-samples': path.resolve(__dirname, '../samples/src'),
       '@apihub/api-data-model': path.resolve(__dirname, '../api-data-model/src'),
       '@apihub/next-data-model': path.resolve(__dirname, '../next-data-model/src'),
     }

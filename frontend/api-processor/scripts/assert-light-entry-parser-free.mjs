@@ -37,9 +37,9 @@ const LIGHT_ENTRY = 'api-processor.es.js'
 const HEAVY_ENTRY = 'api-processor-engine.es.js'
 
 // Markers that indicate the SQL parser graph. The parser-free model root
-// ('@netcracker/qubership-apihub-ddlapi' with no subpath) is allowed.
+// ('@b41ex/qubership-apihub-ddlapi' with no subpath) is allowed.
 const PARSER_MARKERS = [
-  '@netcracker/qubership-apihub-ddlapi/parser',
+  '@b41ex/qubership-apihub-ddlapi/parser',
   'pgsql-parser',
   'libpg-query',
 ]

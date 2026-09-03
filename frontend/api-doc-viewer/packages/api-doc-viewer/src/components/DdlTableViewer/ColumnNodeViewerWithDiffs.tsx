@@ -8,7 +8,7 @@ import {
   takeNodeDiffIfPresent,
 } from "../../utils/ddlapi/node-level-diff"
 import { LayoutSide } from "../../types/internal/LayoutSide"
-import { NODE_LEVEL_DIFF_KEY } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+import { NODE_LEVEL_DIFF_KEY } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import {
   isDdlPropertySubheaderVisible,
   resolveColumnDefaultValueSideDisplay,
@@ -19,15 +19,15 @@ import {
   takeColumnDefaultValueDiff,
   takeColumnDefaultValueRowColorizingDiff,
   takeColumnGeneratedExpressionDiff,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
 import {
   resolveColumnAdditionalInfoRowUsesAfterRowPrecededBy,
   resolveColumnGeneratedExpressionSideDisplay,
   resolveColumnListLastRowFlags,
   resolveColumnNodeVisibility,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-column"
-import { DdlApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
-import { DdlApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/node-visibility/kind-column"
+import { DdlApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
+import { DdlApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
 import { FC, useCallback, useMemo } from "react"
 import { TextRow } from "../shared-components/TextRow/TextRow"
 import { DEFAULT_LONG_TEXT_COLOR } from "../shared-components/TextRow/consts"

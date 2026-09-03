@@ -24,8 +24,8 @@ import { Box, List, ListItem, ListItemButton, ListItemText, Tooltip } from '@mui
 import { useParams } from 'react-router-dom'
 import { useDeletedReferences } from '../useDeletedReferences'
 import { useConflictedReferences } from '../useConflictedReferences'
-import { isNotEmptyMap, isNotEmptySet } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { RedWarningIcon, YellowWarningIcon } from '@netcracker/qubership-apihub-ui-shared/icons/WarningIcon'
+import { isNotEmptyMap, isNotEmptySet } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { RedWarningIcon, YellowWarningIcon } from '@b41ex/qubership-apihub-ui-shared/icons/WarningIcon'
 
 export const ConfigureDashboardNavigation: FC = memo(() => {
   const activeTab = useActiveTabConfigureDashboard()

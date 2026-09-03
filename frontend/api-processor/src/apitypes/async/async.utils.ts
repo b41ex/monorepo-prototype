@@ -37,7 +37,7 @@ import {
   parseRef,
   PREDICATE_ANY_VALUE,
   PREDICATE_UNCLOSED_END,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import {
   APIHUB_API_COMPATIBILITY_KIND_BWC,
   ApihubApiCompatibilityKind,
@@ -45,7 +45,7 @@ import {
   INLINE_REFS_FLAG,
 } from '../../consts'
 import { WithAggregatedDiffs, WithDiffMetaRecord } from '../../types'
-import { Diff, DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@netcracker/qubership-apihub-api-diff'
+import { Diff, DIFF_META_KEY, DIFFS_AGGREGATED_META_KEY } from '@b41ex/qubership-apihub-api-diff'
 
 import { getCustomTags } from '../../utils/apihubSpecificationExtensions'
 

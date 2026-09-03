@@ -1,7 +1,7 @@
 import { type FC, memo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { ExportMenuButton } from '@netcracker/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
+import { ExportMenuButton } from '@b41ex/qubership-apihub-ui-shared/components/Buttons/ExportMenuButton'
 
 import { useFullMainVersion } from '../FullMainVersionProvider'
 import { useDownloadDdlTablesAsExcel } from './useDownloadDdlTablesAsExcel'

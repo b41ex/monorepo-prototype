@@ -1,4 +1,4 @@
-import { isObject, JSON_ROOT_KEY, SyncCloneHook } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject, JSON_ROOT_KEY, SyncCloneHook } from '@b41ex/qubership-apihub-json-crawl'
 
 const COPY_STATE_COMPLETED = 'completed'
 const COPY_STATE_PARTIALLY_COMPLETED = 'in-progress'

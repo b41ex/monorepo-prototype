@@ -34,7 +34,7 @@ import {
   DIFFS_AGGREGATED_META_KEY,
   extractOperationBasePath,
   risky,
-} from '@netcracker/qubership-apihub-api-diff'
+} from '@b41ex/qubership-apihub-api-diff'
 import {
   AFTER_VALUE_NORMALIZED_PROPERTY,
   BEFORE_VALUE_NORMALIZED_PROPERTY,
@@ -54,13 +54,13 @@ import {
   WithAggregatedDiffs,
   WithDiffMetaRecord,
 } from '../../types'
-import { isObject } from '@netcracker/qubership-apihub-json-crawl'
+import { isObject } from '@b41ex/qubership-apihub-json-crawl'
 import { areDeclarationPathsEqual } from '../../utils/path'
 import {
   JSON_SCHEMA_PROPERTY_DEPRECATED,
   pathItemToFullPath,
   resolveOrigins,
-} from '@netcracker/qubership-apihub-api-unifier'
+} from '@b41ex/qubership-apihub-api-unifier'
 import { findRequiredRemovedProperties } from './rest.required'
 import { calculateHash } from '../../utils/hashes'
 import { OpenAPIV3 } from 'openapi-types'

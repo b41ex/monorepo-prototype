@@ -1,5 +1,5 @@
 import { UnifyFunction } from '../types'
-import { isArray } from '@netcracker/qubership-apihub-json-crawl'
+import { isArray } from '@b41ex/qubership-apihub-json-crawl'
 import { deepEqual } from 'fast-equals'
 import { removeDuplicatesWithMergeOrigins } from '../utils'
 

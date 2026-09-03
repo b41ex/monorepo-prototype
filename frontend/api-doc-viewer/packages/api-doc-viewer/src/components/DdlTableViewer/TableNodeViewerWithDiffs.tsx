@@ -8,9 +8,9 @@ import {
   resolveTableSchemaNameSideDisplay,
   takeTableDescriptionDiff,
   takeTableSchemaNameDiff,
-} from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
-import { DdlApiTreeNodeWithDiffs } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
-import { DdlApiTreeNodeKinds } from "@netcracker/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
+} from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/tree-with-diffs/property-row-diffs"
+import { DdlApiTreeNodeWithDiffs } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/aliases"
+import { DdlApiTreeNodeKinds } from "@b41ex/qubership-apihub-next-data-model/model/ddlapi/types/node-kind"
 import { LayoutSide } from "../../types/internal/LayoutSide"
 import { FC, useCallback, useMemo } from "react"
 import { DETAILED_DISPLAY_MODE } from "../../types/DisplayMode"

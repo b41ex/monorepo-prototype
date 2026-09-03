@@ -1,4 +1,4 @@
-import { Diff, DiffMetaRecord, DiffReplace, DiffType } from '@netcracker/qubership-apihub-api-diff';
+import { Diff, DiffMetaRecord, DiffReplace, DiffType } from '@b41ex/qubership-apihub-api-diff';
 import { isReferenceNode, isRegularNode, SchemaNode } from '@stoplight/json-schema-tree';
 import { Box, Flex } from '@stoplight/mosaic';
 import {
@@ -9,7 +9,7 @@ import {
   DiffBlock,
   useDiffContext,
   useValueFromObjWithDiff,
-} from '@netcracker/qubership-apihub-apispec-view-diff-block';
+} from '@b41ex/qubership-apihub-apispec-view-diff-block';
 import { useAtom } from 'jotai';
 import { useAtomValue } from 'jotai/utils';
 import { isEmpty, keys, last, pick } from 'lodash';
@@ -22,8 +22,8 @@ import { choicesAtom, isExpandedAtom, isNodeHoveredAtom, selectedChoiceAtom } fr
 import { Caret } from './Caret';
 import { Format } from './Format';
 import { Types } from './Types';
-import { useDiffMetaKey } from "@netcracker/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
-import { useChangeSeverityFilters } from "@netcracker/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
+import { useDiffMetaKey } from "@b41ex/qubership-apihub-apispec-view/containers/DIffMetaKeyContext";
+import { useChangeSeverityFilters } from "@b41ex/qubership-apihub-apispec-view/containers/ChangeSeverityFiltersContext";
 
 export const SchemaNameAndProperties: React.FC<{ schemaNode: SchemaNode; nestingLevel: number }> = ({
   schemaNode,

@@ -18,14 +18,14 @@ import { type FC, memo, useRef } from 'react'
 import { Box, Typography } from '@mui/material'
 import { Marker } from 'react-mark.js'
 
-import { FormattedDate } from '@netcracker/qubership-apihub-ui-shared/components/FormattedDate'
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { useIntersectionObserver } from '@netcracker/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
+import { FormattedDate } from '@b41ex/qubership-apihub-ui-shared/components/FormattedDate'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { useIntersectionObserver } from '@b41ex/qubership-apihub-ui-shared/hooks/common/useIntersectionObserver'
 import {
   isDdlDocumentSpecType,
   isMcpDocumentSpecType,
-} from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import { getSplittedVersionKey } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import { getSplittedVersionKey } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 
 import type { DocumentSearchResult } from '@portal/entities/global-search'
 import { getDocumentPath } from '../../../NavigationProvider'

@@ -1,4 +1,4 @@
-import { getNodeRules } from '@netcracker/qubership-apihub-json-crawl'
+import { getNodeRules } from '@b41ex/qubership-apihub-json-crawl'
 import {
   addDiffObjectToContainer,
   ANY_COMBINER_INDEX,
@@ -14,7 +14,7 @@ import {
 } from '../core'
 import type { CompareResolver, Diff, DiffEntry } from '../types'
 import { isArray, isObject, onlyExistedArrayIndexes } from '../utils'
-import { copyDescriptors } from '@netcracker/qubership-apihub-api-unifier'
+import { copyDescriptors } from '@b41ex/qubership-apihub-api-unifier'
 
 const haveSameLastRef = (a: string[], b: string[]): boolean => {
   // Compare last refs — these are the direct $ref targets at the current level.

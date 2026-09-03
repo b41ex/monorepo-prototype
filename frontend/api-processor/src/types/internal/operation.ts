@@ -17,8 +17,8 @@
 import { DeprecateItem, OperationsApiType } from '../external'
 import { ApiAudience } from '../package'
 import { OpenAPIV3 } from 'openapi-types'
-import { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
-import { Realm } from '@netcracker/qubership-apihub-ddlapi'
+import { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
+import { Realm } from '@b41ex/qubership-apihub-ddlapi'
 import { ApihubApiCompatibilityKind } from '../../consts'
 import { v3 as AsyncAPIV3 } from '@asyncapi/parser/esm/spec-types'
 

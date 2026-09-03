@@ -1,5 +1,5 @@
 import { ChangedPropertyMetaData, NodeDiffs, NodeDiffsSeverities } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
-import { annotation, breaking, deprecated, Diff, DiffType, nonBreaking, risky, unclassified } from "@netcracker/qubership-apihub-api-diff";
+import { annotation, breaking, deprecated, Diff, DiffType, nonBreaking, risky, unclassified } from "@b41ex/qubership-apihub-api-diff";
 
 export abstract class AbstractNodeDiffsSeveritiesAggregator<
   V extends object | null = object | null,

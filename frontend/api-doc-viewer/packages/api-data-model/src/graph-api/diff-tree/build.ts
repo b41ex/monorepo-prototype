@@ -1,4 +1,4 @@
-import { CrawlRules, syncCrawl, SyncCrawlHook } from '@netcracker/qubership-apihub-json-crawl';
+import { CrawlRules, syncCrawl, SyncCrawlHook } from '@b41ex/qubership-apihub-json-crawl';
 import type { DiffMetaKeys } from '../../abstract/diff';
 import { createCycleGuardHook } from '../../abstract/hooks/cycle-guard';
 import { graphApiNodeKind } from '../constants';

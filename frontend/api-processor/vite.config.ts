@@ -48,7 +48,7 @@ export default defineConfig({
       // etc.) is bundled inside ddlapi/parser, so we never reference it directly here.
       external: [
         '@asyncapi/parser',
-        /^@netcracker\/qubership-apihub-ddlapi(\/.*)?$/,
+        /^@b41ex\/qubership-apihub-ddlapi(\/.*)?$/,
       ],
     },
   },

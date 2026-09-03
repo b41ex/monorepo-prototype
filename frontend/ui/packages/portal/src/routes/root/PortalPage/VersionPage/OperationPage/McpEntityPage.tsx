@@ -6,11 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import type { Key } from '@portal/entities/keys'
 import { useBackwardLocationContext } from '@portal/routes/BackwardLocationProvider'
-import { PageLayout } from '@netcracker/qubership-apihub-ui-shared/components/PageLayout'
-import { JsonRawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/JsonRawSpecView'
-import { Toolbar } from '@netcracker/qubership-apihub-ui-shared/components/Toolbar'
-import { ToolbarTitle } from '@netcracker/qubership-apihub-ui-shared/components/ToolbarTitle'
-import { CONTRACT_TYPE_MCP } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import { PageLayout } from '@b41ex/qubership-apihub-ui-shared/components/PageLayout'
+import { JsonRawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/JsonRawSpecView'
+import { Toolbar } from '@b41ex/qubership-apihub-ui-shared/components/Toolbar'
+import { ToolbarTitle } from '@b41ex/qubership-apihub-ui-shared/components/ToolbarTitle'
+import { CONTRACT_TYPE_MCP } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 import {
   getMcpContractEntityToolbarTitle,
   MCP_COLLECTION_EMPTY_MESSAGES,
@@ -18,9 +18,9 @@ import {
   MCP_COLLECTION_TOOLS,
   type McpContractEntity,
   parseMcpListCollectionParam,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contracts-mcp'
-import { DASHBOARD_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { REF_SEARCH_PARAM } from '@netcracker/qubership-apihub-ui-shared/utils/search-params'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contracts-mcp'
+import { DASHBOARD_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { REF_SEARCH_PARAM } from '@b41ex/qubership-apihub-ui-shared/utils/search-params'
 import { useNavigation } from '../../../../NavigationProvider'
 import { PackageBreadcrumbs } from '../../../PackageBreadcrumbs'
 import { usePackage } from '../../../usePackage'

@@ -1,4 +1,4 @@
-import { HighlightVariant } from "@netcracker/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
+import { HighlightVariant } from "@b41ex/qubership-apihub-next-data-model/model/abstract/tree-with-diffs/tree-node.interface"
 import { FC, memo } from "react"
 import { AdditionalInfoPieceBase } from "./AdditionalInfoPieceBase"
 import { useAdditionalInfoPieceStyles } from "./useAdditionalInfoPieceStyles"

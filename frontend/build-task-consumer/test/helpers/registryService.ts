@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { VersionConfig } from '@netcracker/qubership-apihub-api-processor'
+import { VersionConfig } from '@b41ex/qubership-apihub-api-processor'
 
 import { BuildStatus } from "../../src/modules/builder/builder.constants"
 import { loadConfig, loadFile } from "./utils"

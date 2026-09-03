@@ -18,10 +18,10 @@ import type { FC } from 'react'
 import React, { memo, useMemo, useState } from 'react'
 import { useChangesSummaryFromContext } from '../ChangesSummaryProvider'
 import { useTagSearchFilter } from '../useTagSearchFilter'
-import { isEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { isAppliedSearchValueForTag } from '@netcracker/qubership-apihub-ui-shared/utils/tags'
-import { SidebarPanel } from '@netcracker/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
-import { SidebarWithTags } from '@netcracker/qubership-apihub-ui-shared/components/SidebarWithTags/SidebarWithTags'
+import { isEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { isAppliedSearchValueForTag } from '@b41ex/qubership-apihub-ui-shared/utils/tags'
+import { SidebarPanel } from '@b41ex/qubership-apihub-ui-shared/components/Panels/SidebarPanel'
+import { SidebarWithTags } from '@b41ex/qubership-apihub-ui-shared/components/SidebarWithTags/SidebarWithTags'
 
 type GroupCompareSidebarProps = {
   tags: string[]

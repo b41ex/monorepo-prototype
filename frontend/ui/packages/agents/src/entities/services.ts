@@ -17,11 +17,11 @@
 import type { DiscoveryStatus } from './statuses'
 import { NONE_DISCOVERY_STATUS } from './statuses'
 import type { AgentKey, NamespaceKey, PackageKey, ServiceKey, VersionKey, WorkspaceKey } from './keys'
-import type { VersionStatuses } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { Spec, SpecDto } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
-import { toSpec } from '@netcracker/qubership-apihub-ui-shared/entities/specs'
-import { isNotEmpty } from '@netcracker/qubership-apihub-ui-shared/utils/arrays'
-import { API_V2, requestJson, requestVoid } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import type { VersionStatuses } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { Spec, SpecDto } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
+import { toSpec } from '@b41ex/qubership-apihub-ui-shared/entities/specs'
+import { isNotEmpty } from '@b41ex/qubership-apihub-ui-shared/utils/arrays'
+import { API_V2, requestJson, requestVoid } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export type Services = {
   status: DiscoveryStatus

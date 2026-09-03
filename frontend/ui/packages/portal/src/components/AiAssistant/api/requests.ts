@@ -1,4 +1,4 @@
-import { API_V1 } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+import { API_V1 } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 import { aiChatJson } from './client'
 import { AI_CHAT_JSON_HEADERS } from './constants'

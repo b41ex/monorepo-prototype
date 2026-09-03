@@ -15,9 +15,9 @@
  */
 
 import { LevelIndicator } from "../../shared-components/LevelIndicator"
-import { isDiff, isObject } from "@netcracker/qubership-apihub-api-data-model"
-import { Diff, DiffAction, DiffMetaRecord } from "@netcracker/qubership-apihub-api-diff"
-import { GRAPH_API_DIRECTIVE_DEPRECATED_DEFAULT_REASON } from "@netcracker/qubership-apihub-graphapi"
+import { isDiff, isObject } from "@b41ex/qubership-apihub-api-data-model"
+import { Diff, DiffAction, DiffMetaRecord } from "@b41ex/qubership-apihub-api-diff"
+import { GRAPH_API_DIRECTIVE_DEPRECATED_DEFAULT_REASON } from "@b41ex/qubership-apihub-graphapi"
 import type { FC } from 'react'
 import { INLINE_CONTENT_DIFF_COLOR_SCHEMAS, NODE_DIFF_COLOR_MAP } from '../../../consts/changes'
 import {

@@ -1,7 +1,7 @@
 import { ITreeNodeWithDiffs, NodeDescendantDiffs, NodeDiffs } from "@apihub/next-data-model/model/abstract/tree-with-diffs/tree-node.interface";
 import { isObject } from "@apihub/next-data-model/utilities";
 import { NodeKey } from "@apihub/next-data-model/utility-types";
-import { Diff, isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from '@netcracker/qubership-apihub-api-diff';
+import { Diff, isDiffAdd, isDiffRemove, isDiffRename, isDiffReplace } from '@b41ex/qubership-apihub-api-diff';
 import { DiffMetaKeys } from "./diff-meta-keys";
 
 export abstract class AbstractNodeDiffsAggregator<

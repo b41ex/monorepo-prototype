@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { ActionType, DiffAction } from '@netcracker/qubership-apihub-api-diff'
+import { ActionType, DiffAction } from '@b41ex/qubership-apihub-api-diff'
 import { ANY_PATH_SEGMENT } from './path'
-import { PathPredicate, PREDICATE_ANY_VALUE } from '@netcracker/qubership-apihub-api-unifier'
+import { PathPredicate, PREDICATE_ANY_VALUE } from '@b41ex/qubership-apihub-api-unifier'
 
 export type DiffRule = {
   pathTemplate: PathPredicate[]

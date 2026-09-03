@@ -14,7 +14,7 @@ import createVersionJsonFilePlugin from '../../vite-create-version-json'
 import { createRequire } from 'module'
 
 // The three apispec-view assets copied below were addressed by the literal path
-// ../../node_modules/@netcracker/qubership-apihub-apispec-view/dist/... , which is
+// ../../node_modules/@b41ex/qubership-apihub-apispec-view/dist/... , which is
 // correct only while node_modules sits two levels up from this package. Resolve the
 // package entry point and take the directory beside it instead.
 //
@@ -27,7 +27,7 @@ const requireFromHere = createRequire(import.meta.url)
 // character - so an absolute Windows path matches nothing, the build still exits 0, and
 // the three assets are silently absent from dist. Measured: 431 files instead of 434.
 // Posix separators throughout.
-const apispecViewDist = path.dirname(requireFromHere.resolve('@netcracker/qubership-apihub-apispec-view'))
+const apispecViewDist = path.dirname(requireFromHere.resolve('@b41ex/qubership-apihub-apispec-view'))
   .split(path.sep)
   .join('/')
 
@@ -99,10 +99,10 @@ export default defineConfig(({ mode }) => {
       // npm link creates a symlink that points outside node_modules and by default such packages are not optimized.
       // Using "include" here forces listed packages to be optimized.
       // For example, without this setting, esbuildOptions are not being applied to the npm-linked
-      // @netcracker/qubership-apihub-api-processor during "npm run proxy", which leads to reference errors
+      // @b41ex/qubership-apihub-api-processor during "npm run proxy", which leads to reference errors
       // like "process is not defined" and "Buffer is not defined".
       include: [
-        '@netcracker/qubership-apihub-api-processor',
+        '@b41ex/qubership-apihub-api-processor',
       ],
       esbuildOptions: {
         plugins: [

@@ -1,7 +1,7 @@
 import { Box, Skeleton } from '@mui/material'
 import { type FC, memo } from 'react'
 
-import type { FileFormat } from '@netcracker/qubership-apihub-ui-shared/utils/files'
+import type { FileFormat } from '@b41ex/qubership-apihub-ui-shared/utils/files'
 import {
   isAsyncApiSpecType,
   isDdlDocumentSpecType,
@@ -9,7 +9,7 @@ import {
   isMcpDocumentSpecType,
   isOpenApiSpecType,
   type SpecType,
-} from '@netcracker/qubership-apihub-ui-shared/utils/specs'
+} from '@b41ex/qubership-apihub-ui-shared/utils/specs'
 
 import { EMPTY_DOC } from '@portal/entities/documents'
 import { OpenApiViewer } from '../OpenApiViewer/OpenApiViewer'

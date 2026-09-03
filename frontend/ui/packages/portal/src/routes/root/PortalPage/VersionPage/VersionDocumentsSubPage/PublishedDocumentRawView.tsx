@@ -3,16 +3,16 @@ import { styled } from '@mui/material/styles'
 import { type FC, memo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { LoadingIndicator } from '@netcracker/qubership-apihub-ui-shared/components/LoadingIndicator'
-import { RawSpecView } from '@netcracker/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
-import { usePublishedDocumentRaw } from '@netcracker/qubership-apihub-ui-shared/hooks/documents/usePublishedDocumentRaw'
+import { LoadingIndicator } from '@b41ex/qubership-apihub-ui-shared/components/LoadingIndicator'
+import { RawSpecView } from '@b41ex/qubership-apihub-ui-shared/components/SpecificationDialog/RawSpecView'
+import { usePublishedDocumentRaw } from '@b41ex/qubership-apihub-ui-shared/hooks/documents/usePublishedDocumentRaw'
 import {
   type FileExtension,
   type FileFormat,
   JSON_FILE_FORMAT,
-} from '@netcracker/qubership-apihub-ui-shared/utils/files'
-import type { SpecType } from '@netcracker/qubership-apihub-ui-shared/utils/specs'
-import { toFormattedJsonString } from '@netcracker/qubership-apihub-ui-shared/utils/strings'
+} from '@b41ex/qubership-apihub-ui-shared/utils/files'
+import type { SpecType } from '@b41ex/qubership-apihub-ui-shared/utils/specs'
+import { toFormattedJsonString } from '@b41ex/qubership-apihub-ui-shared/utils/strings'
 
 import { usePackageParamsWithRef } from '../../usePackageParamsWithRef'
 import { DocumentLabels } from './DocumentLabels'

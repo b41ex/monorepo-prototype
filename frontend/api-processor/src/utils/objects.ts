@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { JsonPath } from '@netcracker/qubership-apihub-json-crawl'
+import { JsonPath } from '@b41ex/qubership-apihub-json-crawl'
 
 export function getFirstKey(object: object): string | undefined {
   const [key] = Object.keys(object)

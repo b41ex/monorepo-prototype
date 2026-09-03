@@ -1,7 +1,7 @@
 import { compareFiles, TEST_DEFAULTS_DECLARATION_PATHS } from '../utils'
 import { diffsMatcher } from '../../helper/matchers'
 import { annotation, breaking, DiffAction, nonBreaking, risky, unclassified } from '../../../src'
-import { TEST_SPEC_TYPE_GRAPH_QL } from '@netcracker/qubership-apihub-compatibility-suites'
+import { TEST_SPEC_TYPE_GRAPH_QL } from '@b41ex/qubership-apihub-compatibility-suites'
 import { COMPARE_SCOPE_OUTPUT } from '../../../src/graphapi'
 
 const SUITE_ID = 'object-output-type-of-root-type'

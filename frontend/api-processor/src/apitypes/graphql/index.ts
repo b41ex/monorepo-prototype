@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { GraphApiSchema } from '@netcracker/qubership-apihub-graphapi'
+import { GraphApiSchema } from '@b41ex/qubership-apihub-graphapi'
 
 import { buildGraphQLDocument, dumpGraphQLDocument } from './graphql.document'
 import { buildGraphQLOperations } from './graphql.operations'

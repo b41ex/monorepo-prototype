@@ -16,14 +16,14 @@
 
 import { useMutation } from '@tanstack/react-query'
 import type { Key } from '@agents/entities/keys'
-import type { HttpError } from '@netcracker/qubership-apihub-ui-shared/utils/responses'
-import type { IsLoading } from '@netcracker/qubership-apihub-ui-shared/utils/aliases'
+import type { HttpError } from '@b41ex/qubership-apihub-ui-shared/utils/responses'
+import type { IsLoading } from '@b41ex/qubership-apihub-ui-shared/utils/aliases'
 import { generatePath } from 'react-router-dom'
 import { useShowErrorNotification, useShowSuccessNotification } from '../../../BasePage/NotificationHandler'
 import {
   useGetNcServicePrefix,
-} from '@netcracker/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
-import { API_V1, requestBlob } from '@netcracker/qubership-apihub-ui-shared/utils/requests'
+} from '@b41ex/qubership-apihub-ui-shared/features/system-extensions/useSystemExtensions'
+import { API_V1, requestBlob } from '@b41ex/qubership-apihub-ui-shared/utils/requests'
 
 export type IdpAuthTokenDetails = {
   agentId: string

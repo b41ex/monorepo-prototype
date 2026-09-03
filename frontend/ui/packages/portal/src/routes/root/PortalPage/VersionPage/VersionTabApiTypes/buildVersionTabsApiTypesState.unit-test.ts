@@ -1,5 +1,5 @@
-import { API_TYPE_REST } from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
-import { CONTRACT_TYPE_DDL, CONTRACT_TYPE_MCP } from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
+import { API_TYPE_REST } from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
+import { CONTRACT_TYPE_DDL, CONTRACT_TYPE_MCP } from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
 
 import { buildVersionTabsApiTypesState } from './buildVersionTabsApiTypesState'
 import { VERSION_TAB_IDS } from './version-tab-allowed-api-types'

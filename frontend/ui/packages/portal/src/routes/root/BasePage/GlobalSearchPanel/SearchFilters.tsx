@@ -19,43 +19,43 @@ import * as React from 'react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Autocomplete, Box, Button, debounce, ListItem, TextField, Tooltip, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
-import { usePackageVersions } from '@netcracker/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
+import { usePackageVersions } from '@b41ex/qubership-apihub-ui-shared/hooks/versions/usePackageVersions'
 
 import type { DateObject } from 'react-multi-date-picker'
 import DatePicker from 'react-multi-date-picker'
 
-import { usePackages } from '@netcracker/qubership-apihub-ui-shared/hooks/packages/usePackages'
+import { usePackages } from '@b41ex/qubership-apihub-ui-shared/hooks/packages/usePackages'
 import { useDebounce } from 'react-use'
-import type { Key } from '@netcracker/qubership-apihub-ui-shared/entities/keys'
-import type { VersionStatus } from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
+import type { Key } from '@b41ex/qubership-apihub-ui-shared/entities/keys'
+import type { VersionStatus } from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
 import {
   PUBLISH_STATUSES,
   RELEASE_VERSION_STATUS,
   VERSION_STATUSES,
-} from '@netcracker/qubership-apihub-ui-shared/entities/version-status'
-import type { Package } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { GROUP_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@netcracker/qubership-apihub-ui-shared/entities/packages'
-import { handleVersionsRevision } from '@netcracker/qubership-apihub-ui-shared/utils/versions'
+} from '@b41ex/qubership-apihub-ui-shared/entities/version-status'
+import type { Package } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { GROUP_KIND, PACKAGE_KIND, WORKSPACE_KIND } from '@b41ex/qubership-apihub-ui-shared/entities/packages'
+import { handleVersionsRevision } from '@b41ex/qubership-apihub-ui-shared/utils/versions'
 import { useEventBus } from '@portal/routes/EventBusProvider'
-import { disableAutocompleteSearch } from '@netcracker/qubership-apihub-ui-shared/utils/mui'
-import { OptionItem } from '@netcracker/qubership-apihub-ui-shared/components/OptionItem'
-import { CustomChip } from '@netcracker/qubership-apihub-ui-shared/components/CustomChip'
-import { CalendarIcon } from '@netcracker/qubership-apihub-ui-shared/icons/CalendarIcon'
+import { disableAutocompleteSearch } from '@b41ex/qubership-apihub-ui-shared/utils/mui'
+import { OptionItem } from '@b41ex/qubership-apihub-ui-shared/components/OptionItem'
+import { CustomChip } from '@b41ex/qubership-apihub-ui-shared/components/CustomChip'
+import { CalendarIcon } from '@b41ex/qubership-apihub-ui-shared/icons/CalendarIcon'
 import {
   API_TYPE_REST,
   API_TYPES,
-} from '@netcracker/qubership-apihub-ui-shared/entities/api-types'
+} from '@b41ex/qubership-apihub-ui-shared/entities/api-types'
 import type { ApiContract } from '@portal/entities/global-search'
 import {
   CONTRACT_TYPES,
   getRouteApiTypeTitle,
-} from '@netcracker/qubership-apihub-ui-shared/entities/contract-types'
-import { DEFAULT_DEBOUNCE } from '@netcracker/qubership-apihub-ui-shared/utils/constants'
+} from '@b41ex/qubership-apihub-ui-shared/entities/contract-types'
+import { DEFAULT_DEBOUNCE } from '@b41ex/qubership-apihub-ui-shared/utils/constants'
 import { usePackage } from '@portal/routes/root/usePackage'
-import { toISODateRange } from '@netcracker/qubership-apihub-ui-shared/utils/date'
+import { toISODateRange } from '@b41ex/qubership-apihub-ui-shared/utils/date'
 import {
   useSystemConfiguration,
-} from '@netcracker/qubership-apihub-ui-shared/hooks/authorization/useSystemConfiguration'
+} from '@b41ex/qubership-apihub-ui-shared/hooks/authorization/useSystemConfiguration'
 
 const DEFAULT_WORKSPACE_ID = ''
 
