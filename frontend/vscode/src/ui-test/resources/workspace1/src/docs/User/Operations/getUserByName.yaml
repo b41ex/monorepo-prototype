@@ -1,0 +1,27 @@
+get:
+  tags:
+    - user
+  summary: Get user by user name
+  description: abc
+  operationId: getUserByName
+  parameters:
+    - name: username
+      in: path
+      description: 'The name that needs to be fetched. Use user1 for testing. '
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '../../user.yaml#/components/schemas/User'
+        application/xml:
+          schema:
+            $ref: '../../user.yaml#/components/schemas/User'
+    '400':
+      description: Invalid username supplied
+    '404':
+      description: User not found

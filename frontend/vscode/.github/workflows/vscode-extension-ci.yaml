@@ -1,0 +1,16 @@
+name: VSCode Extension CI Workflow
+
+on:
+  push:
+    branches:
+      - release
+      - hotfix
+      - develop
+      - feature/*
+      - bugfix/*
+    tags:
+      - '**'
+
+jobs:
+  call-frontend-ci-workflow:
+    uses: netcracker/qubership-apihub-ci/.github/workflows/vscode-extension-ci.yaml@main

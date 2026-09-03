@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    /* TypeScript 6 defaults "types" to [] rather than every package under @types.
+      This config compiles server/__tests__, so jest's globals must be listed. */
+    "types": ["node", "jest"],
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "./../",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  }
+}

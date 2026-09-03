@@ -1,0 +1,75 @@
+{
+  "name": "@netcracker/qubership-apihub-json-crawl",
+  "version": "1.2.3",
+  "description": "Async and sync crawler for json object",
+  "module": "./dist/index.es.js",
+  "main": "./dist/index.cjs.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "vite build",
+    "development:link": "npm link",
+    "development:unlink": "npm unlink",
+    "test": "jest --verbose",
+    "test:coverage": "jest --verbose --coverage",
+    "update-lock-file": "update-lock-file @netcracker"
+  },
+  "keywords": [
+    "json",
+    "crawler",
+    "crawl",
+    "deepClone",
+    "clone",
+    "hooks"
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@netcracker/qubership-apihub-npm-gitflow": "3.1.1",
+    "@types/jest": "30.0.0",
+    "@types/node": "^24.0.0",
+    "jest": "30.4.2",
+    "jest-util": "^30.4.1",
+    "rimraf": "^5.0.5",
+    "rollup": "^2.79.1",
+    "rollup-plugin-filesize": "^9.1.0",
+    "rollup-plugin-progress": "^1.1.2",
+    "ts-jest": "29.4.12",
+    "ts-node": "^10.7.0",
+    "tslint": "^6.1.2",
+    "typescript": "6.0.3",
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/test/.*(\\.|/)(test|spec))\\.(ts?|tsx?|js?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/"
+    ],
+    "collectCoverage": true
+  }
+}

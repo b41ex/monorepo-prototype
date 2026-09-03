@@ -1,0 +1,44 @@
+# compiled output
+/dist/
+/node_modules/
+/temp/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.iml
+
+# IDE - VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
+# TypeScript incremental build state. Must never be committed: tsc trusts it to
+# decide what is already emitted, so a stale one checked out in CI makes the build
+# skip emitting JavaScript while dist/ is absent, publishing a package with
+# declarations and no code.
+*.tsbuildinfo

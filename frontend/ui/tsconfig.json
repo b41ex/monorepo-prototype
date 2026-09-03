@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    /* TypeScript 6 defaults "types" to [] rather than every package under node_modules/@types. */
+    "types": ["node", "jest"],
+    "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "webworker"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@netcracker/qubership-apihub-ui-shared": [
+        "./packages/shared/src"
+      ],
+      "@netcracker/qubership-apihub-ui-shared/*": [
+        "./packages/shared/src/*"
+      ],
+      "@netcracker/qubership-apihub-ui-portal": [
+        "./packages/portal/src"
+      ],
+      "@netcracker/qubership-apihub-ui-portal/*": [
+        "./packages/portal/src/*"
+      ],
+      "@netcracker/qubership-apihub-ui-agents": [
+        "./packages/agents/src"
+      ],
+      "@netcracker/qubership-apihub-ui-agents/*": [
+        "./packages/agents/src/*"
+      ]
+    }
+  }
+}

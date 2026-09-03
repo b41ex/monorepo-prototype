@@ -1,0 +1,35 @@
+vscode-textfield,
+vscode-textarea,
+vscode-single-select {
+    width: 100%;
+}
+.publishing-button {
+    width: calc(100% - 28px);
+}
+.publishing-labels-placeholder {
+    display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+    margin-top: 4px;
+}
+.publishing-chip {
+    --vscode-button-secondaryForeground: #1d1d1d;
+    --vscode-button-secondaryBackground: #dfe0e2;
+	--vscode-button-secondaryHoverBackground: #a5a6a8;
+}
+
+.environment-connection {
+    justify-content: start;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.environment-connection-icon {
+    &.check{
+        --vscode-icon-foreground: #2e7d32;
+    }
+    &.close{
+        --vscode-icon-foreground: #ff5260;
+    }
+}
