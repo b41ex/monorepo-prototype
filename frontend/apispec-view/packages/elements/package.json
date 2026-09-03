@@ -46,14 +46,14 @@
     "openapi3-ts": "2.0.2"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "6.1.1",
-    "@jest/globals": "30.4.1",
     "@b41ex/qubership-apihub-api-diff": "workspace:^",
     "@b41ex/qubership-apihub-api-doc-viewer": "workspace:^",
     "@b41ex/qubership-apihub-api-unifier": "workspace:^",
     "@b41ex/qubership-apihub-compatibility-suites": "workspace:^",
     "@b41ex/qubership-apihub-http-spec": "workspace:^",
     "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "workspace:^",
+    "@fortawesome/fontawesome-svg-core": "6.1.1",
+    "@jest/globals": "30.4.1",
     "@schemastore/package": "0.0.4",
     "@stoplight/json": "^3.18.1",
     "@stoplight/mosaic": "^1.40.0",
@@ -68,9 +68,13 @@
     "jest-image-snapshot": "6.5.2",
     "jest-snapshot": "30.4.1",
     "lodash": "^4.17.21",
+    "postcss": "8.3.5",
+    "postcss-cli": "8.3.1",
     "puppeteer": "24.42.0",
     "react": "^18.3.1",
     "react-query": "^3.34.19",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "webpack": "5.76.0",
+    "webpack-cli": "4.7.2"
   }
 }

@@ -1304,13 +1304,19 @@ importers:
         version: 2.3.0
       jest-image-snapshot:
         specifier: 6.5.2
-        version: 6.5.2(jest@30.4.2(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.2)))
+        version: 6.5.2(jest@30.4.2(@types/node@24.13.3)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.2))(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3)))
       jest-snapshot:
         specifier: 30.4.1
         version: 30.4.1
       lodash:
         specifier: ^4.17.21
         version: 4.18.1
+      postcss:
+        specifier: 8.3.5
+        version: 8.3.5
+      postcss-cli:
+        specifier: 8.3.1
+        version: 8.3.1(postcss@8.3.5)(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3))
       puppeteer:
         specifier: 24.42.0
         version: 24.42.0(typescript@6.0.3)
@@ -1323,6 +1329,12 @@ importers:
       react-router-dom:
         specifier: ^5.2.0
         version: 5.3.4(react@18.3.1)
+      webpack:
+        specifier: 5.76.0
+        version: 5.76.0(esbuild@0.28.2)(postcss@8.3.5)(webpack-cli@4.7.2)
+      webpack-cli:
+        specifier: 4.7.2
+        version: 4.7.2(webpack@5.76.0)
 
   frontend/apispec-view/packages/elements-core:
     dependencies:
@@ -33144,7 +33156,7 @@ snapshots:
 
   '@types/eslint@9.6.1':
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.9
       '@types/json-schema': 7.0.15
 
   '@types/estree@0.0.39': {}
@@ -34934,6 +34946,10 @@ snapshots:
     dependencies:
       webpack: 5.101.3(cssnano@5.0.6(postcss@8.5.6))(esbuild@0.25.12)(postcss@8.5.6)(webpack-cli@6.0.1)
       webpack-cli: 6.0.1(webpack-dev-server@5.2.2)(webpack@5.101.3)
+
+  '@webpack-cli/serve@1.7.0(webpack-cli@4.7.2)':
+    dependencies:
+      webpack-cli: 4.7.2(webpack@5.76.0)
 
   '@webpack-cli/serve@1.7.0(webpack-cli@4.7.2)(webpack-dev-server@3.11.2)':
     dependencies:
@@ -42531,18 +42547,6 @@ snapshots:
     optionalDependencies:
       jest: 30.4.2(@types/node@24.13.3)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.2))(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3))
 
-  jest-image-snapshot@6.5.2(jest@30.4.2(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.2))):
-    dependencies:
-      chalk: 4.1.2
-      get-stdin: 5.0.1
-      glur: 1.1.2
-      lodash: 4.18.1
-      pixelmatch: 5.3.0
-      pngjs: 3.4.0
-      ssim.js: 3.5.0
-    optionalDependencies:
-      jest: 30.4.2(@types/node@24.13.3)(babel-plugin-macros@3.1.0)(esbuild-register@3.6.0(esbuild@0.28.2))
-
   jest-junit@12.2.0:
     dependencies:
       mkdirp: 1.0.4
@@ -46351,6 +46355,24 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
+  postcss-cli@8.3.1(postcss@8.3.5)(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3)):
+    dependencies:
+      chalk: 4.1.2
+      chokidar: 3.6.0
+      dependency-graph: 0.9.0
+      fs-extra: 9.1.0
+      get-stdin: 8.0.0
+      globby: 11.1.0
+      postcss: 8.3.5
+      postcss-load-config: 3.1.4(postcss@8.3.5)(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3))
+      postcss-reporter: 7.1.0(postcss@8.3.5)
+      pretty-hrtime: 1.0.3
+      read-cache: 1.0.2
+      slash: 3.0.0
+      yargs: 16.2.2
+    transitivePeerDependencies:
+      - ts-node
+
   postcss-colormin@5.3.1(postcss@8.3.5):
     dependencies:
       browserslist: 4.28.8
@@ -46444,6 +46466,14 @@ snapshots:
     optionalDependencies:
       postcss: 8.3.5
       ts-node: 10.9.2(@types/node@20.5.1)(typescript@5.9.3)
+
+  postcss-load-config@3.1.4(postcss@8.3.5)(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3)):
+    dependencies:
+      lilconfig: 2.1.0
+      yaml: 1.10.3
+    optionalDependencies:
+      postcss: 8.3.5
+      ts-node: 10.9.2(@types/node@24.13.3)(typescript@6.0.3)
 
   postcss-load-config@4.0.2(postcss@8.5.6)(ts-node@10.9.2(@types/node@24.13.3)(typescript@6.0.3)):
     dependencies:
@@ -49770,6 +49800,17 @@ snapshots:
       esbuild: 0.25.12
       postcss: 8.5.6
 
+  terser-webpack-plugin@5.6.1(esbuild@0.28.2)(postcss@8.3.5)(webpack@5.76.0):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      jest-worker: 27.5.1
+      schema-utils: 4.3.3
+      terser: 5.51.2
+      webpack: 5.76.0(esbuild@0.28.2)(postcss@8.3.5)(webpack-cli@4.7.2)
+    optionalDependencies:
+      esbuild: 0.28.2
+      postcss: 8.3.5
+
   terser-webpack-plugin@5.6.1(esbuild@0.28.2)(postcss@8.4.29)(webpack@5.106.2(esbuild@0.28.2)(postcss@8.4.29)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -51280,6 +51321,23 @@ snapshots:
     optionalDependencies:
       webpack-dev-server: 3.11.2(webpack-cli@4.7.2)(webpack@5.76.0)
 
+  webpack-cli@4.7.2(webpack@5.76.0):
+    dependencies:
+      '@discoveryjs/json-ext': 0.5.7
+      '@webpack-cli/configtest': 1.2.0(webpack-cli@4.7.2)(webpack@5.76.0)
+      '@webpack-cli/info': 1.5.0(webpack-cli@4.7.2)
+      '@webpack-cli/serve': 1.7.0(webpack-cli@4.7.2)
+      colorette: 1.4.0
+      commander: 7.2.0
+      execa: 5.1.1
+      fastest-levenshtein: 1.0.16
+      import-local: 3.2.0
+      interpret: 2.2.0
+      rechoir: 0.7.1
+      v8-compile-cache: 2.4.0
+      webpack: 5.76.0(esbuild@0.28.2)(postcss@8.3.5)(webpack-cli@4.7.2)
+      webpack-merge: 5.10.0
+
   webpack-cli@6.0.1(webpack-dev-server@5.2.2)(webpack@5.101.3):
     dependencies:
       '@discoveryjs/json-ext': 0.6.3
@@ -51794,6 +51852,48 @@ snapshots:
       webpack-sources: 3.5.1
     optionalDependencies:
       webpack-cli: 4.7.2(webpack-dev-server@3.11.2)(webpack@5.76.0)
+    transitivePeerDependencies:
+      - '@minify-html/node'
+      - '@swc/core'
+      - '@swc/css'
+      - '@swc/html'
+      - clean-css
+      - cssnano
+      - csso
+      - esbuild
+      - html-minifier-terser
+      - lightningcss
+      - postcss
+      - uglify-js
+
+  webpack@5.76.0(esbuild@0.28.2)(postcss@8.3.5)(webpack-cli@4.7.2):
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 0.0.51
+      '@webassemblyjs/ast': 1.11.1
+      '@webassemblyjs/wasm-edit': 1.11.1
+      '@webassemblyjs/wasm-parser': 1.11.1
+      acorn: 8.18.0
+      acorn-import-assertions: 1.9.0(acorn@8.18.0)
+      browserslist: 4.28.8
+      chrome-trace-event: 1.0.4
+      enhanced-resolve: 5.24.5
+      es-module-lexer: 0.9.3
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.2
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.6.1(esbuild@0.28.2)(postcss@8.3.5)(webpack@5.76.0)
+      watchpack: 2.5.2
+      webpack-sources: 3.5.1
+    optionalDependencies:
+      webpack-cli: 4.7.2(webpack@5.76.0)
     transitivePeerDependencies:
       - '@minify-html/node'
       - '@swc/core'
