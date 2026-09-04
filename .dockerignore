@@ -1,63 +1,39 @@
-# The build context is the WORKSPACE ROOT now, not a single component directory.
+# OPT-IN: exclude everything, then re-include only what a Dockerfile actually reads.
 #
-# That is the whole point of the migration's image change — the Dockerfiles COPY prebuilt
-# output instead of pulling published tarballs from a registry — but it has a consequence
-# nobody has to think about in a single-component repository: without this file, `docker
-# build -f frontend/ui/Dockerfile .` sends the ENTIRE workspace to the daemon. Measured here:
-# 1.9 GB in the root node_modules alone, plus a per-package node_modules for all 33 members,
-# every dist tree, .nx, and a 125 MB .git.
+# The build context is the WORKSPACE ROOT — a consequence of the migration's image change,
+# where the Dockerfiles COPY prebuilt output instead of pulling published tarballs. In a
+# single-component repository the context is small by accident; here it is 1.9 GB of root
+# node_modules plus a per-package node_modules for all 33 members, every dist tree, .nx, and
+# a 125 MB .git.
 #
-# Everything an image needs is either a build output (frontend/*/dist, and the pnpm deploy
-# tree under .deploy/) or a small static asset (nginx config), so the exclusions can be broad
-# and the inclusions specific.
+# The first version of this file was opt-out — exclude the known-bad, keep the rest — and it
+# failed the way opt-out always eventually does: `**/node_modules` also matched
+# `.deploy/build-task-consumer/node_modules`, which the image genuinely needs, and the build
+# died on a COPY source that the guard step had just confirmed was present on disk. The
+# failure mode of opt-out is a silent, surprising EXCLUSION.
+#
+# Opt-in inverts that. Its failure mode is a missing path, which is loud, immediate, and names
+# itself — and the list below is then a precise, reviewable statement of what each image is
+# allowed to see. Adding a COPY to a Dockerfile without adding it here fails at once rather
+# than shipping something unintended.
+#
+# Keep this list in step with the COPY lines in:
+#   frontend/ui/Dockerfile
+#   frontend/build-task-consumer/Dockerfile
 
-# Dependencies — the images either COPY a `pnpm deploy --prod` tree or need nothing at all.
-**/node_modules
+# Everything, at every depth.
+**
 
-# Version control and CI machinery
-.git
-.github
-.nx
-
-# Everything not needed to assemble an image
-migration
-tools/migration
-tests
-**/*.md
-**/.storybook
-**/dist-showcase
-**/__image_snapshots__
-**/__diff_output__
-**/coverage
-**/*.tsbuildinfo
-**/*.log
-
-# Source. The images copy build OUTPUT; shipping sources would bloat the context and, for
-# any image that later runs an install, risk building from them by accident.
-**/src
-**/test
-**/tests
-
-# Re-include what the two Dockerfiles actually read. Order matters: a later ! overrides an
-# earlier exclusion, and .deploy is gitignored but must reach the daemon.
-#
-# The `/**` suffixes are load-bearing and their absence cost a run. `!.deploy` alone
-# re-includes the DIRECTORY ENTRY and nothing beneath it, so `**/node_modules` above still
-# excluded .deploy/build-task-consumer/node_modules and the build failed with
-# "/.deploy/build-task-consumer/node_modules": not found.
-#
-# The Verify step had already printed, three lines earlier:
-#
-#     OK      .deploy/build-task-consumer/node_modules  (16258 files)
-#
-# which is exactly what that guard is for. On disk and in the build context are two different
-# questions, and without the guard "not found" is ambiguous between "never built" and
-# "excluded from the context" — two very different bugs that read identically.
-!frontend/*/dist
-!frontend/*/dist/**
-!frontend/*/packages/*/dist
-!frontend/*/packages/*/dist/**
-!frontend/ui/nginx
+# --- frontend/ui -----------------------------------------------------------------------
 !frontend/ui/nginx/**
-!.deploy
+!frontend/ui/packages/agents/dist/**
+!frontend/ui/packages/portal/dist/**
+
+# --- frontend/build-task-consumer ------------------------------------------------------
+!frontend/build-task-consumer/dist/**
+# Produced on the host by `pnpm deploy --legacy --prod` before the build. It is gitignored,
+# which does not matter — docker does not read .gitignore — but it does have to be named here.
 !.deploy/**
+
+# Nothing else. No sources, no node_modules outside the deploy tree, no .git, no .nx, no
+# tests, no docs. If a build needs something, it goes above with the reason.
