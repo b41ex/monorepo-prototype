@@ -62,16 +62,33 @@ runs:
     # most recent one on this branch, then to the default branch. GitHub cache reads fall
     # back to the default branch, which is why `develop` being the default matters.
     # ------------------------------------------------------------------------------------
-    # BOTH paths, and the second one is the one that was missing. Nx 23 keeps its task cache
-    # in the user's home under a hash of the workspace path (~/.nx/<id>/cache), not in
-    # .nx/cache — so caching only the workspace path stored nothing, and run 2 reported
-    # `Cache: 0/29 hit (0%)` while the same cache measured 100% on a workstation, whose home
-    # directory persists between runs.
+    # The Nx cache has now failed three distinct ways here, each of which looked like success
+    # at some level. Worth all three being written down, because only the third is obvious in
+    # hindsight:
+    #
+    #   1. Cached `.nx/cache`, which Nx 23 does not use. It does not exist; the task cache
+    #      defaults to ~/.nx/<workspace-id>/cache, outside the workspace. actions/cache stored
+    #      nothing and run 2 reported `Cache: 0/29 hit (0%)`.
+    #   2. Added ~/.nx and pinned `cacheDirectory` so `.nx/cache` exists. The cache then
+    #      restored — 43 MB, "Cache restored from key" — and Nx refused to use any of it:
+    #
+    #          NX  Unrecognized Cache Artifacts
+    #          Nx found unrecognized artifacts in the cache directory and will not be able to
+    #          use them. Nx can only restore artifacts it has metadata about.
+    #
+    #      The artifacts live in .nx/cache; the metadata database that indexes them lives in
+    #      .nx/workspace-data. Caching one without the other yields a restore that reports
+    #      success and delivers nothing.
+    #   3. So: cache `.nx` whole — artifacts and metadata together — plus ~/.nx.
+    #
+    # The through-line is that a cache which "restored successfully" is not thereby a cache
+    # that was used. The number to read is Nx's own `Cache: N/N hit` line, never the restore
+    # step's.
     - name: Cache the Nx computation cache
       uses: actions/cache@v6
       with:
         path: |
-          .nx/cache
+          .nx
           ~/.nx
         key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
         restore-keys: |
