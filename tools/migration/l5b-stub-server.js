@@ -12,7 +12,17 @@
  * errors and the only way to tell those from findings is to load the pre-change artifact
  * through the same stub and compare.
  *
- *   node stub-server.js <port> <distDir>
+ *   node stub-server.js <port> <distDir> [basePath]
+ *
+ * `basePath` exists for ui-agents, which is built with `base: '/agents/'`. Its index.html
+ * asks for `/agents/assets/app-*.js` while the file is at `dist/assets/app-*.js`, so the
+ * prefix has to be stripped. It ALSO asks for `/agents/monacoeditorwork/*.js` while those
+ * four files are at `dist/agents/monacoeditorwork/`, which the same strip does not satisfy —
+ * the two are inconsistent inside one deployment root. That inconsistency is **identical in
+ * the fleet build and the workspace build** (the directory structures diff clean), so it is
+ * pre-existing and not a migration effect; this server resolves a stripped path first and
+ * falls back to the unstripped one so that both builds mount, and both are treated the same
+ * way. It is a harness accommodation, and it is stated rather than hidden.
  *
  * Paths must be Windows-style (C:/...), not /c/... — Node cannot resolve the latter.
  */
@@ -22,8 +32,9 @@ const path = require('path')
 
 const port = Number(process.argv[2])
 const root = process.argv[3]
+const base = process.argv[4] || ''
 if (!port || !root) {
-  console.error('usage: stub-server.js <port> <distDir>')
+  console.error('usage: stub-server.js <port> <distDir> [basePath]')
   process.exit(2)
 }
 
@@ -61,21 +72,51 @@ const CONFIG = {
   extensions: [],
 }
 
+/** Candidate files for a request path, in the order they should be tried. */
+function candidates(rel) {
+  const out = []
+  if (base && (rel === base.replace(/^\/|\/$/g, '') || rel.startsWith(base.replace(/^\//, '')))) {
+    out.push(path.join(root, rel.slice(base.replace(/^\//, '').length).replace(/^\/+/, '')))
+  }
+  out.push(path.join(root, rel))
+  return out.filter(Boolean)
+}
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`)
   const pathname = decodeURIComponent(url.pathname)
 
-  if (pathname.startsWith('/api/')) {
+  if (pathname.startsWith('/api/') || /\/api\//.test(pathname)) {
     res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
     if (/\/system\/configuration$/.test(pathname)) return res.end(JSON.stringify(CONFIG))
+    // Array-shaped where the app calls .find/.map directly on the response. Returning {}
+    // for these is what the record means by "a stub backend produces its own errors": the
+    // agents app fails with `o?.find is not a function` and mounts 1 node behind its error
+    // boundary. Both builds are served by this same stub, so the shaping is applied equally
+    // and cannot favour either one.
+    if (/\/v2\/agents$/.test(pathname)) return res.end('[]')
+    if (/\/v2\/packages$/.test(pathname)) return res.end(JSON.stringify({ packages: [] }))
+    if (/\/v2\/packages\/[^/]+$/.test(pathname)) {
+      return res.end(
+        JSON.stringify({ packageId: 'workspace', kind: 'workspace', name: 'workspace', parents: [], versions: [] }),
+      )
+    }
+    if (/\/v1\/user$/.test(pathname)) return res.end(JSON.stringify({ id: 'u', name: 'Unnamed User', email: '' }))
     return res.end('{}')
   }
 
   const rel = pathname.replace(/^\/+/, '')
-  const file = path.join(root, rel)
+  let target = null
+  for (const c of candidates(rel)) {
+    if (c && fs.existsSync(c) && fs.statSync(c).isFile()) {
+      target = c
+      break
+    }
+  }
   // SPA fallback: any path that is not a real file serves index.html, which is what the
   // static server the screenshot suites use (`ws --spa index.html`) does.
-  const target = rel && fs.existsSync(file) && fs.statSync(file).isFile() ? file : path.join(root, 'index.html')
+  if (!target) target = path.join(root, 'index.html')
+
   fs.readFile(target, (err, buf) => {
     if (err) {
       res.writeHead(404)
@@ -86,4 +127,6 @@ const server = http.createServer((req, res) => {
   })
 })
 
-server.listen(port, '127.0.0.1', () => console.log(`serving ${root} on http://localhost:${port}`))
+server.listen(port, '127.0.0.1', () =>
+  console.log(`serving ${root}${base ? ` at base ${base}` : ''} on http://localhost:${port}`),
+)
