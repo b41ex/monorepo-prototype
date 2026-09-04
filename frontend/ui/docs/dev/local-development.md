@@ -57,16 +57,20 @@ Starts the Agent package mock backend and frontend (Lerna scope `@b41ex/qubershi
 
 ## Building locally
 
-Add a GitHub PAT with `read:packages` to `.npmrc` (private `@b41ex` packages):
+No `.npmrc` and no GitHub PAT are needed any more. The image is built from output you have
+already built, not from packages fetched at image-build time, so nothing contacts a registry.
 
-```ini
-@b41ex:registry=https://npm.pkg.github.com/
-//npm.pkg.github.com/:_authToken=ghp_XYZ
-always-auth=true
-```
+Install once at the workspace root, build the two apps, then build the image from this
+directory:
 
 ```bash
-npm install
-npm run build
-podman build -f Dockerfile.local .
+pnpm install
+pnpm exec nx run-many -t build --projects=ui-portal,ui-agents
+cd frontend/ui && podman build -f Dockerfile.local .
 ```
+
+Unchanged upstream projects are cache restores rather than rebuilds, so the second and later
+builds are fast.
+
+`Dockerfile.local` takes this directory as its context; `Dockerfile` takes the workspace root
+and is what CI builds. They differ only in where the inputs come from.
