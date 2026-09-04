@@ -59,8 +59,23 @@ say('## What this run builds, and what it reuses')
 say()
 
 if (!affected.size) {
-  say('**Nothing affected** — no project changed, so `js` scheduled no tasks at all. The two')
-  say('matrix jobs are skipped and this is the cheapest run the pipeline can produce.')
+  say('**Nothing affected** — no project changed, so `js` scheduled no tasks at all and there')
+  say('is no build graph to draw.')
+  say()
+  if (images.length) {
+    // An image job CAN run while nothing is affected: the forcing rule selects it on files
+    // that belong to no Nx project, which is the whole reason that rule exists. The previous
+    // wording here asserted flatly that "the two matrix jobs are skipped", and run
+    // 33894555872 printed exactly that while both image jobs were running and retagging —
+    // contradicted three lines later by this script's own table. A summary that states a
+    // skip which did not happen is the same defect as a step that reports a success it did
+    // not achieve, and it is worse here than saying nothing, because this file exists to be
+    // the thing you can believe about job selection.
+    say('The screenshot jobs are skipped. The image jobs are **not** — they were selected on')
+    say('inputs that belong to no project, and the table below says which.')
+  } else {
+    say('Every matrix job is skipped, and this is the cheapest run the pipeline can produce.')
+  }
   say()
 } else {
   // The build closure: what changed, plus everything dragged in by dependsOn ["^build"].
