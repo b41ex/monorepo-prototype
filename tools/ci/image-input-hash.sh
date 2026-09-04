@@ -37,8 +37,14 @@ graph="${2:?missing graph.json — produce it with: nx graph --file=graph.json}"
 shift 2
 
 # Union of the transitive dependency closures of every project the image is built from.
+#
+# path.resolve before require: Node treats a BARE relative name as a module specifier, not a
+# path, so `require("graph.json")` throws MODULE_NOT_FOUND while `require("./graph.json")`
+# and an absolute path both work. The local test of this script passed an absolute path and
+# the workflow passes a bare `graph.json`, so the difference was invisible until CI ran it.
 closure="$(node -e '
-  const g = require(process.argv[1]).graph
+  const path = require("path")
+  const g = require(path.resolve(process.argv[1])).graph
   const seen = new Set()
   const visit = (n) => {
     if (seen.has(n)) return

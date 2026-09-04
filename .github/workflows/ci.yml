@@ -118,7 +118,7 @@ jobs:
         if: always()
         run: |
           echo "### Nx cache" >> "$GITHUB_STEP_SUMMARY"
-          du -sh .nx/cache 2>/dev/null >> "$GITHUB_STEP_SUMMARY" || true
+          du -sh .nx/cache ~/.nx 2>/dev/null >> "$GITHUB_STEP_SUMMARY" || true
 
       # No dist artifact is uploaded for the screenshot job, deliberately. Its
       # `screenshot-test` target declares dependsOn ["build", "^build"], so Nx schedules the
@@ -158,13 +158,24 @@ jobs:
 
       # The suite writes PNG diffs on failure. Without them a red run says only that pixels
       # moved, and the record is explicit that a small diff is not automatically cosmetic.
+      # Scoped to THIS matrix project's directory, not the whole repository.
+      #
+      # The first version searched from the repo root, and the apispec-view job duly uploaded
+      # two PNGs belonging to class-view: `01dfd81` committed two `__diff_output__` files on
+      # this branch, `__diff_output__` is not gitignored in class-view, and nothing in the
+      # apispec-view job runs class-view's suite to clean them. So a failing job reported
+      # another component's stale failure evidence, which is worse than reporting none —
+      # it looks like a finding.
       - name: collect diffs
         if: failure()
         run: |
+          set -euo pipefail
+          root="$(pnpm exec nx show project '${{ matrix.project }}' --json | node -p 'JSON.parse(require("fs").readFileSync(0,"utf8")).root')"
+          echo "collecting under: $root"
           mkdir -p artifact-staging
-          find . -path '*/__diff_output__/*' -type f -not -path '*/node_modules/*' \
+          find "$root" -path '*/__diff_output__/*' -type f -not -path '*/node_modules/*' \
             -exec cp {} artifact-staging/ \; 2>/dev/null || true
-          echo "collected $(find artifact-staging -type f | wc -l) diff file(s)"
+          echo "collected $(find artifact-staging -type f | wc -l) diff file(s) for ${{ matrix.project }}"
 
       - name: upload diffs
         if: failure()

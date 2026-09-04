@@ -1,5 +1,29 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "//cacheDirectory": [
+    "What is established, by measurement:",
+    "  - Nx 23 does NOT use `.nx/cache` by default. That directory did not exist in this",
+    "    workspace at all; `.nx/workspace-data` holds only the project graph.",
+    "  - The default task cache is OUTSIDE the workspace, in the user's home, under a hash of",
+    "    the workspace path: ~/.nx/<workspace-id>/cache — measured here as",
+    "    C:\\Users\\balex\\.nx\\eb576a4b2fdda7fc\\cache.",
+    "  - So the CI workflow, which cached `.nx/cache` (the path older Nx used and every",
+    "    caching guide still names), saved nothing and restored nothing. Run 2 duly reported",
+    "    `Cache: 0/29 hit (0%)` and rebuilt everything, while the same cache measured 100%",
+    "    locally — because a workstation's home directory persists between runs and a CI",
+    "    runner's does not.",
+    "",
+    "Setting cacheDirectory below DOES create and populate .nx/cache. It does NOT appear to be",
+    "the whole story: after deleting .nx/cache, a build still reported 17/17 hits in 565ms and",
+    "the global ~/.nx directory had a fresh mtime, so Nx is still reading from there too. The",
+    "module carries a `sharedDataDirectory` path that can resolve to a user-level location and",
+    "override this setting; that resolution has not been fully traced.",
+    "",
+    "Rather than depend on an Nx internal that is already known to have moved once, the",
+    "workflow caches BOTH paths. This setting stays because it makes the workspace-local half",
+    "explicit and cheap to cache."
+  ],
+  "cacheDirectory": ".nx/cache",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
