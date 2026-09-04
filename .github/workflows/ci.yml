@@ -289,9 +289,21 @@ jobs:
       # so `--filter=build-task-consumer` printed "No projects matched the filters" and exited
       # 0 — the same silent no-op as above, in the adjacent step. A path filter also survives
       # the scope rename, which a hardcoded @b41ex/… name would not.
+      #
+      # `--legacy` is required on pnpm 10. §6 says the in-image `npm ci` "can be replaced by
+      # `pnpm deploy --filter build-task-consumer --prod`", which was true when it was
+      # written and is not now:
+      #
+      #     ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE  By default, starting from pnpm v10, we only
+      #     deploy from workspaces that have "inject-workspace-packages=true" set
+      #
+      # The alternative is that setting in .npmrc, which changes resolution workspace-wide —
+      # injected dependencies are COPIED into consumers rather than symlinked. That is a real
+      # change to how every internal dependency resolves and is far too broad to make for one
+      # image's packaging step. `--legacy` keeps the change where it belongs.
       - name: Produce the deploy tree
         if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
-        run: pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
+        run: pnpm deploy --legacy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
 
       # Assert the COPY sources exist before handing the context to buildx.
       #

@@ -90,11 +90,21 @@ runs:
         path: |
           .nx
           ~/.nx
-        key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
+        # The key is scoped by JOB, and that is the fourth way this cache failed.
+        #
+        # Without `github.job` in it, `plan` and `js` share a key. `plan` runs first, builds
+        # nothing, and saves a 1 MB cache holding just the project graph. `js` then gets an
+        # EXACT PRIMARY-KEY HIT on that cache and never falls back through restore-keys to a
+        # populated one — so it rebuilt everything, every run, and reported
+        # `Cache: 0/15 hit (0%)` while the restore step said "Cache restored from key".
+        #
+        # The sizes are the whole diagnosis: 42 MB when `js` saved first, 1 MB once `plan`
+        # started winning the race. A job that builds nothing must not be able to claim the
+        # key belonging to the job that builds everything.
+        key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.job }}-${{ github.run_id }}
         restore-keys: |
-          nx-${{ runner.os }}-${{ github.ref_name }}-
-          nx-${{ runner.os }}-develop-
-          nx-${{ runner.os }}-
+          nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.job }}-
+          nx-${{ runner.os }}-develop-${{ github.job }}-
 
     - name: Install
       shell: bash
