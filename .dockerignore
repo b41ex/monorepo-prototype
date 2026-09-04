@@ -40,7 +40,24 @@ tests
 
 # Re-include what the two Dockerfiles actually read. Order matters: a later ! overrides an
 # earlier exclusion, and .deploy is gitignored but must reach the daemon.
+#
+# The `/**` suffixes are load-bearing and their absence cost a run. `!.deploy` alone
+# re-includes the DIRECTORY ENTRY and nothing beneath it, so `**/node_modules` above still
+# excluded .deploy/build-task-consumer/node_modules and the build failed with
+# "/.deploy/build-task-consumer/node_modules": not found.
+#
+# The Verify step had already printed, three lines earlier:
+#
+#     OK      .deploy/build-task-consumer/node_modules  (16258 files)
+#
+# which is exactly what that guard is for. On disk and in the build context are two different
+# questions, and without the guard "not found" is ambiguous between "never built" and
+# "excluded from the context" — two very different bugs that read identically.
 !frontend/*/dist
+!frontend/*/dist/**
 !frontend/*/packages/*/dist
+!frontend/*/packages/*/dist/**
 !frontend/ui/nginx
+!frontend/ui/nginx/**
 !.deploy
+!.deploy/**

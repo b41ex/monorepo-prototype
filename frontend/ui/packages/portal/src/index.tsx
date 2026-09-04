@@ -24,5 +24,3 @@ document.body.appendChild(container)
 createRoot(container).render(<App/>)
 
 
-// cache-probe B: forces ui-portal to rebuild so the job-scoped js cache is populated
-// with artifacts and metadata together. Removed in the commit that measures the result.
