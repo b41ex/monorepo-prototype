@@ -92,5 +92,8 @@
     "typescript": "6.0.3",
     "vite": "^8.2.2",
     "vite-plugin-dts": "^4.5.4"
+  },
+  "nx": {
+    "name": "api-doc-viewer"
   }
 }

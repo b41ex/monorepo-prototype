@@ -58,5 +58,8 @@
   },
   "eslintConfig": {
     "extends": ".eslintrc.json"
+  },
+  "nx": {
+    "name": "api-diff"
   }
 }

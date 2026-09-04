@@ -67,5 +67,8 @@
       "<rootDir>/dist/"
     ],
     "collectCoverage": true
+  },
+  "nx": {
+    "name": "json-crawl"
   }
 }

@@ -1,0 +1,83 @@
+name: Set up the pnpm workspace
+description: >
+  Node, pnpm, and the two caches that decide what an incremental push costs — the pnpm
+  content-addressed store and the Nx computation cache. Factored out because four jobs need
+  exactly this and a divergence between them would show up as a mysterious cache miss.
+
+runs:
+  using: composite
+  steps:
+    - name: Read the package manager from the manifest
+      id: pm
+      shell: bash
+      run: |
+        set -euo pipefail
+        # packageManager is the single source of truth; hard-coding a version here is how
+        # the workflow and the workspace drift apart.
+        version="$(node -p "require('./package.json').packageManager.split('@')[1]")"
+        echo "pnpm=$version" >> "$GITHUB_OUTPUT"
+        echo "pnpm $version"
+
+    - uses: pnpm/action-setup@v4
+      with:
+        version: ${{ steps.pm.outputs.pnpm }}
+        run_install: false
+
+    - uses: actions/setup-node@v6
+      with:
+        node-version: '24'
+
+    - name: Locate the pnpm store
+      id: store
+      shell: bash
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+    # ------------------------------------------------------------------------------------
+    # The pnpm store. Measured on the prototype: a cold install is 14m 08s, the same install
+    # against a warm store is 4m 16s — and the warm one was run with --offline, so it is a
+    # guarantee rather than an observation. Roughly ten minutes a run.
+    #
+    # Cache the STORE, never node_modules: pnpm's node_modules is a farm of symlinks and
+    # junctions that actions/cache does not round-trip usefully, and on Windows they are
+    # absolute. Restoring the store and re-linking is both correct and fast.
+    #
+    # restore-keys matters more than key here. An exact hit needs an unchanged lockfile; the
+    # common case on a feature branch is one dependency moving, and the prefix match then
+    # restores a store already holding almost every package.
+    # ------------------------------------------------------------------------------------
+    - name: Cache the pnpm store
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.store.outputs.path }}
+        key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          pnpm-store-${{ runner.os }}-
+
+    # ------------------------------------------------------------------------------------
+    # The Nx computation cache — the thing that makes an unchanged upstream a restore in
+    # milliseconds instead of a vite run. Without it every run genuinely rebuilds everything,
+    # and §6 names that as the first of three ways to lose incremental CI by accident.
+    #
+    # The key rolls per run so each run saves a fresh entry; restore-keys walk back to the
+    # most recent one on this branch, then to the default branch. GitHub cache reads fall
+    # back to the default branch, which is why `develop` being the default matters.
+    # ------------------------------------------------------------------------------------
+    - name: Cache the Nx computation cache
+      uses: actions/cache@v4
+      with:
+        path: .nx/cache
+        key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
+        restore-keys: |
+          nx-${{ runner.os }}-${{ github.ref_name }}-
+          nx-${{ runner.os }}-develop-
+          nx-${{ runner.os }}-
+
+    - name: Install
+      shell: bash
+      run: pnpm install --frozen-lockfile
+      env:
+        # Neither is needed in CI and both are slow or hostile there. PUPPETEER_SKIP_DOWNLOAD
+        # is carried over from the workflows this replaces; the screenshot job supplies its
+        # own Chrome through a container.
+        PUPPETEER_SKIP_DOWNLOAD: '1'
+        HUSKY: '0'

@@ -91,5 +91,8 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "nx": {
+    "name": "build-task-consumer"
   }
 }

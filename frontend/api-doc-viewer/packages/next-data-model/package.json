@@ -21,5 +21,8 @@
     "@b41ex/qubership-apihub-api-unifier": "workspace:^",
     "@b41ex/qubership-apihub-ddlapi": "workspace:^",
     "@b41ex/qubership-apihub-json-crawl": "workspace:^"
+  },
+  "nx": {
+    "name": "api-doc-viewer-next-data-model"
   }
 }

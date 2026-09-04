@@ -81,5 +81,8 @@
   "overrides": {
     "jest-environment-node": "30.4.1",
     "jest-mock": "30.4.1"
+  },
+  "nx": {
+    "name": "class-view"
   }
 }

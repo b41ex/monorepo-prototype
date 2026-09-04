@@ -22,5 +22,8 @@
     "@b41ex/qubership-apihub-graphapi": "workspace:^",
     "@b41ex/qubership-apihub-json-crawl": "workspace:^",
     "graphql": "16.12.0"
+  },
+  "nx": {
+    "name": "api-doc-viewer-api-data-model"
   }
 }

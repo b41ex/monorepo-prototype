@@ -71,5 +71,8 @@
     "vite-plugin-singlefile": "^2.3.3",
     "vite-plugin-target": "0.1.1",
     "yaml": "2.9.0"
+  },
+  "nx": {
+    "name": "api-unifier"
   }
 }

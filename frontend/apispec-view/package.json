@@ -156,5 +156,8 @@
       "@types/react": "$@types/react",
       "@types/react-dom": "$@types/react-dom"
     }
+  },
+  "nx": {
+    "name": "apispec-view-root"
   }
 }

@@ -146,5 +146,8 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "nx": {
+    "name": "ui-root"
   }
 }

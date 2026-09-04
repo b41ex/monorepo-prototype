@@ -180,5 +180,8 @@
   },
   "release": {
     "extends": "@stoplight/scripts/release"
+  },
+  "nx": {
+    "name": "http-spec"
   }
 }

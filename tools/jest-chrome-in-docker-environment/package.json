@@ -27,5 +27,8 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "nx": {
+    "name": "jest-chrome-in-docker-environment"
   }
 }

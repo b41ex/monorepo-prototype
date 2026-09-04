@@ -1,0 +1,238 @@
+'on':
+  push:
+    branches: [develop, release, hotfix, 'feature/**', 'bugfix/**']
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths-ignore: ['docs/**', '**/*.md']
+
+name: CI
+
+# One run per ref. A superseded push has nothing worth finishing, and cancelling frees the
+# cache lock for the run that replaces it.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # CI=true makes pnpm default to --frozen-lockfile, which is what we want here and is worth
+  # being explicit about rather than inheriting.
+  HUSKY: '0'
+
+jobs:
+  # ---------------------------------------------------------------------------------------
+  # plan — compute the affected set once, and hand it to the matrix jobs as JSON.
+  #
+  # Without this every downstream job would recompute `nx affected`, which needs a full
+  # install to do. One job pays that cost; the rest read two JSON arrays.
+  # ---------------------------------------------------------------------------------------
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      screenshot_projects: ${{ steps.affected.outputs.screenshot_projects }}
+      image_projects: ${{ steps.affected.outputs.image_projects }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # nx affected diffs against a base commit, so it needs history, not a shallow clone.
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-workspace
+
+      # Resolves the base and head SHAs nx should diff between: the merge-base for a PR, and
+      # the last successful run of this workflow for a push. Without it, a push to a feature
+      # branch has no defensible base and `affected` silently means "everything".
+      - uses: nrwl/nx-set-shas@v4
+        with:
+          main-branch-name: develop
+
+      - id: affected
+        shell: bash
+        run: |
+          set -euo pipefail
+          affected="$(pnpm exec nx show projects --affected --json)"
+          echo "affected: $affected"
+
+          # Intersect the affected set with the projects that actually have the target. A
+          # matrix over an empty array is skipped, which is exactly what should happen.
+          pick() {
+            node -e '
+              const affected = new Set(JSON.parse(process.argv[1]))
+              const candidates = process.argv.slice(2)
+              console.log(JSON.stringify(candidates.filter((c) => affected.has(c))))
+            ' "$affected" "${@}"
+          }
+
+          shots="$(pick api-doc-viewer apispec-view class-view)"
+          images="$(pick ui-portal ui-agents build-task-consumer)"
+
+          echo "screenshot_projects=$shots" >> "$GITHUB_OUTPUT"
+          echo "image_projects=$images"     >> "$GITHUB_OUTPUT"
+          {
+            echo "### Affected"
+            echo '```json'
+            echo "$affected"
+            echo '```'
+            echo "screenshot suites: \`$shots\`"
+            echo "images: \`$images\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------------------
+  # js — lint, build and unit test, in ONE job.
+  #
+  # §6 decided this deliberately: `nx run-many` on a single runner parallelises across cores
+  # in topological order with a warm cache and no artifact upload/download between projects.
+  # Nineteen jobs passing dist/ around would be slower and far more complex. The cost is
+  # coarser granularity in the Actions UI; nx prefixes output per project, so it is a
+  # navigation cost rather than a loss of information.
+  #
+  # This job gates everything downstream via `needs`.
+  # ---------------------------------------------------------------------------------------
+  js:
+    needs: [plan]
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-workspace
+
+      - uses: nrwl/nx-set-shas@v4
+        with:
+          main-branch-name: develop
+
+      # `build,test` together, never build alone. §12: "Test-only dependencies are otherwise
+      # never exercised, and you will declare half the graph believing you are finished."
+      #
+      # vscode is excluded for phase 1: its test target downloads a 341 MB VS Code runner and
+      # its packaging step is a known failure (vsce shells out to `npm list`, which cannot
+      # read pnpm's layout). Recorded as a gap in CI-DESIGN.md rather than worked around.
+      - name: lint, build and test what is affected
+        run: pnpm exec nx affected -t lint:check build test --exclude=vscode --verbose
+
+      - name: cache summary
+        if: always()
+        run: |
+          echo "### Nx cache" >> "$GITHUB_STEP_SUMMARY"
+          du -sh .nx/cache 2>/dev/null >> "$GITHUB_STEP_SUMMARY" || true
+
+      # No dist artifact is uploaded for the screenshot job, deliberately. Its
+      # `screenshot-test` target declares dependsOn ["build", "^build"], so Nx schedules the
+      # builds itself — and restores them from the computation cache this job just populated,
+      # since the screenshot job restores the same cache key prefix. Uploading and
+      # downloading `frontend/*/dist` would move hundreds of megabytes to duplicate what the
+      # cache already does, and it is exactly the artifact shuffling the single-JS-job
+      # decision exists to avoid.
+      #
+      # If the cache misses, the screenshot job rebuilds. That is slower and still correct.
+
+  # ---------------------------------------------------------------------------------------
+  # screenshot-tests — the only real coverage three components have.
+  #
+  # api-doc-viewer 947 tests, apispec-view 883, class-view 58. Each builds its Storybook
+  # showcase, serves it over HTTP, and drives Chrome in a container through jest.
+  #
+  # G24 lives here: the library build and the showcase build need OPPOSITE externals
+  # policies and both exit 0. Do not unify their configs.
+  # ---------------------------------------------------------------------------------------
+  screenshot-tests:
+    needs: [plan, js]
+    if: needs.plan.outputs.screenshot_projects != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(needs.plan.outputs.screenshot_projects) }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+
+      - name: build showcase and run the suite
+        run: pnpm exec nx run ${{ matrix.project }}:screenshot-test
+
+      # The suite writes PNG diffs on failure. Without them a red run says only that pixels
+      # moved, and the record is explicit that a small diff is not automatically cosmetic.
+      - name: collect diffs
+        if: failure()
+        run: |
+          mkdir -p artifact-staging
+          find . -path '*/__diff_output__/*' -type f -not -path '*/node_modules/*' \
+            -exec cp {} artifact-staging/ \; 2>/dev/null || true
+          echo "collected $(find artifact-staging -type f | wc -l) diff file(s)"
+
+      - name: upload diffs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: screenshot-diffs-${{ matrix.project }}
+          path: artifact-staging
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # ---------------------------------------------------------------------------------------
+  # images — build only when the content hash is new, otherwise retag.
+  #
+  # See tools/ci/image-input-hash.sh for the identity, and §6 for why always-build SEMANTICS
+  # are worth keeping while always-build COST is not.
+  # ---------------------------------------------------------------------------------------
+  images:
+    needs: [plan, js]
+    if: needs.plan.outputs.image_projects != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: ui-portal
+            image: apihub-ui
+            dockerfile: frontend/ui/Dockerfile
+          - project: build-task-consumer
+            image: apihub-build-task-consumer
+            dockerfile: frontend/build-task-consumer/Dockerfile
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup-workspace
+      - run: echo "TODO — phase 1 step 3; see CI-DESIGN.md"
+
+  # ---------------------------------------------------------------------------------------
+  # ci-ok — the only required check.
+  #
+  # With affected-based skipping, a required status check that never runs blocks the PR
+  # forever. This one always runs and fails if any needed job failed or was cancelled;
+  # `skipped` is a pass, which is the whole point.
+  # ---------------------------------------------------------------------------------------
+  ci-ok:
+    needs: [plan, js, screenshot-tests, images]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: verdict
+        shell: bash
+        run: |
+          set -euo pipefail
+          results='${{ toJSON(needs) }}'
+          echo "$results"
+          bad="$(node -e '
+            const needs = JSON.parse(process.argv[1])
+            const bad = Object.entries(needs)
+              .filter(([, v]) => v.result === "failure" || v.result === "cancelled")
+              .map(([k, v]) => `${k}=${v.result}`)
+            console.log(bad.join(" "))
+          ' "$results")"
+          if [ -n "$bad" ]; then
+            echo "FAILED: $bad"
+            exit 1
+          fi
+          echo "all needed jobs succeeded or were skipped"

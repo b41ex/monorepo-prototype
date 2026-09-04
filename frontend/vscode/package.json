@@ -109,5 +109,9 @@
     "openapi-types": "^12.1.3",
     "uuid": "^11.0.5",
     "yaml": "^2.7.0"
+  },
+  "private": true,
+  "nx": {
+    "name": "vscode"
   }
 }

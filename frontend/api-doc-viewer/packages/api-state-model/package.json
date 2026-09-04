@@ -7,5 +7,8 @@
   "dependencies": {
     "@b41ex/qubership-apihub-api-data-model": "workspace:*",
     "@b41ex/qubership-apihub-graphapi": "workspace:^"
+  },
+  "nx": {
+    "name": "api-doc-viewer-api-state-model"
   }
 }

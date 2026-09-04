@@ -34,5 +34,8 @@
   },
   "eslintConfig": {
     "extends": ".eslintrc.json"
+  },
+  "nx": {
+    "name": "ui-tests"
   }
 }
