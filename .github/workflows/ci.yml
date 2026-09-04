@@ -68,6 +68,25 @@ jobs:
           shots="$(pick api-doc-viewer apispec-view class-view)"
           images="$(pick ui-portal ui-agents build-task-consumer)"
 
+          # An image depends on more than its Nx projects, and `nx affected` cannot know it.
+          #
+          # `.dockerignore` decides what reaches the build context; tools/ci/ computes the
+          # content tag; the workflow itself defines how the image is built. None of those
+          # belongs to any Nx project, so a change to one marks NOTHING affected, the image
+          # jobs skip, and the change ships unvalidated — biting on some later, unrelated
+          # component push instead.
+          #
+          # That is not hypothetical: the commit that made .dockerignore opt-in was verified
+          # locally with podman and then skipped by CI for exactly this reason. Selecting a
+          # job on the wrong inputs is the same defect class as caching on the wrong inputs.
+          image_inputs="$(git diff --name-only "$NX_BASE" "$NX_HEAD" -- \
+            .dockerignore tools/ci .github/workflows/ci.yml .github/actions || true)"
+          if [ -n "$image_inputs" ]; then
+            echo "image inputs changed outside any project, forcing both images:"
+            echo "$image_inputs" | sed 's/^/  /'
+            images='["ui-portal","build-task-consumer"]'
+          fi
+
           echo "screenshot_projects=$shots" >> "$GITHUB_OUTPUT"
           echo "image_projects=$images"     >> "$GITHUB_OUTPUT"
           {
