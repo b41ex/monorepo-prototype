@@ -4,7 +4,7 @@
 #
 #     pnpm install                                   # once, at the workspace root
 #     pnpm exec nx build build-task-consumer
-#     pnpm deploy --legacy --filter=./frontend/build-task-consumer --prod \
+#     pnpm deploy --filter=./frontend/build-task-consumer --prod \
 #                 frontend/build-task-consumer/.deploy
 #     cd frontend/build-task-consumer && podman build -f Dockerfile.local .
 #

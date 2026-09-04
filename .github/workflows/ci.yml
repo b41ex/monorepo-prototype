@@ -309,20 +309,20 @@ jobs:
       # 0 — the same silent no-op as above, in the adjacent step. A path filter also survives
       # the scope rename, which a hardcoded @b41ex/… name would not.
       #
-      # `--legacy` is required on pnpm 10. §6 says the in-image `npm ci` "can be replaced by
-      # `pnpm deploy --filter build-task-consumer --prod`", which was true when it was
-      # written and is not now:
+      # No `--legacy` flag here, deliberately: `force-legacy-deploy=true` in the workspace
+      # .npmrc states that fact once. §6 says the in-image `npm ci` "can be replaced by
+      # `pnpm deploy --filter build-task-consumer --prod`", which was true when written and is
+      # not now — pnpm 10 refuses by default with ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE. The
+      # .npmrc carries the full reasoning, including why inject-workspace-packages=true was
+      # rejected rather than chosen.
       #
-      #     ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE  By default, starting from pnpm v10, we only
-      #     deploy from workspaces that have "inject-workspace-packages=true" set
-      #
-      # The alternative is that setting in .npmrc, which changes resolution workspace-wide —
-      # injected dependencies are COPIED into consumers rather than symlinked. That is a real
-      # change to how every internal dependency resolves and is far too broad to make for one
-      # image's packaging step. `--legacy` keeps the change where it belongs.
+      # This runs on the host rather than inside the Dockerfile for three reasons, spelled out
+      # in CI-DESIGN.md: in-image it restores the QEMU-emulated install that made this the
+      # 15.7-minute outlier, it needs the whole workspace as build context, and it needs
+      # registry credentials inside the build.
       - name: Produce the deploy tree
         if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
-        run: pnpm deploy --legacy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
+        run: pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
 
       # Assert the COPY sources exist before handing the context to buildx.
       #

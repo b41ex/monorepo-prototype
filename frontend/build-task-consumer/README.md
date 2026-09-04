@@ -22,7 +22,7 @@ image-build time; the image is assembled from output you have already built.
 ```bash
 pnpm install                                    # once, at the workspace root
 pnpm exec nx build build-task-consumer
-pnpm deploy --legacy --filter=./frontend/build-task-consumer --prod \
+pnpm deploy --filter=./frontend/build-task-consumer --prod \
             frontend/build-task-consumer/.deploy
 cd frontend/build-task-consumer && podman build -f Dockerfile.local .
 ```
@@ -47,7 +47,7 @@ secret, because it pulls nothing from a registry:
 
 ```bash
 pnpm exec nx build build-task-consumer
-pnpm deploy --legacy --filter=./frontend/build-task-consumer --prod .deploy/build-task-consumer
+pnpm deploy --filter=./frontend/build-task-consumer --prod .deploy/build-task-consumer
 podman build -f frontend/build-task-consumer/Dockerfile .     # from the workspace root
 ```
 
