@@ -1,0 +1,46 @@
+# The build context is the WORKSPACE ROOT now, not a single component directory.
+#
+# That is the whole point of the migration's image change — the Dockerfiles COPY prebuilt
+# output instead of pulling published tarballs from a registry — but it has a consequence
+# nobody has to think about in a single-component repository: without this file, `docker
+# build -f frontend/ui/Dockerfile .` sends the ENTIRE workspace to the daemon. Measured here:
+# 1.9 GB in the root node_modules alone, plus a per-package node_modules for all 33 members,
+# every dist tree, .nx, and a 125 MB .git.
+#
+# Everything an image needs is either a build output (frontend/*/dist, and the pnpm deploy
+# tree under .deploy/) or a small static asset (nginx config), so the exclusions can be broad
+# and the inclusions specific.
+
+# Dependencies — the images either COPY a `pnpm deploy --prod` tree or need nothing at all.
+**/node_modules
+
+# Version control and CI machinery
+.git
+.github
+.nx
+
+# Everything not needed to assemble an image
+migration
+tools/migration
+tests
+**/*.md
+**/.storybook
+**/dist-showcase
+**/__image_snapshots__
+**/__diff_output__
+**/coverage
+**/*.tsbuildinfo
+**/*.log
+
+# Source. The images copy build OUTPUT; shipping sources would bloat the context and, for
+# any image that later runs an install, risk building from them by accident.
+**/src
+**/test
+**/tests
+
+# Re-include what the two Dockerfiles actually read. Order matters: a later ! overrides an
+# earlier exclusion, and .deploy is gitignored but must reach the daemon.
+!frontend/*/dist
+!frontend/*/packages/*/dist
+!frontend/ui/nginx
+!.deploy
