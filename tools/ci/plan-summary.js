@@ -80,40 +80,50 @@ if (!affected.size) {
   say('and it is the one thing the job graph above cannot show.')
   say()
 
-  // DIRECT dependencies only. Drawing the transitive closure produced 20 nodes and 80 edges
-  // for a one-project change — a hairball that says less than the sentence above it. The
-  // readable question is "what does the thing I changed consume", and the transitive rest is
-  // a count, not a picture. Edge count is what destroys legibility here, not node count,
-  // which is what an earlier node-only cap got wrong.
+  // NODES: the changed projects plus their DIRECT dependencies. Drawing the transitive
+  // closure produced 20 nodes and 80 edges for a one-project change — a hairball that says
+  // less than the sentence above it. The readable question is "what does the thing I changed
+  // consume", and the transitive rest is a count, not a picture.
+  //
+  // EDGES: every dependency edge whose consumer is a changed project and whose dependency is
+  // drawn — which INCLUDES changed-to-changed edges. Filtering edges on `direct` alone is
+  // indistinguishable from this while ONE project changes, because a single changed project
+  // has no changed dependencies, and it is decisive once many do. Measured on the affected
+  // set of run 33889988315: 30 of 33 projects affected, so `direct` held exactly one node and
+  // **99 of the graph's 100 edges ran between changed projects**. A `direct`-only edge filter
+  // draws that run as 31 boxes and one arrow.
+  //
+  // There is NO node cap. There was one, at 18, and it fired on precisely the runs where the
+  // picture is worth the most: a push to `.gitignore`, the lockfile or any root config makes
+  // everything affected, and what the cap printed instead was a comma-separated list of 30
+  // project names — the same data in its least legible form, with the structure removed. The
+  // whole workspace is 33 nodes and 100 edges, about 5 KB of Mermaid, which is nowhere near
+  // GitHub's limits on either the diagram or the summary.
   const direct = new Set()
   for (const p of changed) for (const d of graph.dependencies[p] || []) if (!affected.has(d.target)) direct.add(d.target)
   const transitiveOnly = upstream.size - direct.size
+  const drawn = new Set([...changed, ...direct])
 
-  const NODE_CAP = 18
-  if (changed.length + direct.size <= NODE_CAP) {
-    say('```mermaid')
-    say('flowchart BT')
-    for (const p of changed) say(`  ${id(p)}["${p}"]:::changed`)
-    for (const p of [...direct].sort()) say(`  ${id(p)}["${p}"]:::cached`)
-    for (const p of changed) {
-      for (const d of graph.dependencies[p] || []) {
-        if (direct.has(d.target)) say(`  ${id(d.target)} --> ${id(p)}`)
-      }
+  say('```mermaid')
+  say('flowchart BT')
+  for (const p of changed) say(`  ${id(p)}["${p}"]:::changed`)
+  for (const p of [...direct].sort()) say(`  ${id(p)}["${p}"]:::cached`)
+  for (const p of changed) {
+    for (const d of graph.dependencies[p] || []) {
+      if (drawn.has(d.target)) say(`  ${id(d.target)} --> ${id(p)}`)
     }
-    say('  classDef changed fill:#8a5a00,stroke:#000,color:#fff')
-    say('  classDef cached fill:#2d333b,stroke:#444c56,color:#adbac7')
-    say('```')
-    say()
-    say('Amber rebuilt; grey restored from cache. Arrows run dependency → consumer, which is')
-    say('the order the tasks execute in. Only **direct** dependencies are drawn — the other')
-    say(
-      `**${transitiveOnly}** in the closure are reached through these and are cache restores ` +
-        'for the same reason.',
-    )
+  }
+  say('  classDef changed fill:#8a5a00,stroke:#000,color:#fff')
+  say('  classDef cached fill:#2d333b,stroke:#444c56,color:#adbac7')
+  say('```')
+  say()
+  say('Amber rebuilt; grey restored from cache. Arrows run dependency → consumer, which is')
+  say('the order the tasks execute in. Nodes are the changed projects and their **direct**')
+  if (transitiveOnly) {
+    say(`dependencies — the other **${transitiveOnly}** in the closure are reached through`)
+    say('these and are cache restores for the same reason.')
   } else {
-    say(`_(${changed.length} changed projects with ${direct.size} direct dependencies — too many to draw.)_`)
-    say()
-    say(`Changed: ${changed.map((p) => `\`${p}\``).join(', ')}`)
+    say('dependencies; nothing else in the workspace is upstream of them.')
   }
   say()
 }
