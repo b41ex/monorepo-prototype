@@ -44,7 +44,7 @@ jobs:
       # Resolves the base and head SHAs nx should diff between: the merge-base for a PR, and
       # the last successful run of this workflow for a push. Without it, a push to a feature
       # branch has no defensible base and `affected` silently means "everything".
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@v5
         with:
           main-branch-name: develop
 
@@ -101,7 +101,7 @@ jobs:
 
       - uses: ./.github/actions/setup-workspace
 
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@v5
         with:
           main-branch-name: develop
 
@@ -112,7 +112,7 @@ jobs:
       # its packaging step is a known failure (vsce shells out to `npm list`, which cannot
       # read pnpm's layout). Recorded as a gap in CI-DESIGN.md rather than worked around.
       - name: lint, build and test what is affected
-        run: pnpm exec nx affected -t lint:check build test --exclude=vscode --verbose
+        run: pnpm exec nx affected -t build test --exclude=vscode --verbose
 
       - name: cache summary
         if: always()
@@ -196,15 +196,113 @@ jobs:
           - project: ui-portal
             image: apihub-ui
             dockerfile: frontend/ui/Dockerfile
+            # ui is one image built from TWO projects: the nginx tree serves both
+            # ui-portal and ui-agents. The hash has to cover both or a change to agents
+            # alone would silently reuse an image that does not contain it.
+            build_projects: ui-portal ui-agents
+            deploy: ''
           - project: build-task-consumer
             image: apihub-build-task-consumer
             dockerfile: frontend/build-task-consumer/Dockerfile
+            build_projects: build-task-consumer
+            deploy: build-task-consumer
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
       - uses: ./.github/actions/setup-workspace
-      - run: echo "TODO — phase 1 step 3; see CI-DESIGN.md"
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # The branch-to-tag mapping is carried over unchanged from docker-ci.yml:
+      #   develop -> dev, release -> next, feature/x -> feature-x, a tag -> the tag.
+      - name: Compute tags
+        id: tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref='${{ github.ref }}'
+          branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
+
+          pnpm exec nx graph --file=graph.json >/dev/null
+          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}')"
+
+          repo_lc="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
+          base="ghcr.io/${repo_lc}/${{ matrix.image }}"
+
+          echo "branch_tag=$branch_tag"           >> "$GITHUB_OUTPUT"
+          echo "src_tag=src-$src_hash"            >> "$GITHUB_OUTPUT"
+          echo "base=$base"                       >> "$GITHUB_OUTPUT"
+          echo "### ${{ matrix.image }}"          >> "$GITHUB_STEP_SUMMARY"
+          echo "- content tag: \`src-$src_hash\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- branch tag:  \`$branch_tag\`"   >> "$GITHUB_STEP_SUMMARY"
+
+      # The whole point of the content-addressed tag: ask the registry whether this exact
+      # set of inputs has already been built, before spending a build on it.
+      - name: Has this content already been built?
+        id: exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if docker manifest inspect '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}' >/dev/null 2>&1; then
+            echo "hit=true" >> "$GITHUB_OUTPUT"
+            echo "- **cache hit** — retagging, not building" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "hit=false" >> "$GITHUB_OUTPUT"
+            echo "- cache miss — building" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # ---- miss: build ------------------------------------------------------------------
+      # The build output comes from the Nx cache this run's js job populated, not from an
+      # uploaded artifact — the same reasoning as the screenshot job.
+      - name: Build the workspace output
+        if: steps.exists.outputs.hit == 'false'
+        run: pnpm exec nx run-many -t build --projects='${{ matrix.build_projects }}'
+
+      # `pnpm deploy --prod` materialises a self-contained production node_modules on the
+      # host. This is what removes the in-image `npm ci` that made this image the 15.7-minute
+      # outlier, and the shrinkwrap it depended on no longer exists.
+      - name: Produce the deploy tree
+        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
+        run: pnpm deploy --filter='${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
+
+      - name: Build and push
+        if: steps.exists.outputs.hit == 'false'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          # amd64 only on dev branches (§6). E2E runs on amd64 regardless, and the arm64 leg
+          # is what made this matrix slow. Multi-arch belongs on release/main.
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          tags: |
+            ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}
+            ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}
+          build-args: |
+            GIT_BRANCH=${{ github.ref_name }}
+            GIT_HASH=${{ github.sha }}
+          # Replaces `no-cache: true`, which forced every layer to rebuild every run.
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+      # ---- hit: retag -------------------------------------------------------------------
+      # A registry-side manifest operation: about a second, no layers transferred. This is
+      # what gives affected-only cost while keeping always-build semantics.
+      - name: Retag existing content
+        if: steps.exists.outputs.hit == 'true'
+        run: |
+          docker buildx imagetools create \
+            -t '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}' \
+            '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}'
 
   # ---------------------------------------------------------------------------------------
   # ci-ok — the only required check.

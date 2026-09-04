@@ -18,7 +18,7 @@ runs:
         echo "pnpm=$version" >> "$GITHUB_OUTPUT"
         echo "pnpm $version"
 
-    - uses: pnpm/action-setup@v4
+    - uses: pnpm/action-setup@v6
       with:
         version: ${{ steps.pm.outputs.pnpm }}
         run_install: false
@@ -46,7 +46,7 @@ runs:
     # restores a store already holding almost every package.
     # ------------------------------------------------------------------------------------
     - name: Cache the pnpm store
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ${{ steps.store.outputs.path }}
         key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -63,7 +63,7 @@ runs:
     # back to the default branch, which is why `develop` being the default matters.
     # ------------------------------------------------------------------------------------
     - name: Cache the Nx computation cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: .nx/cache
         key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
