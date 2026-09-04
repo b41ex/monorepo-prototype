@@ -89,14 +89,17 @@ jobs:
 
           echo "screenshot_projects=$shots" >> "$GITHUB_OUTPUT"
           echo "image_projects=$images"     >> "$GITHUB_OUTPUT"
-          {
-            echo "### Affected"
-            echo '```json'
-            echo "$affected"
-            echo '```'
-            echo "screenshot suites: \`$shots\`"
-            echo "images: \`$images\`"
-          } >> "$GITHUB_STEP_SUMMARY"
+
+          # The summary is a Mermaid diagram rather than three lines of text, because the
+          # value here is in the NEGATIVE space: a skipped screenshot job is 1,888 tests and
+          # about twenty minutes not spent, and a skipped job looks identical whether the
+          # skip was correct or a bug in the affected computation. Job selection has no
+          # equivalent of Nx's `Cache: N/N hit` line to read, so the reasoning has to be
+          # rendered deliberately.
+          pnpm exec nx graph --file=plan-graph.json >/dev/null
+          node tools/ci/plan-summary.js plan-graph.json \
+            "$affected" "$shots" "$images" "$image_inputs" >> "$GITHUB_STEP_SUMMARY"
+          rm -f plan-graph.json
 
   # ---------------------------------------------------------------------------------------
   # js — lint, build and unit test, in ONE job.
