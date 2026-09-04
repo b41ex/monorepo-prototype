@@ -23,5 +23,3 @@ const container = document.createElement('div')
 document.body.appendChild(container)
 createRoot(container).render(<App/>)
 
-// cache-probe A: makes this push affect ui-portal so the Nx cache is populated
-// with artifacts AND matching metadata in the same run. Removed in the next commit.

@@ -51,7 +51,12 @@ closure="$(node -e '
     seen.add(n)
     for (const d of g.dependencies[n] || []) visit(d.target)
   }
-  for (const p of process.argv[2].split(/\s+/).filter(Boolean)) {
+  // Split on commas OR whitespace. The workflow passes the same list to `nx run-many
+  // --projects`, which requires COMMAS, and this script originally required whitespace — so
+  // fixing the separator for one broke the other, and "Compute tags" started failing with
+  // `unknown project: ui-portal,ui-agents`. Accepting both makes the two callers
+  // independent, which is the actual defect: one string with two incompatible readers.
+  for (const p of process.argv[2].split(/[\s,]+/).filter(Boolean)) {
     if (!g.nodes[p]) {
       console.error(`unknown project: ${p}`)
       process.exit(1)
