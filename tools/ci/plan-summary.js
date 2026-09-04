@@ -128,17 +128,41 @@ if (!affected.size) {
       if (drawn.has(d.target)) say(`  ${id(d.target)} --> ${id(p)}`)
     }
   }
-  say('  classDef changed fill:#8a5a00,stroke:#000,color:#fff')
-  say('  classDef cached fill:#2d333b,stroke:#444c56,color:#adbac7')
+  // Colours borrow the Actions job graph's own semantics, so the two diagrams on one page
+  // do not disagree about what a colour means: ATTENTION amber for a task that will actually
+  // run, NEUTRAL grey for one that will not. Grey is the job graph's skipped, and a cache hit
+  // is a skipped task; green is deliberately unused, because at plan time nothing has
+  // succeeded and green would read as a passing job rather than an expensive one.
+  //
+  // The values are Primer's, read off a rendered Actions page rather than guessed, and each
+  // is ONE value that has to serve BOTH themes — a classDef is static, and the summary is
+  // rendered in whichever theme the reader uses:
+  //
+  //             light                dark                 chosen
+  //   amber     #9a6700 / #fff8c5    #d29922 / #bb800926   stroke #bf8700, fill #bb800933
+  //   grey      #59636e / #818b981f  #9198a1 / #656c7633   stroke #818b98, fill #818b9826
+  //
+  // The fills are alpha over the page background, which is how Primer itself builds its dark
+  // "muted" backgrounds, so one value composites correctly on #fff and on #0d1117. The
+  // strokes sit between each theme's pair. `color` is deliberately NOT set: the previous
+  // classDefs hardcoded #fff and #adbac7, which is a bet that every reader is in dark mode.
+  // Leaving it unset lets Mermaid's own theme supply the text colour, which is the only part
+  // that must track the background exactly.
+  say('  classDef changed fill:#bb800933,stroke:#bf8700,stroke-width:2px')
+  say('  classDef cached fill:#818b9826,stroke:#818b98,stroke-width:1px')
   say('```')
   say()
-  say('Amber rebuilt; grey restored from cache. Arrows run dependency → consumer, which is')
-  say('the order the tasks execute in. Nodes are the changed projects and their **direct**')
+  say('Amber is work this run will actually do; grey is a cache restore — the same amber and')
+  say('grey the Actions job graph uses for running and skipped. Arrows run dependency →')
+  say('consumer, which is the order the tasks execute in.')
+  say()
   if (transitiveOnly) {
-    say(`dependencies — the other **${transitiveOnly}** in the closure are reached through`)
-    say('these and are cache restores for the same reason.')
+    say('Nodes are the changed projects and their **direct** dependencies. The other')
+    say(`**${transitiveOnly}** in the closure are reached through these and are cache restores`)
+    say('for the same reason.')
   } else {
-    say('dependencies; nothing else in the workspace is upstream of them.')
+    say('Nodes are the changed projects and their **direct** dependencies; nothing else in the')
+    say('workspace is upstream of them.')
   }
   say()
 }
