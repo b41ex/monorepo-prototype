@@ -144,13 +144,24 @@ jobs:
 
       # No dist artifact is uploaded for the screenshot job, deliberately. Its
       # `screenshot-test` target declares dependsOn ["build", "^build"], so Nx schedules the
-      # builds itself — and restores them from the computation cache this job just populated,
-      # since the screenshot job restores the same cache key prefix. Uploading and
-      # downloading `frontend/*/dist` would move hundreds of megabytes to duplicate what the
-      # cache already does, and it is exactly the artifact shuffling the single-JS-job
-      # decision exists to avoid.
+      # builds itself. Uploading and downloading `frontend/*/dist` would move hundreds of
+      # megabytes, and it is exactly the artifact shuffling the single-JS-job decision exists
+      # to avoid.
       #
-      # If the cache misses, the screenshot job rebuilds. That is slower and still correct.
+      # An earlier version of this comment said the screenshot job "restores them from the
+      # computation cache this job just populated, since the screenshot job restores the same
+      # cache key prefix". That was true when written and stopped being true the moment the
+      # cache key was scoped by `github.job` to stop `plan` poisoning `js`'s key — after which
+      # no job can read another's cache by construction. The runner said so plainly and the
+      # comment was never revisited:
+      #
+      #   Cache not found for input keys: nx-Linux-develop-screenshot-tests-33889988315, …
+      #   Cache:  0/3 hit (0%)          class-view
+      #   Cache:  0/9 hit (0%)          api-doc-viewer
+      #   Cache:  0/11 hit (0%)         apispec-view
+      #
+      # The screenshot jobs have always built their own closures. That is why they no longer
+      # wait for this one.
 
   # ---------------------------------------------------------------------------------------
   # screenshot-tests — the only real coverage three components have.
@@ -160,9 +171,32 @@ jobs:
   #
   # G24 lives here: the library build and the showcase build need OPPOSITE externals
   # policies and both exit 0. Do not unify their configs.
+  #
+  # THIS JOB DOES NOT WAIT FOR `js`, and that is the largest single saving in the pipeline.
+  #
+  # It used to, for two stated reasons. One was cache reuse, which never existed — the key is
+  # job-scoped, so these jobs have always built their own closures and measured `0/3`, `0/9`
+  # and `0/11` cache hits. The other was gating, and gating at workspace scope is the wrong
+  # scope here: 18 of the 33 projects are in NO screenshot closure, so a failure in
+  # `ui-portal` or `rest-playground` used to hold up suites that cannot import them.
+  # `class-view`'s closure is ONE project, and it waited ~11.5 minutes for 20 builds and
+  # 10,621 unit tests to finish first.
+  #
+  # Gating is not lost, it is relocated and made per-component: `screenshot-test` declares
+  # dependsOn ["build", "^build"], so a broken build fails THIS job at its own build step,
+  # naming the project that actually broke, and `ci-ok` still goes red. What changes is that
+  # a suite now fails for its own reasons rather than for the workspace's.
+  #
+  # Measured on run 33889988315, where every job was green:
+  #
+  #   before   plan 52s -> js 689s -> screenshots 251 / 670 / 767s      ~25 min wall clock
+  #   after    plan 52s -> screenshots and js in parallel               ~14 min wall clock
+  #
+  # It costs runner minutes only on a broken push, where three jobs now discover the break
+  # instead of skipping. It costs none on a green one: the builds were already happening here.
   # ---------------------------------------------------------------------------------------
   screenshot-tests:
-    needs: [plan, js]
+    needs: [plan]
     if: needs.plan.outputs.screenshot_projects != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -173,7 +207,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # Each leg caches its OWN closure. Without this they all key on `screenshot-tests`,
+      # one leg reserves it and the others log `Failed to save` — so the 9- and 11-task
+      # closures were thrown away every run and the next run restored class-view's 3-task
+      # cache into all three.
       - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: screenshot-${{ matrix.project }}
 
       - name: build showcase and run the suite
         run: pnpm exec nx run ${{ matrix.project }}:screenshot-test
@@ -213,6 +253,11 @@ jobs:
   #
   # See tools/ci/image-input-hash.sh for the identity, and §6 for why always-build SEMANTICS
   # are worth keeping while always-build COST is not.
+  #
+  # This job KEEPS `needs: js`, unlike screenshot-tests, and the difference is deliberate: a
+  # screenshot suite is a test, and an image is a publish. It pushes `:dev` to ghcr, and an
+  # image tagged from a commit whose unit tests fail is a thing other people can then pull.
+  # The same reasoning does not apply to a test that only ever reports.
   # ---------------------------------------------------------------------------------------
   images:
     needs: [plan, js]
@@ -244,7 +289,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Same per-leg scoping as the screenshot matrix: `ui-portal` and `build-task-consumer`
+      # build different things, and on run 33894555872 the second one to finish logged
+      # `Failed to save: Unable to reserve cache` against the shared `images` key.
       - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: images-${{ matrix.image }}
 
       - uses: docker/setup-buildx-action@v4
 

@@ -4,6 +4,20 @@ description: >
   content-addressed store and the Nx computation cache. Factored out because four jobs need
   exactly this and a divergence between them would show up as a mysterious cache miss.
 
+inputs:
+  cache-scope:
+    description: >
+      What this job's Nx cache HOLDS, as a key fragment. Defaults to the job id, which is the
+      right answer for a job that exists once. It is the wrong answer for a MATRIX job:
+      `github.job` is the job id without the matrix values, so every leg computes the same key
+      while holding a different closure. Measured on run 33889988315 — the three screenshot
+      legs all keyed on `screenshot-tests`, class-view won the reservation with its 3-task
+      cache, and the other two logged `Failed to save: Unable to reserve cache`. Their 9- and
+      11-task closures were discarded every run, and the next run restored class-view's cache
+      into all three. Both image legs did the same thing. Pass the matrix value here.
+    required: false
+    default: ''
+
 runs:
   using: composite
   steps:
@@ -84,6 +98,20 @@ runs:
     # The through-line is that a cache which "restored successfully" is not thereby a cache
     # that was used. The number to read is Nx's own `Cache: N/N hit` line, never the restore
     # step's.
+    - name: Resolve the Nx cache scope
+      id: scope
+      shell: bash
+      run: |
+        set -euo pipefail
+        scope='${{ inputs.cache-scope }}'
+        [ -n "$scope" ] || scope='${{ github.job }}'
+        # Cache keys may not contain commas, and a matrix value can carry one — the images
+        # matrix passes `ui-portal,ui-agents` around. printf, not echo: `tr -c` would turn a
+        # trailing newline into a separator character and it would land in the key.
+        scope="$(printf '%s' "$scope" | tr -c 'A-Za-z0-9._-' '-')"
+        echo "value=$scope" >> "$GITHUB_OUTPUT"
+        echo "nx cache scope: $scope"
+
     - name: Cache the Nx computation cache
       uses: actions/cache@v6
       with:
@@ -101,10 +129,16 @@ runs:
         # The sizes are the whole diagnosis: 42 MB when `js` saved first, 1 MB once `plan`
         # started winning the race. A job that builds nothing must not be able to claim the
         # key belonging to the job that builds everything.
-        key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.job }}-${{ github.run_id }}
+        #
+        # And a FIFTH way, the same defect one level down: `github.job` does not include the
+        # matrix values, so all three screenshot legs and both image legs shared a key. One
+        # leg reserves it, the rest log `Failed to save`, and every run restores the winner's
+        # closure into jobs that need a different one. See the `cache-scope` input, which is
+        # what the matrix jobs pass their own identity through.
+        key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ steps.scope.outputs.value }}-${{ github.run_id }}
         restore-keys: |
-          nx-${{ runner.os }}-${{ github.ref_name }}-${{ github.job }}-
-          nx-${{ runner.os }}-develop-${{ github.job }}-
+          nx-${{ runner.os }}-${{ github.ref_name }}-${{ steps.scope.outputs.value }}-
+          nx-${{ runner.os }}-develop-${{ steps.scope.outputs.value }}-
 
     - name: Install
       shell: bash
