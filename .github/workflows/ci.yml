@@ -536,7 +536,20 @@ jobs:
   # ---------------------------------------------------------------------------------------
   publish:
     needs: [ci-ok]
-    if: github.ref == 'refs/heads/main'
+    # `always() &&` is load-bearing, and its absence cost a run. The first version of this
+    # job read `if: github.ref == 'refs/heads/main'`, which is true on main — and the job was
+    # SKIPPED anyway, on a fully green run.
+    #
+    # The cause is skip propagation reaching through `ci-ok`. `screenshot-tests` was skipped
+    # (nothing affected was downstream of the change), so `ci-ok` would have been skipped too
+    # and survives only because it carries `if: always()`. That rescue does not extend to
+    # ci-ok's own dependents: a custom `if:` without `always()` still carries the implicit
+    # success-of-all-needs check, and a skip upstream of ci-ok propagates past it.
+    #
+    # Naming ci-ok's RESULT explicitly is what makes this immune. It also states the
+    # intention directly — publish when the required check actually passed — rather than
+    # relying on a default whose behaviour through a skipped job is not obvious.
+    if: always() && needs.ci-ok.result == 'success' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
