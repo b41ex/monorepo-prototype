@@ -315,7 +315,12 @@ jobs:
           branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
 
           pnpm exec nx graph --file=graph.json >/dev/null
-          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}')"
+          # .dockerignore is hashed alongside the Dockerfile: it decides what reaches the
+          # build context, so it changes image content, and it was missing here. The
+          # image_inputs rule forces the JOB on a .dockerignore change, but the content check
+          # then hit and skipped the build — job selection and content identity are different
+          # questions and this one was answered from the wrong inputs.
+          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}' .dockerignore)"
 
           repo_lc="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
           base="ghcr.io/${repo_lc}/${{ matrix.image }}"

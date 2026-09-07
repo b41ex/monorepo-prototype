@@ -35,5 +35,21 @@
 # which does not matter — docker does not read .gitignore — but it does have to be named here.
 !.deploy/**
 
+# …except pnpm's own bookkeeping, which is the reason this image's largest layer could never
+# be cached. Measured: two `pnpm deploy` runs to the SAME absolute path, in the SAME job,
+# produce 16316 identical files, 1085 identical symlink targets, identical modes and sizes —
+# and differ in exactly ONE file, `node_modules/.modules.yaml`. That is enough to change the
+# cache key of `COPY .deploy/build-task-consumer/node_modules`, so buildx rebuilt and
+# re-exported the whole 16316-file layer on every single build and never once hit it.
+#
+# It is pnpm's record of how node_modules was assembled — store location, layout version,
+# what was skipped, when it was last pruned. Nothing reads it at runtime; the application
+# needs the packages, not the note about how they got there. Excluding it changes what the
+# image receives, not what the deploy tree contains.
+#
+# Ordering matters: this must come AFTER the re-include above, because docker applies
+# patterns in order and the last match wins.
+.deploy/*/node_modules/.modules.yaml
+
 # Nothing else. No sources, no node_modules outside the deploy tree, no .git, no .nx, no
 # tests, no docs. If a build needs something, it goes above with the reason.

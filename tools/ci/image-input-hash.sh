@@ -81,8 +81,20 @@ closure="$(node -e '
   # The lockfile: a resolution change alters what is installed into the image.
   printf 'pnpm-lock.yaml %s\n' "$(git rev-parse HEAD:pnpm-lock.yaml)"
 
-  # The Dockerfiles named on the command line, and this script itself — both change the
+  # The files named on the command line, and this script itself — all of them change the
   # image without touching any project tree.
+  #
+  # `.dockerignore` belongs in that list and was missing from it, which is a hole in exactly
+  # the guarantee this hash exists to provide. It decides what reaches the build context, so
+  # it changes image CONTENT — and it was not hashed, so the registry would report a hit and
+  # retag an image built under the previous rules. Found while shipping a `.dockerignore`
+  # change that removes a file from the image: without this, that change could not have taken
+  # effect until some unrelated edit happened to move the hash.
+  #
+  # The `image_inputs` rule in ci.yml does force the image JOBS to run on a `.dockerignore`
+  # change, but forcing the job and invalidating the content are different things: the job
+  # ran, the content check hit, and the build was skipped. Selecting a job on the right inputs
+  # does not help if the identity is computed from the wrong ones.
   for f in "$@"; do
     printf '%s %s\n' "$f" "$(git rev-parse "HEAD:$f")"
   done
