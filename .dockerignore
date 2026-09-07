@@ -31,7 +31,8 @@
 
 # --- frontend/build-task-consumer ------------------------------------------------------
 !frontend/build-task-consumer/dist/**
-# Produced on the host by `pnpm deploy --legacy --prod` before the build. It is gitignored,
+# Produced on the host by `pnpm deploy --prod` before the build — no `--legacy` flag, because
+# `forceLegacyDeploy: true` in pnpm-workspace.yaml states it once. It is gitignored,
 # which does not matter — docker does not read .gitignore — but it does have to be named here.
 !.deploy/**
 
