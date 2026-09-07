@@ -444,7 +444,26 @@ jobs:
           live=".deploy/${{ matrix.deploy }}"
           first="$RUNNER_TEMP/deploy-first"
           mv "$live" "$first"
+
+          # THE SLEEP IS THE EXPERIMENT, not politeness.
+          #
+          # `prunedAt` in `.modules.yaml` is an RFC-1123 date — ONE-SECOND granularity. Two
+          # deploys that finish inside the same wall-clock second write the same string and
+          # the probe reports ZERO differences. Run 34164185574 did exactly that: its two
+          # deploys finished at 21:56:38.19 and 21:56:38.79, it reported `0 differ by
+          # content`, and that was written up as pnpm 12 having fixed pnpm/pnpm#9474. It has
+          # not. Run 34165618906's deploys landed at 22:22:24.95 and 22:22:25.78 — a second
+          # apart — and the difference appeared, one file out of 16253, the same
+          # `.modules.yaml` as under pnpm 10.
+          #
+          # A probe whose answer depends on how fast the runner is, is not a probe. Sleep
+          # past the boundary so the experiment can fail, and print both timestamps below so
+          # a zero can be told apart from a race the probe happened to win.
+          sleep 2
           pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod "$live"
+
+          pruned_a="$(grep -o '"prunedAt": *"[^"]*"' "$first/node_modules/.modules.yaml" 2>/dev/null || echo 'not found')"
+          pruned_b="$(grep -o '"prunedAt": *"[^"]*"' "$live/node_modules/.modules.yaml" 2>/dev/null || echo 'not found')"
 
           structure="$(diff -rq --no-dereference "$first" "$live" 2>&1 || true)"
           ( cd "$first" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/a.sums" 2>/dev/null
@@ -459,15 +478,24 @@ jobs:
             echo "### pnpm deploy determinism under pnpm 12 — CI-DESIGN test case B2"
             printf -- '- two deploys to the **same absolute path**: %s files, %s symlinks\n' "$total" "$links"
             printf -- '- files differing by content: **%s**\n' "$n"
+            # Both timestamps, always. If they are EQUAL the deploys shared a wall-clock
+            # second and a zero result says nothing — that is the false negative run
+            # 34164185574 produced and it read as a fix.
+            printf -- '- `prunedAt` first: `%s`\n' "$pruned_a"
+            printf -- '- `prunedAt` second: `%s`\n' "$pruned_b"
             if [ "$n" -gt 0 ]; then
               echo '```text'
               printf '%s\n' "$differing"
               echo '```'
+            elif [ "$pruned_a" = "$pruned_b" ]; then
+              echo '- **inconclusive.** The two `prunedAt` values are identical, so the'
+              echo '  deploys landed in the same second and the probe could not have seen a'
+              echo '  difference. Not evidence of determinism.'
             else
-              echo '- **nothing differs.** Under pnpm 10 exactly one file did —'
+              echo '- **nothing differs**, with distinct `prunedAt` values, so the experiment'
+              echo '  could have failed and did not. Under pnpm 10 exactly one file differed —'
               echo '  `node_modules/.modules.yaml` — and `.dockerignore` excludes it for that'
-              echo '  reason. On this evidence that exclusion has no cause left and should be'
-              echo '  deleted rather than kept for tidiness.'
+              echo '  reason. On this evidence that exclusion has no cause left.'
             fi
             if [ -n "$structure" ]; then
               echo ''
@@ -486,6 +514,7 @@ jobs:
           # so the content result could be read afterwards and the structure result could
           # not. A measurement that is only in the summary is half a measurement.
           printf 'B2 structure/symlink diff:\n%s\n' "${structure:-<none>}"
+          printf 'B2 prunedAt: %s | %s\n' "$pruned_a" "$pruned_b"
 
       # TEMPORARY, for the pnpm 12 upgrade, and it is a NEGATIVE CONTROL for
       # `verifyDepsBeforeRun: false` rather than a guard.
