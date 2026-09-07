@@ -168,10 +168,8 @@ runs:
     #   is also why the Nx cache carries `-${{ github.run_id }}` and this one does not.
     #
     #   Pruning in one job. All five or six jobs share this key and race to save it, and
-    #   `plan` finishes first — 48-58s against several minutes for `js`. Prune in `js` and
-    #   `plan` has already saved the unpruned store. Every job prunes instead, so whichever
-    #   wins the reservation saved a pruned store; a few seconds times six is cheaper than
-    #   coordinating which one is the winner.
+    #   `plan` finishes first — 84s here against 674s for `js`. Prune in `js` and `plan` has
+    #   already saved the unpruned store.
     #
     # That leaves exactly one opening. `cache-hit` is true only on an EXACT primary-key hit,
     # which is precisely when actions/cache skips saving — so this step is skipped entirely
@@ -180,6 +178,34 @@ runs:
     #
     # `develop` only: pruning on a feature branch prunes a store scoped to that branch, which
     # no other branch inherits.
+    #
+    # WHAT ACTUALLY HAPPENS, measured on run 34108095394 — and it is cheaper than the design
+    # above expected. This condition does not put a prune in every job. `plan` misses the
+    # primary key, prunes, and SAVES the pruned store; every job after it then takes an exact
+    # primary-key hit on what `plan` just saved, so `cache-hit` is true and the step is
+    # skipped. One prune per lockfile change, not six. An earlier version of this comment
+    # said "every job prunes, so whichever wins the reservation saved a pruned store" — right
+    # outcome, wrong mechanism, and the mechanism is the part worth having correct.
+    #
+    # AND THE NUMBER, which does not support the alarm that motivated this step:
+    #
+    #   store prune: 2108932 KB -> 2108812 KB (freed 120 KB)
+    #
+    # 120 KB out of 2.0 GB, for a change that superseded a direct dependency and moved one of
+    # its transitives. The store is CONTENT-ADDRESSED, which is the same property that makes
+    # it safe to share across branches: two adjacent versions of a package share every file
+    # that did not change, so only the differing files are ever orphaned. A patch bump leaks
+    # almost nothing, and the "monotonic growth with no upper bound" this step was added for
+    # was right about the direction and wrong about the magnitude by orders of magnitude.
+    #
+    # It is kept because it is genuinely free — one job, seconds, only on a lockfile change —
+    # and because 120 KB for a patch bump does not bound what a framework MAJOR would orphan,
+    # where whole trees are replaced and content addressing stops helping. It is not kept
+    # because the store is in any danger today. If a future major-version bump also reports a
+    # trivial number, delete the step.
+    #
+    # Note also that 2.0 GB is the store ON DISK. The ~405 MB quoted elsewhere is the
+    # COMPRESSED cache archive, and the two are not the same measurement.
     #
     # The two `du` lines are the point, not decoration. If they come back EQUAL, this step
     # does nothing and should be deleted rather than kept for tidiness — a check that cannot
