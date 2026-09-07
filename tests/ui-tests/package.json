@@ -1,6 +1,7 @@
 {
   "name": "@b41ex/qubership-apihub-ui-tests",
   "version": "2.36.1-dev.0",
+  "private": true,
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {

@@ -1,7 +1,7 @@
 {
   "name": "@b41ex/qubership-apihub-apispec-view-diff-block",
   "version": "0.0.1",
-  "private": "true",
+  "private": true,
   "keywords": [],
   "sideEffects": false,
   "license": "Apache-2.0",

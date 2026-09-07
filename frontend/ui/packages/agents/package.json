@@ -1,6 +1,7 @@
 {
   "name": "@b41ex/qubership-apihub-ui-agents",
   "version": "3.10.1",
+  "private": true,
   "license": "Apache-2.0",
   "files": [
     "/dist"

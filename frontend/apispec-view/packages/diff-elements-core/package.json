@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-apispec-view-diff-elements-core",
-  "private": "true",
+  "private": true,
   "version": "0.0.0",
   "sideEffects": [
     "web-components.min.js",
