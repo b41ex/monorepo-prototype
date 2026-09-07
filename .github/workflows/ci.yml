@@ -101,6 +101,12 @@ jobs:
             "$affected" "$shots" "$images" "$image_inputs" >> "$GITHUB_STEP_SUMMARY"
           rm -f plan-graph.json
 
+      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
+      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
+      - name: cache summary
+        if: always()
+        run: bash tools/ci/cache-summary.sh 'plan' >> "$GITHUB_STEP_SUMMARY"
+
   # ---------------------------------------------------------------------------------------
   # js — lint, build and unit test, in ONE job.
   #
@@ -134,13 +140,16 @@ jobs:
       # its packaging step is a known failure (vsce shells out to `npm list`, which cannot
       # read pnpm's layout). Recorded as a gap in CI-DESIGN.md rather than worked around.
       - name: lint, build and test what is affected
-        run: pnpm exec nx affected -t build test --exclude=vscode --verbose
+        run: |
+          # pipefail so a failing nx still fails the step; tee alone would return 0.
+          set -o pipefail
+          pnpm exec nx affected -t build test --exclude=vscode --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
+      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
+      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
       - name: cache summary
         if: always()
-        run: |
-          echo "### Nx cache" >> "$GITHUB_STEP_SUMMARY"
-          du -sh .nx/cache ~/.nx 2>/dev/null >> "$GITHUB_STEP_SUMMARY" || true
+        run: bash tools/ci/cache-summary.sh 'js' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
       # No dist artifact is uploaded for the screenshot job, deliberately. Its
       # `screenshot-test` target declares dependsOn ["build", "^build"], so Nx schedules the
@@ -216,7 +225,15 @@ jobs:
           cache-scope: screenshot-${{ matrix.project }}
 
       - name: build showcase and run the suite
-        run: pnpm exec nx run ${{ matrix.project }}:screenshot-test
+        run: |
+          set -o pipefail
+          pnpm exec nx run ${{ matrix.project }}:screenshot-test 2>&1 | tee "$RUNNER_TEMP/nx.log"
+
+      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
+      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
+      - name: cache summary
+        if: always()
+        run: bash tools/ci/cache-summary.sh 'screenshot-tests (${{ matrix.project }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
       # The suite writes PNG diffs on failure. Without them a red run says only that pixels
       # moved, and the record is explicit that a small diff is not automatically cosmetic.
@@ -356,7 +373,9 @@ jobs:
       # and the docker build then failed on a COPY source that was never created.
       - name: Build the workspace output
         if: steps.exists.outputs.hit == 'false'
-        run: pnpm exec nx run-many -t build --projects='${{ matrix.build_projects }}'
+        run: |
+          set -o pipefail
+          pnpm exec nx run-many -t build --projects='${{ matrix.build_projects }}' 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
       # `pnpm deploy --prod` materialises a self-contained production node_modules on the
       # host. This is what removes the in-image `npm ci` that made this image the 15.7-minute
@@ -443,6 +462,12 @@ jobs:
           docker buildx imagetools create \
             -t '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}' \
             '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}'
+
+      # On a retag no Nx build ran and $RUNNER_TEMP/nx.log does not exist; the script reports
+      # that rather than failing, which is what keeps the block present in every job.
+      - name: cache summary
+        if: always()
+        run: bash tools/ci/cache-summary.sh 'images (${{ matrix.image }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------------------
   # ci-ok — the only required check.

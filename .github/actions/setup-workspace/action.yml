@@ -143,13 +143,37 @@ runs:
 
     - name: Install
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: |
+        # pipefail so a failed install still fails the step — tee would otherwise return 0
+        # and hide it, which is the silent-no-op shape this pipeline has been bitten by twice.
+        set -o pipefail
+        pnpm install --frozen-lockfile 2>&1 | tee "$RUNNER_TEMP/pnpm-install.log"
       env:
         # Neither is needed in CI and both are slow or hostile there. PUPPETEER_SKIP_DOWNLOAD
         # is carried over from the workflows this replaces; the screenshot job supplies its
         # own Chrome through a container.
         PUPPETEER_SKIP_DOWNLOAD: '1'
         HUSKY: '0'
+
+    # What the caches actually delivered, handed to tools/ci/cache-summary.sh so that every
+    # job renders the same block. Set here rather than per job because this action is already
+    # the one place that knows the scope and the store's fate, and a divergence between jobs
+    # would show up as a summary that quietly disagrees with itself.
+    #
+    # `downloaded N` is pnpm's OWN count. It is the store's equivalent of Nx's `Cache: N/N
+    # hit` line: the number reported by the thing that used the cache, not by the step that
+    # restored it.
+    - name: Record what the caches delivered
+      shell: bash
+      run: |
+        set -uo pipefail
+        downloaded="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
+          | grep -oE 'downloaded [0-9]+' | tail -1 | grep -oE '[0-9]+' || true)"
+        {
+          echo "CACHE_NX_SCOPE=${{ steps.scope.outputs.value }}"
+          echo "CACHE_PNPM_STORE=${{ steps.pnpm-store.outputs.cache-hit == 'true' && 'exact key hit' || 'restored by prefix' }}"
+          echo "CACHE_PNPM_DOWNLOADED=${downloaded:-?}"
+        } >> "$GITHUB_ENV"
 
     # ------------------------------------------------------------------------------------
     # The store grows monotonically and nothing else removes anything from it.
