@@ -10,9 +10,18 @@ So please refer to [qubership-apihub](https://github.com/Netcracker/qubership-ap
 
 ## Installation
 
+Not from here, and not with npm. This component is a member of the pnpm workspace, so it has
+no install of its own — dependencies are resolved once, at the workspace root, from the single
+`pnpm-lock.yaml`:
+
 ```bash
-npm install
+pnpm install          # at the workspace root, not in this directory
 ```
+
+Running `npm install` here would write a `package-lock.json` and a flat `node_modules` beside
+this manifest, resolve the `workspace:` specifiers against the registry rather than the sibling
+packages, and give this component a second, disagreeing set of versions. That is the shape the
+monorepo exists to remove.
 
 ## Building the app locally
 
