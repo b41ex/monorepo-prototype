@@ -481,6 +481,53 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           printf 'B2: %s files, %s differ by content\n' "$total" "$n"
           printf '%s\n' "$differing"
+          # To stdout as well as the summary. The first run of this probe put the structure
+          # comparison only in the job summary, which is not retrievable through the API —
+          # so the content result could be read afterwards and the structure result could
+          # not. A measurement that is only in the summary is half a measurement.
+          printf 'B2 structure/symlink diff:\n%s\n' "${structure:-<none>}"
+
+      # TEMPORARY, for the pnpm 12 upgrade, and it is a NEGATIVE CONTROL for
+      # `verifyDepsBeforeRun: false` rather than a guard.
+      #
+      # On run 34164185574 the step after the deploy ran `pnpm exec nx show project` and pnpm
+      # — following its own pnpm 11 default of verifying deps before running anything — did an
+      # install that removed the workspace root's five devDependencies, `nx` among them. The
+      # next line then failed with `Command "nx" not found`, three steps away from the cause.
+      #
+      # `verifyDepsBeforeRun: false` in pnpm-workspace.yaml is the fix, and it could not be
+      # verified on the workstation because the trigger needs `pnpm deploy`. So this asserts
+      # it here: run a pnpm command in the workspace root after the deploy, and check that
+      # (a) nothing installed and (b) the devDependencies are still present. A green images
+      # job would otherwise be indistinguishable from one where the fix did nothing and the
+      # order of steps happened to hide it.
+      - name: MEASURE — does the workspace survive a pnpm command after the deploy
+        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
+        shell: bash
+        run: |
+          set -uo pipefail
+          before="$(ls -d node_modules/nx 2>/dev/null || echo ABSENT)"
+          pnpm exec node -e 'process.exit(0)' > "$RUNNER_TEMP/vd.log" 2>&1 || true
+          after="$(ls -d node_modules/nx 2>/dev/null || echo ABSENT)"
+          installed=no
+          grep -qE '^(Packages: |Scope: all)' "$RUNNER_TEMP/vd.log" && installed=yes
+          {
+            # Single quotes: backticks inside a double-quoted string are command
+            # substitution, and this line would otherwise have run `pnpm exec`.
+            echo '### Did `pnpm exec` install anything after the deploy?'
+            printf -- '- `verifyDepsBeforeRun`: **%s**\n' "$(pnpm config get verifyDepsBeforeRun 2>/dev/null || echo '?')"
+            printf -- '- an install ran during `pnpm exec`: **%s**\n' "$installed"
+            printf -- '- `node_modules/nx` before → after: **%s** → **%s**\n' "$before" "$after"
+            echo '```text'
+            head -20 "$RUNNER_TEMP/vd.log"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          printf 'post-deploy pnpm exec: installed=%s  nx %s -> %s\n' "$installed" "$before" "$after"
+          cat "$RUNNER_TEMP/vd.log"
+          if [ "$after" = "ABSENT" ]; then
+            echo "::error::pnpm removed the workspace root's dev dependencies after the deploy — verifyDepsBeforeRun: false did not prevent it"
+            exit 1
+          fi
 
       # Assert the COPY sources exist before handing the context to buildx.
       #

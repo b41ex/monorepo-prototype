@@ -84,6 +84,39 @@ dangerouslyAllowAllBuilds: true
 # largest risk in this upgrade and did not land.
 forceLegacyDeploy: true
 
+# Restores pnpm 10's behaviour: `pnpm run` and `pnpm exec` do NOT install anything first.
+#
+# pnpm 11 introduced this and defaults it to `install`, so every `pnpm exec` may quietly run
+# an install before the command it was asked to run. On run 34164185574 that destroyed the
+# workspace and failed the build-task-consumer image:
+#
+#   Produce the deploy tree     pnpm deploy --filter=./frontend/build-task-consumer --prod
+#   Verify the build outputs    pnpm exec nx show project build-task-consumer --json
+#                               → an install nobody asked for, then
+#                                 devDependencies:
+#                                 - @nx/js 23.2.0
+#                                 - nx 23.2.0            … and three more
+#                               → ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL: Command "nx" not found
+#
+# `pnpm deploy --prod` is a production install, and the next pnpm command reconciled the
+# workspace root to that. The failure is one step removed from its cause, in a step whose
+# whole job is to catch build outputs going missing — so it reported the workspace being
+# dismantled as a missing project.
+#
+# Two fixes were available and this is the smaller one. The other was to stop the Verify step
+# needing pnpm at all, by resolving project roots from the graph.json the job already has.
+# That fixes one call site; this states the workspace-level fact once, which is the same
+# argument that put forceLegacyDeploy above rather than --legacy at three call sites. What is
+# given up is a convenience that did not exist under pnpm 10: after editing a manifest you
+# run `pnpm install` yourself, as you did before.
+#
+# NOT verified on the workstation — the trigger needs `pnpm deploy`, which fails EPERM on
+# Windows, and neither hand-editing `.pnpm-workspace-state-v1.json` to a production install
+# nor flipping `included.devDependencies` in `.modules.yaml` reproduced it. So the images job
+# carries a step that checks the workspace survives a pnpm command after the deploy, rather
+# than this being believed because the build went green.
+verifyDepsBeforeRun: false
+
 # Overrides carried deliberately, each with the gap that records why.
 #
 # npm and pnpm both apply overrides ONLY from the install root, and pnpm reads them from
