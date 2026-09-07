@@ -4,5 +4,6 @@ build/
 out/
 .nx/
 .deploy/
+.deploy-probe/
 *.tsbuildinfo
 .DS_Store

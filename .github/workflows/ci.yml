@@ -392,8 +392,10 @@ jobs:
       # 0 — the same silent no-op as above, in the adjacent step. A path filter also survives
       # the scope rename, which a hardcoded @b41ex/… name would not.
       #
-      # No `--legacy` flag here, deliberately: `force-legacy-deploy=true` in the workspace
-      # .npmrc states that fact once. §6 says the in-image `npm ci` "can be replaced by
+      # No `--legacy` flag here, deliberately: `forceLegacyDeploy: true` in
+      # pnpm-workspace.yaml states that fact once. It lived in `.npmrc` until pnpm 12, which
+      # reads only auth and registry settings from that file and says nothing about the rest.
+      # §6 says the in-image `npm ci` "can be replaced by
       # `pnpm deploy --filter build-task-consumer --prod`", which was true when written and is
       # not now — pnpm 10 refuses by default with ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE. The
       # .npmrc carries the full reasoning, including why inject-workspace-packages=true was
@@ -406,6 +408,60 @@ jobs:
       - name: Produce the deploy tree
         if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
         run: pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
+
+      # TEMPORARY, for the pnpm 12 upgrade. Delete once the answer is recorded.
+      #
+      # `.dockerignore` excludes `.deploy/*/node_modules/.modules.yaml` because under pnpm 10
+      # two deploys to the same absolute path produced 16316 identical files and differed in
+      # exactly that one, which was enough to rebuild and re-export the whole `COPY
+      # node_modules` layer on every build (pnpm/pnpm#9474, still open). The Rust rewrite
+      # touched the ordering that file records, AND pnpm 12 writes a new one beside it —
+      # `node_modules/.package-map.json`, 1.7 MB, which did not exist under pnpm 10 and is
+      # not excluded.
+      #
+      # So the exclusion is now a claim about a package manager that no longer exists. This
+      # step re-measures it directly instead of trusting either the changelog or the old
+      # result: deploy a second time to a different path, then compare the two trees by file
+      # list and by content. It names every differing file, so the answer is "these differ",
+      # not "something differs" — and if NOTHING differs, the exclusion in `.dockerignore` is
+      # dead weight and should be deleted rather than kept for tidiness.
+      #
+      # Second deploy goes to `.deploy-probe/`, which is NOT re-included in `.dockerignore`,
+      # so it cannot reach the build context and cannot change what the image contains.
+      - name: MEASURE — is the deploy tree deterministic under pnpm 12
+        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
+        shell: bash
+        run: |
+          set -uo pipefail
+          a=".deploy/${{ matrix.deploy }}"
+          b=".deploy-probe/${{ matrix.deploy }}"
+          pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod "$b"
+          # Compare by RELATIVE path so the differing prefix is not itself the difference.
+          ( cd "$a" && find . -type f | sort ) > "$RUNNER_TEMP/a.list"
+          ( cd "$b" && find . -type f | sort ) > "$RUNNER_TEMP/b.list"
+          ( cd "$a" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/a.sums" 2>/dev/null
+          ( cd "$b" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/b.sums" 2>/dev/null
+          files_a=$(wc -l < "$RUNNER_TEMP/a.list"); files_b=$(wc -l < "$RUNNER_TEMP/b.list")
+          only=$(diff "$RUNNER_TEMP/a.list" "$RUNNER_TEMP/b.list" | grep -c '^[<>]' || true)
+          differing=$(diff "$RUNNER_TEMP/a.sums" "$RUNNER_TEMP/b.sums" | grep '^<' | awk '{print $2}' || true)
+          n=$(printf '%s\n' "$differing" | sed '/^$/d' | wc -l)
+          {
+            echo "### pnpm deploy determinism (temporary probe, pnpm 12)"
+            printf -- '- files: **%s** vs **%s**, paths present in only one tree: **%s**\n' \
+              "$files_a" "$files_b" "$only"
+            printf -- '- files differing by content: **%s**\n' "$n"
+            if [ "$n" -gt 0 ]; then
+              echo '```text'
+              printf '%s\n' "$differing" | sed '/^$/d'
+              echo '```'
+            else
+              echo '- **nothing differs.** The `.dockerignore` exclusion of `.modules.yaml`'
+              echo '  has no cause left under pnpm 12 and should be deleted.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          printf 'deploy determinism: %s files, %s differ by content\n' "$files_a" "$n"
+          printf '%s\n' "$differing" | sed '/^$/d'
+          rm -rf .deploy-probe
 
       # Assert the COPY sources exist before handing the context to buildx.
       #
