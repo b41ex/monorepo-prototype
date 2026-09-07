@@ -419,49 +419,68 @@ jobs:
       # `node_modules/.package-map.json`, 1.7 MB, which did not exist under pnpm 10 and is
       # not excluded.
       #
-      # So the exclusion is now a claim about a package manager that no longer exists. This
-      # step re-measures it directly instead of trusting either the changelog or the old
-      # result: deploy a second time to a different path, then compare the two trees by file
-      # list and by content. It names every differing file, so the answer is "these differ",
-      # not "something differs" — and if NOTHING differs, the exclusion in `.dockerignore` is
-      # dead weight and should be deleted rather than kept for tidiness.
+      # So the exclusion is now a claim about a package manager that no longer exists, and
+      # this re-runs CI-DESIGN.md's test case B2 rather than trusting the changelog in either
+      # direction.
       #
-      # Second deploy goes to `.deploy-probe/`, which is NOT re-included in `.dockerignore`,
-      # so it cannot reach the build context and cannot change what the image contains.
-      - name: MEASURE — is the deploy tree deterministic under pnpm 12
+      # IT DEPLOYS TWICE TO THE SAME ABSOLUTE PATH, and that is the whole design of the
+      # experiment. B2 records that the first attempt deployed the second tree to
+      # `.deploy-probe/` and its DIFFERS result proved nothing: at a different absolute path,
+      # any file that embeds its own install path differs for that reason alone. So the first
+      # tree is MOVED ASIDE to $RUNNER_TEMP and the second is written where the first was.
+      # The one left in place is the second deploy, which is as valid an input to the image
+      # as the first.
+      #
+      # Compared by structure and symlink targets (`diff -rq --no-dereference`, so a symlink
+      # is compared as a link rather than followed) and by content hash, and it NAMES every
+      # differing file — the answer wanted is "these differ", not "something differs". If
+      # nothing differs, the `.dockerignore` exclusion has no cause left and should be
+      # deleted rather than kept for tidiness.
+      - name: MEASURE — is the deploy tree deterministic under pnpm 12 (B2)
         if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
         shell: bash
         run: |
           set -uo pipefail
-          a=".deploy/${{ matrix.deploy }}"
-          b=".deploy-probe/${{ matrix.deploy }}"
-          pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod "$b"
-          # Compare by RELATIVE path so the differing prefix is not itself the difference.
-          ( cd "$a" && find . -type f | sort ) > "$RUNNER_TEMP/a.list"
-          ( cd "$b" && find . -type f | sort ) > "$RUNNER_TEMP/b.list"
-          ( cd "$a" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/a.sums" 2>/dev/null
-          ( cd "$b" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/b.sums" 2>/dev/null
-          files_a=$(wc -l < "$RUNNER_TEMP/a.list"); files_b=$(wc -l < "$RUNNER_TEMP/b.list")
-          only=$(diff "$RUNNER_TEMP/a.list" "$RUNNER_TEMP/b.list" | grep -c '^[<>]' || true)
-          differing=$(diff "$RUNNER_TEMP/a.sums" "$RUNNER_TEMP/b.sums" | grep '^<' | awk '{print $2}' || true)
-          n=$(printf '%s\n' "$differing" | sed '/^$/d' | wc -l)
+          live=".deploy/${{ matrix.deploy }}"
+          first="$RUNNER_TEMP/deploy-first"
+          mv "$live" "$first"
+          pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod "$live"
+
+          structure="$(diff -rq --no-dereference "$first" "$live" 2>&1 || true)"
+          ( cd "$first" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/a.sums" 2>/dev/null
+          ( cd "$live"  && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/b.sums" 2>/dev/null
+          total=$(wc -l < "$RUNNER_TEMP/a.sums")
+          links=$(cd "$first" && find . -type l | wc -l)
+          differing="$(diff "$RUNNER_TEMP/a.sums" "$RUNNER_TEMP/b.sums" | grep '^<' | sed 's/^< *[0-9a-f]* *//' || true)"
+          n=$(printf '%s' "$differing" | grep -c . || true)
+          rm -rf "$first"
+
           {
-            echo "### pnpm deploy determinism (temporary probe, pnpm 12)"
-            printf -- '- files: **%s** vs **%s**, paths present in only one tree: **%s**\n' \
-              "$files_a" "$files_b" "$only"
+            echo "### pnpm deploy determinism under pnpm 12 — CI-DESIGN test case B2"
+            printf -- '- two deploys to the **same absolute path**: %s files, %s symlinks\n' "$total" "$links"
             printf -- '- files differing by content: **%s**\n' "$n"
             if [ "$n" -gt 0 ]; then
               echo '```text'
-              printf '%s\n' "$differing" | sed '/^$/d'
+              printf '%s\n' "$differing"
               echo '```'
             else
-              echo '- **nothing differs.** The `.dockerignore` exclusion of `.modules.yaml`'
-              echo '  has no cause left under pnpm 12 and should be deleted.'
+              echo '- **nothing differs.** Under pnpm 10 exactly one file did —'
+              echo '  `node_modules/.modules.yaml` — and `.dockerignore` excludes it for that'
+              echo '  reason. On this evidence that exclusion has no cause left and should be'
+              echo '  deleted rather than kept for tidiness.'
+            fi
+            if [ -n "$structure" ]; then
+              echo ''
+              echo 'Structure and symlink differences (`diff -rq --no-dereference`):'
+              echo '```text'
+              printf '%s\n' "$structure" | head -50
+              echo '```'
+            else
+              echo '- structure and symlink targets: **identical**'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
-          printf 'deploy determinism: %s files, %s differ by content\n' "$files_a" "$n"
-          printf '%s\n' "$differing" | sed '/^$/d'
-          rm -rf .deploy-probe
+          printf 'B2: %s files, %s differ by content\n' "$total" "$n"
+          printf '%s\n' "$differing"
 
       # Assert the COPY sources exist before handing the context to buildx.
       #
