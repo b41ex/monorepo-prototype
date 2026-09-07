@@ -24,6 +24,48 @@
     "explicit and cheap to cache."
   ],
   "cacheDirectory": ".nx/cache",
+  "release": {
+    "//": [
+      "Per section 8. Components are released TOGETHER on one shared release branch, but keep",
+      "INDEPENDENT versions -- a release event bumps several components at once, it does not give",
+      "them one shared number. That is projectsRelationship: independent, not fixed.",
+      "",
+      "currentVersionResolver: git-tag, with disk as the fallback. The current version of a",
+      "component is what was last RELEASED, which is exactly what its component/version tag",
+      "records, and it is also what section 8's changed-set rule is phrased against: changed since",
+      "its own last component/version tag. The registry -- Nx's npm default -- is the wrong source",
+      "here, because section 6 targets rung 1 and nothing publishes from a dev branch, so the",
+      "registry has nothing to say. disk covers the first release, before any tag exists.",
+      "",
+      "specifierSource and currentVersionResolver are spelled out rather than using the",
+      "version.conventionalCommits shorthand: that shorthand also pins currentVersionResolver, and",
+      "setting both is a hard error -- Nx refuses with 'you have configured both the shorthand and",
+      "one or more of the related configuration options'.",
+      "",
+      "preserveLocalDependencyProtocols keeps `workspace:^` in the tree. This is load-bearing and",
+      "not cosmetic: the whole ordering argument in section 8 rests on pnpm rewriting that range at",
+      "PUBLISH time from the version already sitting in the dependency's package.json. If Nx",
+      "rewrote it to a fixed version at version time, release-finish would go back to being",
+      "order-sensitive and every version bump would churn 100 dependency ranges.",
+      "",
+      "updateDependents: auto is the step that used to be done by hand, base components first."
+    ],
+    "projectsRelationship": "independent",
+    "releaseTag": {
+      "pattern": "{projectName}/{version}"
+    },
+    "version": {
+      "specifierSource": "conventional-commits",
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk",
+      "preserveLocalDependencyProtocols": true,
+      "updateDependents": "auto"
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": true
+    }
+  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
