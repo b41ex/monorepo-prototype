@@ -60,6 +60,7 @@ runs:
     # restores a store already holding almost every package.
     # ------------------------------------------------------------------------------------
     - name: Cache the pnpm store
+      id: pnpm-store
       uses: actions/cache@v6
       with:
         path: ${{ steps.store.outputs.path }}
@@ -149,3 +150,63 @@ runs:
         # own Chrome through a container.
         PUPPETEER_SKIP_DOWNLOAD: '1'
         HUSKY: '0'
+
+    # ------------------------------------------------------------------------------------
+    # The store grows monotonically and nothing else removes anything from it.
+    #
+    # On a lockfile change the restore falls through `restore-keys` to the previous store,
+    # install adds the new packages, and what gets SAVED is the union — so every dependency
+    # bump leaves the superseded versions behind, forever, carried forward inside each new
+    # entry. Natural expiry does not help: the old KEY is evicted, but its bytes have already
+    # been copied into the new one.
+    #
+    # WHY IT IS HERE AND NOT SOMEWHERE TIDIER. Two better-looking placements do not work:
+    #
+    #   A weekly maintenance workflow. Actions cache entries are IMMUTABLE — you cannot
+    #   overwrite `pnpm-store-<os>-<lockfile hash>`. A job that builds a clean store has
+    #   nowhere to put it, because the bloated entry already owns the key. That immutability
+    #   is also why the Nx cache carries `-${{ github.run_id }}` and this one does not.
+    #
+    #   Pruning in one job. All five or six jobs share this key and race to save it, and
+    #   `plan` finishes first — 48-58s against several minutes for `js`. Prune in `js` and
+    #   `plan` has already saved the unpruned store. Every job prunes instead, so whichever
+    #   wins the reservation saved a pruned store; a few seconds times six is cheaper than
+    #   coordinating which one is the winner.
+    #
+    # That leaves exactly one opening. `cache-hit` is true only on an EXACT primary-key hit,
+    # which is precisely when actions/cache skips saving — so this step is skipped entirely
+    # on an ordinary push, and runs only on the first run after a lockfile change, which is
+    # the run that would otherwise carry the accumulation forward.
+    #
+    # `develop` only: pruning on a feature branch prunes a store scoped to that branch, which
+    # no other branch inherits.
+    #
+    # The two `du` lines are the point, not decoration. If they come back EQUAL, this step
+    # does nothing and should be deleted rather than kept for tidiness — a check that cannot
+    # fail is not a check.
+    # ------------------------------------------------------------------------------------
+    - name: Prune the store on the run that will save it
+      if: github.ref_name == 'develop' && steps.pnpm-store.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        store='${{ steps.store.outputs.path }}'
+        # KILOBYTES, not megabytes. Superseding one dependency orphans that package and only
+        # the transitives whose versions moved with it — a couple of hundred KB is a normal
+        # result, and `du -sm` rounds that to "0 MB freed", which reads as the prune having
+        # done nothing. An instrument too coarse to show the effect is not evidence of its
+        # absence.
+        before="$(du -sk "$store" | cut -f1)"
+        pnpm store prune
+        after="$(du -sk "$store" | cut -f1)"
+        freed=$((before - after))
+        printf 'store prune: %s KB -> %s KB (freed %s KB)\n' "$before" "$after" "$freed"
+        {
+          echo "### pnpm store"
+          printf -- '- pruned before save: **%s KB → %s KB**, freed **%s KB**\n' \
+            "$before" "$after" "$freed"
+          if [ "$freed" -le 0 ]; then
+            echo '- freed nothing. If that repeats on a run that supersedes a dependency,'
+            echo '  this step is theatre and belongs deleted rather than kept for tidiness.'
+          fi
+        } >> "$GITHUB_STEP_SUMMARY"
