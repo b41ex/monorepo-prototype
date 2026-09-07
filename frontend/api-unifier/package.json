@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-api-unifier",
-  "version": "2.9.3",
+  "version": "2.9.4",
   "description": "Tools for JsonSchema/Openapi/GraphQL spec for unified processing",
   "module": "./dist/index.es.js",
   "main": "./dist/index.cjs.js",

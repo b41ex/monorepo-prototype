@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-apispec-view-json-schema-viewer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": "true",
   "description": "A beautiful React component for viewing JSON Schema",
   "keywords": [],
