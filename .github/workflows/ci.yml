@@ -505,3 +505,107 @@ jobs:
             exit 1
           fi
           echo "all needed jobs succeeded or were skipped"
+
+  # ---------------------------------------------------------------------------------------
+  # publish — the npm half of §8's release finish, on main only.
+  #
+  # §6 targets rung 1 of the publishing ladder, which is "nothing publishes from a DEV
+  # branch". Release publishing was never in question: the component READMEs advertise
+  # `npm add @netcracker/qubership-apihub-api-doc-viewer`, so these are public libraries and
+  # the stable channel matters. This job is that channel; its absence was a gap in the
+  # prototype, not a decision, and this file previously implied otherwise.
+  #
+  # GATED ON ci-ok, not on the individual jobs. ci-ok is the one required check and already
+  # encodes "every needed job succeeded or was correctly skipped", including the screenshot
+  # suites that are the only real coverage three components have. Depending on it means a red
+  # anything cannot publish, and it avoids re-deriving that logic in a second place where the
+  # two could drift.
+  #
+  # PUBLISHES WITH pnpm, NEVER npm. npm does not understand the `workspace:` protocol outside
+  # an npm workspace: `npm pack` puts the literal string `workspace:^` in the tarball's
+  # dependency ranges and does not error, producing a package that is uninstallable for every
+  # consumer. pnpm rewrites it to a real semver range at pack time. This is why §8 gives Nx
+  # the metadata and pnpm the publishing.
+  #
+  # WHAT GETS PUBLISHED is decided by `private: true` in each manifest and nothing else — no
+  # allow-list here to drift out of step with it. Measured before this job existed: pnpm
+  # would publish 14 packages, and `nx release version --git-tag` would tag the same 14.
+  # They agree only because six manifests declaring `private` as the STRING "true" were
+  # normalised to the boolean, and four applications and a test suite were marked private at
+  # all; before that, Nx said 17 and pnpm said 18.
+  # ---------------------------------------------------------------------------------------
+  publish:
+    needs: [ci-ok]
+    # `always() &&` is load-bearing, and its absence cost a run. The first version of this
+    # job read `if: github.ref == 'refs/heads/main'`, which is true on main — and the job was
+    # SKIPPED anyway, on a fully green run.
+    #
+    # The cause is skip propagation reaching through `ci-ok`. `screenshot-tests` was skipped
+    # (nothing affected was downstream of the change), so `ci-ok` would have been skipped too
+    # and survives only because it carries `if: always()`. That rescue does not extend to
+    # ci-ok's own dependents: a custom `if:` without `always()` still carries the implicit
+    # success-of-all-needs check, and a skip upstream of ci-ok propagates past it.
+    #
+    # Naming ci-ok's RESULT explicitly is what makes this immune. It also states the
+    # intention directly — publish when the required check actually passed — rather than
+    # relying on a default whose behaviour through a skipped job is not obvious.
+    if: always() && needs.ci-ok.result == 'success' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: publish
+
+      # The token goes in ~/.npmrc, deliberately NOT in the repository's .npmrc.
+      #
+      # G32 is exactly this mistake made upstream: build-task-consumer's README tells a
+      # developer to add a PAT to a TRACKED .npmrc, and its Dockerfile.local then COPYs that
+      # file into an image layer. One `git commit -a` from publishing a credential, and a
+      # token readable by anyone who can pull the image.
+      #
+      # ~/.npmrc is outside the repository and outside every docker build context, so neither
+      # failure is reachable from here. The repo .npmrc keeps only the scope-to-registry
+      # mapping, which is not a secret.
+      - name: Authenticate to GitHub Packages
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          printf '//npm.pkg.github.com/:_authToken=%s\n' "$NODE_AUTH_TOKEN" >> "$HOME/.npmrc"
+          echo "wrote auth for npm.pkg.github.com to ~/.npmrc"
+          echo "repo .npmrc is untouched:"
+          git diff --exit-code --stat .npmrc && echo "  clean"
+
+      # --no-git-checks because the tree carries release tags and CI checks out a detached
+      # head; pnpm otherwise refuses to publish from a non-branch checkout.
+      - name: Publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm publish -r --no-git-checks --access restricted 2>&1 | tee "$RUNNER_TEMP/publish.log"
+
+      - name: What was published
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "### npm publish"
+            echo
+            if grep -qE '^\+ @' "$RUNNER_TEMP/publish.log" 2>/dev/null; then
+              echo '| package | version |'
+              echo '|---|---|'
+              grep -oE '^\+ @[^ ]+' "$RUNNER_TEMP/publish.log" \
+                | sed 's/^+ //' \
+                | awk -F'@' '{printf "| `@%s` | %s |\n", $2, $3}'
+            else
+              echo '_Nothing published._ On a re-run of the same commit this is the expected'
+              echo 'result: every version already exists in the registry and pnpm skips it.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
