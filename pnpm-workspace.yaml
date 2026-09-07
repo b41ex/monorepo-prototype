@@ -4,6 +4,86 @@ packages:
   - 'tests/ui-tests'
   - 'tools/jest-chrome-in-docker-environment'
 
+# ---------------------------------------------------------------------------------------
+# Package manager settings.
+#
+# These four lived in `.npmrc` until pnpm 12. From pnpm 11 pnpm reads only auth and
+# registry settings from `.npmrc`, and it does not warn about the ones it has stopped
+# reading — verified on 12.3.4, where `pnpm config list` against the old `.npmrc` returned
+# the registry entries and nothing else. Here they are checked instead: an unrecognised key
+# in this file is `ERR_PNPM_UNRECOGNIZED_WORKSPACE_SETTINGS` while `packageManager` pins a
+# version the running pnpm satisfies. All four below were confirmed recognised one at a
+# time, against a deliberately misspelled key as the negative control.
+# ---------------------------------------------------------------------------------------
+
+# Isolated linker, per §4. Each project sees only its own declared dependencies, so the
+# root node_modules/@types cannot leak type packages into every project and peer-dependent
+# tools resolve the consumer's version rather than the root's. Requires every import to be
+# declared — binaries used by scripts included — and scripts to use pnpm run, not npm run.
+#
+# Set explicitly rather than left to the default. Prototype 2 measured this setting on
+# pnpm 10.34.5 and reached 17 of 18 build targets green with every test suite matching its
+# own baseline, so this is not a variable to re-open: node-linker=hoisted has been run and
+# its remaining failures were the silent kind.
+#
+# It is also one of the two settings whose pnpm default happens to match what we want, so
+# dropping it in the .npmrc migration would have changed nothing and taught nothing. That
+# is an argument for stating it, not against.
+nodeLinker: isolated
+
+strictPeerDependencies: false
+
+# Matches npm's existing behaviour for this dependency set. Replace with an explicit
+# allowBuilds allow-list before this leaves prototype status — `onlyBuiltDependencies` was
+# removed in pnpm 11 and `allowBuilds` is its replacement, so the eventual cleanup is a
+# different key from the one the pnpm-10 comment named.
+dangerouslyAllowAllBuilds: true
+
+# `pnpm deploy` is how build-task-consumer's image gets a production node_modules. From
+# pnpm 10 it refuses by default on a workspace that does not set inject-workspace-packages:
+#
+#   ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE  By default, starting from pnpm v10, we only deploy
+#   from workspaces that have "inject-workspace-packages=true" set
+#
+# pnpm offers three ways forward and this is the middle one, chosen over both others:
+#
+#   injectWorkspacePackages: true  NOT TAKEN, and the honest reason is narrower than an
+#       earlier version of this comment claimed. That version stated as fact that injected
+#       packages are hard-linked copies, so a rebuilt upstream would go unseen until the next
+#       install, breaking §13's development loop. **That was asserted from pnpm's
+#       documentation and could not be reproduced.** A two-package probe on pnpm 10.34.5 —
+#       tried with the setting in .npmrc, with injectWorkspacePackages in
+#       pnpm-workspace.yaml, and with an explicit dependenciesMeta.injected, on two different
+#       filesystem locations — never injected at all: the dependency stayed a plain symlink
+#       to the source directory and no `file+` entry appeared in the virtual store. So the
+#       behaviour is unmeasured here, and the claim is withdrawn.
+#
+#       What stands without it: this setting changes resolution semantics for EVERY internal
+#       dependency in the workspace, and it would be adopted to fix one image's packaging
+#       step. `forceLegacyDeploy` changes one command. Preferring the smaller, reversible,
+#       deploy-scoped change over an unmeasured workspace-wide one is the argument — and
+#       pnpm's own error describes --legacy/force-legacy-deploy as deploying "without using
+#       injected dependencies", i.e. keeping the semantics we have and have measured.
+#
+#       If injected packages are ever wanted, that is its own piece of work: reproduce the
+#       behaviour first, then measure it against the development loop and the byte-identity
+#       comparisons before adopting.
+#
+#   --legacy at each call site  Works, and was the first choice. Dropped because the deploy
+#       command appears in three places — the images job, and twice in
+#       build-task-consumer/README.md — and a flag that must be remembered at every call site
+#       is the "restated per tool, drifts silently" shape that item 1.9 is named for.
+#       Forgetting it gives an error that names inject-workspace-packages, which is the
+#       option we deliberately did not take.
+#
+#   forceLegacyDeploy: true  CHOSEN. States the workspace-level fact once, in the file that
+#       now carries workspace-level package-manager policy.
+#
+# Both `--legacy` and this setting are still named "legacy" by pnpm, so both should still be
+# expected to go eventually — but pnpm 12 did not remove either, which was the single
+# largest risk in this upgrade and did not land.
+forceLegacyDeploy: true
+
 # Overrides carried deliberately, each with the gap that records why.
 #
 # npm and pnpm both apply overrides ONLY from the install root, and pnpm reads them from

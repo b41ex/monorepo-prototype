@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Third monorepo prototype: the 18 JavaScript components of APIHUB in one pnpm workspace. Local only, no remote, nothing published.",
-  "packageManager": "pnpm@10.34.5",
+  "packageManager": "pnpm@12.3.4",
   "devDependencies": {
     "@nx/js": "23.2.0",
     "@types/react": "^18.3.31",
