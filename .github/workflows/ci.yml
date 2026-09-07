@@ -1,6 +1,6 @@
 'on':
   push:
-    branches: [develop, release, hotfix, 'feature/**', 'bugfix/**']
+    branches: [main, develop, release, hotfix, 'feature/**', 'bugfix/**']
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore: ['docs/**', '**/*.md']
@@ -321,15 +321,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # The branch-to-tag mapping is carried over unchanged from docker-ci.yml:
+      # The branch-to-tag mapping is carried over from docker-ci.yml:
       #   develop -> dev, release -> next, feature/x -> feature-x, a tag -> the tag.
+      #
+      # main -> latest is NEW, added with the main trigger. Without the trigger, section 8's
+      # release-finish step 3 -- "CI on main builds everything once, then publishes" -- had no
+      # pipeline behind it at all: merging to main ran nothing. Without the mapping, main would
+      # have fallen through to the literal branch name and published ghcr images tagged
+      # `:main`, which is not a channel anything consumes.
       - name: Compute tags
         id: tags
         shell: bash
         run: |
           set -euo pipefail
           ref='${{ github.ref }}'
-          branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
+          branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^main$@latest@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
 
           pnpm exec nx graph --file=graph.json >/dev/null
           # .dockerignore is hashed alongside the Dockerfile: it decides what reaches the
