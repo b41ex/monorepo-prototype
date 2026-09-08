@@ -117,7 +117,7 @@
     },
     "screenshot-test": {
       "dependsOn": ["build", "^build"],
-      "cache": false
+      "cache": true
     }
   },
   "defaultBase": "develop"
