@@ -49,6 +49,7 @@
     "@b41ex/qubership-apihub-api-diff": "workspace:^",
     "@b41ex/qubership-apihub-api-doc-viewer": "workspace:^",
     "@b41ex/qubership-apihub-api-unifier": "workspace:^",
+    "@b41ex/qubership-apihub-apispec-view-samples": "workspace:*",
     "@b41ex/qubership-apihub-compatibility-suites": "workspace:^",
     "@b41ex/qubership-apihub-http-spec": "workspace:^",
     "@b41ex/qubership-apihub-jest-chrome-in-docker-environment": "workspace:^",
