@@ -117,6 +117,7 @@
     },
     "screenshot-test": {
       "dependsOn": ["build", "^build"],
+      "inputs": ["default", "^production"],
       "cache": true
     }
   },
