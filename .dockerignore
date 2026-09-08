@@ -53,9 +53,16 @@
 # differences, which reads as the defect being fixed. It is not: `prunedAt` is an RFC-1123
 # date with one-second granularity, that run's two deploys both finished inside second :38,
 # and the probe was racing a clock it happened to beat. Run 34165618906's deploys landed a
-# second apart and the difference came back — one file of 16253, this one. The probe now
-# sleeps past the boundary and prints both timestamps, so a zero can be told apart from a
-# race it won.
+# second apart and the difference came back — one file of 16253, this one. Confirmed a third
+# time on run 34169438149, with the two `prunedAt` values printed alongside the result so a
+# zero could be told apart from a race the probe won.
+#
+# The probe was temporary and is gone; it cost an extra `pnpm deploy` on every build of this
+# image and its answer is recorded. To re-measure after a pnpm upgrade, follow CI-DESIGN.md's
+# test case B2: deploy, move the tree aside, deploy again to the SAME absolute path, sleep
+# past a second boundary first, and compare `prunedAt` as well as the file contents. Deploying
+# to a different path invalidates the comparison, and deploying twice within one second makes
+# it come out clean whatever the truth is.
 #
 # Ordering matters: this must come AFTER the re-include above, because docker applies
 # patterns in order and the last match wins.

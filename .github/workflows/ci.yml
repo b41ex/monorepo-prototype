@@ -409,155 +409,6 @@ jobs:
         if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
         run: pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
 
-      # TEMPORARY, for the pnpm 12 upgrade. Delete once the answer is recorded.
-      #
-      # `.dockerignore` excludes `.deploy/*/node_modules/.modules.yaml` because under pnpm 10
-      # two deploys to the same absolute path produced 16316 identical files and differed in
-      # exactly that one, which was enough to rebuild and re-export the whole `COPY
-      # node_modules` layer on every build (pnpm/pnpm#9474, still open). The Rust rewrite
-      # touched the ordering that file records, AND pnpm 12 writes a new one beside it —
-      # `node_modules/.package-map.json`, 1.7 MB, which did not exist under pnpm 10 and is
-      # not excluded.
-      #
-      # So the exclusion is now a claim about a package manager that no longer exists, and
-      # this re-runs CI-DESIGN.md's test case B2 rather than trusting the changelog in either
-      # direction.
-      #
-      # IT DEPLOYS TWICE TO THE SAME ABSOLUTE PATH, and that is the whole design of the
-      # experiment. B2 records that the first attempt deployed the second tree to
-      # `.deploy-probe/` and its DIFFERS result proved nothing: at a different absolute path,
-      # any file that embeds its own install path differs for that reason alone. So the first
-      # tree is MOVED ASIDE to $RUNNER_TEMP and the second is written where the first was.
-      # The one left in place is the second deploy, which is as valid an input to the image
-      # as the first.
-      #
-      # Compared by structure and symlink targets (`diff -rq --no-dereference`, so a symlink
-      # is compared as a link rather than followed) and by content hash, and it NAMES every
-      # differing file — the answer wanted is "these differ", not "something differs". If
-      # nothing differs, the `.dockerignore` exclusion has no cause left and should be
-      # deleted rather than kept for tidiness.
-      - name: MEASURE — is the deploy tree deterministic under pnpm 12 (B2)
-        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
-        shell: bash
-        run: |
-          set -uo pipefail
-          live=".deploy/${{ matrix.deploy }}"
-          first="$RUNNER_TEMP/deploy-first"
-          mv "$live" "$first"
-
-          # THE SLEEP IS THE EXPERIMENT, not politeness.
-          #
-          # `prunedAt` in `.modules.yaml` is an RFC-1123 date — ONE-SECOND granularity. Two
-          # deploys that finish inside the same wall-clock second write the same string and
-          # the probe reports ZERO differences. Run 34164185574 did exactly that: its two
-          # deploys finished at 21:56:38.19 and 21:56:38.79, it reported `0 differ by
-          # content`, and that was written up as pnpm 12 having fixed pnpm/pnpm#9474. It has
-          # not. Run 34165618906's deploys landed at 22:22:24.95 and 22:22:25.78 — a second
-          # apart — and the difference appeared, one file out of 16253, the same
-          # `.modules.yaml` as under pnpm 10.
-          #
-          # A probe whose answer depends on how fast the runner is, is not a probe. Sleep
-          # past the boundary so the experiment can fail, and print both timestamps below so
-          # a zero can be told apart from a race the probe happened to win.
-          sleep 2
-          pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod "$live"
-
-          pruned_a="$(grep -o '"prunedAt": *"[^"]*"' "$first/node_modules/.modules.yaml" 2>/dev/null || echo 'not found')"
-          pruned_b="$(grep -o '"prunedAt": *"[^"]*"' "$live/node_modules/.modules.yaml" 2>/dev/null || echo 'not found')"
-
-          structure="$(diff -rq --no-dereference "$first" "$live" 2>&1 || true)"
-          ( cd "$first" && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/a.sums" 2>/dev/null
-          ( cd "$live"  && find . -type f -print0 | sort -z | xargs -0 sha256sum ) > "$RUNNER_TEMP/b.sums" 2>/dev/null
-          total=$(wc -l < "$RUNNER_TEMP/a.sums")
-          links=$(cd "$first" && find . -type l | wc -l)
-          differing="$(diff "$RUNNER_TEMP/a.sums" "$RUNNER_TEMP/b.sums" | grep '^<' | sed 's/^< *[0-9a-f]* *//' || true)"
-          n=$(printf '%s' "$differing" | grep -c . || true)
-          rm -rf "$first"
-
-          {
-            echo "### pnpm deploy determinism under pnpm 12 — CI-DESIGN test case B2"
-            printf -- '- two deploys to the **same absolute path**: %s files, %s symlinks\n' "$total" "$links"
-            printf -- '- files differing by content: **%s**\n' "$n"
-            # Both timestamps, always. If they are EQUAL the deploys shared a wall-clock
-            # second and a zero result says nothing — that is the false negative run
-            # 34164185574 produced and it read as a fix.
-            printf -- '- `prunedAt` first: `%s`\n' "$pruned_a"
-            printf -- '- `prunedAt` second: `%s`\n' "$pruned_b"
-            if [ "$n" -gt 0 ]; then
-              echo '```text'
-              printf '%s\n' "$differing"
-              echo '```'
-            elif [ "$pruned_a" = "$pruned_b" ]; then
-              echo '- **inconclusive.** The two `prunedAt` values are identical, so the'
-              echo '  deploys landed in the same second and the probe could not have seen a'
-              echo '  difference. Not evidence of determinism.'
-            else
-              echo '- **nothing differs**, with distinct `prunedAt` values, so the experiment'
-              echo '  could have failed and did not. Under pnpm 10 exactly one file differed —'
-              echo '  `node_modules/.modules.yaml` — and `.dockerignore` excludes it for that'
-              echo '  reason. On this evidence that exclusion has no cause left.'
-            fi
-            if [ -n "$structure" ]; then
-              echo ''
-              echo 'Structure and symlink differences (`diff -rq --no-dereference`):'
-              echo '```text'
-              printf '%s\n' "$structure" | head -50
-              echo '```'
-            else
-              echo '- structure and symlink targets: **identical**'
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
-          printf 'B2: %s files, %s differ by content\n' "$total" "$n"
-          printf '%s\n' "$differing"
-          # To stdout as well as the summary. The first run of this probe put the structure
-          # comparison only in the job summary, which is not retrievable through the API —
-          # so the content result could be read afterwards and the structure result could
-          # not. A measurement that is only in the summary is half a measurement.
-          printf 'B2 structure/symlink diff:\n%s\n' "${structure:-<none>}"
-          printf 'B2 prunedAt: %s | %s\n' "$pruned_a" "$pruned_b"
-
-      # TEMPORARY, for the pnpm 12 upgrade, and it is a NEGATIVE CONTROL for
-      # `verifyDepsBeforeRun: false` rather than a guard.
-      #
-      # On run 34164185574 the step after the deploy ran `pnpm exec nx show project` and pnpm
-      # — following its own pnpm 11 default of verifying deps before running anything — did an
-      # install that removed the workspace root's five devDependencies, `nx` among them. The
-      # next line then failed with `Command "nx" not found`, three steps away from the cause.
-      #
-      # `verifyDepsBeforeRun: false` in pnpm-workspace.yaml is the fix, and it could not be
-      # verified on the workstation because the trigger needs `pnpm deploy`. So this asserts
-      # it here: run a pnpm command in the workspace root after the deploy, and check that
-      # (a) nothing installed and (b) the devDependencies are still present. A green images
-      # job would otherwise be indistinguishable from one where the fix did nothing and the
-      # order of steps happened to hide it.
-      - name: MEASURE — does the workspace survive a pnpm command after the deploy
-        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
-        shell: bash
-        run: |
-          set -uo pipefail
-          before="$(ls -d node_modules/nx 2>/dev/null || echo ABSENT)"
-          pnpm exec node -e 'process.exit(0)' > "$RUNNER_TEMP/vd.log" 2>&1 || true
-          after="$(ls -d node_modules/nx 2>/dev/null || echo ABSENT)"
-          installed=no
-          grep -qE '^(Packages: |Scope: all)' "$RUNNER_TEMP/vd.log" && installed=yes
-          {
-            # Single quotes: backticks inside a double-quoted string are command
-            # substitution, and this line would otherwise have run `pnpm exec`.
-            echo '### Did `pnpm exec` install anything after the deploy?'
-            printf -- '- `verifyDepsBeforeRun`: **%s**\n' "$(pnpm config get verifyDepsBeforeRun 2>/dev/null || echo '?')"
-            printf -- '- an install ran during `pnpm exec`: **%s**\n' "$installed"
-            printf -- '- `node_modules/nx` before → after: **%s** → **%s**\n' "$before" "$after"
-            echo '```text'
-            head -20 "$RUNNER_TEMP/vd.log"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-          printf 'post-deploy pnpm exec: installed=%s  nx %s -> %s\n' "$installed" "$before" "$after"
-          cat "$RUNNER_TEMP/vd.log"
-          if [ "$after" = "ABSENT" ]; then
-            echo "::error::pnpm removed the workspace root's dev dependencies after the deploy — verifyDepsBeforeRun: false did not prevent it"
-            exit 1
-          fi
-
       # Assert the COPY sources exist before handing the context to buildx.
       #
       # This step exists because BOTH commands above exit 0 when they match nothing. Two
@@ -570,6 +421,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
+          # The workspace still has to BE a workspace at this point, and once it was not.
+          #
+          # `pnpm deploy --prod` is a production install, and pnpm 11's `verifyDepsBeforeRun`
+          # default made the next `pnpm exec` reconcile the workspace root to it — removing
+          # the root's five devDependencies, `nx` among them. The line below then failed with
+          # `Command "nx" not found`, three steps from the cause, inside the step whose whole
+          # job is to notice missing build outputs. `verifyDepsBeforeRun: false` in
+          # pnpm-workspace.yaml is the fix; this is one line that names it if it is ever
+          # removed, instead of leaving the next person the confusing error.
+          [ -d node_modules/nx ] || {
+            echo "::error::node_modules/nx is gone after the deploy — check verifyDepsBeforeRun in pnpm-workspace.yaml"
+            exit 1
+          }
+
           missing=0
           check() {
             if [ -e "$1" ]; then
