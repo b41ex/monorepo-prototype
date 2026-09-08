@@ -86,3 +86,23 @@ $ pnpm start:dev
 # production mode
 $ pnpm start:prod
 ```
+
+## Which image tag CI publishes
+
+The branch decides the floating tag; the content decides the immutable one.
+
+| branch | floating tag |
+|---|---|
+| `develop` | `:dev` |
+| `release` | `:next` |
+| `main` | `:latest` |
+
+Every build also pushes `:src-<hash>`, derived from the git tree hashes of this project and its
+transitive dependencies plus the Dockerfile, `.dockerignore` and the lockfile. That tag is
+immutable, so *which image did we actually test* has an exact answer after a floating tag has
+moved on — and a build whose `src-` tag already exists in the registry is skipped, with the
+floating tag retagged onto it instead.
+
+Note the floating tags move only when the image is rebuilt or retagged, which requires the job
+to run at all. A branch on which nothing is affected leaves its floating tag pointing wherever
+it pointed before.
