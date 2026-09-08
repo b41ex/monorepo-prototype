@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-api-diff",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "module": "./dist/index.es.js",
   "main": "./dist/index.cjs.js",
   "types": "./dist/index.d.ts",

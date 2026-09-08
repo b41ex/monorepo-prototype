@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-graphapi",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "The GraphAPI Specification Repository",
   "module": "./dist/index.es.js",
   "main": "./dist/index.cjs.js",

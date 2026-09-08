@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-ddlapi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "Apache-2.0",
   "files": [
     "dist",
