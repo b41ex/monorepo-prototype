@@ -181,13 +181,21 @@ runs:
         # result in the metadata cache directory, keyed on the lockfile and the policy, and
         # prints either how long the verification took or how long ago it was verified.
         #
-        # Measured locally on a cold cache: `Lockfile passes supply-chain policies (4684
-        # entries in 10m 11.8s)` — ten minutes, on a workstation connection. A GitHub runner
-        # is faster, but a runner is also always cold, and this action runs in every job.
-        # That is a per-job cost that did not exist under pnpm 10 and nothing else in the
+        # It is a per-job cost that did not exist under pnpm 10 and nothing else in the
         # pipeline reports it, so it is surfaced here rather than left to be found as an
-        # unexplained slowdown. Instrument first, then decide whether the metadata cache is
-        # worth persisting or the check is worth scoping to one job with --trust-lockfile.
+        # unexplained slowdown.
+        #
+        # MEASURED, AND DELIBERATELY NOT ACTED ON. Cold on a workstation this was `4684
+        # entries in 10m 11.8s`, which was about to justify persisting the 398 MB metadata
+        # cache or scoping the check with --trust-lockfile. On a runner it is 11-30s:
+        #
+        #     plan 11.4s   js 19.5s   the three screenshot legs 18.7s / 25.9s / 30.4s
+        #
+        # Two orders of magnitude apart, because the check is network-bound and a runner's
+        # path to the registry is not a home connection. Local evidence is not CI evidence,
+        # in the flattering direction for once. Neither mitigation is worth ~20s a job, so
+        # the row stays as a standing measurement: if the policy or the registry changes,
+        # this is where it shows.
         policy="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
           | grep -oE 'supply-chain policies \(([^)]*)\)' | tail -1 | sed 's/.*(//;s/)//' || true)"
         {
