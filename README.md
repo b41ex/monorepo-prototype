@@ -11,7 +11,7 @@ only, no remote, nothing published.
 
 | | |
 |---|---|
-| Package manager | pnpm 10.34.5, `node-linker=isolated` set explicitly in `.npmrc` |
+| Package manager | pnpm 12.3.4, `nodeLinker: isolated` set explicitly in `pnpm-workspace.yaml` |
 | Node | 24.15.0 |
 | Scope | `@b41ex`, not `@netcracker` — see the warning below |
 | Projects | 34 workspace projects; **18 build targets**, 13 test targets |
@@ -27,6 +27,26 @@ only, no remote, nothing published.
 `pnpm publish -r` would select it and the root `.npmrc` routes unscoped names to the public
 registry, where that name is unclaimed. **Do not run `pnpm publish -r` here.** UPSTREAM-GAPS
 G25; the one-line fix is `"private": true` upstream.
+
+## You need pnpm 12, and pnpm 10 will not get it for you
+
+`packageManager` pins `pnpm@12.3.4` and CI installs exactly that. On a workstation still
+holding pnpm 10, **the automatic switch does not work**:
+
+```text
+ERROR  Failed to switch pnpm to v12.3.4. Looks like pnpm CLI is missing at
+"…\AppData\Local\pnpm\.tools\pnpm\12.3.4\bin" or is incorrect
+```
+
+pnpm 10's self-switch expects a JS CLI under `bin/`; pnpm 12 ships a native executable at the
+package root. So pnpm 10 tries, fails, and reports a missing path rather than a version
+problem — and it fails for every project script Nx spawns, not just for `pnpm install`. Install
+pnpm 12 directly (`npm i -g pnpm@12`, or `corepack enable` and let corepack read the pin).
+
+The failure is at least loud. Under pnpm 10 with a pnpm 10 pin nothing checked anything; pnpm
+12 refuses to run under a mismatched pin with `ERR_PNPM_BAD_PM_VERSION`, so the
+"advisory locally, enforced in CI" gap this prototype recorded is closed by the upgrade
+itself.
 
 ## How to run things
 

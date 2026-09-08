@@ -21,20 +21,26 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Read the package manager from the manifest
-      id: pm
-      shell: bash
-      run: |
-        set -euo pipefail
-        # packageManager is the single source of truth; hard-coding a version here is how
-        # the workflow and the workspace drift apart.
-        version="$(node -p "require('./package.json').packageManager.split('@')[1]")"
-        echo "pnpm=$version" >> "$GITHUB_OUTPUT"
-        echo "pnpm $version"
-
-    - uses: pnpm/action-setup@v6
+    # No version input, and no step reading `packageManager` out of the manifest to feed it
+    # one. `pnpm/action-setup` reads `packageManager` (or `devEngines.packageManager`) itself
+    # when `version` is omitted, so the manifest is the single source of truth with one less
+    # moving part — the same argument this repository makes everywhere else against a second
+    # list that can disagree with the first. The step that used to do it by hand read
+    # `require('./package.json').packageManager.split('@')[1]` and passed the result straight
+    # back to the action that would have read it anyway.
+    #
+    # PINNED TO v6.1.0, NOT v6, AND THAT IS LOAD-BEARING. pnpm 12 support landed in v6.1.0
+    # (pnpm/action-setup#288). The floating `v6` tag still resolves to v6.0.10's commit —
+    # checked, not assumed: both `v6` and `v6.0.10` dereference to 0977fd99, while v6.1.0 is
+    # ea17c68d. A major-version tag that has not been moved forward is exactly the kind of
+    # thing that reads as "already up to date" and is not, so the exact tag stays here until
+    # `v6` catches up.
+    #
+    # pnpm 12 ships a native executable rather than a JS CLI, which is also why the
+    # `standalone` input is not set: for pnpm 12 it has no effect, because the plain `pnpm`
+    # package already installs the standalone native binary.
+    - uses: pnpm/action-setup@v6.1.0
       with:
-        version: ${{ steps.pm.outputs.pnpm }}
         run_install: false
 
     - uses: actions/setup-node@v6
@@ -169,10 +175,34 @@ runs:
         set -uo pipefail
         downloaded="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
           | grep -oE 'downloaded [0-9]+' | tail -1 | grep -oE '[0-9]+' || true)"
+        # pnpm 12 verifies the whole lockfile against its supply-chain policies —
+        # minimumReleaseAge defaults to 1440 minutes from pnpm 11, so pnpm has to know every
+        # entry's publish time and fetches registry metadata to find out. It memoises the
+        # result in the metadata cache directory, keyed on the lockfile and the policy, and
+        # prints either how long the verification took or how long ago it was verified.
+        #
+        # It is a per-job cost that did not exist under pnpm 10 and nothing else in the
+        # pipeline reports it, so it is surfaced here rather than left to be found as an
+        # unexplained slowdown.
+        #
+        # MEASURED, AND DELIBERATELY NOT ACTED ON. Cold on a workstation this was `4684
+        # entries in 10m 11.8s`, which was about to justify persisting the 398 MB metadata
+        # cache or scoping the check with --trust-lockfile. On a runner it is 11-30s:
+        #
+        #     plan 11.4s   js 19.5s   the three screenshot legs 18.7s / 25.9s / 30.4s
+        #
+        # Two orders of magnitude apart, because the check is network-bound and a runner's
+        # path to the registry is not a home connection. Local evidence is not CI evidence,
+        # in the flattering direction for once. Neither mitigation is worth ~20s a job, so
+        # the row stays as a standing measurement: if the policy or the registry changes,
+        # this is where it shows.
+        policy="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
+          | grep -oE 'supply-chain policies \(([^)]*)\)' | tail -1 | sed 's/.*(//;s/)//' || true)"
         {
           echo "CACHE_NX_SCOPE=${{ steps.scope.outputs.value }}"
           echo "CACHE_PNPM_STORE=${{ steps.pnpm-store.outputs.cache-hit == 'true' && 'exact key hit' || 'restored by prefix' }}"
           echo "CACHE_PNPM_DOWNLOADED=${downloaded:-?}"
+          echo "CACHE_PNPM_POLICY=${policy:-not reported}"
         } >> "$GITHUB_ENV"
 
     # ------------------------------------------------------------------------------------

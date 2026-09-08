@@ -392,8 +392,10 @@ jobs:
       # 0 — the same silent no-op as above, in the adjacent step. A path filter also survives
       # the scope rename, which a hardcoded @b41ex/… name would not.
       #
-      # No `--legacy` flag here, deliberately: `force-legacy-deploy=true` in the workspace
-      # .npmrc states that fact once. §6 says the in-image `npm ci` "can be replaced by
+      # No `--legacy` flag here, deliberately: `forceLegacyDeploy: true` in
+      # pnpm-workspace.yaml states that fact once. It lived in `.npmrc` until pnpm 12, which
+      # reads only auth and registry settings from that file and says nothing about the rest.
+      # §6 says the in-image `npm ci` "can be replaced by
       # `pnpm deploy --filter build-task-consumer --prod`", which was true when written and is
       # not now — pnpm 10 refuses by default with ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE. The
       # .npmrc carries the full reasoning, including why inject-workspace-packages=true was
@@ -419,6 +421,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
+          # The workspace still has to BE a workspace at this point, and once it was not.
+          #
+          # `pnpm deploy --prod` is a production install, and pnpm 11's `verifyDepsBeforeRun`
+          # default made the next `pnpm exec` reconcile the workspace root to it — removing
+          # the root's five devDependencies, `nx` among them. The line below then failed with
+          # `Command "nx" not found`, three steps from the cause, inside the step whose whole
+          # job is to notice missing build outputs. `verifyDepsBeforeRun: false` in
+          # pnpm-workspace.yaml is the fix; this is one line that names it if it is ever
+          # removed, instead of leaving the next person the confusing error.
+          [ -d node_modules/nx ] || {
+            echo "::error::node_modules/nx is gone after the deploy — check verifyDepsBeforeRun in pnpm-workspace.yaml"
+            exit 1
+          }
+
           missing=0
           check() {
             if [ -e "$1" ]; then

@@ -15,7 +15,30 @@
 const fs = require('fs')
 
 const before = JSON.parse(fs.readFileSync('tools/migration/resolutions-before.json', 'utf8'))
-const lock = fs.readFileSync('pnpm-lock.yaml', 'utf8').split('\n')
+
+// pnpm 12 makes pnpm-lock.yaml a MULTI-DOCUMENT YAML file. It writes a small first document
+// recording the package manager itself — `packageManagerDependencies: pnpm 12.3.4` plus its
+// eight @pnpm/exe platform binaries — ahead of the lockfile proper, and that first document
+// has an `importers:` key of its own.
+//
+// So the obvious `lock.indexOf('importers:')` now finds the WRONG SECTION, and does it
+// quietly: the packageManager document's importer carries no `version:` lines this parser
+// recognises, so every component comes back as "no importer in the workspace lock" and the
+// script prints a confident, entirely wrong report. Reading the last document rather than
+// the first is correct under both formats — pnpm 10 wrote exactly one, so "last" was "only".
+const documents = fs
+  .readFileSync('pnpm-lock.yaml', 'utf8')
+  .split('\n')
+  .reduce(
+    (docs, line) => {
+      if (line === '---') docs.push([])
+      else docs[docs.length - 1].push(line)
+      return docs
+    },
+    [[]],
+  )
+  .filter((d) => d.some((l) => l.trim()))
+const lock = documents[documents.length - 1]
 
 // importers:
 //   frontend/api-diff:

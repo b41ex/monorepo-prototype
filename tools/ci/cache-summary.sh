@@ -18,6 +18,14 @@
 #
 #   Nx           its own `Cache: N/N hit (P%)` line, the only number that means anything
 #   pnpm store   `pnpm install`'s own "downloaded N" — 0 means the store served everything
+#   pnpm policy  pnpm 12's own "supply-chain policies (N entries in T)" / "(verified T ago)"
+#
+# The third is new with pnpm 12 and is here for the same reason as the other two: it is a
+# per-job cost that exists and that nothing else in the pipeline reports. pnpm verifies the
+# whole lockfile against `minimumReleaseAge` on install, which means fetching registry
+# metadata for every entry; it memoises that in the metadata cache, which a runner does not
+# have. Cold, it measured 4684 entries in 10m 11.8s on a workstation. Whether that is a
+# runner problem is what this row is for.
 #
 # The buildx layer cache is not here. Its verdict is the `#N CACHED` step count inside
 # docker/build-push-action's output, which this script does not see; adding it means capturing
@@ -58,14 +66,26 @@ scope="${CACHE_NX_SCOPE:-unknown}"
 store_state="${CACHE_PNPM_STORE:-unknown}"
 downloaded="${CACHE_PNPM_DOWNLOADED:-?}"
 
+policy="${CACHE_PNPM_POLICY:-not reported}"
+
 pnpm_line="**downloaded ${downloaded}**"
 if [ "$downloaded" = "0" ]; then
   pnpm_line="$pnpm_line — the store served every package"
 fi
 
+# `verified N ago` is a memo hit and costs nothing; `N entries in T` is a cold verification
+# and T is the number that matters. Said explicitly rather than left to be inferred from the
+# wording, because the two read almost identically at a glance.
+policy_line="**${policy}**"
+case "$policy" in
+  *verified*) policy_line="$policy_line — memo hit, no registry metadata fetched" ;;
+  *entries*)  policy_line="$policy_line — **cold**, this is a per-job cost" ;;
+esac
+
 printf '### Cache — %s\n\n' "$label"
 printf '| | |\n|---|---|\n'
 printf '| Nx computation | %s, scope `%s` |\n' "$nx_line" "$scope"
 printf '| pnpm store | %s, %s |\n' "$pnpm_line" "$store_state"
-printf '\n<sub>Both figures are what the tool that used the cache reported. '
+printf '| pnpm lockfile policy | %s |\n' "$policy_line"
+printf '\n<sub>Every figure here is what the tool that used the cache reported. '
 printf "The <code>actions/cache</code> restore line is omitted on purpose: it has been green through five separate Nx cache failures.</sub>\n\n"

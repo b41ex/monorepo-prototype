@@ -10,9 +10,18 @@ So please refer to [qubership-apihub](https://github.com/Netcracker/qubership-ap
 
 ## Installation
 
+Not from here, and not with npm. This component is a member of the pnpm workspace, so it has
+no install of its own — dependencies are resolved once, at the workspace root, from the single
+`pnpm-lock.yaml`:
+
 ```bash
-npm install
+pnpm install          # at the workspace root, not in this directory
 ```
+
+Running `npm install` here would write a `package-lock.json` and a flat `node_modules` beside
+this manifest, resolve the `workspace:` specifiers against the registry rather than the sibling
+packages, and give this component a second, disagreeing set of versions. That is the shape the
+monorepo exists to remove.
 
 ## Building the app locally
 
@@ -57,13 +66,23 @@ inputs come from.
 
 ## Running the app
 
+`pnpm run`, not `npm run` — and this is not a spelling preference. Under
+`nodeLinker: isolated` a script that shells out to `npm` gets npm's flat resolution instead of
+pnpm's, and npm also reads the workspace's pnpm settings and warns about every one it does not
+recognise. `tools/migration/rewrite-scripts.js` rewrote the whole fleet's scripts for this
+reason; the prose here was missed.
+
+Two of the three lines were also not valid npm in the first place — `npm start:dev` is not a
+command; it would have to be `npm run start:dev`. Only `start` may be run bare, and pnpm
+accepts all three the same way.
+
 ```bash
 # development
-$ npm start
+$ pnpm start
 
 # watch mode
-$ npm start:dev
+$ pnpm start:dev
 
 # production mode
-$ npm start:prod
+$ pnpm start:prod
 ```
