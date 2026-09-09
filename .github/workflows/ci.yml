@@ -66,26 +66,41 @@ jobs:
           }
 
           shots="$(pick api-doc-viewer apispec-view class-view)"
-          images="$(pick ui-portal ui-agents build-task-consumer)"
 
-          # An image depends on more than its Nx projects, and `nx affected` cannot know it.
+          # IMAGES ARE NOT SELECTED BY `affected`, DELIBERATELY. Both always run.
           #
-          # `.dockerignore` decides what reaches the build context; tools/ci/ computes the
-          # content tag; the workflow itself defines how the image is built. None of those
-          # belongs to any Nx project, so a change to one marks NOTHING affected, the image
-          # jobs skip, and the change ships unvalidated — biting on some later, unrelated
-          # component push instead.
+          # `nx affected` answers a question about COMMITS — what changed between NX_BASE and
+          # NX_HEAD. Whether `:dev` / `:next` / `:feature-x` points at the right image is a
+          # question about the REGISTRY. Gating the job on the first silently assumes the
+          # second, and the assumption is: "this ref's floating tag already points at the
+          # content built from NX_BASE". That holds on a branch which has been building
+          # continuously, and breaks whenever a ref's identity moves independently of its
+          # diff:
           #
-          # That is not hypothetical: the commit that made .dockerignore opt-in was verified
-          # locally with podman and then skipped by CI for exactly this reason. Selecting a
-          # job on the wrong inputs is the same defect class as caching on the wrong inputs.
+          #   release start   `git switch -C release develop` moved release 1071b10 -> 36b8114
+          #                   while `git diff develop release` was EMPTY, which is the design's
+          #                   own success criterion for the step. Nothing affected, images
+          #                   skipped, and :next went on pointing at the PREVIOUS release.
+          #                   Measured: :dev 93a6a619… vs :next 74715936… on apihub-ui.
+          #   a cancelled run the tag never moved, and the next push sees no diff to notice
+          #   a new branch     its floating tag has never existed
+          #   a deleted tag    nothing in the commit graph can see that
+          #
+          # None of that is expensive to fix, because the job does NOT build unconditionally:
+          # `Has this content already been built?` checks the content-addressed `src-<hash>`
+          # tag in the registry and takes the retag path — a manifest operation, about a
+          # second, no layers — when it hits. So `affected` was gating the cheap half while
+          # the expensive half was already gated properly, one step later, by the right thing.
+          #
+          # This also subsumes the rule it replaces. `.dockerignore`, `tools/ci/` and this
+          # workflow belong to no Nx project, so a change to one marked nothing affected and
+          # the images skipped — which shipped a `.dockerignore` change unvalidated once. That
+          # needed a forcing rule while selection was by `affected`; with selection removed,
+          # there is nothing left to force. The diff is still computed, purely so the summary
+          # can say what moved.
+          images='["ui-portal","build-task-consumer"]'
           image_inputs="$(git diff --name-only "$NX_BASE" "$NX_HEAD" -- \
             .dockerignore tools/ci .github/workflows/ci.yml .github/actions || true)"
-          if [ -n "$image_inputs" ]; then
-            echo "image inputs changed outside any project, forcing both images:"
-            echo "$image_inputs" | sed 's/^/  /'
-            images='["ui-portal","build-task-consumer"]'
-          fi
 
           echo "screenshot_projects=$shots" >> "$GITHUB_OUTPUT"
           echo "image_projects=$images"     >> "$GITHUB_OUTPUT"

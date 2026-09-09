@@ -63,18 +63,25 @@ if (!affected.size) {
   say('is no build graph to draw.')
   say()
   if (images.length) {
-    // An image job CAN run while nothing is affected: the forcing rule selects it on files
-    // that belong to no Nx project, which is the whole reason that rule exists. The previous
-    // wording here asserted flatly that "the two matrix jobs are skipped", and run
-    // 33894555872 printed exactly that while both image jobs were running and retagging —
-    // contradicted three lines later by this script's own table. A summary that states a
-    // skip which did not happen is the same defect as a step that reports a success it did
-    // not achieve, and it is worse here than saying nothing, because this file exists to be
-    // the thing you can believe about job selection.
-    say('The screenshot jobs are skipped. The image jobs are **not** — they were selected on')
-    say('inputs that belong to no project, and the table below says which.')
+    // The image jobs run while nothing is affected, and that is now the NORMAL case rather
+    // than a forcing rule firing. They are not selected by `affected` at all: whether
+    // :dev / :next / :feature-x points at the right image is a fact about the REGISTRY, and
+    // `affected` only knows what changed between two commits. Expect a retag of about a
+    // second unless the content hash is genuinely new.
+    //
+    // The wording here has been wrong in both directions and both are worth remembering. It
+    // first asserted flatly that "the two matrix jobs are skipped", and run 33894555872
+    // printed exactly that while both image jobs were running and retagging — contradicted
+    // three lines later by this script's own table. It was then rewritten to explain the
+    // images by the forcing rule, which has since stopped being why they run. A summary that
+    // states a skip which did not happen, or a reason which is no longer the reason, is the
+    // same defect as a step reporting a success it did not achieve — and worse here, because
+    // this file exists to be the thing you can believe about job selection.
+    say('The screenshot jobs are skipped. The image jobs are **not**: they always run, so this')
+    say("ref's floating tag cannot go stale. Expect a retag rather than a build.")
   } else {
-    say('Every matrix job is skipped, and this is the cheapest run the pipeline can produce.')
+    say('Every matrix job is skipped. Images are **not** gated on `affected`, so an empty image')
+    say('list here means the plan job computed one wrongly — read it as a defect, not a saving.')
   }
   say()
 } else {
@@ -182,14 +189,19 @@ say(
 )
 say(
   `| images | ${images.length ? images.map((s) => `\`${s}\``).join(', ') : '_none_'} | ` +
-    (images.length ? 'built if the content hash is new, else retagged in ~1s' : 'no image input changed') +
+    (images.length ? 'built if the content hash is new, else retagged in ~1s' : '_none — this should not happen; images are not gated on affected_') +
     ' |',
 )
 
+// Images are no longer SELECTED by `affected` — both always run, because whether a floating
+// tag points at the right image is a fact about the registry and `affected` only knows about
+// commits. So this block no longer explains a forcing rule; it just names the inputs that
+// changed outside every Nx project, which is still worth seeing because they are the ones a
+// reader is most likely to think could not affect an image.
 if (forced) {
   say()
-  say('**Images were forced on** — these changed and belong to no Nx project, so `nx affected`')
-  say('cannot see them, and without this rule the change would ship unvalidated:')
+  say('**Image inputs changed outside every Nx project** — `nx affected` cannot see these, and')
+  say('before images ran unconditionally they were the case that shipped unvalidated:')
   say()
   say('```text')
   say(forced)
