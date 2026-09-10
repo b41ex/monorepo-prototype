@@ -1,7 +1,3 @@
-## 2.0.4 (2026-09-08)
-
-This was a version bump only for jest-chrome-in-docker-environment to align it with other projects, there were no code changes.
-
 # Changelog
 
 All notable changes to this project will be documented in this file.

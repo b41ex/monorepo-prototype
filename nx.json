@@ -62,8 +62,32 @@
       "updateDependents": "auto"
     },
     "changelog": {
+      "//": [
+        "The release notes live as GitHub Releases, one per component, not as CHANGELOG.md files",
+        "in the tree. `file: false` stops the file being written; `createRelease: github` publishes",
+        "the same generated notes against the component/version tag.",
+        "",
+        "Nothing is lost at the consumer end: no package listed CHANGELOG.md in its `files`, so it",
+        "was never in a published tarball. The 11 files nx had generated were deleted with this",
+        "change. The three components that carried an UPSTREAM changelog from their own repository",
+        "-- class-view, graphapi, jest-chrome-in-docker-environment -- keep it, restored to its",
+        "pre-release content: nx had prepended a generated section to a file it did not author, and",
+        "that history belongs to the component, not to this workspace. vscode's is untouched; it is",
+        "not in the release set at all.",
+        "",
+        "workspaceChangelog stays false, and now it MUST: nx cannot create GitHub Releases for both",
+        "project changelogs and the workspace changelog, and this workspace releases per component.",
+        "",
+        "Auth needs no secret for a local release -- nx reads GITHUB_TOKEN or GH_TOKEN, and falls",
+        "back to `gh auth token`. The commit has to be on the remote first, because nx sends GitHub",
+        "a tag name plus a target commit; `nx release --git-push` pushes before it creates the",
+        "releases, which is why release finish is one command run on `main`."
+      ],
       "workspaceChangelog": false,
-      "projectChangelogs": true
+      "projectChangelogs": {
+        "file": false,
+        "createRelease": "github"
+      }
     }
   },
   "namedInputs": {
