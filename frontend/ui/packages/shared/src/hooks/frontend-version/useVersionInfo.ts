@@ -18,9 +18,32 @@ import { useQuery } from '@tanstack/react-query'
 import type { AppTypeApiHub, VersionInfo, VersionInfoDto } from '../../utils/version-info'
 import { portal } from '../../utils/version-info'
 import { getVersionInfoOptions } from '../../utils/version-info'
-import * as packageJson from '../../../../portal/package.json'
 
-const emptyVersion: VersionInfo = { frontendVersion: packageJson.version, apiProcessorVersion: '0.0.0-unknown' }
+// `frontendVersion` used to come from `import * as packageJson from
+// '../../../../portal/package.json'`, and both halves of that were wrong.
+//
+// Wrong value: this hook serves BOTH apps. `BasePage.tsx` in agents calls
+// `useVersionInfo(agent)` and a shared component calls it with no argument, so the fallback
+// reported Portal's version inside Agents. A placeholder that admits it does not know beats
+// a number that names the wrong product.
+//
+// Wrong shape: it made `ui-shared` depend on `ui-portal` while `ui-portal` already depended
+// on `ui-shared`, so the Nx project graph held a cycle — visible as a two-headed edge in the
+// CI plan diagram, which is how it was found. It cost real time: a change to Portal alone
+// marked ui-shared AND ui-agents affected, and with the edge removed it marks neither. There
+// was no build-order failure only because ui-shared has no `build` script, just
+// `build:showcase`; the day it gains one, `dependsOn: ["^build"]` becomes a circular task
+// dependency and Nx refuses to run.
+//
+// This file is also what shared's own .eslintrc.json exists to prevent — it bans
+// `@b41ex/qubership-apihub-ui-portal` and `…/*` by name. A relative path matched neither
+// pattern, so the rule was aimed at the spelling rather than at the boundary. It now covers
+// the traversal form too.
+//
+// The real values are not affected: they come from the version.json that
+// frontend/ui/vite-create-version-json.ts generates per app, fetched by the query below.
+// This constant is only what is shown before that resolves.
+const emptyVersion: VersionInfo = { frontendVersion: '0.0.0-unknown', apiProcessorVersion: '0.0.0-unknown' }
 
 export function useVersionInfo(appType: AppTypeApiHub = portal): VersionInfo {
   const { data } = useQuery<VersionInfoDto, Error, VersionInfo>(
