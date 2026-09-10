@@ -1,3 +1,9 @@
+/**
+ * Public entry point for @b41ex/qubership-apihub-api-diff.
+ *
+ * Everything re-exported below is API surface. Anything not listed here is internal and may
+ * change without a major bump, so add an export deliberately rather than to reach one symbol.
+ */
 export { COMPARE_MODE_DEFAULT, COMPARE_MODE_OPERATION, API_COMPATIBILITY_KIND_BACKWARD_COMPATIBLE, API_COMPATIBILITY_KIND_NOT_BACKWARD_COMPATIBLE } from './types'
 
 export {
