@@ -78,10 +78,20 @@
         "workspaceChangelog stays false, and now it MUST: nx cannot create GitHub Releases for both",
         "project changelogs and the workspace changelog, and this workspace releases per component.",
         "",
-        "Auth needs no secret for a local release -- nx reads GITHUB_TOKEN or GH_TOKEN, and falls",
-        "back to `gh auth token`. The commit has to be on the remote first, because nx sends GitHub",
-        "a tag name plus a target commit; `nx release --git-push` pushes before it creates the",
-        "releases, which is why release finish is one command run on `main`."
+        "AUTH: export GH_TOKEN=\"$(gh auth token)\" before releasing. An earlier version of this comment",
+        "said no setup was needed because nx falls back to the gh CLI. Measured on 2026-09-10 and that",
+        "is false on Windows: nx looks for ~/.config/gh/hosts.yml, while gh keeps it in the Roaming",
+        "AppData \"GitHub CLI\" folder. Nx never finds it, never runs `gh auth token`, calls the API",
+        "unauthenticated and gets a 401 -- AFTER the commit, tag and push have already succeeded -- then",
+        "opens an interactive browser prompt. Re-running does not repair it: the tag is consumed, so the",
+        "next run sees no new conventional commits.",
+        "",
+        "PUSH: nx pushes the current branch BEFORE creating the releases, and that order is required",
+        "rather than incidental -- it sends GitHub a tag name plus a target commit, so the commit must",
+        "already be on the remote. It is NOT requested by --git-push: the combined `nx release` command",
+        "ignores that flag and pushes if and only if a release group is configured to create a remote",
+        "release, which createRelease above makes true. Only the `version` and `changelog` subcommands",
+        "read the flag. Stand on `main` when you run it."
       ],
       "workspaceChangelog": false,
       "projectChangelogs": {
@@ -91,7 +101,10 @@
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/*.spec.ts",
@@ -116,34 +129,63 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
-      "outputs": ["{projectRoot}/dist"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
       "cache": true
     },
     "test": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^production"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^production"
+      ],
       "cache": true
     },
     "lint:check": {
-      "inputs": ["default"],
+      "inputs": [
+        "default"
+      ],
       "cache": true
     },
     "type-check": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^production"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^production"
+      ],
       "cache": true
     },
     "build:showcase": {
-      "dependsOn": ["build", "^build"],
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
       "cache": false
     },
     "screenshot-test": {
-      "dependsOn": ["build", "^build"],
-      "inputs": ["default", "^production"],
+      "dependsOn": [
+        "build",
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^production"
+      ],
       "cache": true
     }
   },
-  "defaultBase": "develop"
+  "defaultBase": "develop",
+  "analytics": false
 }
