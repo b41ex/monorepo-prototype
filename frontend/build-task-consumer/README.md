@@ -97,12 +97,30 @@ The branch decides the floating tag; the content decides the immutable one.
 | `release` | `:next` |
 | `main` | `:latest` |
 
-Every build also pushes `:src-<hash>`, derived from the git tree hashes of this project and its
-transitive dependencies plus the Dockerfile, `.dockerignore` and the lockfile. That tag is
-immutable, so *which image did we actually test* has an exact answer after a floating tag has
-moved on — and a build whose `src-` tag already exists in the registry is skipped, with the
-floating tag retagged onto it instead.
+Every build pushes `:src-<hash>`, derived from the git tree hashes of this project and its
+transitive dependencies plus the Dockerfile, `.dockerignore` and the lockfile. That is the only
+tag a build writes. The floating tag is applied afterwards as an alias of it, on every run,
+whether or not anything was built — so a build whose `src-` tag already exists is skipped and
+costs about a second.
 
-Note the floating tags move only when the image is rebuilt or retagged, which requires the job
-to run at all. A branch on which nothing is affected leaves its floating tag pointing wherever
-it pointed before.
+The image jobs are not gated on `nx affected`. Whether a floating tag points at the right image
+is a fact about the registry, and `affected` only knows what changed between two commits, so a
+branch on which nothing changed would otherwise keep a stale pointer forever.
+
+## Where the provenance lives
+
+Not in the image. `GIT_BRANCH` and `GIT_HASH` used to be baked in as environment variables and
+were removed, because a ref is not a property of the content. Two branches at one commit hash
+identically, so they share a `src-` tag, and the branch tag is published by retagging rather
+than rebuilding — which meant the image serving `:dev` reported `GIT_BRANCH=main`.
+
+The ref and commit are now OCI annotations on the index that each branch tag points at, which
+is per-tag and can therefore be true for every tag at once:
+
+```bash
+docker buildx imagetools inspect ghcr.io/b41ex/apihub-build-task-consumer:dev
+```
+
+`org.opencontainers.image.version` is the ref and `org.opencontainers.image.revision` the
+commit. The trade is that `echo $GIT_BRANCH` inside a running container no longer answers the
+question; the command above does, and it answers for the tag you actually pulled.

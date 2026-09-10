@@ -28,10 +28,23 @@
 
 FROM docker.io/node:24-alpine
 
-ARG GIT_BRANCH=unknown
-ARG GIT_HASH=unknown
-ENV GIT_BRANCH=$GIT_BRANCH
-ENV GIT_HASH=$GIT_HASH
+# GIT_BRANCH / GIT_HASH used to be declared here as build args and promoted to ENV. They are
+# gone deliberately, and this note is what stops them coming back.
+#
+# They named the ref and commit that built the image. They were never part of the content
+# hash — tools/ci/image-input-hash.sh reads git tree objects and cannot read a build arg — so
+# two refs at one commit hashed identically and produced two DIFFERENT images competing for a
+# single src-<hash> tag. Worse, on the retag path nothing is rebuilt, so a branch tag was
+# published pointing at an image whose ENV named whichever ref built the content first.
+# Measured on 2026-09-10: the image serving :dev reported GIT_BRANCH=main.
+#
+# The provenance is now attached where it is actually true: as OCI annotations on the index
+# that ci.yml creates for each branch tag. Read it with
+#
+#   docker buildx imagetools inspect ghcr.io/b41ex/<image>:<tag>
+#
+# and it answers for the tag you pulled rather than for the ref that happened to build first.
+
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app

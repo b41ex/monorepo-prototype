@@ -34,10 +34,11 @@
 
 FROM docker.io/node:24-alpine
 
-ARG GIT_BRANCH=local
-ARG GIT_HASH=local
-ENV GIT_BRANCH=$GIT_BRANCH
-ENV GIT_HASH=$GIT_HASH
+# GIT_BRANCH / GIT_HASH are not declared here any more, to keep this file honest about being
+# the same image as Dockerfile with different input paths. See the note in that file: the
+# provenance moved to OCI annotations on the branch tag, because a value baked into a layer
+# belongs to the content and a ref does not.
+
 ENV NODE_ENV=production
 
 WORKDIR /usr/src/app

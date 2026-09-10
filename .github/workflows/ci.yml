@@ -379,11 +379,14 @@ jobs:
           set -euo pipefail
           if docker manifest inspect '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}' >/dev/null 2>&1; then
             echo "hit=true" >> "$GITHUB_OUTPUT"
-            echo "- **cache hit** — retagging, not building" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **cache hit** — this content exists, so no build" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "hit=false" >> "$GITHUB_OUTPUT"
-            echo "- cache miss — building" >> "$GITHUB_STEP_SUMMARY"
+            echo "- cache miss — building this content" >> "$GITHUB_STEP_SUMMARY"
           fi
+          # Neither line mentions the branch tag any more, because the branch tag is no
+          # longer what this step decides. It is published on both paths by the last step;
+          # what is decided here is only whether the CONTENT has to be built.
 
       # ---- miss: build ------------------------------------------------------------------
       # The build output comes from the Nx cache this run's js job populated, not from an
@@ -481,25 +484,84 @@ jobs:
           platforms: linux/amd64
           push: true
           provenance: false
-          tags: |
-            ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}
-            ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}
-          build-args: |
-            GIT_BRANCH=${{ github.ref_name }}
-            GIT_HASH=${{ github.sha }}
+          # ONLY the content-addressed tag. The branch tag is applied by the next step, on
+          # both paths, and the reason is that a tag is not a place metadata can live.
+          #
+          # Annotations and environment variables attach to a MANIFEST, and every tag name
+          # pointing at that manifest shares them. So a build that pushed src-<hash> and
+          # :dev together could not give the two different labels even in principle. The
+          # retag path already had the same problem from the other side: it publishes an
+          # image built by some earlier run, whose labels were fixed then.
+          tags: ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}
+          # No GIT_BRANCH / GIT_HASH build args any more, and this is the point of the
+          # change rather than a tidy-up. They were baked into the image as ENV, they are
+          # not part of the content hash — the hasher reads git tree objects and cannot
+          # read a build arg — and the retag path therefore handed a branch an image
+          # stamped with whichever ref happened to build the content first. Measured on
+          # 2026-09-10: the image serving :dev reported GIT_BRANCH=main.
+          #
+          # Hashing them instead was the obvious alternative and it is worse: it makes the
+          # hash differ per ref, so release and main at one commit would each build their
+          # own byte-different copy of identical content, which is exactly the reuse this
+          # whole design exists to get.
           # Replaces `no-cache: true`, which forced every layer to rebuild every run.
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
 
-      # ---- hit: retag -------------------------------------------------------------------
+      # ---- both paths: publish the branch tag -------------------------------------------
       # A registry-side manifest operation: about a second, no layers transferred. This is
       # what gives affected-only cost while keeping always-build semantics.
-      - name: Retag existing content
-        if: steps.exists.outputs.hit == 'true'
+      #
+      # It now runs on BOTH paths, not only on a content-check hit. `imagetools create`
+      # wraps the source manifest in a NEW index, and that index is per-tag, so it is the
+      # one place per-ref metadata can be attached without lying to any other tag. The
+      # build path pushes content; this step publishes a ref pointing at content.
+      #
+      # The cost of the move: `docker inspect` and `echo $GIT_BRANCH` inside a running
+      # container no longer answer "what is this". `docker buildx imagetools inspect
+      # <image>:<tag>` does, and it answers for the tag you actually pulled rather than for
+      # whichever ref built the bytes.
+      #
+      # `index:` is the required prefix — imagetools create annotates an index or a
+      # manifest descriptor, never a manifest.
+      - name: Point the branch tag at this content
+        shell: bash
         run: |
+          set -euo pipefail
           docker buildx imagetools create \
+            --annotation 'index:org.opencontainers.image.revision=${{ github.sha }}' \
+            --annotation 'index:org.opencontainers.image.version=${{ github.ref_name }}' \
+            --annotation 'index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}' \
             -t '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}' \
             '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}'
+
+          # Read the annotation back off the registry, because the whole point of this
+          # change is that the label stops being wrong, and `imagetools create` exiting 0
+          # says only that a manifest was written. This repository has been burned by that
+          # exact gap more than once: a deploy probe that proved nothing, a digest
+          # comparison that compared two empty strings, a summary that reported a skip
+          # while the job it described was running. Validate the artifact, not the exit
+          # code.
+          #
+          # It also guards a real failure mode with no other symptom. `--annotation` needs
+          # a level prefix, an unprefixed or misspelled one is not an error, and the result
+          # would be a tag published with no provenance at all — indistinguishable from
+          # success in the log.
+          raw="$(docker buildx imagetools inspect --raw \
+                 '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}')"
+          got="$(node -e '
+            const m = JSON.parse(require("fs").readFileSync(0, "utf8"))
+            const a = m.annotations || {}
+            process.stdout.write(a["org.opencontainers.image.version"] || "")
+          ' <<< "$raw")"
+          want='${{ github.ref_name }}'
+          if [ "$got" != "$want" ]; then
+            echo "::error::branch tag published without its provenance — expected version='$want', read '$got'"
+            echo "$raw" | head -40
+            exit 1
+          fi
+          echo "- provenance on \`${{ steps.tags.outputs.branch_tag }}\`: version=\`$got\`, revision=\`${{ github.sha }}\`" \
+            >> "$GITHUB_STEP_SUMMARY"
 
       # On a retag no Nx build ran and $RUNNER_TEMP/nx.log does not exist; the script reports
       # that rather than failing, which is what keeps the block present in every job.
