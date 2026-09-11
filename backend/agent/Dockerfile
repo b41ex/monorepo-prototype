@@ -24,9 +24,7 @@ COPY qubership-apihub-agent ./qubership-apihub-agent
 
 WORKDIR /workspace/qubership-apihub-agent
 
-RUN go mod tidy
-
-RUN GOSUMDB=off CGO_ENABLED=0 go mod tidy && go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
+RUN GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
 
 FROM ghcr.io/netcracker/qubership-core-base:2.3.7@sha256:b917b3a1731a2ae26b507d22565f030ec25ff8d28b75a80b8b08bbc946f4d73b
 

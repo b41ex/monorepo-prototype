@@ -129,7 +129,7 @@ jobs:
           # needed a forcing rule while selection was by `affected`; with selection removed,
           # there is nothing left to force. The diff is still computed, purely so the summary
           # can say what moved.
-          images='["ui-portal","build-task-consumer"]'
+          images='["ui-portal","build-task-consumer","agent","test-service"]'
           image_inputs="$(git diff --name-only "$NX_BASE" "$NX_HEAD" -- \
             .dockerignore tools/ci .github/workflows/ci.yml .github/actions || true)"
 
@@ -417,8 +417,18 @@ jobs:
   # The same reasoning does not apply to a test that only ever reports.
   # ---------------------------------------------------------------------------------------
   images:
-    needs: [plan, js]
-    if: needs.plan.outputs.image_projects != '[]'
+    needs: [plan, js, go]
+    # `always() &&` with explicit results, not the implicit success-of-all-needs check. `go`
+    # carries an `if:` and is SKIPPED when nothing Go is affected, and a skipped need fails
+    # that implicit check — so both images would have been skipped on any push that touched
+    # no Go module. That is the same skip-propagation defect documented on `publish` below,
+    # which cost a release. A skipped `go` is a pass here; a failed or cancelled one is not.
+    if: >-
+      always()
+      && needs.plan.result == 'success'
+      && needs.js.result == 'success'
+      && needs.go.result != 'failure' && needs.go.result != 'cancelled'
+      && needs.plan.outputs.image_projects != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -436,11 +446,40 @@ jobs:
             # alone would silently reuse an image that does not contain it.
             build_projects: ui-portal,ui-agents
             deploy: ''
+            context: .
+            workspace_build: 'true'
           - project: build-task-consumer
             image: apihub-build-task-consumer
             dockerfile: frontend/build-task-consumer/Dockerfile
             build_projects: build-task-consumer
             deploy: build-task-consumer
+            context: .
+            workspace_build: 'true'
+          # The two Go services that need no layout change. Their Dockerfiles copy only
+          # their own module directory, so the build CONTEXT is the component directory
+          # rather than the workspace root — hence the per-image `context` above and here.
+          #
+          # The other three Go services are deliberately absent. agents-backend,
+          # api-linter-service and portal-backend carry `replace ../../commons-go`, which
+          # resolves above a context that holds only their own module, so their images need
+          # a context one level up and a second COPY before they can build at all.
+          #
+          # `deploy` is empty: the Go builder stage compiles inside the image and there is
+          # no node_modules tree to materialise on the host.
+          - project: agent
+            image: apihub-agent
+            dockerfile: backend/agent/Dockerfile
+            build_projects: agent
+            deploy: ''
+            context: backend/agent
+            workspace_build: 'false'
+          - project: test-service
+            image: apihub-test-service
+            dockerfile: backend/test-service/Dockerfile
+            build_projects: test-service
+            deploy: ''
+            context: backend/test-service
+            workspace_build: 'false'
     steps:
       - uses: actions/checkout@v6
         with:
@@ -521,7 +560,7 @@ jobs:
       # `nx run-many` over an empty set exits 0 — so the step went green having built nothing,
       # and the docker build then failed on a COPY source that was never created.
       - name: Build the workspace output
-        if: steps.exists.outputs.hit == 'false'
+        if: steps.exists.outputs.hit == 'false' && matrix.workspace_build == 'true'
         run: |
           set -o pipefail
           pnpm exec nx run-many -t build --projects='${{ matrix.build_projects }}' 2>&1 | tee "$RUNNER_TEMP/nx.log"
@@ -560,7 +599,7 @@ jobs:
       # validate the artifact, not the exit code. A guard that turns a no-op into a loud
       # failure is worth more than either fix, because it catches the next one too.
       - name: Verify the build outputs exist
-        if: steps.exists.outputs.hit == 'false'
+        if: steps.exists.outputs.hit == 'false' && matrix.workspace_build == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -602,7 +641,7 @@ jobs:
         if: steps.exists.outputs.hit == 'false'
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           # amd64 only on dev branches (§6). E2E runs on amd64 regardless, and the arm64 leg
           # is what made this matrix slow. Multi-arch belongs on release/main.
