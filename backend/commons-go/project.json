@@ -2,6 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "commons-go",
   "projectType": "library",
+  "tags": [
+    "lang:go"
+  ],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
@@ -9,7 +12,9 @@
       "options": {
         "cwd": "backend/commons-go",
         "command": "go build ./...",
-        "env": { "GOWORK": "off" }
+        "env": {
+          "GOWORK": "off"
+        }
       }
     },
     "test": {
@@ -17,7 +22,9 @@
       "options": {
         "cwd": "backend/commons-go",
         "command": "go test ./...",
-        "env": { "GOWORK": "off" }
+        "env": {
+          "GOWORK": "off"
+        }
       }
     }
   }

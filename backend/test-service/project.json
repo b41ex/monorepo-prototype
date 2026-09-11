@@ -2,6 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "test-service",
   "projectType": "application",
+  "tags": [
+    "lang:go"
+  ],
   "implicitDependencies": [],
   "targets": {
     "build": {
@@ -9,7 +12,9 @@
       "options": {
         "cwd": "backend/test-service/qubership-apihub-test-service",
         "command": "go build -o ../dist/ ./...",
-        "env": { "GOWORK": "off" }
+        "env": {
+          "GOWORK": "off"
+        }
       }
     },
     "test": {
@@ -17,7 +22,9 @@
       "options": {
         "cwd": "backend/test-service/qubership-apihub-test-service",
         "command": "go test ./...",
-        "env": { "GOWORK": "off" }
+        "env": {
+          "GOWORK": "off"
+        }
       }
     }
   }
