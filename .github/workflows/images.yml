@@ -97,7 +97,13 @@ jobs:
           # image_inputs rule forces the JOB on a .dockerignore change, but the content check
           # then hit and skipped the build — job selection and content identity are different
           # questions and this one was answered from the wrong inputs.
-          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}' .dockerignore)"
+          # `dockerignore` is a LIST and is deliberately unquoted so it word-splits: the
+          # backend images build from a context of backend/, which has its own ignore file,
+          # and a file that decides what reaches the build context decides image content.
+          # backend/.dockerignore sits inside no Nx project, so without naming it here a
+          # change to it would leave every image hash untouched — the same hole that
+          # backend/.go-version had.
+          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}' ${{ matrix.dockerignore }})"
 
           repo_lc="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
           base="ghcr.io/${repo_lc}/${{ matrix.image }}"

@@ -129,7 +129,7 @@ jobs:
           # needed a forcing rule while selection was by `affected`; with selection removed,
           # there is nothing left to force. The diff is still computed, purely so the summary
           # can say what moved.
-          images='["ui-portal","build-task-consumer","agent","test-service"]'
+          images='["ui-portal","build-task-consumer","agent","test-service","agents-backend","api-linter-service","portal-backend"]'
           image_inputs="$(git diff --name-only "$NX_BASE" "$NX_HEAD" -- \
             .dockerignore tools/ci .github/workflows/ci.yml .github/actions || true)"
 
@@ -424,11 +424,11 @@ jobs:
     with:
       images: >-
         [{"project":"ui-portal","image":"apihub-ui","dockerfile":"frontend/ui/Dockerfile",
-          "build_projects":"ui-portal,ui-agents","deploy":"","context":".",
+          "build_projects":"ui-portal,ui-agents","deploy":"","context":".","dockerignore":".dockerignore",
           "workspace_build":"true"},
          {"project":"build-task-consumer","image":"apihub-build-task-consumer",
           "dockerfile":"frontend/build-task-consumer/Dockerfile",
-          "build_projects":"build-task-consumer","deploy":"build-task-consumer","context":".",
+          "build_projects":"build-task-consumer","deploy":"build-task-consumer","context":".","dockerignore":".dockerignore",
           "workspace_build":"true"}]
 
   go-images:
@@ -453,11 +453,24 @@ jobs:
     with:
       images: >-
         [{"project":"agent","image":"apihub-agent","dockerfile":"backend/agent/Dockerfile",
-          "build_projects":"agent","deploy":"","context":"backend/agent",
+          "build_projects":"agent","deploy":"","context":"backend/agent","dockerignore":".dockerignore",
           "workspace_build":"false"},
          {"project":"test-service","image":"apihub-test-service",
           "dockerfile":"backend/test-service/Dockerfile","build_projects":"test-service",
-          "deploy":"","context":"backend/test-service","workspace_build":"false"}]
+          "deploy":"","context":"backend/test-service","dockerignore":".dockerignore",
+          "workspace_build":"false"},
+         {"project":"agents-backend","image":"apihub-agents-backend",
+          "dockerfile":"backend/agents-backend/Dockerfile",
+          "build_projects":"agents-backend,commons-go","deploy":"","context":"backend",
+          "dockerignore":".dockerignore backend/.dockerignore","workspace_build":"false"},
+         {"project":"api-linter-service","image":"apihub-api-linter-service",
+          "dockerfile":"backend/api-linter-service/Dockerfile",
+          "build_projects":"api-linter-service,commons-go","deploy":"","context":"backend",
+          "dockerignore":".dockerignore backend/.dockerignore","workspace_build":"false"},
+         {"project":"portal-backend","image":"apihub-portal-backend",
+          "dockerfile":"backend/portal-backend/Dockerfile",
+          "build_projects":"portal-backend,commons-go","deploy":"","context":"backend",
+          "dockerignore":".dockerignore backend/.dockerignore","workspace_build":"false"}]
 
 
   # ---------------------------------------------------------------------------------------

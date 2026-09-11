@@ -20,16 +20,21 @@ ARG TARGETARCH
 
 WORKDIR /workspace
 
-COPY qubership-api-linter-service ./qubership-api-linter-service
+# commons-go first: api-linter-service's go.mod carries
+# `replace github.com/Netcracker/qubership-apihub-commons-go => ../../commons-go`, which from
+# the module directory below resolves to /workspace/commons-go. That is why this image builds
+# from backend/ rather than from its own component directory.
+COPY commons-go ./commons-go
+COPY api-linter-service/qubership-api-linter-service ./api-linter-service/qubership-api-linter-service
 
-WORKDIR /workspace/qubership-api-linter-service
+WORKDIR /workspace/api-linter-service/qubership-api-linter-service
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN if env | grep -Eiq '^(http|https|all)_proxy=https?://https?://'; then unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy; fi; \
     go run ./tools/download-linter-tools -os=${TARGETOS} -arch=${TARGETARCH}
 RUN if env | grep -Eiq '^(http|https|all)_proxy=https?://https?://'; then unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy; fi; \
-    GOSUMDB=off CGO_ENABLED=0 go mod tidy && go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
+    GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
 
 FROM ghcr.io/netcracker/qubership-core-base:2.3.7@sha256:b917b3a1731a2ae26b507d22565f030ec25ff8d28b75a80b8b08bbc946f4d73b
 
@@ -42,9 +47,9 @@ ENV SPECTRAL_BIN_PATH=resources/spectral/linux/spectral
 
 WORKDIR /app/qubership-api-linter-service
 
-COPY --chown=10001:0 --chmod=555 --from=builder /workspace/qubership-api-linter-service/qubership-api-linter-service ./qubership-api-linter-service
-COPY --chown=10001:0 --chmod=555 --from=builder /workspace/qubership-api-linter-service/resources ./resources
-COPY --chown=10001:0 --chmod=555 docs/api ./api
+COPY --chown=10001:0 --chmod=555 --from=builder /workspace/api-linter-service/qubership-api-linter-service/qubership-api-linter-service ./qubership-api-linter-service
+COPY --chown=10001:0 --chmod=555 --from=builder /workspace/api-linter-service/qubership-api-linter-service/resources ./resources
+COPY --chown=10001:0 --chmod=555 api-linter-service/docs/api ./api
 
 USER 10001:10001
 
