@@ -545,8 +545,12 @@ jobs:
           set -euo pipefail
           openssl genpkey -algorithm RSA -out rsakey.pem -pkeyopt rsa_keygen_bits:2048 2>/dev/null
           key="$(base64 -w0 rsakey.pem)"
-          pass="$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 12)"
-          token="$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 30)"
+          # NOT `tr -dc … </dev/urandom | head -c N`, which is what the compose repository's own
+          # script uses. `head` closes the pipe, `tr` dies of SIGPIPE, and under `set -o pipefail`
+          # the whole step exits 141 having printed nothing. Reproduced locally at exit 141
+          # before this line was changed. openssl is already here for the key and needs no pipe.
+          pass="$(openssl rand -hex 12)"
+          token="$(openssl rand -hex 30)"
           # Masked even though they are throwaway. The password reaches Playwright, which is
           # verbose on failure, and an unmasked credential in a public run log teaches the
           # wrong habit whatever its lifetime.
@@ -560,7 +564,7 @@ jobs:
             echo "APIHUB_ACCESS_TOKEN=$token"
           } >> "$GITHUB_ENV"
           rm -f rsakey.pem
-          echo "generated a 2048-bit key, a 12-character password and a 30-character token"
+          echo "generated a 2048-bit key, a 24-character password and a 60-character token"
 
       - name: Template the env and config files
         shell: bash
