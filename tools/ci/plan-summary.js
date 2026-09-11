@@ -26,17 +26,19 @@
  *
  * Usage:
  *   node tools/ci/plan-summary.js <graph.json> <affected.json> <shots.json> <images.json> \
- *        <forced-reason-or-empty> >> "$GITHUB_STEP_SUMMARY"
+ *        <forced-reason-or-empty> <go.json> >> "$GITHUB_STEP_SUMMARY"
  */
 const fs = require('fs')
 const path = require('path')
 
-const [graphPath, affectedRaw, shotsRaw, imagesRaw, forcedRaw] = process.argv.slice(2)
+const [graphPath, affectedRaw, shotsRaw, imagesRaw, forcedRaw, goRaw] = process.argv.slice(2)
 const graph = JSON.parse(fs.readFileSync(path.resolve(graphPath), 'utf8')).graph
 const affected = new Set(JSON.parse(affectedRaw))
 const shots = JSON.parse(shotsRaw)
 const images = JSON.parse(imagesRaw)
 const forced = (forcedRaw || '').trim()
+// Optional: a caller that predates the go job passes five arguments and still renders.
+const go = goRaw ? JSON.parse(goRaw) : []
 
 const out = []
 const say = (s = '') => out.push(s)
@@ -185,6 +187,11 @@ say('|---|---|---|')
 say(
   `| screenshot suites | ${shots.length ? shots.map((s) => `\`${s}\` (${SUITE_SIZE[s]})`).join(', ') : '_none_'} | ` +
     (skippedTests ? `**${skippedTests.toLocaleString("en-US")} screenshot tests**, ~20 min of container time` : '_none_') +
+    ' |',
+)
+say(
+  `| go modules | ${go.length ? go.map((s) => `\`${s}\``).join(', ') : '_none_'} | ` +
+    (go.length ? 'built and unit tested in the `go` job' : 'the `go` job is skipped — not passed with nothing to do') +
     ' |',
 )
 say(

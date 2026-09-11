@@ -48,6 +48,7 @@ jobs:
     outputs:
       screenshot_projects: ${{ steps.affected.outputs.screenshot_projects }}
       image_projects: ${{ steps.affected.outputs.image_projects }}
+      go_projects: ${{ steps.affected.outputs.go_projects }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -81,6 +82,21 @@ jobs:
           }
 
           shots="$(pick api-doc-viewer apispec-view class-view)"
+
+          # The Go set is DERIVED FROM THE `lang:go` TAG, never listed here. The `go` job
+          # selects that tag and the `js` job excludes it, and those two have to stay exact
+          # complements of each other forever. A list in this file would be a third place to
+          # keep in step, and the seventh Go module is when it stops being.
+          #
+          # Note this is `run-many` over an explicit list, not `nx affected --projects=…`.
+          # `nx affected` does NOT understand `--projects`: it forwards the flag to the task
+          # as an extra argument. Measured — every Go build ran and failed with
+          # `malformed import path "--projects=tag:lang:go": leading dash`, while nx reported
+          # it under `With additional flags:`. A target that tolerated stray arguments would
+          # have run over the whole affected set while looking filtered. `--exclude` IS
+          # understood, which is why the js job can use it directly.
+          go_all="$(pnpm exec nx show projects --projects=tag:lang:go --json)"
+          go="$(pick $(node -e 'console.log(JSON.parse(process.argv[1]).join(" "))' "$go_all"))"
 
           # IMAGES ARE NOT SELECTED BY `affected`, DELIBERATELY. Both always run.
           #
@@ -119,6 +135,7 @@ jobs:
 
           echo "screenshot_projects=$shots" >> "$GITHUB_OUTPUT"
           echo "image_projects=$images"     >> "$GITHUB_OUTPUT"
+          echo "go_projects=$go"          >> "$GITHUB_OUTPUT"
 
           # The summary is a Mermaid diagram rather than three lines of text, because the
           # value here is in the NEGATIVE space: a skipped screenshot job is 1,888 tests and
@@ -128,7 +145,7 @@ jobs:
           # rendered deliberately.
           pnpm exec nx graph --file=plan-graph.json >/dev/null
           node tools/ci/plan-summary.js plan-graph.json \
-            "$affected" "$shots" "$images" "$image_inputs" >> "$GITHUB_STEP_SUMMARY"
+            "$affected" "$shots" "$images" "$image_inputs" "$go" >> "$GITHUB_STEP_SUMMARY"
           rm -f plan-graph.json
 
       # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
@@ -173,7 +190,7 @@ jobs:
         run: |
           # pipefail so a failing nx still fails the step; tee alone would return 0.
           set -o pipefail
-          pnpm exec nx affected -t build test --exclude=vscode --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
+          pnpm exec nx affected -t build test --exclude=vscode,tag:lang:go --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
       # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
       # cannot drift apart. `always()` because a failed job is when the numbers matter most.
@@ -201,6 +218,77 @@ jobs:
       #
       # The screenshot jobs have always built their own closures. That is why they no longer
       # wait for this one.
+
+  # ---------------------------------------------------------------------------------------
+  # go — build and unit test the Go modules, in ONE job, for the same reason `js` is one job.
+  #
+  # SEPARATE FROM `js` rather than folded into it. The two need different toolchains, and a
+  # job named `js` that installs Go and builds five services would misreport what it covers.
+  # They run in parallel and neither gates the other.
+  #
+  # SELECTED FROM THE PLAN, not recomputed. `nx affected` cannot be narrowed to a project set
+  # — it silently forwards `--projects` to the task — so `plan` intersects the affected set
+  # with the `lang:go` tag once and this job runs `run-many` over exactly that list.
+  #
+  # AND THE JOB IS SKIPPED WHEN THAT LIST IS EMPTY, deliberately. `nx run-many` over an empty
+  # project list exits 0 having done nothing, which is indistinguishable from a pass in the
+  # Actions UI. A skipped job is not. `ci-ok` counts skipped as success.
+  # ---------------------------------------------------------------------------------------
+  go:
+    needs: [plan]
+    if: needs.plan.outputs.go_projects != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup-workspace
+
+      # ONE Go version for the workspace, read from the file that states it rather than
+      # repeated here. backend/.go-version is the `packageManager` of the Go side, and
+      # `go-version-file` accepts a .go-version file directly.
+      #
+      # `cache` defaults to true and keys on the go.sum files. Before G2 was closed there were
+      # no go.sum files to key on, so this input had nothing to work with and every run would
+      # have re-downloaded every module.
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: backend/.go-version
+          cache-dependency-path: backend/**/go.sum
+
+      # Before the build, because the build cannot detect what this detects. GOTOOLCHAIN is
+      # `auto`, so a module declaring a version the runner did not install downloads one and
+      # compiles green. Drift is only visible by reading the directive.
+      - name: every Go module on the same version
+        shell: bash
+        run: |
+          printf '### Go version\n\n```text\n' >> "$GITHUB_STEP_SUMMARY"
+          set -o pipefail
+          bash tools/ci/go-version-check.sh 2>&1 | tee -a "$GITHUB_STEP_SUMMARY" || status=$?
+          printf '```\n' >> "$GITHUB_STEP_SUMMARY"
+          exit "${status:-0}"
+
+      # `build,test` together, never build alone — §12's rule, and it applies to Go for the
+      # same reason: a module's test-only imports are otherwise never resolved.
+      - name: build and test what is affected
+        shell: bash
+        run: |
+          # pipefail so a failing nx still fails the step; tee alone would return 0.
+          set -o pipefail
+          projects="$(node -e 'console.log(JSON.parse(process.argv[1]).join(","))' \
+            '${{ needs.plan.outputs.go_projects }}')"
+          echo "go projects: $projects"
+          pnpm exec nx run-many -t build test --projects="$projects" --verbose 2>&1 \
+            | tee "$RUNNER_TEMP/nx.log"
+
+      # Same block as every other job. It carries no Go-specific row: `go build` and `go test`
+      # print no cache verdict of their own, and this summary reports only numbers from the
+      # tool that used a cache, never from the step that restored one.
+      - name: cache summary
+        if: always()
+        run: bash tools/ci/cache-summary.sh 'go' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------------------
   # screenshot-tests — the only real coverage three components have.
@@ -592,7 +680,7 @@ jobs:
   # `skipped` is a pass, which is the whole point.
   # ---------------------------------------------------------------------------------------
   ci-ok:
-    needs: [plan, js, screenshot-tests, images]
+    needs: [plan, js, go, screenshot-tests, images]
     if: always()
     runs-on: ubuntu-latest
     steps:
