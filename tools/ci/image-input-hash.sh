@@ -81,6 +81,38 @@ closure="$(node -e '
   # The lockfile: a resolution change alters what is installed into the image.
   printf 'pnpm-lock.yaml %s\n' "$(git rev-parse HEAD:pnpm-lock.yaml)"
 
+  # The other two workspace-level files that change image CONTENT.
+  #
+  # nx.json decides how `dist` is produced. `targetDefaults.build.inputs` and the `production`
+  # named input select which files a build sees; `outputs` selects what it keeps. Change either
+  # and the same source yields a different `dist`, which is what the image COPYs.
+  #
+  # pnpm-workspace.yaml decides what is installed. `nodeLinker` changes the shape of
+  # node_modules, which `pnpm deploy --prod` copies wholesale into build-task-consumer, and
+  # `overrides` changes which versions resolve at all. The lockfile records the RESULT of those
+  # settings, so a lockfile change usually accompanies them -- but "usually" is not a guarantee
+  # to build an identity on, and `forceLegacyDeploy` changes the deploy tree with no lockfile
+  # movement whatsoever.
+  #
+  # Neither touches a project tree, so before these lines the hash did not move, the registry
+  # reported a hit, and CI retagged an image built under the previous rules. This is the
+  # `.dockerignore` hole below a second and third time; read all three together.
+  #
+  # Nx already keeps this list. `namedInputs.sharedGlobals` names pnpm-lock.yaml,
+  # pnpm-workspace.yaml, .npmrc and nx.json as the files that invalidate every task, and three
+  # of those four are now hashed here.
+  #
+  # `.npmrc` is deliberately NOT hashed, and the reason is a property of the lockfile rather
+  # than laziness. It is narrowed to auth and registry. Auth cannot change content. A registry
+  # change cannot silently change content either, because the lockfile pins integrity hashes --
+  # different bytes for the same version fail the install rather than producing a different
+  # image. Hashing it would rebuild every image on a token rotation for no content reason.
+  #
+  # The cost of adding a line here is one full rebuild of every image, once, because every
+  # existing src-<hash> stops matching. That is the correct price for the guarantee.
+  printf 'nx.json %s\n' "$(git rev-parse HEAD:nx.json)"
+  printf 'pnpm-workspace.yaml %s\n' "$(git rev-parse HEAD:pnpm-workspace.yaml)"
+
   # The files named on the command line, and this script itself — all of them change the
   # image without touching any project tree.
   #
