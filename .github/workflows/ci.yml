@@ -406,332 +406,59 @@ jobs:
           retention-days: 14
 
   # ---------------------------------------------------------------------------------------
-  # images — build only when the content hash is new, otherwise retag.
+  # js-images / go-images — the same twelve steps, .github/workflows/images.yml, gated per
+  # language. See that file for why it is shared rather than duplicated.
   #
-  # See tools/ci/image-input-hash.sh for the identity, and §6 for why always-build SEMANTICS
-  # are worth keeping while always-build COST is not.
-  #
-  # This job KEEPS `needs: js`, unlike screenshot-tests, and the difference is deliberate: a
-  # screenshot suite is a test, and an image is a publish. It pushes `:dev` to ghcr, and an
-  # image tagged from a commit whose unit tests fail is a thing other people can then pull.
-  # The same reasoning does not apply to a test that only ever reports.
+  # An image is a publish: it pushes a floating tag to ghcr, and an image tagged from a commit
+  # whose unit tests fail is something other people can then pull. `needs` says which tests.
   # ---------------------------------------------------------------------------------------
-  images:
-    needs: [plan, js, go]
-    # `always() &&` with explicit results, not the implicit success-of-all-needs check. `go`
-    # carries an `if:` and is SKIPPED when nothing Go is affected, and a skipped need fails
-    # that implicit check — so both images would have been skipped on any push that touched
-    # no Go module. That is the same skip-propagation defect documented on `publish` below,
-    # which cost a release. A skipped `go` is a pass here; a failed or cancelled one is not.
-    if: >-
-      always()
-      && needs.plan.result == 'success'
-      && needs.js.result == 'success'
-      && needs.go.result != 'failure' && needs.go.result != 'cancelled'
-      && needs.plan.outputs.image_projects != '[]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+  js-images:
+    needs: [plan, js]
+    # `js` has no `if:` and therefore never skips, so the implicit success-of-all-needs check
+    # is exactly right here and no `always()` gymnastics are required.
+    if: needs.plan.outputs.image_projects != '[]'
     permissions:
       contents: read
       packages: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - project: ui-portal
-            image: apihub-ui
-            dockerfile: frontend/ui/Dockerfile
-            # ui is one image built from TWO projects: the nginx tree serves both
-            # ui-portal and ui-agents. The hash has to cover both or a change to agents
-            # alone would silently reuse an image that does not contain it.
-            build_projects: ui-portal,ui-agents
-            deploy: ''
-            context: .
-            workspace_build: 'true'
-          - project: build-task-consumer
-            image: apihub-build-task-consumer
-            dockerfile: frontend/build-task-consumer/Dockerfile
-            build_projects: build-task-consumer
-            deploy: build-task-consumer
-            context: .
-            workspace_build: 'true'
-          # The two Go services that need no layout change. Their Dockerfiles copy only
-          # their own module directory, so the build CONTEXT is the component directory
-          # rather than the workspace root — hence the per-image `context` above and here.
-          #
-          # The other three Go services are deliberately absent. agents-backend,
-          # api-linter-service and portal-backend carry `replace ../../commons-go`, which
-          # resolves above a context that holds only their own module, so their images need
-          # a context one level up and a second COPY before they can build at all.
-          #
-          # `deploy` is empty: the Go builder stage compiles inside the image and there is
-          # no node_modules tree to materialise on the host.
-          - project: agent
-            image: apihub-agent
-            dockerfile: backend/agent/Dockerfile
-            build_projects: agent
-            deploy: ''
-            context: backend/agent
-            workspace_build: 'false'
-          - project: test-service
-            image: apihub-test-service
-            dockerfile: backend/test-service/Dockerfile
-            build_projects: test-service
-            deploy: ''
-            context: backend/test-service
-            workspace_build: 'false'
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+    uses: ./.github/workflows/images.yml
+    with:
+      images: >-
+        [{"project":"ui-portal","image":"apihub-ui","dockerfile":"frontend/ui/Dockerfile",
+          "build_projects":"ui-portal,ui-agents","deploy":"","context":".",
+          "workspace_build":"true"},
+         {"project":"build-task-consumer","image":"apihub-build-task-consumer",
+          "dockerfile":"frontend/build-task-consumer/Dockerfile",
+          "build_projects":"build-task-consumer","deploy":"build-task-consumer","context":".",
+          "workspace_build":"true"}]
 
-      # Same per-leg scoping as the screenshot matrix: `ui-portal` and `build-task-consumer`
-      # build different things, and on run 33894555872 the second one to finish logged
-      # `Failed to save: Unable to reserve cache` against the shared `images` key.
-      - uses: ./.github/actions/setup-workspace
-        with:
-          cache-scope: images-${{ matrix.image }}
+  go-images:
+    needs: [plan, go]
+    # `always() &&` with explicit results, unlike js-images, and the asymmetry is the point.
+    # `go` carries an `if:` and is SKIPPED when nothing Go is affected. A skipped need fails the
+    # implicit check, so these images would vanish on any push touching no Go module — and
+    # images are deliberately NOT selected by `affected`, because whether a floating tag points
+    # at the right image is a question about the registry and not about commits. A branch whose
+    # tag silently stopped moving is the defect §6 records from the release-start case.
+    #
+    # So: a skipped `go` is a pass here. A failed or cancelled one is not.
+    if: >-
+      always()
+      && needs.plan.result == 'success'
+      && needs.go.result != 'failure' && needs.go.result != 'cancelled'
+      && needs.plan.outputs.image_projects != '[]'
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/images.yml
+    with:
+      images: >-
+        [{"project":"agent","image":"apihub-agent","dockerfile":"backend/agent/Dockerfile",
+          "build_projects":"agent","deploy":"","context":"backend/agent",
+          "workspace_build":"false"},
+         {"project":"test-service","image":"apihub-test-service",
+          "dockerfile":"backend/test-service/Dockerfile","build_projects":"test-service",
+          "deploy":"","context":"backend/test-service","workspace_build":"false"}]
 
-      - uses: docker/setup-buildx-action@v4
-
-      - uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # The branch-to-tag mapping is carried over from docker-ci.yml:
-      #   develop -> dev, release -> next, feature/x -> feature-x, a tag -> the tag.
-      #
-      # main -> latest is NEW, added with the main trigger. Without the trigger, section 8's
-      # release-finish step 3 -- "CI on main builds everything once, then publishes" -- had no
-      # pipeline behind it at all: merging to main ran nothing. Without the mapping, main would
-      # have fallen through to the literal branch name and published ghcr images tagged
-      # `:main`, which is not a channel anything consumes.
-      - name: Compute tags
-        id: tags
-        shell: bash
-        run: |
-          set -euo pipefail
-          ref='${{ github.ref }}'
-          branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^main$@latest@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
-
-          pnpm exec nx graph --file=graph.json >/dev/null
-          # .dockerignore is hashed alongside the Dockerfile: it decides what reaches the
-          # build context, so it changes image content, and it was missing here. The
-          # image_inputs rule forces the JOB on a .dockerignore change, but the content check
-          # then hit and skipped the build — job selection and content identity are different
-          # questions and this one was answered from the wrong inputs.
-          src_hash="$(bash tools/ci/image-input-hash.sh '${{ matrix.build_projects }}' graph.json '${{ matrix.dockerfile }}' .dockerignore)"
-
-          repo_lc="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
-          base="ghcr.io/${repo_lc}/${{ matrix.image }}"
-
-          echo "branch_tag=$branch_tag"           >> "$GITHUB_OUTPUT"
-          echo "src_tag=src-$src_hash"            >> "$GITHUB_OUTPUT"
-          echo "base=$base"                       >> "$GITHUB_OUTPUT"
-          echo "### ${{ matrix.image }}"          >> "$GITHUB_STEP_SUMMARY"
-          echo "- content tag: \`src-$src_hash\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "- branch tag:  \`$branch_tag\`"   >> "$GITHUB_STEP_SUMMARY"
-
-      # The whole point of the content-addressed tag: ask the registry whether this exact
-      # set of inputs has already been built, before spending a build on it.
-      - name: Has this content already been built?
-        id: exists
-        shell: bash
-        run: |
-          set -euo pipefail
-          if docker manifest inspect '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}' >/dev/null 2>&1; then
-            echo "hit=true" >> "$GITHUB_OUTPUT"
-            echo "- **cache hit** — this content exists, so no build" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "hit=false" >> "$GITHUB_OUTPUT"
-            echo "- cache miss — building this content" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          # Neither line mentions the branch tag any more, because the branch tag is no
-          # longer what this step decides. It is published on both paths by the last step;
-          # what is decided here is only whether the CONTENT has to be built.
-
-      # ---- miss: build ------------------------------------------------------------------
-      # The build output comes from the Nx cache this run's js job populated, not from an
-      # uploaded artifact — the same reasoning as the screenshot job.
-      #
-      # `--projects` takes a COMMA-separated list. A space-separated one matches NOTHING and
-      # `nx run-many` over an empty set exits 0 — so the step went green having built nothing,
-      # and the docker build then failed on a COPY source that was never created.
-      - name: Build the workspace output
-        if: steps.exists.outputs.hit == 'false' && matrix.workspace_build == 'true'
-        run: |
-          set -o pipefail
-          pnpm exec nx run-many -t build --projects='${{ matrix.build_projects }}' 2>&1 | tee "$RUNNER_TEMP/nx.log"
-
-      # `pnpm deploy --prod` materialises a self-contained production node_modules on the
-      # host. This is what removes the in-image `npm ci` that made this image the 15.7-minute
-      # outlier, and the shrinkwrap it depended on no longer exists.
-      #
-      # The filter is a PATH, not the Nx project name. pnpm filters on package name or path,
-      # so `--filter=build-task-consumer` printed "No projects matched the filters" and exited
-      # 0 — the same silent no-op as above, in the adjacent step. A path filter also survives
-      # the scope rename, which a hardcoded @b41ex/… name would not.
-      #
-      # No `--legacy` flag here, deliberately: `forceLegacyDeploy: true` in
-      # pnpm-workspace.yaml states that fact once. It lived in `.npmrc` until pnpm 12, which
-      # reads only auth and registry settings from that file and says nothing about the rest.
-      # §6 says the in-image `npm ci` "can be replaced by
-      # `pnpm deploy --filter build-task-consumer --prod`", which was true when written and is
-      # not now — pnpm 10 refuses by default with ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE. The
-      # .npmrc carries the full reasoning, including why inject-workspace-packages=true was
-      # rejected rather than chosen.
-      #
-      # This runs on the host rather than inside the Dockerfile for three reasons, spelled out
-      # in CI-DESIGN.md: in-image it restores the QEMU-emulated install that made this the
-      # 15.7-minute outlier, it needs the whole workspace as build context, and it needs
-      # registry credentials inside the build.
-      - name: Produce the deploy tree
-        if: steps.exists.outputs.hit == 'false' && matrix.deploy != ''
-        run: pnpm deploy --filter='./frontend/${{ matrix.deploy }}' --prod '.deploy/${{ matrix.deploy }}'
-
-      # Assert the COPY sources exist before handing the context to buildx.
-      #
-      # This step exists because BOTH commands above exit 0 when they match nothing. Two
-      # silent no-ops in adjacent steps produced two green steps and a docker build that
-      # failed on a missing path — which is this project's core principle stated as a defect:
-      # validate the artifact, not the exit code. A guard that turns a no-op into a loud
-      # failure is worth more than either fix, because it catches the next one too.
-      - name: Verify the build outputs exist
-        if: steps.exists.outputs.hit == 'false' && matrix.workspace_build == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          # The workspace still has to BE a workspace at this point, and once it was not.
-          #
-          # `pnpm deploy --prod` is a production install, and pnpm 11's `verifyDepsBeforeRun`
-          # default made the next `pnpm exec` reconcile the workspace root to it — removing
-          # the root's five devDependencies, `nx` among them. The line below then failed with
-          # `Command "nx" not found`, three steps from the cause, inside the step whose whole
-          # job is to notice missing build outputs. `verifyDepsBeforeRun: false` in
-          # pnpm-workspace.yaml is the fix; this is one line that names it if it is ever
-          # removed, instead of leaving the next person the confusing error.
-          [ -d node_modules/nx ] || {
-            echo "::error::node_modules/nx is gone after the deploy — check verifyDepsBeforeRun in pnpm-workspace.yaml"
-            exit 1
-          }
-
-          missing=0
-          check() {
-            if [ -e "$1" ]; then
-              echo "  OK      $1  ($(find "$1" -type f 2>/dev/null | wc -l) files)"
-            else
-              echo "  MISSING $1"
-              missing=1
-            fi
-          }
-          for p in $(echo '${{ matrix.build_projects }}' | tr ',' ' '); do
-            root="$(pnpm exec nx show project "$p" --json | node -p 'JSON.parse(require("fs").readFileSync(0,"utf8")).root')"
-            check "$root/dist"
-          done
-          if [ -n '${{ matrix.deploy }}' ]; then
-            check '.deploy/${{ matrix.deploy }}/package.json'
-            check '.deploy/${{ matrix.deploy }}/node_modules'
-          fi
-          [ "$missing" = "0" ] || { echo "::error::build outputs missing — the docker build would fail on a COPY source"; exit 1; }
-
-      - name: Build and push
-        if: steps.exists.outputs.hit == 'false'
-        uses: docker/build-push-action@v7
-        with:
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          # amd64 only on dev branches (§6). E2E runs on amd64 regardless, and the arm64 leg
-          # is what made this matrix slow. Multi-arch belongs on release/main.
-          platforms: linux/amd64
-          push: true
-          provenance: false
-          # ONLY the content-addressed tag. The branch tag is applied by the next step, on
-          # both paths, and the reason is that a tag is not a place metadata can live.
-          #
-          # Annotations and environment variables attach to a MANIFEST, and every tag name
-          # pointing at that manifest shares them. So a build that pushed src-<hash> and
-          # :dev together could not give the two different labels even in principle. The
-          # retag path already had the same problem from the other side: it publishes an
-          # image built by some earlier run, whose labels were fixed then.
-          tags: ${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}
-          # No GIT_BRANCH / GIT_HASH build args any more, and this is the point of the
-          # change rather than a tidy-up. They were baked into the image as ENV, they are
-          # not part of the content hash — the hasher reads git tree objects and cannot
-          # read a build arg — and the retag path therefore handed a branch an image
-          # stamped with whichever ref happened to build the content first. Measured on
-          # 2026-09-10: the image serving :dev reported GIT_BRANCH=main.
-          #
-          # Hashing them instead was the obvious alternative and it is worse: it makes the
-          # hash differ per ref, so release and main at one commit would each build their
-          # own byte-different copy of identical content, which is exactly the reuse this
-          # whole design exists to get.
-          # Replaces `no-cache: true`, which forced every layer to rebuild every run.
-          cache-from: type=gha,scope=${{ matrix.image }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
-
-      # ---- both paths: publish the branch tag -------------------------------------------
-      # A registry-side manifest operation: about a second, no layers transferred. This is
-      # what gives affected-only cost while keeping always-build semantics.
-      #
-      # It now runs on BOTH paths, not only on a content-check hit. `imagetools create`
-      # wraps the source manifest in a NEW index, and that index is per-tag, so it is the
-      # one place per-ref metadata can be attached without lying to any other tag. The
-      # build path pushes content; this step publishes a ref pointing at content.
-      #
-      # The cost of the move: `docker inspect` and `echo $GIT_BRANCH` inside a running
-      # container no longer answer "what is this". `docker buildx imagetools inspect
-      # <image>:<tag>` does, and it answers for the tag you actually pulled rather than for
-      # whichever ref built the bytes.
-      #
-      # `index:` is the required prefix — imagetools create annotates an index or a
-      # manifest descriptor, never a manifest.
-      - name: Point the branch tag at this content
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker buildx imagetools create \
-            --annotation 'index:org.opencontainers.image.revision=${{ github.sha }}' \
-            --annotation 'index:org.opencontainers.image.version=${{ github.ref_name }}' \
-            --annotation 'index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}' \
-            -t '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}' \
-            '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.src_tag }}'
-
-          # Read the annotation back off the registry, because the whole point of this
-          # change is that the label stops being wrong, and `imagetools create` exiting 0
-          # says only that a manifest was written. This repository has been burned by that
-          # exact gap more than once: a deploy probe that proved nothing, a digest
-          # comparison that compared two empty strings, a summary that reported a skip
-          # while the job it described was running. Validate the artifact, not the exit
-          # code.
-          #
-          # It also guards a real failure mode with no other symptom. `--annotation` needs
-          # a level prefix, an unprefixed or misspelled one is not an error, and the result
-          # would be a tag published with no provenance at all — indistinguishable from
-          # success in the log.
-          raw="$(docker buildx imagetools inspect --raw \
-                 '${{ steps.tags.outputs.base }}:${{ steps.tags.outputs.branch_tag }}')"
-          got="$(node -e '
-            const m = JSON.parse(require("fs").readFileSync(0, "utf8"))
-            const a = m.annotations || {}
-            process.stdout.write(a["org.opencontainers.image.version"] || "")
-          ' <<< "$raw")"
-          want='${{ github.ref_name }}'
-          if [ "$got" != "$want" ]; then
-            echo "::error::branch tag published without its provenance — expected version='$want', read '$got'"
-            echo "$raw" | head -40
-            exit 1
-          fi
-          echo "- provenance on \`${{ steps.tags.outputs.branch_tag }}\`: version=\`$got\`, revision=\`${{ github.sha }}\`" \
-            >> "$GITHUB_STEP_SUMMARY"
-
-      # On a retag no Nx build ran and $RUNNER_TEMP/nx.log does not exist; the script reports
-      # that rather than failing, which is what keeps the block present in every job.
-      - name: cache summary
-        if: always()
-        run: bash tools/ci/cache-summary.sh 'images (${{ matrix.image }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------------------
   # ci-ok — the only required check.
@@ -741,7 +468,7 @@ jobs:
   # `skipped` is a pass, which is the whole point.
   # ---------------------------------------------------------------------------------------
   ci-ok:
-    needs: [plan, js, go, screenshot-tests, images]
+    needs: [plan, js, go, screenshot-tests, js-images, go-images]
     if: always()
     runs-on: ubuntu-latest
     steps:
