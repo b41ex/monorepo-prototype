@@ -474,6 +474,236 @@ jobs:
 
 
   # ---------------------------------------------------------------------------------------
+  # e2e — stand the whole product up from the images this run published, and drive it.
+  #
+  # This is the reason the monorepo exists, stated as a job: a stack assembled from images
+  # built at ONE commit, rather than from whatever each repository's `:dev` tag happened to
+  # point at. It runs unconditionally once both image jobs are done.
+  #
+  # NO REPOSITORY SECRETS, and that is a finding rather than a shortcut. The workflow this
+  # replaces took JWT_PRIVATE_KEY, APIHUB_ADMIN_EMAIL, APIHUB_ADMIN_PASSWORD and
+  # APIHUB_ACCESS_TOKEN as required secrets. None of them is a secret: the compose
+  # repository's own `generate_env_and_up_compose.sh` generates all four at random for a local
+  # bring-up, because they are values a throwaway stack invents for itself. Generating them
+  # here removes four pieces of shared credential state from a prototype that does not need
+  # them, and the stack is destroyed with the runner.
+  #
+  # THE ADMIN EMAIL IS THE ONE VALUE THAT CANNOT BE RANDOM. tests/ui-tests hardcodes its
+  # sysadmin as `x_atui_sysadmin@qa.at` in src/test-data/users.ts and takes only the password
+  # from the environment, so upstream's `generate_random_string 6` would have produced a stack
+  # the suite cannot log in to. Only the password, the access token and the key are generated.
+  #
+  # PLAYWRIGHT RUNS FROM THE WORKSPACE, not from a clone of qubership-apihub-ui-tests. The
+  # suite is `tests/ui-tests` here and is already an Nx project; cloning it would test a
+  # different revision from the one in this commit, which is the version skew the monorepo is
+  # meant to remove. The postman collections have no in-tree home yet and are still cloned.
+  # ---------------------------------------------------------------------------------------
+  e2e:
+    needs: [plan, js-images, go-images]
+    # Unconditional, subject to the images existing. `go-images` can be SKIPPED when nothing
+    # Go is affected, and a skipped need fails the implicit check, so the same explicit form
+    # the image jobs use appears here for the same reason.
+    if: >-
+      always()
+      && needs.js-images.result == 'success'
+      && needs.go-images.result != 'failure' && needs.go-images.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: e2e
+
+      - name: Install podman and envsubst
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman podman-compose gettext-base
+
+      # The prototype's packages are private, unlike the upstream ones this compose file
+      # names, so the pull needs credentials that the original workflow never had to supply.
+      - name: Log in to ghcr
+        run: |
+          set -euo pipefail
+          echo '${{ secrets.GITHUB_TOKEN }}' \
+            | podman login ghcr.io -u '${{ github.actor }}' --password-stdin
+
+      - name: Clone the compose repository
+        run: |
+          git clone --branch main --single-branch \
+            https://github.com/Netcracker/qubership-apihub compose-repo
+
+      # Exactly what generate_env_and_up_compose.sh does locally, minus the random email.
+      - name: Generate the stack's own credentials
+        id: creds
+        shell: bash
+        run: |
+          set -euo pipefail
+          openssl genpkey -algorithm RSA -out rsakey.pem -pkeyopt rsa_keygen_bits:2048 2>/dev/null
+          key="$(base64 -w0 rsakey.pem)"
+          pass="$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 12)"
+          token="$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 30)"
+          # Masked even though they are throwaway. The password reaches Playwright, which is
+          # verbose on failure, and an unmasked credential in a public run log teaches the
+          # wrong habit whatever its lifetime.
+          echo "::add-mask::$key"
+          echo "::add-mask::$pass"
+          echo "::add-mask::$token"
+          {
+            echo "JWT_PRIVATE_KEY=$key"
+            echo "APIHUB_ADMIN_EMAIL=x_atui_sysadmin@qa.at"
+            echo "APIHUB_ADMIN_PASSWORD=$pass"
+            echo "APIHUB_ACCESS_TOKEN=$token"
+          } >> "$GITHUB_ENV"
+          rm -f rsakey.pem
+          echo "generated a 2048-bit key, a 12-character password and a 30-character token"
+
+      - name: Template the env and config files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd compose-repo
+          find . -name '*.env' -print0 | while IFS= read -r -d '' f; do
+            envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+          done
+          cd docker-compose/apihub-generic
+          find . -name '*config.yaml' -print0 | while IFS= read -r -d '' f; do
+            envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+          done
+
+      # The compose file names five upstream images. Each is repointed at the image THIS run
+      # published, which is the whole point of the job: one commit, one stack.
+      #
+      # The names do not line up one-to-one, and portal-backend is the reason. §3 renamed it
+      # because `backend/backend/` was the alternative, so the image that serves
+      # `qubership-apihub-backend` here is `apihub-portal-backend` there.
+      - name: Point the compose file at this run's images
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref='${{ github.ref }}'
+          tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^main$@latest@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
+          owner="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
+          cd compose-repo/docker-compose/apihub-generic
+
+          repoint() {  # $1 upstream image name, $2 ours
+            sed -i "s|ghcr.io/netcracker/$1:[^ ]*|ghcr.io/$owner/$2:$tag|g" docker-compose.yml
+          }
+          repoint qubership-apihub-backend              apihub-portal-backend
+          repoint qubership-apihub-build-task-consumer  apihub-build-task-consumer
+          repoint qubership-apihub-ui                   apihub-ui
+          repoint qubership-api-linter-service          apihub-api-linter-service
+          repoint qubership-apihub-agents-backend       apihub-agents-backend
+
+          # Validate the substitution rather than trusting sed's exit code, which is 0 whether
+          # it matched anything or not. Five images must now be ours and none may be upstream.
+          mine="$(grep -c "image: ghcr.io/$owner/" docker-compose.yml || true)"
+          theirs="$(grep -c 'image: ghcr.io/netcracker/' docker-compose.yml || true)"
+          echo "images pointing at $owner: $mine, still upstream: $theirs"
+          grep -E '^\s*image:' docker-compose.yml | sed 's/^/  /'
+          [ "$mine" = "5" ] && [ "$theirs" = "0" ] || {
+            echo "::error::expected 5 images repointed and 0 left upstream"
+            exit 1
+          }
+
+      - name: Bring the stack up
+        run: |
+          cd compose-repo/docker-compose/apihub-generic
+          podman-compose -f docker-compose.yml up -d
+
+      - name: Start collecting container logs
+        run: |
+          for c in qubership-apihub-backend postgres qubership-apihub-ui \
+                   qubership-apihub-build-task-consumer qubership-api-linter-service \
+                   qubership-apihub-agents-backend; do
+            podman logs -f "$c" > "./$c.log" 2>&1 &
+          done
+
+      - name: Wait for APIHUB to answer
+        shell: bash
+        run: |
+          set -euo pipefail
+          end=$((SECONDS + 300))
+          while [ $SECONDS -lt $end ]; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/login || true)"
+            [ "$code" = "200" ] && { echo "up after ${SECONDS}s"; exit 0; }
+            echo "  http $code, retrying"
+            sleep 5
+          done
+          echo "::error::APIHUB did not answer 200 on /login within 5 minutes"
+          podman ps -a
+          exit 1
+
+      - name: Run the postman collections
+        id: newman
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install -g newman newman-reporter-htmlextra
+          git clone --branch develop --single-branch \
+            https://github.com/Netcracker/qubership-apihub-postman-collections postman-repo
+          cd postman-repo
+          envsubst < ./environment/local.postman_environment.json > ./ci.postman_environment.json
+          mkdir -p reports
+          newman run ./e2e/1_1_Smoke_Portal.postman_collection.json \
+            -e ./ci.postman_environment.json -x \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export ./reports/smoke_portal.html
+
+      - name: Install Playwright browsers
+        working-directory: tests/ui-tests
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run the Playwright suite
+        id: playwright
+        continue-on-error: true
+        working-directory: tests/ui-tests
+        env:
+          BASE_URL: http://localhost:8081
+          TEST_USER_PASSWORD: ${{ env.APIHUB_ADMIN_PASSWORD }}
+          PLAYGROUND_BACKEND_HOST: http://host.docker.internal:8081
+          CLEAR_TD: skip
+        run: pnpm exec playwright test --project=Portal --grep-invert=@flaky
+
+      - name: Upload reports and container logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-reports
+          path: |
+            tests/ui-tests/reports
+            postman-repo/reports
+            *.log
+          if-no-files-found: warn
+          retention-days: 7
+
+      # Both suites run with continue-on-error so that a Playwright failure still produces
+      # Newman's report and the container logs. The verdict is taken here instead.
+      - name: Verdict
+        shell: bash
+        run: |
+          set -euo pipefail
+          newman='${{ steps.newman.outcome }}'
+          play='${{ steps.playwright.outcome }}'
+          {
+            echo '### E2E'
+            echo
+            echo '| suite | outcome |'
+            echo '|---|---|'
+            echo "| postman collections | \`$newman\` |"
+            echo "| playwright, Portal | \`$play\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          [ "$newman" = 'success' ] && [ "$play" = 'success' ] || {
+            echo "::error::newman=$newman playwright=$play"
+            exit 1
+          }
+
+  # ---------------------------------------------------------------------------------------
   # ci-ok — the only required check.
   #
   # With affected-based skipping, a required status check that never runs blocks the PR
@@ -481,7 +711,7 @@ jobs:
   # `skipped` is a pass, which is the whole point.
   # ---------------------------------------------------------------------------------------
   ci-ok:
-    needs: [plan, js, go, screenshot-tests, js-images, go-images]
+    needs: [plan, js, go, screenshot-tests, js-images, go-images, e2e]
     if: always()
     runs-on: ubuntu-latest
     steps:
