@@ -55,6 +55,20 @@
       "pattern": "{projectName}/{version}"
     },
     "version": {
+      "//preVersionCommand": [
+        "Refuses a real release from any branch but `main`. Nx runs this FIRST -- before versioning,",
+        "the commit, the tag and the push -- and a non-zero exit aborts the whole command with nothing",
+        "done. Compare the missing-token failure, which lands AFTER the push and cannot be retried",
+        "because the tag is already consumed.",
+        "",
+        "A pre-push git hook was the obvious alternative and does not work: nx pushes with",
+        "--no-verify, so pre-push never fires. It would have been a safeguard that silently does",
+        "nothing.",
+        "",
+        "Dry runs are allowed -- nx sets NX_DRY_RUN=true here and the guard honours it. Reading the",
+        "plan from `release` before promoting writes nothing and gives the same answer."
+      ],
+      "preVersionCommand": "node tools/release/guard.js",
       "specifierSource": "conventional-commits",
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk",
