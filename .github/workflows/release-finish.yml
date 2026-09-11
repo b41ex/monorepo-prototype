@@ -1,0 +1,231 @@
+'on':
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Read the plan without releasing. Leave checked until you have read it.'
+        type: boolean
+        default: true
+      back_merge:
+        description: 'Merge main back into develop afterwards (step 4).'
+        type: boolean
+        default: true
+
+name: Release finish
+
+# WHAT THIS IS
+#
+# Steps 3 and 4 of the release, run on a runner instead of a laptop: promote `release` to
+# `main`, version it, tag it, publish the GitHub Releases, start the build that produces the
+# images and the npm packages, and merge back into `develop`.
+#
+# It assumes `release` already holds the candidate you want to ship. It does not cut the
+# candidate and it does not fix it -- those are steps 1 and 2 and they stay manual, because
+# deciding what goes into a release is not a thing to automate.
+#
+# WHY IT EXISTS
+#
+# The local procedure works and stays supported, but it has two failure modes that a runner
+# does not have. The command versions, tags, pushes and creates releases in one go, and it
+# pushes whatever branch you are standing on -- so one forgotten `git switch` releases from the
+# wrong ref. And on Windows the `gh` token fallback does not work, so the release creation
+# fails with a 401 AFTER the push has already succeeded, leaving a correct remote with the
+# releases missing and no way to retry, because the tag is consumed.
+#
+# WHY IT DISPATCHES CI RATHER THAN BUILDING HERE
+#
+# Every job in a run checks out that run's sha. The version commit is created DURING this run,
+# so any build started here would build the tree from before the bump -- and each app's
+# version.json is generated from the manifests at build time, so the images would ship the
+# previous release's numbers. The build has to be a separate run, at the new commit.
+#
+# A push made with the default GITHUB_TOKEN does not create a run, which is what stops
+# workflows triggering themselves forever. `workflow_dispatch` is the documented exception: it
+# always creates one. So this pushes, then dispatches CI at the new commit. No personal access
+# token is needed anywhere.
+
+concurrency:
+  # One release at a time, and never cancel one in flight: by the time it is half done there
+  # are tags and GitHub Releases on the remote that a cancellation would not clean up.
+  group: release-finish
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push main and develop, create the GitHub Releases
+  actions: write # dispatch the CI workflow afterwards
+
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      released: ${{ steps.release.outputs.released }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Full history and tags: the specifier comes from conventional commits since each
+          # component's last tag, and the current version is read from that tag. A shallow
+          # clone silently resolves both wrong rather than failing.
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Promote release to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main release --tags
+
+          git switch -C main origin/main
+          echo "main    $(git rev-parse --short HEAD)"
+          echo "release $(git rev-parse --short origin/release)"
+
+          # --ff-only, exactly as the manual procedure does it. If this refuses, `release` and
+          # `main` have genuinely diverged and that is a decision for a person, not a merge
+          # commit made by a runner at 3am.
+          if ! git merge --ff-only origin/release; then
+            echo "::error::main cannot fast-forward to release — they have diverged. Resolve by hand."
+            exit 1
+          fi
+
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+            echo "note: main was already at release; nothing was promoted"
+          fi
+          echo "promoted to $(git rev-parse --short HEAD)"
+
+          # Nx pushes with a bare `git push`, which needs an upstream. Set it explicitly rather
+          # than relying on `switch -C` having inferred one, and prove the push would work
+          # before anything is versioned. Both of these exist because of WHEN they would
+          # otherwise fail: after the commit and the tags, which is the one failure this
+          # process cannot retry, since the tag is then consumed.
+          git branch --set-upstream-to=origin/main main
+          git push --dry-run origin main
+          echo "push preflight OK"
+
+      - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: release-finish
+
+      - name: Release
+        id: release
+        shell: bash
+        env:
+          # Nx reads this for the GitHub Releases. On a runner it is simply present, which is
+          # the whole of the Windows `gh` fallback problem gone.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # tools/release/guard.js refuses a real release from any branch but main. The promote
+          # step above put us on main, so it passes; if the step above ever stops doing that,
+          # this fails loudly rather than releasing from a detached HEAD.
+          echo "on branch: $(git rev-parse --abbrev-ref HEAD)"
+
+          if [ '${{ inputs.dry_run }}' = 'true' ]; then
+            echo "::notice::dry run — nothing will be versioned, pushed or released"
+            pnpm exec nx release --skip-publish --dry-run 2>&1 | tee "$RUNNER_TEMP/release.log"
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          else
+            pnpm exec nx release --skip-publish 2>&1 | tee "$RUNNER_TEMP/release.log"
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          fi
+
+          {
+            echo '## Release finish'
+            echo
+            echo "- mode: **${{ inputs.dry_run == true && 'dry run' || 'real' }}**"
+            echo "- main: \`$(git rev-parse --short HEAD)\`"
+            echo
+            echo '```text'
+            grep -E 'New version|No changes were detected|CREATE https' "$RUNNER_TEMP/release.log" || echo '(nothing to release)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Validate the artifact, not the exit code. `nx release` exits 0 when it decides there is
+      # nothing to release, which is indistinguishable in the log from a release that worked.
+      - name: Verify the tags reached the remote
+        if: inputs.dry_run == false
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin --tags --force
+          tags="$(git tag --points-at HEAD | tr '\n' ' ')"
+          if [ -z "$tags" ]; then
+            echo "::warning::no component tags at $(git rev-parse --short HEAD) — nx found nothing to release"
+            exit 0
+          fi
+          echo "tags at HEAD: $tags"
+          for t in $tags; do
+            git ls-remote --exit-code --tags origin "refs/tags/$t" >/dev/null \
+              || { echo "::error::tag $t was created locally but is not on the remote"; exit 1; }
+          done
+          echo "all tags confirmed on the remote"
+
+      - name: Build and publish the release
+        if: inputs.dry_run == false
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # The dispatch reads ci.yml from the TARGET ref, and main only just received this
+          # version of it in the promote step. GitHub can take a moment to register that, so
+          # retry rather than fail a release for a race of a few seconds.
+          for attempt in 1 2 3 4 5; do
+            if gh workflow run ci.yml --ref main; then
+              echo "dispatched CI on main"
+              exit 0
+            fi
+            echo "dispatch attempt $attempt failed, retrying"
+            sleep 10
+          done
+          echo "::error::could not dispatch CI on main. The release is done — tags and GitHub Releases exist — but nothing has built or published it. Start CI on main by hand."
+          exit 1
+
+  back-merge:
+    needs: [finish]
+    if: inputs.dry_run == false && inputs.back_merge == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Merge main into develop
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main develop
+
+          git switch -C develop origin/develop
+          if git merge-base --is-ancestor origin/main HEAD; then
+            echo "develop already contains main; nothing to merge"
+            echo "skip=true" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+          # A plain merge, not --ff-only: develop moves on during a release and a merge commit
+          # there is normal. A conflict is a real disagreement and stops the job.
+          if ! git merge --no-edit origin/main; then
+            echo "::error::back-merge conflicted. Resolve by hand: git switch develop && git merge main"
+            exit 1
+          fi
+          git push origin develop
+          echo "develop is now $(git rev-parse --short HEAD)"
+
+      - name: Rebuild develop
+        if: env.skip != 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Same reason as on main: the push above used GITHUB_TOKEN and started nothing, so
+          # without this `:dev` would keep pointing at the pre-release content.
+          for attempt in 1 2 3; do
+            gh workflow run ci.yml --ref develop && exit 0
+            sleep 10
+          done
+          echo "::warning::could not dispatch CI on develop; :dev will be stale until the next push"

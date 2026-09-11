@@ -4,6 +4,21 @@
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore: ['docs/**', '**/*.md']
+  # Dispatchable so release-finish.yml can start this run itself, and that is not a
+  # convenience — it is the only way the release can work at all.
+  #
+  # release-finish creates the version commit and pushes it. A push made with the default
+  # GITHUB_TOKEN deliberately does NOT create a workflow run, which is what stops workflows
+  # triggering themselves forever. So after that push nothing would build the released tree,
+  # and the images would keep whatever they had.
+  #
+  # `workflow_dispatch` is the documented exception: it always creates a run, GITHUB_TOKEN or
+  # not. release-finish therefore pushes, then dispatches this workflow at the new commit —
+  # which is also why it has to be a separate RUN rather than more jobs in release-finish.
+  # Every job in a run checks out the run's own sha, so a build inside release-finish would
+  # build the tree from BEFORE the version bump, and each app's version.json is generated from
+  # the manifests at build time.
+  workflow_dispatch:
 
 name: CI
 
