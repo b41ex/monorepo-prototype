@@ -134,6 +134,19 @@
       "!{projectRoot}/**/*.stories.tsx",
       "!{projectRoot}/.storybook/**/*"
     ],
+    "//goToolchain": [
+      "backend/.go-version states the one Go version for the workspace, and it belongs to no",
+      "Nx project, so nothing referenced it and nothing invalidated on a bump. Measured: a",
+      "change to that file reported an affected set of [] — no job would have run, the drift",
+      "guard would not have executed, and every Go binary would have been served from a cache",
+      "built by the previous toolchain.",
+      "",
+      "It is NOT in sharedGlobals, deliberately. That would rebuild all 33 JS projects for a",
+      "Go version bump. Only the Go targets reference this."
+    ],
+    "goToolchain": [
+      "{workspaceRoot}/backend/.go-version"
+    ],
     "sharedGlobals": [
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/pnpm-workspace.yaml",

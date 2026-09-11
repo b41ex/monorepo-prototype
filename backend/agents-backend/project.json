@@ -17,7 +17,12 @@
         "env": {
           "GOWORK": "off"
         }
-      }
+      },
+      "inputs": [
+        "production",
+        "^production",
+        "goToolchain"
+      ]
     },
     "test": {
       "executor": "nx:run-commands",
@@ -27,7 +32,12 @@
         "env": {
           "GOWORK": "off"
         }
-      }
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "goToolchain"
+      ]
     }
   }
 }
