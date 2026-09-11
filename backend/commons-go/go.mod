@@ -1,6 +1,6 @@
 module github.com/Netcracker/qubership-apihub-commons-go
 
-go 1.23
+go 1.26.5
 
 require (
 	github.com/gosimple/slug v1.15.0
