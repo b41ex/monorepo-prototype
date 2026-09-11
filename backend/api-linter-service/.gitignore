@@ -2,7 +2,6 @@
 .vscode
 *.bak
 *.iml
-go.sum
 api-linter-service/*debug*.exe
 api-linter-service/tmp
 qubership-api-linter-service/qubership-api-linter-service
