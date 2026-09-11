@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "commons-go",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "cwd": "backend/commons-go",
+        "command": "go build ./...",
+        "env": { "GOWORK": "off" }
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "backend/commons-go",
+        "command": "go test ./...",
+        "env": { "GOWORK": "off" }
+      }
+    }
+  }
+}

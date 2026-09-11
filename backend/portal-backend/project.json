@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "portal-backend",
+  "projectType": "application",
+  "implicitDependencies": ["commons-go"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "backend/portal-backend/qubership-apihub-service",
+        "command": "go build -o ../dist/ ./...",
+        "env": { "GOWORK": "off" }
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "backend/portal-backend/qubership-apihub-service",
+        "command": "go test ./...",
+        "env": { "GOWORK": "off" }
+      }
+    }
+  }
+}

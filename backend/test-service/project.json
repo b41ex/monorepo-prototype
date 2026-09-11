@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "test-service",
+  "projectType": "application",
+  "implicitDependencies": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "backend/test-service/qubership-apihub-test-service",
+        "command": "go build -o ../dist/ ./...",
+        "env": { "GOWORK": "off" }
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "backend/test-service/qubership-apihub-test-service",
+        "command": "go test ./...",
+        "env": { "GOWORK": "off" }
+      }
+    }
+  }
+}
