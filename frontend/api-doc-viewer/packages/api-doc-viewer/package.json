@@ -1,6 +1,6 @@
 {
   "name": "@b41ex/qubership-apihub-api-doc-viewer",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "license": "Apache-2.0",
   "type": "module",
   "main": "dist/index.js",
