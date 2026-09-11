@@ -508,7 +508,11 @@ jobs:
       && needs.js-images.result == 'success'
       && needs.go-images.result != 'failure' && needs.go-images.result != 'cancelled'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # 90, not 60. Measured on the first full run: 57.2 minutes wall clock, of which the
+    # Playwright Portal suite was 49. Sixty left under three minutes of headroom, and a job
+    # killed by its timeout mid-suite produces no report and reads as a failure of the thing
+    # being tested rather than of the limit.
+    timeout-minutes: 90
     permissions:
       contents: read
       packages: read
