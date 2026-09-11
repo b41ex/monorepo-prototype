@@ -129,16 +129,15 @@ jobs:
             echo "released=true" >> "$GITHUB_OUTPUT"
           fi
 
-          {
-            echo '## Release finish'
-            echo
-            echo "- mode: **${{ inputs.dry_run == true && 'dry run' || 'real' }}**"
-            echo "- main: \`$(git rev-parse --short HEAD)\`"
-            echo
-            echo '```text'
-            grep -E 'New version|No changes were detected|CREATE https' "$RUNNER_TEMP/release.log" || echo '(nothing to release)'
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          # Rendered rather than grepped. Nx colours its output even when stdout is not a
+          # terminal, so a grep straight into the summary printed escape sequences instead of
+          # project names; it also prints each manifest write twice for a project that is both
+          # versioned and bumped as a dependent. The script strips, deduplicates and tabulates.
+          node tools/ci/release-summary.js \
+            "$RUNNER_TEMP/release.log" \
+            '${{ inputs.dry_run == true && 'dry run' || 'real' }}' >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "main is at \`$(git rev-parse --short HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
 
       # Validate the artifact, not the exit code. `nx release` exits 0 when it decides there is
       # nothing to release, which is indistinguishable in the log from a release that worked.
