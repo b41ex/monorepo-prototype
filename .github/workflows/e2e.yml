@@ -317,6 +317,23 @@ jobs:
       # on all three of its uploads, which makes it a path glob rather than a setting. Those
       # artifacts keep the 90-day default and every upload warns about a path that matches
       # nothing. Here it is a sibling key and the last run's artifact duly expired in 7 days.
+      # Print the aria snapshots into the log as well as shipping them. An artifact is no use
+      # to someone whose network cannot reach the blob host it is served from, and a failed
+      # locator's call log says only what it waited for, never what was actually on the page.
+      - name: Page snapshots for the failures
+        if: always() && steps.playwright.outcome == 'failure'
+        shell: bash
+        run: |
+          set -euo pipefail
+          found=0
+          while IFS= read -r f; do
+            found=$((found + 1))
+            echo "::group::${f#tests/ui-tests/temp/test-results/}"
+            cat "$f"
+            echo "::endgroup::"
+          done < <(find tests/ui-tests/temp/test-results -name 'error-context.md' 2>/dev/null | sort)
+          echo "printed $found page snapshot(s)"
+
       - name: Upload container logs
         if: always()
         uses: actions/upload-artifact@v7
@@ -340,7 +357,12 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-reports
-          path: tests/ui-tests/reports
+          # temp/test-results is where the failure evidence actually lives: the screenshot,
+          # the trace and error-context.md, which is an aria snapshot of the page at the
+          # moment it failed. reports/ alone is the HTML report and none of that.
+          path: |
+            tests/ui-tests/reports
+            tests/ui-tests/temp/test-results
           if-no-files-found: warn
           retention-days: 7
 
