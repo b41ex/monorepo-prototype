@@ -89,7 +89,20 @@ jobs:
           echo "::add-mask::$token"
           {
             echo "JWT_PRIVATE_KEY=$key"
-            echo "APIHUB_ADMIN_EMAIL=x_atui_sysadmin@qa.at"
+            # DELIBERATELY NOT the suite's own sysadmin address. An earlier version of this
+            # file pinned it to x_atui_sysadmin@qa.at and that cost 14 Playwright failures.
+            #
+            # The backend creates a zero-day admin from this value at startup, in
+            # ZeroDayAdminService.CreateZeroDayAdmin, as InternalUser{Email, Password} with
+            # NO name. The suite then creates its own sysadmin, with a name, in
+            # apihub-setup.ts via UsersTestDataManager.createSysadmin. When the two addresses
+            # collide that second call gets 400 "already exists", logs it and returns WITHOUT
+            # ever applying the name — so the account keeps its email as the display value and
+            # every assertion on a "published by" cell reads x_atui_sysadmin@qa.at where it
+            # expects x_ATUI_Sysadmin.
+            #
+            # Nothing logs in as this account except Newman, which templates whatever is here.
+            echo "APIHUB_ADMIN_EMAIL=zero-day-admin@apihub.local"
             echo "APIHUB_ADMIN_PASSWORD=$pass"
             echo "APIHUB_ACCESS_TOKEN=$token"
           } >> "$GITHUB_ENV"
