@@ -45,10 +45,16 @@ jobs:
   # ---------------------------------------------------------------------------------------
   plan:
     runs-on: ubuntu-latest
+    # pull-requests: read is for the E2E tier decision below; the workflow default is
+    # contents: read alone and listing pull requests is not covered by it.
+    permissions:
+      contents: read
+      pull-requests: read
     outputs:
       screenshot_projects: ${{ steps.affected.outputs.screenshot_projects }}
       image_projects: ${{ steps.affected.outputs.image_projects }}
       go_projects: ${{ steps.affected.outputs.go_projects }}
+      e2e_tier: ${{ steps.e2e_tier.outputs.value }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -147,6 +153,48 @@ jobs:
           node tools/ci/plan-summary.js plan-graph.json \
             "$affected" "$shots" "$images" "$image_inputs" "$go" >> "$GITHUB_STEP_SUMMARY"
           rm -f plan-graph.json
+
+      # ---------------------------------------------------------------------------------
+      # The E2E tier is decided ONCE, here, and that is the point of it living in this job.
+      #
+      # A push to a branch with an open pull request fires a push run AND a pull_request run.
+      # Deciding the tier per job would give the same commit a smoke run and a full one, about
+      # an hour of duplicated runner time. So the push run stands down when a pull request
+      # exists and lets the pull_request run do the full suite.
+      #
+      #   pull_request event          full
+      #   push, an open PR exists     none  — the pull_request run covers this commit
+      #   push, no open PR            smoke
+      #
+      # Smoke is not as cheap as it sounds and the numbers are in CI-DESIGN.md: setup is a
+      # fixed ~8 minutes that no filter avoids, so smoke is about two thirds of full rather
+      # than a fifth of it.
+      # ---------------------------------------------------------------------------------------
+      - name: Decide the E2E tier
+        id: e2e_tier
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ '${{ github.event_name }}' = 'pull_request' ]; then
+            tier=full
+            why='pull_request event'
+          else
+            open="$(gh api \
+              "repos/${{ github.repository }}/pulls?head=${{ github.repository_owner }}:${{ github.ref_name }}&state=open" \
+              --jq 'length')"
+            if [ "$open" -gt 0 ]; then
+              tier=none
+              why="push, but $open open pull request(s) — the pull_request run does the full suite"
+            else
+              tier=smoke
+              why='push with no open pull request'
+            fi
+          fi
+          echo "value=$tier" >> "$GITHUB_OUTPUT"
+          echo "e2e tier: $tier ($why)"
+          echo "| e2e | \`$tier\` | $why |" >> "$GITHUB_STEP_SUMMARY"
 
       # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
       # cannot drift apart. `always()` because a failed job is when the numbers matter most.
@@ -485,6 +533,7 @@ jobs:
     # image jobs use appears here for the same reason.
     if: >-
       always()
+      && needs.plan.outputs.e2e_tier != 'none'
       && needs.js-images.result == 'success'
       && needs.go-images.result != 'failure' && needs.go-images.result != 'cancelled'
     permissions:
@@ -493,6 +542,7 @@ jobs:
     uses: ./.github/workflows/e2e.yml
     with:
       repoint_images: true
+      tier: ${{ needs.plan.outputs.e2e_tier }}
 
 
   # ---------------------------------------------------------------------------------------

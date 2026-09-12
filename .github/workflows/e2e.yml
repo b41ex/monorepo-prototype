@@ -30,6 +30,54 @@ on:
         required: false
         type: boolean
         default: true
+      tier:
+        description: >-
+          full runs everything; smoke runs the Portal smoke collection and the @smoke-tagged
+          Playwright tests. Setup is the same either way and is most of the fixed cost.
+        required: false
+        type: string
+        default: full
+      image_owner:
+        description: >-
+          ghcr owner the five images are pulled from. Defaults to this repository's owner.
+          TEMPORARY: it exists only because the prototype publishes under a personal account
+          instead of the organisation. Once this is the real monorepo, owner and repository
+          owner are the same thing and this input should be deleted.
+        required: false
+        type: string
+        default: ''
+      image_tag:
+        description: >-
+          Tag for all five images, when the per-image tags below are left empty. Defaults to
+          this ref's branch tag.
+        required: false
+        type: string
+        default: ''
+      tag_portal_backend:
+        description: Overrides image_tag for portal-backend. A src-<hash> tag pins exact content.
+        required: false
+        type: string
+        default: ''
+      tag_build_task_consumer:
+        description: Overrides image_tag for build-task-consumer.
+        required: false
+        type: string
+        default: ''
+      tag_ui:
+        description: Overrides image_tag for ui.
+        required: false
+        type: string
+        default: ''
+      tag_api_linter_service:
+        description: Overrides image_tag for api-linter-service.
+        required: false
+        type: string
+        default: ''
+      tag_agents_backend:
+        description: Overrides image_tag for agents-backend.
+        required: false
+        type: string
+        default: ''
 
 jobs:
   e2e:
@@ -137,18 +185,34 @@ jobs:
         run: |
           set -euo pipefail
           ref='${{ github.ref }}'
-          tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^main$@latest@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
-          owner="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
+          branch_tag="$(echo "$ref" | sed 's@refs/tags/@@;s@refs/heads/@@;s@refs/pull/@pull/@;s@^main$@latest@;s@^develop$@dev@;s@^release$@next@;s@/@-@g;')"
+
+          owner='${{ inputs.image_owner }}'
+          [ -n "$owner" ] || owner='${{ github.repository_owner }}'
+          owner="$(echo "$owner" | tr '[:upper:]' '[:lower:]')"
+
+          # A run's five images share a branch tag, but that tag MOVES on the next push. The
+          # only stable handle on "the images run N built" is each image's own src-<hash>, and
+          # those five differ. Hence five overrides rather than one: pinning a past run means
+          # naming five hashes, and there is no single value that could do it.
+          default_tag='${{ inputs.image_tag }}'
+          [ -n "$default_tag" ] || default_tag="$branch_tag"
+          t_pb='${{ inputs.tag_portal_backend }}';      [ -n "$t_pb" ] || t_pb="$default_tag"
+          t_bc='${{ inputs.tag_build_task_consumer }}';  [ -n "$t_bc" ] || t_bc="$default_tag"
+          t_ui='${{ inputs.tag_ui }}';                   [ -n "$t_ui" ] || t_ui="$default_tag"
+          t_al='${{ inputs.tag_api_linter_service }}';   [ -n "$t_al" ] || t_al="$default_tag"
+          t_ab='${{ inputs.tag_agents_backend }}';       [ -n "$t_ab" ] || t_ab="$default_tag"
+
           cd compose-repo/docker-compose/apihub-generic
 
-          repoint() {  # $1 upstream image name, $2 ours
-            sed -i "s|ghcr.io/netcracker/$1:[^ ]*|ghcr.io/$owner/$2:$tag|g" docker-compose.yml
+          repoint() {  # $1 upstream image name, $2 ours, $3 tag
+            sed -i "s|ghcr.io/netcracker/$1:[^ ]*|ghcr.io/$owner/$2:$3|g" docker-compose.yml
           }
-          repoint qubership-apihub-backend              apihub-portal-backend
-          repoint qubership-apihub-build-task-consumer  apihub-build-task-consumer
-          repoint qubership-apihub-ui                   apihub-ui
-          repoint qubership-api-linter-service          apihub-api-linter-service
-          repoint qubership-apihub-agents-backend       apihub-agents-backend
+          repoint qubership-apihub-backend              apihub-portal-backend       "$t_pb"
+          repoint qubership-apihub-build-task-consumer  apihub-build-task-consumer  "$t_bc"
+          repoint qubership-apihub-ui                   apihub-ui                   "$t_ui"
+          repoint qubership-api-linter-service          apihub-api-linter-service   "$t_al"
+          repoint qubership-apihub-agents-backend       apihub-agents-backend       "$t_ab"
 
           # Validate the substitution rather than trusting sed's exit code, which is 0 whether
           # it matched anything or not. Five images must now be ours and none may be upstream.
@@ -201,10 +265,25 @@ jobs:
           cd postman-repo
           envsubst < ./environment/local.postman_environment.json > ./ci.postman_environment.json
           mkdir -p reports
-          newman run ./e2e/1_1_Smoke_Portal.postman_collection.json \
-            -e ./ci.postman_environment.json -x \
-            --reporters cli,htmlextra \
-            --reporter-htmlextra-export ./reports/smoke_portal.html
+
+          # smoke is the Portal smoke collection alone. full adds the rest of the PORTAL-side
+          # collections; 1_2_Smoke_Agent and 2_2_Negative_Agent are deliberately absent from
+          # both tiers, because the compose stack runs no agent service for them to talk to.
+          # Adding that container is a separate decision.
+          if [ '${{ inputs.tier }}' = 'smoke' ]; then
+            collections='1_1_Smoke_Portal'
+          else
+            collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal
+                         3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
+          fi
+
+          for c in $collections; do
+            echo "=== $c ==="
+            newman run "./e2e/${c}.postman_collection.json" \
+              -e ./ci.postman_environment.json -x \
+              --reporters cli,htmlextra \
+              --reporter-htmlextra-export "./reports/${c}.html"
+          done
 
       - name: Install Playwright browsers
         working-directory: tests/ui-tests
@@ -219,7 +298,16 @@ jobs:
           TEST_USER_PASSWORD: ${{ env.APIHUB_ADMIN_PASSWORD }}
           PLAYGROUND_BACKEND_HOST: http://host.docker.internal:8081
           CLEAR_TD: skip
-        run: pnpm exec playwright test --project=Portal --grep-invert=@flaky
+        run: |
+          # --grep does NOT filter the dependency projects, which is the thing that would have
+          # broken this silently: Portal-Setup is untagged, and if grep had removed it the smoke
+          # tests would run against a stack with no test data and fail as a body. Measured on
+          # the real config with --list: Portal 618 -> 261 under --grep=@smoke, while
+          # Portal-Setup stays at 36 and Apihub-Setup at 1.
+          args='--project=Portal --grep-invert=@flaky'
+          [ '${{ inputs.tier }}' = 'smoke' ] && args="$args --grep=@smoke"
+          echo "playwright $args"
+          pnpm exec playwright test $args
 
       - name: Upload reports and container logs
         if: always()

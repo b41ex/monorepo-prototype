@@ -1,0 +1,82 @@
+name: e2e manual
+
+# ---------------------------------------------------------------------------------------
+# A full E2E run against images you name, the way upstream's run-e2e-tests.yml could be
+# driven by hand. It builds nothing, publishes nothing and gates nothing.
+#
+# WHY FIVE TAG INPUTS AND NOT ONE. The five images a CI run publishes share a branch tag,
+# but that tag MOVES on the next push, so it does not identify a past run. Each image's
+# own `src-<hash>` tag does, and those five hashes differ. Pinning a specific run
+# therefore means naming five values; there is no single one that could do it. Leave them
+# empty and they all fall back to `image_tag`, and that to this ref's branch tag.
+#
+# It also subsumes the baseline run it replaces: `repoint_images: false` leaves the
+# compose file naming upstream's `ghcr.io/netcracker/...:dev` and changes nothing else,
+# which is the comparison `e2e-baseline.yml` existed to make.
+#
+# TRIGGERS. `workflow_dispatch` resolves against the DEFAULT branch, so until this file
+# reaches develop the dispatch answers 404 whatever ref is passed. Pushing a throwaway
+# `e2e-manual/<name>` branch starts it in the meantime and needs no change to a shared
+# branch. ci.yml triggers on main, develop, release, hotfix, feature/** and bugfix/**, so
+# that prefix runs this and nothing else.
+# ---------------------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      repoint_images:
+        description: Use our images. Uncheck to run against upstream's :dev, which is the baseline.
+        type: boolean
+        default: true
+      image_owner:
+        description: "ghcr owner (TEMPORARY: only needed while the prototype publishes under a personal account)"
+        type: string
+        default: ''
+      image_tag:
+        description: Tag for all five images unless overridden below. Empty means this ref's branch tag.
+        type: string
+        default: ''
+      tag_portal_backend:
+        description: portal-backend tag, e.g. src-0bf458480a88ebc6
+        type: string
+        default: ''
+      tag_build_task_consumer:
+        description: build-task-consumer tag
+        type: string
+        default: ''
+      tag_ui:
+        description: ui tag
+        type: string
+        default: ''
+      tag_api_linter_service:
+        description: api-linter-service tag
+        type: string
+        default: ''
+      tag_agents_backend:
+        description: agents-backend tag
+        type: string
+        default: ''
+  push:
+    branches: ['e2e-manual/**']
+
+permissions:
+  contents: read
+
+jobs:
+  manual:
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/e2e.yml
+    with:
+      # Always full. A manual run is a deliberate act and smoke is what CI already does
+      # unattended on every push.
+      tier: full
+      repoint_images: ${{ inputs.repoint_images == null && true || inputs.repoint_images }}
+      image_owner: ${{ inputs.image_owner || '' }}
+      image_tag: ${{ inputs.image_tag || '' }}
+      tag_portal_backend: ${{ inputs.tag_portal_backend || '' }}
+      tag_build_task_consumer: ${{ inputs.tag_build_task_consumer || '' }}
+      tag_ui: ${{ inputs.tag_ui || '' }}
+      tag_api_linter_service: ${{ inputs.tag_api_linter_service || '' }}
+      tag_agents_backend: ${{ inputs.tag_agents_backend || '' }}
