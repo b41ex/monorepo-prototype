@@ -188,8 +188,18 @@ jobs:
               tier=none
               why="push, but $open open pull request(s) — the pull_request run does the full suite"
             else
-              tier=smoke
-              why='push with no open pull request'
+              # SMOKE IS COMMENTED OUT, PENDING A REVIEW OF WHAT IS IN IT. Measured before
+              # switching it off: a smoke run cost 26 minutes of the 44 a full one costs,
+              # because `--grep=@smoke` halves the Playwright tests (618 -> 261) while setup
+              # and stack bring-up are fixed overhead it cannot touch. Two thirds of the price
+              # for half the coverage was not worth paying on every push to every branch.
+              #
+              # Re-enabling is this one line. e2e.yml still understands `tier: smoke` and runs
+              # `--grep=@smoke` plus the Portal smoke collection when given it; nothing else
+              # has to come back.
+              # tier=smoke
+              tier=none
+              why='push with no open pull request — E2E runs on pull requests only'
             fi
           fi
           echo "value=$tier" >> "$GITHUB_OUTPUT"
