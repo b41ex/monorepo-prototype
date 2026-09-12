@@ -309,15 +309,38 @@ jobs:
           echo "playwright $args"
           pnpm exec playwright test $args
 
-      - name: Upload reports and container logs
+      # Three artifacts rather than one, named as the workflow this replaces named them, so
+      # that someone chasing a red run downloads the 200 KB they want instead of 32 MB of
+      # everything. Each is `always()`: the logs matter most on the run that failed.
+      #
+      # NOT copied from the original: it writes `retention-days: 7` INSIDE the `path:` block
+      # on all three of its uploads, which makes it a path glob rather than a setting. Those
+      # artifacts keep the 90-day default and every upload warns about a path that matches
+      # nothing. Here it is a sibling key and the last run's artifact duly expired in 7 days.
+      - name: Upload container logs
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: e2e-reports
-          path: |
-            tests/ui-tests/reports
-            postman-repo/reports
-            *.log
+          name: containers-logs
+          path: '*.log'
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload Newman reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: newman-reports
+          path: postman-repo/reports
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload Playwright reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-reports
+          path: tests/ui-tests/reports
           if-no-files-found: warn
           retention-days: 7
 
