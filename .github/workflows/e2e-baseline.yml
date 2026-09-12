@@ -12,7 +12,16 @@ name: e2e baseline
 # ---------------------------------------------------------------------------------------
 
 on:
+  # `workflow_dispatch` alone cannot start this. GitHub resolves a dispatchable workflow from
+  # the DEFAULT branch, and this file lives only on the feature branch, so the API answers
+  # `404: workflow e2e-baseline.yml not found on the default branch` however the ref is set.
+  #
+  # Pushing a throwaway `e2e-baseline/<name>` branch starts it instead, and costs no change to
+  # a shared branch to arrange. ci.yml triggers on main, develop, release, hotfix, feature/**
+  # and bugfix/**, so that prefix runs this and nothing else.
   workflow_dispatch:
+  push:
+    branches: ['e2e-baseline/**']
 
 permissions:
   contents: read
