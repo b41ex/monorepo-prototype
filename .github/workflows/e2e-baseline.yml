@@ -1,0 +1,27 @@
+name: e2e baseline
+
+# ---------------------------------------------------------------------------------------
+# The same E2E job as CI, against upstream's `:dev` images instead of this run's.
+#
+# It answers one question and only one: of the tests that fail in CI, which also fail without
+# any of this workspace's images in the stack. A failure present in both is not the migration's
+# and needs no further argument; a failure present only in CI needs one.
+#
+# Manual, because it is a comparison run rather than a gate. It builds nothing, publishes
+# nothing and blocks nothing.
+# ---------------------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/e2e.yml
+    with:
+      repoint_images: false
