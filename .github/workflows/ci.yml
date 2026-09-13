@@ -58,6 +58,7 @@ jobs:
       image_projects: ${{ steps.affected.outputs.image_projects }}
       go_projects: ${{ steps.affected.outputs.go_projects }}
       e2e_tier: ${{ steps.e2e_tier.outputs.value }}
+      storybooks: ${{ steps.storybooks.outputs.value }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -156,6 +157,14 @@ jobs:
           node tools/ci/plan-summary.js plan-graph.json \
             "$affected" "$shots" "$images" "$image_inputs" "$go" >> "$GITHUB_STEP_SUMMARY"
           rm -f plan-graph.json
+
+      # The Storybooks to publish, from the one file pages.yml's assembler also reads. Not
+      # selected by `affected`, for the same reason the images are not: whether a branch has a
+      # pointer in the store is a question about the registry, not about the diff.
+      - name: Storybooks to publish
+        id: storybooks
+        shell: bash
+        run: echo "value=$(jq -c . tools/ci/storybooks.json)" >> "$GITHUB_OUTPUT"
 
       # ---------------------------------------------------------------------------------
       # The E2E tier is decided ONCE, here, and that is the point of it living in this job.
@@ -559,6 +568,115 @@ jobs:
 
 
   # ---------------------------------------------------------------------------------------
+  # storybooks — every component's Storybook, for this branch, into the store in ghcr.
+  #
+  # NOTHING IS COMMITTED ANYWHERE. A build is an OCI artifact identified by the images'
+  # content hash, and this branch gets a small POINTER manifest naming it. The site is
+  # assembled from the store by pages.yml, which the next job dispatches.
+  # tools/ci/storybook-store.sh has the details, including why a pointer is never a tag on
+  # the content.
+  #
+  # ALL SIX RUN ON EVERY PUSH, for the images' reason: whether this branch has a pointer is a
+  # question about the registry, not about the diff. A new branch changes nothing and still
+  # needs six. Building is gated one step later, on whether the content already exists, so
+  # an unchanged component costs an install and a manifest write.
+  #
+  # NOT ON pull_request. That run's ref is refs/pull/N/merge, which is no branch, and the push
+  # run for the same head already publishes the branch.
+  #
+  # NOT GATED ON TESTS, as it never was in the component repositories. The Storybook of a red
+  # branch is how someone looks at what is red.
+  # ---------------------------------------------------------------------------------------
+  storybooks:
+    needs: [plan]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # tools/ci/storybooks.json, read by plan, so the assembler and this matrix cannot
+        # disagree about which components exist.
+        include: ${{ fromJSON(needs.plan.outputs.storybooks) }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+        with:
+          cache-scope: storybook-${{ matrix.component }}
+
+      # 1.3.3, not the current 1.3.4: setup-oras verifies against a release table baked into
+      # the action, and v2.0.1's ends at 1.3.3.
+      - uses: oras-project/setup-oras@v2.0.1
+        with:
+          version: 1.3.3
+
+      - name: log in to ghcr
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GH_TOKEN" | oras login ghcr.io -u '${{ github.actor }}' --password-stdin
+
+      - name: build the Storybook if its content is new, then point this branch at it
+        shell: bash
+        env:
+          COMPONENT: ${{ matrix.component }}
+          PROJECT: ${{ matrix.project }}
+          HASH_PROJECTS: ${{ matrix.hash_projects }}
+          HASH_PATHS: ${{ matrix.hash_paths }}
+          OUTPUT: ${{ matrix.output }}
+          OWNER: ${{ github.repository_owner }}
+        run: bash tools/ci/storybook-store.sh
+
+      - name: cache summary
+        if: always()
+        run: bash tools/ci/cache-summary.sh 'storybooks (${{ matrix.component }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------------------
+  # storybook-pages — ask pages.yml to reassemble and deploy the site.
+  #
+  # A SEPARATE WORKFLOW, not a job here. A Pages deploy replaces the whole site, so deploys
+  # must queue in one group across ALL branches, while this workflow's group is per ref and
+  # cancels. pages.yml also runs on branch deletion and on a schedule, which are not CI runs.
+  #
+  # DISPATCHED AT THE DEFAULT BRANCH once pages.yml exists there, so a feature branch cannot
+  # redeploy the whole site with its own copy of the assembler. Until then at this ref, which
+  # is how it is tested before it merges; the github-pages environment's branch policy bounds
+  # who can deploy either way.
+  #
+  # `always()`, so one failed Storybook does not keep the other five off the site. The
+  # assembler reads the store and publishes whatever pointers exist.
+  # ---------------------------------------------------------------------------------------
+  storybook-pages:
+    needs: [storybooks]
+    if: always() && github.event_name != 'pull_request' && needs.storybooks.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: dispatch pages.yml
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          repo='${{ github.repository }}'
+          default='${{ github.event.repository.default_branch }}'
+          if gh api "repos/$repo/contents/.github/workflows/pages.yml?ref=$default" --silent 2>/dev/null; then
+            ref="$default"
+          else
+            ref='${{ github.ref_name }}'
+          fi
+          gh workflow run pages.yml --repo "$repo" --ref "$ref" \
+            -f reason='CI on ${{ github.ref_name }}, run ${{ github.run_id }}'
+          echo "dispatched pages.yml at \`$ref\`" | tee -a "$GITHUB_STEP_SUMMARY"
+
+
+  # ---------------------------------------------------------------------------------------
   # ci-ok — the only required check.
   #
   # With affected-based skipping, a required status check that never runs blocks the PR
@@ -566,7 +684,7 @@ jobs:
   # `skipped` is a pass, which is the whole point.
   # ---------------------------------------------------------------------------------------
   ci-ok:
-    needs: [plan, js, go, screenshot-tests, js-images, go-images, e2e]
+    needs: [plan, js, go, screenshot-tests, js-images, go-images, e2e, storybooks, storybook-pages]
     if: always()
     runs-on: ubuntu-latest
     steps:
