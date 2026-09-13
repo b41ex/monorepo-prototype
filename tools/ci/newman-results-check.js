@@ -21,25 +21,32 @@
  *   - assertion failures that do not match run.stats.assertions.failed
  *   - a failure naming a request that is not in the report's own collection
  *
- * Then every failure is classified against tools/ci/newman-known-failures.json, keyed exactly
- * on collection, the request's folder path and the assertion's name. A failure not on the list
- * fails the job. A listed failure that did not occur is reported as stale and does not.
+ * And ANY failure fails the job. There is no list of tolerated failures: a test that fails
+ * for a reason the monorepo did not cause and cannot fix is skipped in the collection, where
+ * the skip is visible and reviewed, not excused here.
  *
- * The request path is rebuilt from the collection tree in the report, by the failing item's id.
- * `failure.parent` is not used: it is absent for a top-level request and names only the nearest
- * folder otherwise. The rebuilt path is the one newman prints after `inside` in its CLI output.
- * A failure that is not an assertion (a refused connection, a script error) has no test name,
- * so its assertion key is `<where>: <error name>`, for example `request: Error`.
+ * Skips are reported, never hidden. newman keeps two kinds apart, and only one of them leaves
+ * a trace, so both are looked for:
  *
- * Usage:  newman-results-check.js <reports dir> <known-failures.json> "<collection> [collection...]"
+ *   pm.test.skip("...")          the assertion is in the report with `skipped: true`
+ *   pm.execution.skipRequest()   the request is simply absent from run.executions
+ *
+ * The second is found by comparing the collection's requests with the ones that executed.
+ *
+ * The request path is rebuilt from the collection tree in the report, by item id, and is the
+ * text newman prints after `inside` in its CLI output. `failure.parent` is not used: it is
+ * absent for a top-level request and names only the nearest folder otherwise. A failure that is
+ * not an assertion (a refused connection, a script error) has no test name, so it is shown as
+ * `<where>: <error name>`, for example `request: Error`.
+ *
+ * Usage:  newman-results-check.js <reports dir> "<collection> [collection...]"
  */
 const fs = require('node:fs')
 const path = require('node:path')
 
-const [reportsDir, knownPath, collectionsRaw] = process.argv.slice(2)
+const [reportsDir, collectionsRaw] = process.argv.slice(2)
 
 const errors = []
-const summary = []
 const md = (s) => String(s).replace(/\|/g, '\\|').replace(/\r?\n/g, ' ')
 
 const collections = (collectionsRaw || '')
@@ -47,35 +54,15 @@ const collections = (collectionsRaw || '')
   .map((s) => s.trim())
   .filter(Boolean)
 
-if (!reportsDir || !knownPath || collections.length === 0) {
-  console.error('usage: newman-results-check.js <reports dir> <known-failures.json> "<collections>"')
+if (!reportsDir || collections.length === 0) {
+  console.error('usage: newman-results-check.js <reports dir> "<collections>"')
   console.error('an empty collection list is not a passing check')
   process.exit(1)
 }
 
-// ---- the known-failures list -------------------------------------------------------------
-let known = []
-try {
-  const parsed = JSON.parse(fs.readFileSync(path.resolve(knownPath), 'utf8'))
-  if (!Array.isArray(parsed.failures)) throw new Error('no `failures` array')
-  known = parsed.failures
-} catch (e) {
-  console.error(`cannot read the known-failures list ${knownPath}: ${e.message}`)
-  process.exit(1)
-}
-const keyOf = (f) => JSON.stringify([f.collection, f.request, f.assertion])
-const knownKeys = new Map()
-for (const [i, f] of known.entries()) {
-  if (![f.collection, f.request, f.assertion].every((v) => typeof v === 'string' && v.length > 0)) {
-    errors.push(`known-failures entry ${i} needs a non-empty collection, request and assertion`)
-    continue
-  }
-  if (knownKeys.has(keyOf(f))) errors.push(`known-failures entry ${i} duplicates entry ${knownKeys.get(keyOf(f))}`)
-  else knownKeys.set(keyOf(f), i)
-}
-
-// ---- the reports ---------------------------------------------------------------------------
-const occurred = new Map() // key -> { collection, request, assertion, message, count }
+const failures = []
+const skippedAssertions = []
+const notExecuted = []
 const perCollection = []
 
 for (const c of collections) {
@@ -90,7 +77,14 @@ for (const c of collections) {
 
   const run = report && report.run
   const stats = run && run.stats
-  if (!stats || !stats.requests || !stats.assertions || !Array.isArray(run.failures) || !report.collection) {
+  if (
+    !stats ||
+    !stats.requests ||
+    !stats.assertions ||
+    !Array.isArray(run.failures) ||
+    !Array.isArray(run.executions) ||
+    !report.collection
+  ) {
     errors.push(`${c}: ${file} is not a newman JSON run report`)
     continue
   }
@@ -103,11 +97,13 @@ for (const c of collections) {
 
   // id -> "folder / folder / request", the path newman prints after `inside`
   const paths = new Map()
+  const requests = []
   const walk = (items, trail) => {
     for (const item of items || []) {
       const here = [...trail, item.name]
       paths.set(item.id, here.join(' / '))
       if (Array.isArray(item.item)) walk(item.item, here)
+      else requests.push(item.id)
     }
   }
   walk(report.collection.item, [])
@@ -116,78 +112,82 @@ for (const c of collections) {
   for (const f of run.failures) {
     const where = String(f.at || '')
     if (where.startsWith('assertion')) assertionFailures++
-
     const id = f.source && f.source.id
-    const request = paths.get(id)
-    if (request === undefined) {
+    if (!paths.has(id)) {
       errors.push(`${c}: a failure names request id ${id}, which is not in this report's collection`)
       continue
     }
     const err = f.error || {}
-    const assertion = typeof err.test === 'string' && err.test ? err.test : `${where || 'unknown'}: ${err.name || 'Error'}`
-    const entry = { collection: c, request, assertion }
-    const k = keyOf(entry)
-    const seen = occurred.get(k)
-    if (seen) seen.count++
-    else occurred.set(k, { ...entry, message: err.message || '', count: 1 })
+    failures.push({
+      collection: c,
+      request: paths.get(id),
+      assertion: typeof err.test === 'string' && err.test ? err.test : `${where || 'unknown'}: ${err.name || 'Error'}`,
+      message: err.message || '',
+    })
   }
-
   if (assertionFailures !== stats.assertions.failed) {
     errors.push(
       `${c}: ${assertionFailures} assertion failures listed but run.stats.assertions.failed is ${stats.assertions.failed}`,
     )
   }
 
+  const executed = new Set()
+  let skipped = 0
+  for (const e of run.executions) {
+    const id = e.item && e.item.id
+    executed.add(id)
+    for (const a of e.assertions || []) {
+      if (a.skipped) {
+        skipped++
+        skippedAssertions.push({ collection: c, request: paths.get(id) || `(id ${id})`, assertion: a.assertion })
+      }
+    }
+  }
+  const missing = requests.filter((id) => !executed.has(id))
+  for (const id of missing) notExecuted.push({ collection: c, request: paths.get(id) })
+
   perCollection.push({
     collection: c,
-    requests: stats.requests.total,
+    requests: requests.length,
+    executed: stats.requests.total,
     requestsFailed: stats.requests.failed,
     assertions: stats.assertions.total,
     assertionsFailed: stats.assertions.failed,
+    skipped,
+    notExecuted: missing.length,
   })
 }
 
-// ---- classification ------------------------------------------------------------------------
-const fresh = [...occurred.entries()].filter(([k]) => !knownKeys.has(k)).map(([, v]) => v)
-const tolerated = [...occurred.entries()].filter(([k]) => knownKeys.has(k)).map(([, v]) => v)
-// Stale only where the report was READ. A collection whose report is missing or unparsable is
-// already a failure above, and calling its listed failures "did not occur" would be advice to
-// delete entries nobody observed either way.
-const read = new Set(perCollection.map((p) => p.collection))
-const stale = known.filter((f) => read.has(f.collection) && !occurred.has(keyOf(f)))
-
 // ---- report --------------------------------------------------------------------------------
-summary.push('### Newman results', '')
-summary.push('| collection | requests | failed | assertions | failed |', '|---|---:|---:|---:|---:|')
+const out = ['### Newman results', '']
+out.push(
+  '| collection | requests | executed | failed | assertions | failed | skipped | not executed |',
+  '|---|---:|---:|---:|---:|---:|---:|---:|',
+)
 for (const p of perCollection) {
-  summary.push(`| ${md(p.collection)} | ${p.requests} | ${p.requestsFailed} | ${p.assertions} | ${p.assertionsFailed} |`)
+  out.push(
+    `| ${md(p.collection)} | ${p.requests} | ${p.executed} | ${p.requestsFailed} | ${p.assertions} | ${p.assertionsFailed} | ${p.skipped} | ${p.notExecuted} |`,
+  )
 }
-const table = (title, rows, withMessage) => {
-  summary.push('', `**${title}: ${rows.length}**`)
+const table = (title, rows, cols) => {
+  out.push('', `**${title}: ${rows.length}**`)
   if (rows.length === 0) return
-  summary.push('', `| collection | request | assertion |${withMessage ? ' message |' : ''}`)
-  summary.push(`|---|---|---|${withMessage ? '---|' : ''}`)
-  for (const r of rows) {
-    const times = r.count > 1 ? ` (x${r.count})` : ''
-    summary.push(
-      `| ${md(r.collection)} | ${md(r.request)} | ${md(r.assertion)}${times} |${withMessage ? ` ${md(r.message)} |` : ''}`,
-    )
-  }
+  out.push('', `| ${cols.join(' | ')} |`, `|${cols.map(() => '---|').join('')}`)
+  for (const r of rows) out.push(`| ${cols.map((k) => md(r[k])).join(' | ')} |`)
 }
-table('New failures, not on the known list', fresh, true)
-table('Known failures, tolerated', tolerated, false)
-table('Stale known failures, listed but did not occur (delete them)', stale, false)
+table('Failed', failures, ['collection', 'request', 'assertion', 'message'])
+table('Skipped assertions (pm.test.skip)', skippedAssertions, ['collection', 'request', 'assertion'])
+table('Requests in the collection that did not execute', notExecuted, ['collection', 'request'])
 if (errors.length > 0) {
-  summary.push('', `**Could not verify: ${errors.length}**`, '')
-  for (const e of errors) summary.push(`- ${md(e)}`)
+  out.push('', `**Could not verify: ${errors.length}**`, '')
+  for (const e of errors) out.push(`- ${md(e)}`)
 }
 
-const text = summary.join('\n')
+const text = out.join('\n')
 console.log(text)
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${text}\n`)
 
 for (const e of errors) console.log(`::error::${e}`)
-for (const f of fresh) console.log(`::error::new newman failure in ${f.collection}: ${f.request} / ${f.assertion}`)
-for (const f of stale) console.log(`::warning::stale known failure in ${f.collection}: ${f.request} / ${f.assertion}`)
+for (const f of failures) console.log(`::error::newman failure in ${f.collection}: ${f.request} / ${f.assertion}`)
 
-process.exit(errors.length > 0 || fresh.length > 0 ? 1 : 0)
+process.exit(errors.length > 0 || failures.length > 0 ? 1 : 0)
