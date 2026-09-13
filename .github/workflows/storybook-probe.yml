@@ -36,9 +36,12 @@ jobs:
       REF: ghcr.io/${{ github.repository_owner }}/storybook-probe
       SUFFIX: ${{ github.run_id }}-${{ github.run_attempt }}
     steps:
+      # 1.3.3, not 1.3.4. setup-oras verifies downloads against a release table baked into the
+      # action, and v2.0.1's ends at 1.3.3 although oras 1.3.4 shipped on 2026-08-27. Asking
+      # for 1.3.4 fails before anything runs: "official ORAS CLI releases does not contain".
       - uses: oras-project/setup-oras@v2.0.1
         with:
-          version: 1.3.4
+          version: 1.3.3
 
       - name: probe
         shell: bash
