@@ -181,4 +181,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace github.com/Netcracker/qubership-apihub-commons-go => ../../commons-go
+replace github.com/Netcracker/qubership-apihub-commons-go => ../commons-go

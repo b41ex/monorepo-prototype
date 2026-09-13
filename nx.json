@@ -160,6 +160,16 @@
   },
   "targetDefaults": {
     "@nx-go/nx-go:build": {
+      "//outputs": [
+        "nx-go declares {workspaceRoot}/dist/{projectRoot}*, a glob. backend/agent* also matches",
+        "backend/agents-backend.exe, so agent's cache entry would capture agents-backend's binary",
+        "and a restore of agent would put a stale copy of it back. The executor writes exactly one",
+        "file, dist/<projectRoot>, with .exe appended on Windows; these name exactly that."
+      ],
+      "outputs": [
+        "{workspaceRoot}/dist/{projectRoot}",
+        "{workspaceRoot}/dist/{projectRoot}.exe"
+      ],
       "inputs": [
         "default",
         "^default",

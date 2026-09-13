@@ -74,45 +74,51 @@ for (const name of names) {
     continue
   }
 
+  // Two output shapes. A directory (`{projectRoot}/dist`) holds binaries. nx-go's executor
+  // writes one FILE at `dist/<projectRoot>`, with `.exe` appended when building for Windows,
+  // declared as that path, its `.exe` twin, or the plugin's own `dist/{projectRoot}*` glob.
+  //
+  // A file's name must match EXACTLY, extension aside. Matching the glob as a prefix credited
+  // `agent` with `dist/backend/agents-backend.exe`, so agent would have passed with its own
+  // binary missing. And the matches are collected as a set across all of a project's outputs:
+  // the path and its `.exe` twin name the same binary, which must count once.
+  const found = new Set()
+  const looked = []
   for (const spec of outputs) {
-    // Two output shapes. A directory (`{projectRoot}/dist`) holds the binaries. nx-go's
-    // `{workspaceRoot}/dist/{projectRoot}*` names a FILE by prefix: the executor writes
-    // `dist/<projectRoot>`, with `.exe` appended when building for Windows.
     const resolved = spec.replace('{projectRoot}', node.data.root).replace('{workspaceRoot}', '.')
-    const prefix = resolved.endsWith('*') ? path.basename(resolved.slice(0, -1)) : null
-    const dir = prefix === null ? resolved : path.dirname(resolved)
+    const stem = resolved.replace(/\*$/, '')
+    const isDir = !resolved.endsWith('*') && fs.existsSync(stem) && fs.statSync(stem).isDirectory()
+    const dir = isDir ? stem : path.dirname(stem)
+    const binary = isDir ? null : path.basename(stem).replace(/\.exe$/, '')
+    looked.push(isDir ? `${dir}/` : path.join(dir, `${binary}[.exe]`))
+    if (!fs.existsSync(dir)) continue
 
-    if (!fs.existsSync(dir)) {
-      console.error(`  ${name}: ${dir} does not exist`)
-      status = 1
-      continue
+    for (const d of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (d.isFile() && (binary === null || d.name === binary || d.name === `${binary}.exe`)) {
+        found.add(path.join(dir, d.name))
+      }
     }
-
-    const files = fs
-      .readdirSync(dir, { withFileTypes: true })
-      .filter((d) => d.isFile() && (prefix === null || d.name.startsWith(prefix)))
-      .map((d) => path.join(dir, d.name))
-
-    if (files.length === 0) {
-      console.error(`  ${name}: ${prefix === null ? `${dir} is empty` : `no file matching ${resolved}`}`)
-      status = 1
-      continue
-    }
-
-    // A zero-byte file is a plausible way for a partial build to look finished.
-    const empty = files.filter((f) => fs.statSync(f).size === 0)
-    if (empty.length > 0) {
-      console.error(`  ${name}: ${empty.join(', ')} is zero bytes`)
-      status = 1
-      continue
-    }
-
-    binaries += files.length
-    console.log(
-      `  ${name}: ` +
-        files.map((f) => `${path.basename(f)} ${(fs.statSync(f).size / 1e6).toFixed(1)} MB`).join(', '),
-    )
   }
+
+  const files = [...found].sort()
+  if (files.length === 0) {
+    console.error(`  ${name}: nothing at ${[...new Set(looked)].join(' or ')}`)
+    status = 1
+    continue
+  }
+
+  // A zero-byte file is a plausible way for a partial build to look finished.
+  const empty = files.filter((f) => fs.statSync(f).size === 0)
+  if (empty.length > 0) {
+    console.error(`  ${name}: ${empty.join(', ')} is zero bytes`)
+    status = 1
+    continue
+  }
+
+  binaries += files.length
+  console.log(
+    `  ${name}: ` + files.map((f) => `${path.basename(f)} ${(fs.statSync(f).size / 1e6).toFixed(1)} MB`).join(', '),
+  )
 }
 
 if (status === 0) {

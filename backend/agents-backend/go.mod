@@ -63,4 +63,4 @@ require (
 	mellium.im/sasl v0.3.1 // indirect
 )
 
-replace github.com/Netcracker/qubership-apihub-commons-go => ../../commons-go
+replace github.com/Netcracker/qubership-apihub-commons-go => ../commons-go
