@@ -1,0 +1,104 @@
+package controller
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"regexp"
+
+	"github.com/Netcracker/qubership-apihub-agent/view"
+
+	"github.com/Netcracker/qubership-apihub-agent/exception"
+	"github.com/Netcracker/qubership-apihub-agent/service"
+	"github.com/Netcracker/qubership-apihub-agent/utils"
+	log "github.com/sirupsen/logrus"
+)
+
+func NewServiceProxyController(discoveryService service.DiscoveryService) (ProxyController, error) {
+	tlsConfig, err := utils.BuildSecureTLSConfig(nil)
+	if err != nil {
+		return nil, err
+	}
+	return &serviceProxyControllerImpl{
+		tr:               http.Transport{TLSClientConfig: tlsConfig},
+		discoveryService: discoveryService,
+	}, nil
+}
+
+type serviceProxyControllerImpl struct {
+	tr               http.Transport
+	discoveryService service.DiscoveryService
+}
+
+const CustomJwtAuthHeader = "X-Apihub-Authorization"
+const CustomApiKeyHeader = "X-Apihub-ApiKey"
+const CustomProxyErrorHeader = "X-Apihub-Proxy-Error"
+
+func (s *serviceProxyControllerImpl) Proxy(w http.ResponseWriter, r *http.Request) {
+	namespace := getStringParam(r, "name")
+	serviceId := getStringParam(r, "serviceId")
+	customServerUrl, err := s.discoveryService.GetServiceUrl(namespace, serviceId)
+	if err != nil {
+		msg := fmt.Sprintf("Failed to proxy a request to namespace %v service %v", namespace, serviceId)
+		w.Header().Add(CustomProxyErrorHeader, fmt.Sprintf("Failed to proxy a request to namespace %v service %v: %v", namespace, serviceId, err.Error()))
+		respondWithError(w, msg, err)
+		return
+	}
+	r.Header.Del(CustomJwtAuthHeader)
+	r.Header.Del(CustomApiKeyHeader)
+
+	cookies := r.Cookies()
+	r.Header.Del("Cookie")
+	for _, cookieValue := range cookies {
+		if cookieValue.Name != view.AccessTokenCookieName {
+			r.AddCookie(cookieValue)
+		}
+	}
+
+	fullTargetUrl := makeFullTargetUrl(customServerUrl, r.URL.EscapedPath())
+
+	proxyURL, err := url.Parse(fullTargetUrl)
+	if err != nil {
+		w.Header().Add(CustomProxyErrorHeader, fmt.Sprintf("Failed to proxy a request to namespace %v service %v: %v", namespace, serviceId, err.Error()))
+		RespondWithCustomError(w, &exception.CustomError{
+			Status:  http.StatusBadRequest,
+			Code:    exception.InvalidURL,
+			Message: exception.InvalidURLMsg,
+			Params:  map[string]interface{}{"url": fullTargetUrl},
+			Debug:   err.Error(),
+		})
+		return
+	}
+	r.URL.Host = proxyURL.Host
+	r.URL.Scheme = proxyURL.Scheme
+	r.URL.Path = proxyURL.Path
+	r.URL.RawPath = proxyURL.RawPath
+	r.Host = proxyURL.Host
+	log.Debugf("Sending proxy request to %s", r.URL)
+	resp, err := s.tr.RoundTrip(r)
+	if err != nil {
+		w.Header().Add(CustomProxyErrorHeader, fmt.Sprintf("Failed to proxy a request to namespace %v service %v: %v", namespace, serviceId, err.Error()))
+		RespondWithCustomError(w, &exception.CustomError{
+			Status:  http.StatusFailedDependency,
+			Code:    exception.ProxyFailed,
+			Message: exception.ProxyFailedMsg,
+			Params:  map[string]interface{}{"url": r.URL.String()},
+			Debug:   err.Error(),
+		})
+		return
+	}
+	defer resp.Body.Close()
+	if err := copyHeader(w.Header(), resp.Header); err != nil {
+		RespondWithCustomError(w, err)
+		return
+	}
+	w.WriteHeader(resp.StatusCode)
+	io.Copy(w, resp.Body)
+}
+
+func makeFullTargetUrl(customServerUrl, path string) string {
+	proxyRouteRegexp := regexp.MustCompile(utils.MakeCustomProxyPath(".*", ".*", ".*"))
+	customServerPath := proxyRouteRegexp.ReplaceAllString(path, "") // delete ProxyPath prefix
+	return customServerUrl + "/" + customServerPath
+}

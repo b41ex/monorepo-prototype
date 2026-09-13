@@ -1,0 +1,8 @@
+# The build context for the Go images is backend/, because three of them resolve
+# commons-go through `replace ../../commons-go` and need it inside the context.
+# That pulls in all six modules, so the build output has to be excluded explicitly.
+*/dist/
+*/*/dist/
+**/.git
+**/*.exe
+**/node_modules/
