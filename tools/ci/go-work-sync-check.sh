@@ -42,10 +42,25 @@ for mod in "${mods[@]}"; do
 done
 
 for mod in "${mods[@]}"; do
-  # `-e` so every broken package is reported, not only the first; the template prints only
-  # packages that failed to load, so any output at all is a failure.
+  # `-e` so every broken package is reported, not only the first. The template prints only
+  # packages that failed to load, to STDOUT, so any stdout at all is a failure.
+  #
+  # stderr is kept apart, and that is the whole of a defect the first CI run found. On a cold
+  # module cache Go reports every module it fetches on stderr, `go: downloading ...`. The
+  # first version merged the two streams, so on a runner, where the cache starts empty, four
+  # modules reported BROKEN with nothing but download lines, while every local run, on a warm
+  # cache, passed. A non-zero exit is still a failure, reported with stderr minus downloads.
+  stderr_file="$(mktemp)"
+  set +e
   errors="$(cd "$mod" && GOWORK=off GOFLAGS=-mod=readonly \
-    go list -e -deps -test -f '{{if .Error}}{{.ImportPath}}: {{.Error}}{{end}}' ./... 2>&1 | grep . || true)"
+    go list -e -deps -test -f '{{if .Error}}{{.ImportPath}}: {{.Error}}{{end}}' ./... 2>"$stderr_file")"
+  rc=$?
+  set -e
+  if [[ $rc -ne 0 ]]; then
+    errors="${errors}"$'\n'"go list exited $rc: $(grep -v '^go: downloading ' "$stderr_file" | head -5)"
+  fi
+  rm -f "$stderr_file"
+  errors="$(printf '%s' "$errors" | grep . || true)"
   if [[ -n "$errors" ]]; then
     echo "  BROKEN $mod does not load on its own under -mod=readonly:" >&2
     printf '%s\n' "$errors" | head -5 | sed 's/^/           /' >&2
