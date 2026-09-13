@@ -108,6 +108,20 @@ jobs:
           sleep 5
           expect 'deleting alias removes src tag too' gone "$(oras resolve "$REF:src-$SUFFIX-b" >/dev/null 2>&1 && echo present || echo gone)"
 
-          # Leave nothing behind but the verdict.
-          del "$(vid "$da")" >/dev/null || true
+          # Q4: WHY did the previous run's cleanup fail? Deleting that run's last version returned
+          # "Publicly visible package versions with more than 5000 downloads cannot be deleted",
+          # for a version seconds old. Two readings: a last-version rule reported with a
+          # misleading message, or a download rule counted per package. They predict opposite
+          # results for deleting an OLD version while a NEWER one exists, which is now.
+          stale="$(echo "$versions" | jq -r --arg s "$SUFFIX" \
+            '.[] | select(any(.metadata.container.tags[]; contains($s)) | not) | .id')"
+          for id in $stale; do
+            expect "delete stale version $id while newer exist" "users/$OWNER" "$(del "$id")"
+          done
+          [ -n "$stale" ] || row 'stale versions' none info
+
+          # The last version, recorded rather than asserted: this is the observation to explain.
+          out="$(gh api -X DELETE "users/$OWNER/packages/container/$PKG/versions/$(vid "$da")" 2>&1)" \
+            && row 'delete LAST version' accepted info \
+            || row 'delete LAST version' "$(echo "$out" | head -1 | cut -c1-120)" info
           exit "$fail"
