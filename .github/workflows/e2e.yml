@@ -259,12 +259,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npm install -g newman newman-reporter-htmlextra
-          git clone --branch develop --single-branch \
-            https://github.com/Netcracker/qubership-apihub-postman-collections postman-repo
-          cd postman-repo
-          envsubst < ./environment/local.postman_environment.json > ./ci.postman_environment.json
-          mkdir -p reports
 
           # smoke is the Portal smoke collection alone. full adds the rest of the PORTAL-side
           # collections; 1_2_Smoke_Agent and 2_2_Negative_Agent are deliberately absent from
@@ -273,17 +267,48 @@ jobs:
           if [ '${{ inputs.tier }}' = 'smoke' ]; then
             collections='1_1_Smoke_Portal'
           else
-            collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal
-                         3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
+            collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal 3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
           fi
+          # Published FIRST, before anything in this step can fail. The results check below
+          # expects a report for every collection named here, so a step that dies in the install
+          # or the clone leaves it expecting six reports and finding none, which fails closed.
+          # Published after the loop, a dead step would hand it an empty list to pass on.
+          echo "collections=$collections" >> "$GITHUB_OUTPUT"
 
+          npm install -g newman newman-reporter-htmlextra
+          git clone --branch develop --single-branch \
+            https://github.com/Netcracker/qubership-apihub-postman-collections postman-repo
+          cd postman-repo
+          envsubst < ./environment/local.postman_environment.json > ./ci.postman_environment.json
+          mkdir -p reports
+
+          # -x (--suppress-exit-code) stays, and it is NOT the verdict. It is what lets every
+          # collection run after one of them fails, which `set -e` would otherwise stop, and it
+          # makes this step's outcome `success` whatever the assertions did. The verdict comes
+          # from the JSON reports, read by the next step. The original workflow kept -x and
+          # counted failures out of the HTML report; the port kept -x and dropped the count, so
+          # for as long as that lasted, no Newman failure could fail this job.
           for c in $collections; do
             echo "=== $c ==="
             newman run "./e2e/${c}.postman_collection.json" \
               -e ./ci.postman_environment.json -x \
-              --reporters cli,htmlextra \
-              --reporter-htmlextra-export "./reports/${c}.html"
+              --reporters cli,htmlextra,json \
+              --reporter-htmlextra-export "./reports/${c}.html" \
+              --reporter-json-export "./reports/${c}.json"
           done
+
+      # The Newman verdict. Every expected collection must have left a JSON report that parses;
+      # every failure in it must be on the committed known-failures list. A listed failure that
+      # did not occur is reported as stale and does not fail the job.
+      - name: Check the postman results
+        id: newman_results
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          node tools/ci/newman-results-check.js \
+            postman-repo/reports tools/ci/newman-known-failures.json \
+            '${{ steps.newman.outputs.collections }}'
 
       - name: Install Playwright browsers
         working-directory: tests/ui-tests
@@ -378,21 +403,31 @@ jobs:
 
       # Both suites run with continue-on-error so that a Playwright failure still produces
       # Newman's report and the container logs. The verdict is taken here instead.
+      #
+      # THREE outcomes, not two. `newman` is the step that RAN the collections, and because it
+      # passes -x its outcome is `success` whatever the assertions did; it still fails if the
+      # install, the clone or newman itself breaks, so it stays. `newman_results` is the step
+      # that READ them, and it is the only one of the two that can see a failed assertion. This
+      # step used to check `newman` alone, which is how five failed assertions on run
+      # 34756454533 produced a green job.
       - name: Verdict
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
           newman='${{ steps.newman.outcome }}'
+          results='${{ steps.newman_results.outcome }}'
           play='${{ steps.playwright.outcome }}'
           {
             echo '### E2E'
             echo
             echo '| suite | outcome |'
             echo '|---|---|'
-            echo "| postman collections | \`$newman\` |"
+            echo "| postman collections, run | \`$newman\` |"
+            echo "| postman collections, results | \`$results\` |"
             echo "| playwright, Portal | \`$play\` |"
           } >> "$GITHUB_STEP_SUMMARY"
-          [ "$newman" = 'success' ] && [ "$play" = 'success' ] || {
-            echo "::error::newman=$newman playwright=$play"
+          [ "$newman" = 'success' ] && [ "$results" = 'success' ] && [ "$play" = 'success' ] || {
+            echo "::error::newman=$newman newman_results=$results playwright=$play"
             exit 1
           }
