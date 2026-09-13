@@ -110,10 +110,30 @@ jobs:
           echo '${{ secrets.GITHUB_TOKEN }}' \
             | podman login ghcr.io -u '${{ github.actor }}' --password-stdin
 
-      - name: Clone the compose repository
+      # The compose files are IN THE TREE, in deploy/, copied from Netcracker/qubership-apihub at
+      # 8797448, the snapshot the rest of this workspace was cut alongside. This step used to
+      # clone that repository's `main` at run time, so the stack definition, its env files and its
+      # service configs could change under an unchanged commit here. When it was copied, its
+      # docker-compose/ was identical to main, so the move itself changed nothing about the stack.
+      #
+      # Staged into RUNNER_TEMP and edited there, never in place. The next steps write the
+      # generated password, token and key into these files and repoint the images; in place,
+      # that would leave tracked files modified and secrets in the workspace. The directory is
+      # self-contained: every volume and env_file in docker-compose.yml is relative to it.
+      - name: Stage the compose files
+        shell: bash
         run: |
-          git clone --branch main --single-branch \
-            https://github.com/Netcracker/qubership-apihub compose-repo
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/compose"
+          cp -r deploy/docker-compose/apihub-generic "$RUNNER_TEMP/compose"
+          # docker-compose.yml bind-mounts ./data for postgres. The directory exists in the tree
+          # only because data/.gitkeep is tracked, and deploy/.gitignore ignores data/**, so it
+          # is exactly what a careless copy drops. Checked rather than trusted.
+          [ -d "$RUNNER_TEMP/compose/data" ] || {
+            echo "::error::deploy/docker-compose/apihub-generic/data is missing from the checkout"
+            exit 1
+          }
+          ls -A "$RUNNER_TEMP/compose"
 
       # Exactly what generate_env_and_up_compose.sh does locally, minus the random email.
       - name: Generate the stack's own credentials
@@ -161,12 +181,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd compose-repo
-          find . -name '*.env' -print0 | while IFS= read -r -d '' f; do
-            envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
-          done
-          cd docker-compose/apihub-generic
-          find . -name '*config.yaml' -print0 | while IFS= read -r -d '' f; do
+          # The staged copy only. Against the clone this walked every *.env in the whole
+          # repository, which also rewrote .github/super-linter.env and the with-keycloak variants
+          # for nothing; the stack reads only the files beside docker-compose.yml.
+          cd "$RUNNER_TEMP/compose"
+          find . \( -name '*.env' -o -name '*config.yaml' \) -print0 | while IFS= read -r -d '' f; do
             envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
           done
 
@@ -203,7 +222,7 @@ jobs:
           t_al='${{ inputs.tag_api_linter_service }}';   [ -n "$t_al" ] || t_al="$default_tag"
           t_ab='${{ inputs.tag_agents_backend }}';       [ -n "$t_ab" ] || t_ab="$default_tag"
 
-          cd compose-repo/docker-compose/apihub-generic
+          cd "$RUNNER_TEMP/compose"
 
           repoint() {  # $1 upstream image name, $2 ours, $3 tag
             sed -i "s|ghcr.io/netcracker/$1:[^ ]*|ghcr.io/$owner/$2:$3|g" docker-compose.yml
@@ -227,7 +246,7 @@ jobs:
 
       - name: Bring the stack up
         run: |
-          cd compose-repo/docker-compose/apihub-generic
+          cd "$RUNNER_TEMP/compose"
           podman-compose -f docker-compose.yml up -d
 
       - name: Start collecting container logs
