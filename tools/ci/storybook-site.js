@@ -287,6 +287,20 @@ function assemble(outDir) {
     : ''
   fs.writeFileSync(path.join(outDir, 'index.html'), page('Storybooks', index + clash))
 
+  // Pages serves 404.html for any path without a file. A link to the folder of a branch that has
+  // since been deleted then lands on a page naming what happened, instead of GitHub's generic 404.
+  // The site root is not known here, so the link back is computed from the failing path: the
+  // first path segment is the repository, which a project site always has.
+  fs.writeFileSync(
+    path.join(outDir, '404.html'),
+    page(
+      'No Storybook here',
+      `<p>This branch or component is not published. Branches leave the site when they are deleted.</p>
+<p><a id="home" href="/">See every published Storybook</a></p>
+<script>document.getElementById('home').href = '/' + location.pathname.split('/')[1] + '/'</script>`,
+    ),
+  )
+
   const total = measure(outDir)
   summarize(branches, collisions, rows, total)
 
