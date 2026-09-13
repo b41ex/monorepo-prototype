@@ -1,6 +1,9 @@
 'on':
   push:
-    branches: [main, develop, release, hotfix, 'feature/**', 'bugfix/**']
+    # Every branch. The published Storybooks have one folder per branch CI builds, so a name
+    # filter here would decide which branches exist on the site. `'**'` rather than no filter
+    # at all: a bare `push:` also fires on tags, and `nx release` pushes one per package.
+    branches: ['**']
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore: ['docs/**', '**/*.md']
