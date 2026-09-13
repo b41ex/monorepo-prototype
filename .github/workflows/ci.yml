@@ -642,10 +642,11 @@ jobs:
   # must queue in one group across ALL branches, while this workflow's group is per ref and
   # cancels. pages.yml also runs on branch deletion and on a schedule, which are not CI runs.
   #
-  # DISPATCHED AT THE DEFAULT BRANCH once pages.yml exists there, so a feature branch cannot
-  # redeploy the whole site with its own copy of the assembler. Until then at this ref, which
-  # is how it is tested before it merges; the github-pages environment's branch policy bounds
-  # who can deploy either way.
+  # DISPATCHED AT THE DEFAULT BRANCH, so a feature branch cannot redeploy the whole site with
+  # its own copy of the assembler. And only from there: `workflow_dispatch` refuses a workflow
+  # that is not on the default branch, measured as "HTTP 404: workflow pages.yml not found on
+  # the default branch". So until pages.yml merges, this job warns and dispatches nothing,
+  # rather than failing every branch's CI for a file no branch can reach.
   #
   # `always()`, so one failed Storybook does not keep the other five off the site. The
   # assembler reads the store and publishes whatever pointers exist.
@@ -666,14 +667,15 @@ jobs:
           set -euo pipefail
           repo='${{ github.repository }}'
           default='${{ github.event.repository.default_branch }}'
-          if gh api "repos/$repo/contents/.github/workflows/pages.yml?ref=$default" --silent 2>/dev/null; then
-            ref="$default"
-          else
-            ref='${{ github.ref_name }}'
+          if ! gh api "repos/$repo/contents/.github/workflows/pages.yml?ref=$default" --silent 2>/dev/null; then
+            msg="pages.yml is not on $default yet, so it cannot be dispatched; the store was updated and the site was not"
+            echo "::warning::$msg"
+            echo "$msg" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
-          gh workflow run pages.yml --repo "$repo" --ref "$ref" \
+          gh workflow run pages.yml --repo "$repo" --ref "$default" \
             -f reason='CI on ${{ github.ref_name }}, run ${{ github.run_id }}'
-          echo "dispatched pages.yml at \`$ref\`" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "dispatched pages.yml at \`$default\`" | tee -a "$GITHUB_STEP_SUMMARY"
 
 
   # ---------------------------------------------------------------------------------------

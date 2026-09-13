@@ -1,4 +1,13 @@
 'on':
+  # TEMPORARY, REMOVE BEFORE MERGING. `workflow_dispatch` only works for a workflow that exists on
+  # the default branch — measured: "HTTP 404: workflow pages.yml not found on the default branch"
+  # — so neither ci.yml nor a person can start this file while it lives only on its feature
+  # branch. This trigger is how the assembler, the deploy and the cleanup are exercised before
+  # merge. It runs on a push that touches the site's own files, after CI has filled the store.
+  push:
+    branches: [feature/storybook-pages]
+    paths: [.github/workflows/pages.yml, tools/ci/storybook-site.js]
+
   # From ci.yml, after a branch's Storybooks reach the store. `workflow_dispatch` because it is
   # the one event a GITHUB_TOKEN can start.
   workflow_dispatch:
