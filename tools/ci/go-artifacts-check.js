@@ -52,10 +52,19 @@ for (const name of names) {
     continue
   }
 
+  // @nx-go/nx-go gives a build target only to a project it recognises as an application, by
+  // finding `package main` in one of a few conventional file names. An application it does not
+  // recognise gets NO build target, and `nx run-many -t build` skips a project without the
+  // target silently. So a missing target is a failure for an application and expected for a
+  // library.
   const build = node.data.targets && node.data.targets.build
   if (!build) {
-    console.error(`  ${name}: has no build target, yet the job built it`)
-    status = 1
+    if (node.data.projectType === 'library') {
+      console.log(`  ${name}: library, no build target, nothing to find`)
+    } else {
+      console.error(`  ${name}: ${node.data.projectType || 'untyped'} project with no build target — nothing was built`)
+      status = 1
+    }
     continue
   }
 
@@ -66,7 +75,12 @@ for (const name of names) {
   }
 
   for (const spec of outputs) {
-    const dir = spec.replace('{projectRoot}', node.data.root).replace('{workspaceRoot}', '.')
+    // Two output shapes. A directory (`{projectRoot}/dist`) holds the binaries. nx-go's
+    // `{workspaceRoot}/dist/{projectRoot}*` names a FILE by prefix: the executor writes
+    // `dist/<projectRoot>`, with `.exe` appended when building for Windows.
+    const resolved = spec.replace('{projectRoot}', node.data.root).replace('{workspaceRoot}', '.')
+    const prefix = resolved.endsWith('*') ? path.basename(resolved.slice(0, -1)) : null
+    const dir = prefix === null ? resolved : path.dirname(resolved)
 
     if (!fs.existsSync(dir)) {
       console.error(`  ${name}: ${dir} does not exist`)
@@ -76,11 +90,11 @@ for (const name of names) {
 
     const files = fs
       .readdirSync(dir, { withFileTypes: true })
-      .filter((d) => d.isFile())
+      .filter((d) => d.isFile() && (prefix === null || d.name.startsWith(prefix)))
       .map((d) => path.join(dir, d.name))
 
     if (files.length === 0) {
-      console.error(`  ${name}: ${dir} is empty`)
+      console.error(`  ${name}: ${prefix === null ? `${dir} is empty` : `no file matching ${resolved}`}`)
       status = 1
       continue
     }

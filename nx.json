@@ -24,6 +24,10 @@
     "explicit and cheap to cache."
   ],
   "cacheDirectory": ".nx/cache",
+  "plugins": [
+    "@nx-go/nx-go",
+    "./tools/nx/go-lang-tag.js"
+  ],
   "release": {
     "//": [
       "Per section 8. Components are released TOGETHER on one shared release branch, but keep",
@@ -155,6 +159,24 @@
     ]
   },
   "targetDefaults": {
+    "@nx-go/nx-go:build": {
+      "inputs": [
+        "default",
+        "^default",
+        "goToolchain",
+        "{workspaceRoot}/go.work",
+        "{workspaceRoot}/go.work.sum"
+      ]
+    },
+    "@nx-go/nx-go:test": {
+      "inputs": [
+        "default",
+        "^default",
+        "goToolchain",
+        "{workspaceRoot}/go.work",
+        "{workspaceRoot}/go.work.sum"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"

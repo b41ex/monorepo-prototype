@@ -18,13 +18,16 @@ ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 
-WORKDIR /workspace
-
-COPY qubership-apihub-agent ./qubership-apihub-agent
-
 WORKDIR /workspace/qubership-apihub-agent
 
-RUN GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
+# The module is the component root, so the context is the module. .dockerignore narrows it to
+# go.mod, go.sum and the Go sources.
+COPY . .
+
+# GOWORK=off: the image builds this module alone. Its go.mod states the versions the workspace
+# resolved (`go work sync`), so this is the same code CI tested, and no go.work ever reaches
+# the context to make it otherwise.
+RUN GOWORK=off GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOWORK=off GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
 
 FROM ghcr.io/netcracker/qubership-core-base:2.3.7@sha256:b917b3a1731a2ae26b507d22565f030ec25ff8d28b75a80b8b08bbc946f4d73b
 
