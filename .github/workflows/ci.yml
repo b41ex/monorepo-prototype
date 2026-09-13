@@ -531,7 +531,7 @@ jobs:
           "workspace_build":"false"},
          {"project":"test-service","image":"apihub-test-service",
           "dockerfile":"backend/test-service/Dockerfile","build_projects":"test-service",
-          "deploy":"","context":"backend/test-service","dockerignore":".dockerignore",
+          "deploy":"","context":"backend/test-service","dockerignore":".dockerignore backend/test-service/.dockerignore",
           "workspace_build":"false"},
          {"project":"agents-backend","image":"apihub-agents-backend",
           "dockerfile":"backend/agents-backend/Dockerfile",

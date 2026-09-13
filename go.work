@@ -6,5 +6,5 @@ use (
 	./backend/api-linter-service/qubership-api-linter-service
 	./backend/commons-go
 	./backend/portal-backend/qubership-apihub-service
-	./backend/test-service/qubership-apihub-test-service
+	./backend/test-service
 )
