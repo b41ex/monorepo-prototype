@@ -72,7 +72,16 @@ jobs:
       # Always full. A manual run is a deliberate act and smoke is what CI already does
       # unattended on every push.
       tier: full
-      repoint_images: ${{ inputs.repoint_images == null && true || inputs.repoint_images }}
+      # Chosen by TRIGGER, never by comparing the input with null. A push to e2e-manual/** has
+      # no inputs and repoints; a dispatch uses exactly what was ticked.
+      #
+      # The form this replaces, `inputs.repoint_images == null && true || inputs.repoint_images`,
+      # could never produce `false`. Actions compares loosely and converts both null and false to
+      # 0, so `false == null` is TRUE and the expression became `true && true`. Run 34762775466
+      # was dispatched with repoint_images=false as the upstream baseline and repointed anyway,
+      # onto this branch's own tag, where no images exist: only postgres started and the job died
+      # waiting for /login. No baseline run through this workflow can have compared anything.
+      repoint_images: ${{ github.event_name != 'workflow_dispatch' || inputs.repoint_images }}
       image_owner: ${{ inputs.image_owner || '' }}
       image_tag: ${{ inputs.image_tag || '' }}
       tag_portal_backend: ${{ inputs.tag_portal_backend || '' }}
