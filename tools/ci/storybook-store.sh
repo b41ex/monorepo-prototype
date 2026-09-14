@@ -39,7 +39,7 @@ slug="$(node tools/ci/storybook-site.js slug "$GITHUB_REF_NAME")"
 pnpm exec nx graph --file=graph.json >/dev/null
 # HASH_PATHS is a space-separated list and deliberately unquoted, so it word-splits.
 # shellcheck disable=SC2086
-hash="$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh $HASH_PATHS)"
+hash="$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
 rm -f graph.json
 src="src-$hash"
 
@@ -72,6 +72,10 @@ else
   for f in index.html iframe.html index.json; do
     [ -s "$OUTPUT/$f" ] || { echo "::error::$OUTPUT/$f is missing or empty after build:showcase"; exit 1; }
   done
+
+  # Sourcemaps are 22 of apispec-view's 43 MiB and 19 of rest-playground's 34, and every
+  # published build counts against Pages' 1 GB. The script says what it measured and why.
+  stripped="$(node tools/ci/storybook-strip-maps.js "$OUTPUT")"
   files="$(find "$OUTPUT" -type f | wc -l)"
   bytes="$(du -sb "$OUTPUT" | cut -f1)"
 
@@ -89,7 +93,7 @@ else
       --annotation "com.b41ex.storybook.component=$COMPONENT" \
       storybook.tar.gz:application/vnd.b41ex.storybook.layer.v1.tar+gzip
   )
-  echo "| build | **built**: $files files, $((bytes / 1024)) KiB, packed to $((packed / 1024)) KiB |" >> "$summary"
+  echo "| build | **built**: $stripped; $files files, $((bytes / 1024)) KiB, packed to $((packed / 1024)) KiB |" >> "$summary"
 fi
 
 # ---- the pointer: on both paths --------------------------------------------------------------
