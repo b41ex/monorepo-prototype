@@ -33,11 +33,33 @@ nodeLinker: isolated
 
 strictPeerDependencies: false
 
-# Matches npm's existing behaviour for this dependency set. Replace with an explicit
-# allowBuilds allow-list before this leaves prototype status — `onlyBuiltDependencies` was
-# removed in pnpm 11 and `allowBuilds` is its replacement, so the eventual cleanup is a
-# different key from the one the pnpm-10 comment named.
-dangerouslyAllowAllBuilds: true
+# Dependency build scripts: every one is listed, and every one is denied.
+#
+# From pnpm 11 an unlisted build script fails the install (`ERR_PNPM_IGNORED_BUILDS`), so this
+# map is the complete set for the lockfile. 15 packages, matching a scan of the virtual store
+# for preinstall/install/postinstall scripts or a binding.gyp. A dependency change that brings
+# a new one fails `pnpm install` by name, which is the point: it is decided here, not run.
+allowBuilds:
+  # Native binaries ship as optional platform packages. These scripts only verify or
+  # re-link them.
+  esbuild: false
+  unrs-resolver: false
+  # Platform check plus Nx Cloud client update. This workspace does not use Nx Cloud.
+  nx: false
+  # Downloads Chrome. The screenshot suites connect to Chrome in a container, and CI already
+  # sets PUPPETEER_SKIP_DOWNLOAD.
+  puppeteer: false
+  # Only `vscode` uses these, through @vscode/vsce, and CI excludes `vscode`.
+  keytar: false
+  '@vscode/vsce-sign': false
+  # husky 4 writes hooks into .git/hooks. It did so in _target3 on 2026-09-08.
+  husky: false
+  # Banners and telemetry.
+  core-js: false
+  es5-ext: false
+  '@fortawesome/fontawesome-common-types': false
+  '@fortawesome/fontawesome-svg-core': false
+  '@scarf/scarf': false
 
 # `pnpm deploy` is how build-task-consumer's image gets a production node_modules. From
 # pnpm 10 it refuses by default on a workspace that does not set inject-workspace-packages:
