@@ -36,7 +36,12 @@
 #
 # Environment: COMPONENT PROJECT HASH_PROJECTS HASH_PATHS OUTPUT OWNER, plus the GITHUB_* the
 # runner provides. Expects `oras` logged in to ghcr.
-set -euo pipefail
+set -Eeuo pipefail
+# `-e` exits without a word, and an `oras` whose stderr is sent to /dev/null leaves the log with
+# nothing but "Process completed with exit code 1". That happened: every Storybook job on the first
+# push of this layout died 1.8s in, silently. Name the line and command instead. `-E` makes the trap
+# fire inside functions and command substitutions too.
+trap 'echo "::error::storybook-store.sh failed at line $LINENO: $BASH_COMMAND"' ERR
 
 : "${COMPONENT:?}" "${PROJECT:?}" "${HASH_PROJECTS:?}" "${OUTPUT:?}" "${OWNER:?}"
 summary="${GITHUB_STEP_SUMMARY:-/dev/stdout}"
@@ -53,8 +58,13 @@ pnpm exec nx graph --file=graph.json >/dev/null
 input="in-$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
 rm -f graph.json
 
+# A tag that does not exist is an ANSWER here, "nothing", not a failure: every new input has no
+# index yet. Under `-e -o pipefail` a failing `oras` made the whole `content="$(content_of …)"`
+# assignment fail and ended the script, which is exactly the first-push failure above. So the
+# lookup cannot fail; an unreadable manifest also reads as nothing, which costs a build, the safe
+# direction. `exists` is only ever used as a condition, where a non-zero status is allowed.
 content_of() { # tag -> the content its manifest names, or nothing
-  oras manifest fetch "$repo:$1" 2>/dev/null | node -e '
+  { oras manifest fetch "$repo:$1" 2>/dev/null || true; } | node -e '
     let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
       try { process.stdout.write((JSON.parse(s).annotations || {})["com.b41ex.storybook.content"] || "") } catch {}
     })'
