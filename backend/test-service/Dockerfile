@@ -18,13 +18,15 @@ ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 
-WORKDIR /workspace
-
-COPY qubership-apihub-test-service ./qubership-apihub-test-service
-
 WORKDIR /workspace/qubership-apihub-test-service
 
-RUN GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
+# The module is the component root, so the context is the module. .dockerignore keeps
+# everything the builder and the runtime stage below need, and drops the rest.
+COPY . .
+
+# GOWORK=off: the image builds this module alone. Its go.mod states the versions the workspace
+# resolved (`go work sync`), so this is the same code CI tested.
+RUN GOWORK=off GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOWORK=off GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
 
 FROM docker.io/alpine:3.22.1
 
@@ -37,7 +39,7 @@ ENV GIT_HASH=$GIT_HASH
 WORKDIR /app/qubership-apihub-test-service
 
 COPY --from=builder /workspace/qubership-apihub-test-service/qubership-apihub-test-service ./qubership-apihub-test-service
-COPY qubership-apihub-test-service/static ./static
+COPY static ./static
 
 RUN chmod -R a+rwx /app
 

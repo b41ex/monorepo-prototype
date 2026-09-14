@@ -24,6 +24,10 @@
     "explicit and cheap to cache."
   ],
   "cacheDirectory": ".nx/cache",
+  "plugins": [
+    "@nx-go/nx-go",
+    "./tools/nx/go-lang-tag.js"
+  ],
   "release": {
     "//": [
       "Per section 8. Components are released TOGETHER on one shared release branch, but keep",
@@ -155,6 +159,34 @@
     ]
   },
   "targetDefaults": {
+    "@nx-go/nx-go:build": {
+      "//outputs": [
+        "nx-go declares {workspaceRoot}/dist/{projectRoot}*, a glob. backend/agent* also matches",
+        "backend/agents-backend.exe, so agent's cache entry would capture agents-backend's binary",
+        "and a restore of agent would put a stale copy of it back. The executor writes exactly one",
+        "file, dist/<projectRoot>, with .exe appended on Windows; these name exactly that."
+      ],
+      "outputs": [
+        "{workspaceRoot}/dist/{projectRoot}",
+        "{workspaceRoot}/dist/{projectRoot}.exe"
+      ],
+      "inputs": [
+        "default",
+        "^default",
+        "goToolchain",
+        "{workspaceRoot}/go.work",
+        "{workspaceRoot}/go.work.sum"
+      ]
+    },
+    "@nx-go/nx-go:test": {
+      "inputs": [
+        "default",
+        "^default",
+        "goToolchain",
+        "{workspaceRoot}/go.work",
+        "{workspaceRoot}/go.work.sum"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"

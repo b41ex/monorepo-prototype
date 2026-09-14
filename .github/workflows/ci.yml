@@ -326,7 +326,9 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version-file: backend/.go-version
-          cache-dependency-path: backend/**/go.sum
+          cache-dependency-path: |
+            backend/**/go.sum
+            go.work.sum
 
       # Before the build, because the build cannot detect what this detects. GOTOOLCHAIN is
       # `auto`, so a module declaring a version the runner did not install downloads one and
@@ -337,6 +339,20 @@ jobs:
           printf '### Go version\n\n```text\n' >> "$GITHUB_STEP_SUMMARY"
           set -o pipefail
           bash tools/ci/go-version-check.sh 2>&1 | tee -a "$GITHUB_STEP_SUMMARY" || status=$?
+          printf '```\n' >> "$GITHUB_STEP_SUMMARY"
+          exit "${status:-0}"
+
+      # Also before the build, and for the same reason: the build runs in the workspace, where
+      # it cannot see the difference this checks. go.work unifies the modules' dependency
+      # graphs; the images build each module alone with GOWORK=off. They compile the same code
+      # only while every go.mod already holds the unified versions and every go.sum loads its
+      # module under -mod=readonly.
+      - name: every go.mod states what the workspace resolves
+        shell: bash
+        run: |
+          printf '### Go workspace sync\n\n```text\n' >> "$GITHUB_STEP_SUMMARY"
+          set -o pipefail
+          bash tools/ci/go-work-sync-check.sh 2>&1 | tee -a "$GITHUB_STEP_SUMMARY" || status=$?
           printf '```\n' >> "$GITHUB_STEP_SUMMARY"
           exit "${status:-0}"
 
@@ -523,11 +539,11 @@ jobs:
     with:
       images: >-
         [{"project":"agent","image":"apihub-agent","dockerfile":"backend/agent/Dockerfile",
-          "build_projects":"agent","deploy":"","context":"backend/agent","dockerignore":".dockerignore",
+          "build_projects":"agent","deploy":"","context":"backend/agent","dockerignore":".dockerignore backend/agent/.dockerignore",
           "workspace_build":"false"},
          {"project":"test-service","image":"apihub-test-service",
           "dockerfile":"backend/test-service/Dockerfile","build_projects":"test-service",
-          "deploy":"","context":"backend/test-service","dockerignore":".dockerignore",
+          "deploy":"","context":"backend/test-service","dockerignore":".dockerignore backend/test-service/.dockerignore",
           "workspace_build":"false"},
          {"project":"agents-backend","image":"apihub-agents-backend",
           "dockerfile":"backend/agents-backend/Dockerfile",

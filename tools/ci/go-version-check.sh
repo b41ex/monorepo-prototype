@@ -21,7 +21,9 @@ if [[ -z "$expected" ]]; then
 fi
 echo "expected Go version: $expected"
 
-mapfile -t mods < <(find "$root/backend" -name go.mod -not -path '*/vendor/*' | sort)
+# go.work carries a `go` directive too, and in workspace mode it is the one the toolchain
+# honours, so it drifts exactly as a module's does.
+mapfile -t mods < <({ find "$root/backend" -name go.mod -not -path '*/vendor/*'; [[ -f "$root/go.work" ]] && echo "$root/go.work"; } | sort)
 if [[ ${#mods[@]} -eq 0 ]]; then
   echo "no go.mod found under backend/ — this check would otherwise pass by doing nothing" >&2
   exit 1
