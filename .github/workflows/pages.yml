@@ -1,0 +1,110 @@
+'on':
+  # From ci.yml, after a branch's Storybooks reach the store. `workflow_dispatch` because it is
+  # the one event a GITHUB_TOKEN can start.
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: What asked for this deploy
+        required: false
+        default: manual
+  # A deleted branch leaves the site on the next deploy. `delete` runs this file as it is on the
+  # DEFAULT branch, and it also fires for tags, which the jobs ignore.
+  delete:
+  # And because a `delete` run can fail or never happen, the same reconcile runs daily. It is not
+  # a separate code path: every run assembles from `git ls-remote --heads`, so a missed deletion
+  # is corrected by whichever run comes next.
+  schedule:
+    - cron: '17 3 * * *'
+
+name: Storybooks
+
+# ONE GROUP FOR EVERY TRIGGER AND EVERY BRANCH, and never cancelled.
+#
+# A Pages deploy replaces the whole site. Two deploys at once would each publish the set they
+# assembled, and the later one wins, so they have to queue. Actions keeps one PENDING run per
+# group and replaces it with any newer one, which is exactly right here: every run assembles from
+# the store, so the newest pending run publishes everything the replaced one would have, and more.
+concurrency:
+  group: storybook-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  assemble:
+    if: github.event_name != 'delete' || github.event.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v6
+
+      # 1.3.3, not the current 1.3.4: setup-oras verifies against a release table baked into the
+      # action, and v2.0.1's ends at 1.3.3.
+      - uses: oras-project/setup-oras@v2.0.1
+        with:
+          version: 1.3.3
+
+      - name: log in to ghcr
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GH_TOKEN" | oras login ghcr.io -u '${{ github.actor }}' --password-stdin
+
+      - name: assemble the site from every live branch's pointers
+        shell: bash
+        env:
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          echo "reason: ${{ github.event_name }} ${{ inputs.reason }}"
+          node tools/ci/storybook-site.js assemble "$RUNNER_TEMP/site"
+
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: ${{ runner.temp }}/site
+
+  deploy:
+    needs: [assemble]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5.0.1
+
+  # After the deploy and only if it succeeded, so a failed deploy never leaves the live site
+  # pointing at content this job has just removed.
+  gc:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oras-project/setup-oras@v2.0.1
+        with:
+          version: 1.3.3
+
+      - name: log in to ghcr
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GH_TOKEN" | oras login ghcr.io -u '${{ github.actor }}' --password-stdin
+
+      - name: delete what no live branch needs
+        shell: bash
+        env:
+          OWNER: ${{ github.repository_owner }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/ci/storybook-site.js gc

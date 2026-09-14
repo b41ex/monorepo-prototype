@@ -2453,6 +2453,9 @@ importers:
       api-smart-diff:
         specifier: 0.6.10
         version: 0.6.10
+      babel-loader:
+        specifier: 8.4.1
+        version: 8.4.1(@babel/core@7.29.7(supports-color@8.1.1))(webpack@5.101.3)
       classnames:
         specifier: ^2.2.6
         version: 2.5.1

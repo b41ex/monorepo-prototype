@@ -110,10 +110,30 @@ jobs:
           echo '${{ secrets.GITHUB_TOKEN }}' \
             | podman login ghcr.io -u '${{ github.actor }}' --password-stdin
 
-      - name: Clone the compose repository
+      # The compose files are IN THE TREE, in deploy/, copied from Netcracker/qubership-apihub at
+      # 8797448, the snapshot the rest of this workspace was cut alongside. This step used to
+      # clone that repository's `main` at run time, so the stack definition, its env files and its
+      # service configs could change under an unchanged commit here. When it was copied, its
+      # docker-compose/ was identical to main, so the move itself changed nothing about the stack.
+      #
+      # Staged into RUNNER_TEMP and edited there, never in place. The next steps write the
+      # generated password, token and key into these files and repoint the images; in place,
+      # that would leave tracked files modified and secrets in the workspace. The directory is
+      # self-contained: every volume and env_file in docker-compose.yml is relative to it.
+      - name: Stage the compose files
+        shell: bash
         run: |
-          git clone --branch main --single-branch \
-            https://github.com/Netcracker/qubership-apihub compose-repo
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/compose"
+          cp -r deploy/docker-compose/apihub-generic "$RUNNER_TEMP/compose"
+          # docker-compose.yml bind-mounts ./data for postgres. The directory exists in the tree
+          # only because data/.gitkeep is tracked, and deploy/.gitignore ignores data/**, so it
+          # is exactly what a careless copy drops. Checked rather than trusted.
+          [ -d "$RUNNER_TEMP/compose/data" ] || {
+            echo "::error::deploy/docker-compose/apihub-generic/data is missing from the checkout"
+            exit 1
+          }
+          ls -A "$RUNNER_TEMP/compose"
 
       # Exactly what generate_env_and_up_compose.sh does locally, minus the random email.
       - name: Generate the stack's own credentials
@@ -161,12 +181,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd compose-repo
-          find . -name '*.env' -print0 | while IFS= read -r -d '' f; do
-            envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
-          done
-          cd docker-compose/apihub-generic
-          find . -name '*config.yaml' -print0 | while IFS= read -r -d '' f; do
+          # The staged copy only. Against the clone this walked every *.env in the whole
+          # repository, which also rewrote .github/super-linter.env and the with-keycloak variants
+          # for nothing; the stack reads only the files beside docker-compose.yml.
+          cd "$RUNNER_TEMP/compose"
+          find . \( -name '*.env' -o -name '*config.yaml' \) -print0 | while IFS= read -r -d '' f; do
             envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
           done
 
@@ -203,7 +222,7 @@ jobs:
           t_al='${{ inputs.tag_api_linter_service }}';   [ -n "$t_al" ] || t_al="$default_tag"
           t_ab='${{ inputs.tag_agents_backend }}';       [ -n "$t_ab" ] || t_ab="$default_tag"
 
-          cd compose-repo/docker-compose/apihub-generic
+          cd "$RUNNER_TEMP/compose"
 
           repoint() {  # $1 upstream image name, $2 ours, $3 tag
             sed -i "s|ghcr.io/netcracker/$1:[^ ]*|ghcr.io/$owner/$2:$3|g" docker-compose.yml
@@ -227,7 +246,7 @@ jobs:
 
       - name: Bring the stack up
         run: |
-          cd compose-repo/docker-compose/apihub-generic
+          cd "$RUNNER_TEMP/compose"
           podman-compose -f docker-compose.yml up -d
 
       - name: Start collecting container logs
@@ -259,12 +278,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npm install -g newman newman-reporter-htmlextra
-          git clone --branch develop --single-branch \
-            https://github.com/Netcracker/qubership-apihub-postman-collections postman-repo
-          cd postman-repo
-          envsubst < ./environment/local.postman_environment.json > ./ci.postman_environment.json
-          mkdir -p reports
 
           # smoke is the Portal smoke collection alone. full adds the rest of the PORTAL-side
           # collections; 1_2_Smoke_Agent and 2_2_Negative_Agent are deliberately absent from
@@ -273,17 +286,59 @@ jobs:
           if [ '${{ inputs.tier }}' = 'smoke' ]; then
             collections='1_1_Smoke_Portal'
           else
-            collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal
-                         3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
+            collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal 3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
           fi
+          # Published FIRST, before anything in this step can fail. The results check below
+          # expects a report for every collection named here, so a step that dies in the install
+          # or the clone leaves it expecting six reports and finding none, which fails closed.
+          # Published after the loop, a dead step would hand it an empty list to pass on.
+          echo "collections=$collections" >> "$GITHUB_OUTPUT"
 
+          npm install -g newman newman-reporter-htmlextra
+
+          # The collections are IN THE TREE, in tests/postman-collections, copied from
+          # qubership-apihub-postman-collections at 872d5d1 — the snapshot the rest of this
+          # workspace was cut alongside. This step used to clone that repository's `develop` at
+          # run time, which tested a suite moving on its own against sources that were not: five
+          # of the eight collections had already changed by the time it was replaced. A test and
+          # the code it tests now change in the same commit, or not at all.
+          #
+          # The environment is templated into RUNNER_TEMP, not the workspace. It carries the
+          # stack's generated password and token, and nothing under RUNNER_TEMP is uploaded
+          # unless a step names it.
+          collection_dir=tests/postman-collections/e2e
+          env_file="$RUNNER_TEMP/ci.postman_environment.json"
+          reports="$RUNNER_TEMP/newman-reports"
+          mkdir -p "$reports"
+          envsubst < tests/postman-collections/environment/local.postman_environment.json > "$env_file"
+
+          # -x (--suppress-exit-code) stays, and it is NOT the verdict. It is what lets every
+          # collection run after one of them fails, which `set -e` would otherwise stop, and it
+          # makes this step's outcome `success` whatever the assertions did. The verdict comes
+          # from the JSON reports, read by the next step. The original workflow kept -x and
+          # counted failures out of the HTML report; the port kept -x and dropped the count, so
+          # for as long as that lasted, no Newman failure could fail this job.
           for c in $collections; do
             echo "=== $c ==="
-            newman run "./e2e/${c}.postman_collection.json" \
-              -e ./ci.postman_environment.json -x \
-              --reporters cli,htmlextra \
-              --reporter-htmlextra-export "./reports/${c}.html"
+            newman run "$collection_dir/${c}.postman_collection.json" \
+              -e "$env_file" -x \
+              --reporters cli,htmlextra,json \
+              --reporter-htmlextra-export "$reports/${c}.html" \
+              --reporter-json-export "$reports/${c}.json"
           done
+
+      # The Newman verdict. Every expected collection must have left a JSON report that parses,
+      # and no assertion in any of them may fail. There is no list of tolerated failures: a test
+      # that fails for a reason this workspace did not cause is skipped in the collection, where
+      # the skip is reviewed, and this step reports every skip so none of them is silent.
+      - name: Check the postman results
+        id: newman_results
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          node tools/ci/newman-results-check.js \
+            "$RUNNER_TEMP/newman-reports" '${{ steps.newman.outputs.collections }}'
 
       - name: Install Playwright browsers
         working-directory: tests/ui-tests
@@ -304,17 +359,12 @@ jobs:
           # tests would run against a stack with no test data and fail as a body. Measured on
           # the real config with --list: Portal 618 -> 261 under --grep=@smoke, while
           # Portal-Setup stays at 36 and Apihub-Setup at 1.
-          # P-PUDSH-6 is excluded for the same reason the three Go unit tests are: it fails
-          # for something this prototype did not introduce. It looks for a previous-version
-          # option named exactly "2400.1 release" and the option never resolves at all, four
-          # runs running, in both tiers. The upstream commit that introduced that expectation
-          # is already present here, and the frontend does render the status beside the
-          # version, so it is a product-side mismatch rather than a migration effect.
-          #
-          # Excluded HERE rather than by editing the spec, so that tests/ui-tests stays
-          # identical to the upstream snapshot it came from. The bracketed id is matched
-          # without its brackets on purpose: [P-PUDSH-6] is a character class in a regex.
-          args='--project=Portal --grep-invert=@flaky|P-PUDSH-6'
+          # No test is excluded by name here. A test that fails for something the migration did
+          # not cause is skipped in its spec, with the reason beside it, where it is reviewed like
+          # any other change; P-PUDSH-6 was excluded here and now is, in
+          # 4.4.2-dashboard-editing-publishing.spec.ts. `@flaky` stays: that tag is set by the
+          # suite on its own tests, not kept as a list in this file.
+          args='--project=Portal --grep-invert=@flaky'
           [ '${{ inputs.tier }}' = 'smoke' ] && args="$args --grep=@smoke"
           echo "playwright $args"
           pnpm exec playwright test $args
@@ -358,7 +408,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: newman-reports
-          path: postman-repo/reports
+          path: ${{ runner.temp }}/newman-reports
           if-no-files-found: warn
           retention-days: 7
 
@@ -378,21 +428,31 @@ jobs:
 
       # Both suites run with continue-on-error so that a Playwright failure still produces
       # Newman's report and the container logs. The verdict is taken here instead.
+      #
+      # THREE outcomes, not two. `newman` is the step that RAN the collections, and because it
+      # passes -x its outcome is `success` whatever the assertions did; it still fails if the
+      # install, the clone or newman itself breaks, so it stays. `newman_results` is the step
+      # that READ them, and it is the only one of the two that can see a failed assertion. This
+      # step used to check `newman` alone, which is how five failed assertions on run
+      # 34756454533 produced a green job.
       - name: Verdict
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
           newman='${{ steps.newman.outcome }}'
+          results='${{ steps.newman_results.outcome }}'
           play='${{ steps.playwright.outcome }}'
           {
             echo '### E2E'
             echo
             echo '| suite | outcome |'
             echo '|---|---|'
-            echo "| postman collections | \`$newman\` |"
+            echo "| postman collections, run | \`$newman\` |"
+            echo "| postman collections, results | \`$results\` |"
             echo "| playwright, Portal | \`$play\` |"
           } >> "$GITHUB_STEP_SUMMARY"
-          [ "$newman" = 'success' ] && [ "$play" = 'success' ] || {
-            echo "::error::newman=$newman playwright=$play"
+          [ "$newman" = 'success' ] && [ "$results" = 'success' ] && [ "$play" = 'success' ] || {
+            echo "::error::newman=$newman newman_results=$results playwright=$play"
             exit 1
           }
