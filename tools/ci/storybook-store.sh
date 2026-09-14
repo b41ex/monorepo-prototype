@@ -12,12 +12,16 @@
 #                  It is what lets an unchanged component skip the build entirely
 #   branch-<slug>  the pointer pages.yml assembles the site from, naming the out- content
 #
-# WHY OUTPUT AND NOT ONLY INPUT. The input hash is tools/ci/image-input-hash.sh, the images'
-# identity, and it is deliberately coarse: a component rebuilds whenever anything in its
-# dependency closure changes. Measured 2026-09-14: retitling one graphapi story moved the input
-# hash of api-doc-viewer and ui, which both depend on graphapi, and both rebuilt to the SAME files
-# apart from a build timestamp. Keyed by input, that branch published 71.7 MiB; keyed by output,
-# 28.3 MiB.
+# WHY OUTPUT AND NOT ONLY INPUT. The input hash cannot see what a build will emit. Measured
+# 2026-09-14: retitling one graphapi story rebuilt api-doc-viewer and ui, which depend on graphapi,
+# and both came out as the SAME files apart from a build timestamp. Keyed by input, that branch
+# published 71.7 MiB; keyed by output, 28.3 MiB. And a build is not always reproducible: apispec-view
+# once documented one component's props in a different order from identical source.
+#
+# THE INPUT HASH is tools/ci/storybook-input-hash.sh. It started as the images' hasher, which hashes
+# every dependency's whole tree, so that same story change rebuilt all three for nothing. The
+# Storybook hasher hashes a component's own projects in full and its dependencies without their
+# stories, tests, screenshot baselines and .storybook config, which no dependent Storybook reads.
 #
 # Two inputs needed adding to the hash for Storybook specifically, both carried in storybooks.json:
 #
@@ -27,8 +31,9 @@
 #                 .storybook, and the Storybook dependencies are declared in the workspace
 #                 root package.json. Neither sits inside the elements project
 #
-# This script and the sourcemap stripper are hash inputs too: they decide what is stored, so a
-# change to either must not be served from content produced under the old rules.
+# This script and the sourcemap stripper are hash inputs too, and the hasher hashes itself: they
+# decide what is built and stored, so a change to any of them must not be served from content
+# produced under the old rules.
 #
 # POINTERS AND INDEXES ARE NEVER TAGS ON THE CONTENT MANIFEST. Deleting a package version in ghcr
 # removes every tag on it, which storybook-probe.yml measured. An alias tag for feature-x would
@@ -55,7 +60,7 @@ source_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
 pnpm exec nx graph --file=graph.json >/dev/null
 # HASH_PATHS is a space-separated list and deliberately unquoted, so it word-splits.
 # shellcheck disable=SC2086
-input="in-$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
+input="in-$(bash tools/ci/storybook-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
 rm -f graph.json
 
 # A tag that does not exist is an ANSWER here, "nothing", not a failure: every new input has no
