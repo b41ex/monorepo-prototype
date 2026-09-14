@@ -2,14 +2,24 @@
 #
 # One component's Storybook into the store, for the branch this run is on.
 #
-# THE STORE is ghcr. A build is an OCI artifact, `ghcr.io/<owner>/storybook-<component>:src-<hash>`,
-# holding one gzipped tarball of `dist-showcase`. A branch is a POINTER, `…:branch-<slug>`: a
-# separate manifest whose annotation names the content it points at. pages.yml assembles the
-# site from pointers; nothing is committed to any branch.
+# THE STORE is ghcr, `ghcr.io/<owner>/storybook-<component>`, and nothing is committed to any
+# branch. Three kinds of tag, each on its OWN manifest:
 #
-# THE HASH is tools/ci/image-input-hash.sh, the images' identity, so a Storybook is rebuilt for
-# exactly the reasons an image would be. Two inputs needed adding for Storybook specifically,
-# both carried in storybooks.json rather than here:
+#   out-<hash>     the build: one gzipped tarball of `dist-showcase`, keyed by its OUTPUT, a hash
+#                  of its files (storybook-site.js outhash). Two builds with identical files are
+#                  stored once, whatever their inputs were
+#   in-<hash>      an index keyed by the build's INPUTS, naming the out- content they produced.
+#                  It is what lets an unchanged component skip the build entirely
+#   branch-<slug>  the pointer pages.yml assembles the site from, naming the out- content
+#
+# WHY OUTPUT AND NOT ONLY INPUT. The input hash is tools/ci/image-input-hash.sh, the images'
+# identity, and it is deliberately coarse: a component rebuilds whenever anything in its
+# dependency closure changes. Measured 2026-09-14: retitling one graphapi story moved the input
+# hash of api-doc-viewer and ui, which both depend on graphapi, and both rebuilt to the SAME files
+# apart from a build timestamp. Keyed by input, that branch published 71.7 MiB; keyed by output,
+# 28.3 MiB.
+#
+# Two inputs needed adding to the hash for Storybook specifically, both carried in storybooks.json:
 #
 #   ui            the config lives in ui-shared but loads stories from ui-portal and ui-agents
 #                 and aliases both packages, so all three trees decide the build
@@ -17,16 +27,21 @@
 #                 .storybook, and the Storybook dependencies are declared in the workspace
 #                 root package.json. Neither sits inside the elements project
 #
-# This script passes ITSELF to the hasher as well: it decides the artifact's layout, so a
-# change here must not be served from content built under the old layout.
+# This script and the sourcemap stripper are hash inputs too: they decide what is stored, so a
+# change to either must not be served from content produced under the old rules.
 #
-# POINTERS ARE NEVER TAGS ON THE CONTENT MANIFEST. Deleting a package version in ghcr removes
-# every tag on it, which storybook-probe.yml measured. An alias tag for feature-x would mean
-# deleting feature-x deletes the Storybook of every branch sharing its content.
+# POINTERS AND INDEXES ARE NEVER TAGS ON THE CONTENT MANIFEST. Deleting a package version in ghcr
+# removes every tag on it, which storybook-probe.yml measured. An alias tag for feature-x would
+# mean deleting feature-x deletes the Storybook of every branch sharing its content.
 #
 # Environment: COMPONENT PROJECT HASH_PROJECTS HASH_PATHS OUTPUT OWNER, plus the GITHUB_* the
 # runner provides. Expects `oras` logged in to ghcr.
-set -euo pipefail
+set -Eeuo pipefail
+# `-e` exits without a word, and an `oras` whose stderr is sent to /dev/null leaves the log with
+# nothing but "Process completed with exit code 1". That happened: every Storybook job on the first
+# push of this layout died 1.8s in, silently. Name the line and command instead. `-E` makes the trap
+# fire inside functions and command substitutions too.
+trap 'echo "::error::storybook-store.sh failed at line $LINENO: $BASH_COMMAND"' ERR
 
 : "${COMPONENT:?}" "${PROJECT:?}" "${HASH_PROJECTS:?}" "${OUTPUT:?}" "${OWNER:?}"
 summary="${GITHUB_STEP_SUMMARY:-/dev/stdout}"
@@ -35,28 +50,42 @@ tmp="${RUNNER_TEMP:-$(mktemp -d)}"
 owner_lc="$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')"
 repo="ghcr.io/$owner_lc/storybook-$COMPONENT"
 slug="$(node tools/ci/storybook-site.js slug "$GITHUB_REF_NAME")"
+source_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
 
 pnpm exec nx graph --file=graph.json >/dev/null
 # HASH_PATHS is a space-separated list and deliberately unquoted, so it word-splits.
 # shellcheck disable=SC2086
-hash="$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
+input="in-$(bash tools/ci/image-input-hash.sh "$HASH_PROJECTS" graph.json tools/ci/storybook-store.sh tools/ci/storybook-strip-maps.js $HASH_PATHS)"
 rm -f graph.json
-src="src-$hash"
+
+# A tag that does not exist is an ANSWER here, "nothing", not a failure: every new input has no
+# index yet. Under `-e -o pipefail` a failing `oras` made the whole `content="$(content_of …)"`
+# assignment fail and ended the script, which is exactly the first-push failure above. So the
+# lookup cannot fail; an unreadable manifest also reads as nothing, which costs a build, the safe
+# direction. `exists` is only ever used as a condition, where a non-zero status is allowed.
+content_of() { # tag -> the content its manifest names, or nothing
+  { oras manifest fetch "$repo:$1" 2>/dev/null || true; } | node -e '
+    let s = ""; process.stdin.on("data", (d) => (s += d)).on("end", () => {
+      try { process.stdout.write((JSON.parse(s).annotations || {})["com.b41ex.storybook.content"] || "") } catch {}
+    })'
+}
+exists() { oras manifest fetch "$repo:$1" >/dev/null 2>&1; }
 
 {
   echo "### storybook: $COMPONENT"
   echo
   echo "| | |"
   echo "|---|---|"
-  echo "| content | \`$repo:$src\` |"
-  echo "| pointer | \`$repo:branch-$slug\` for \`$GITHUB_REF_NAME\` |"
+  echo "| inputs | \`$repo:$input\` |"
 } >> "$summary"
 
-# ---- the content: build only when it is new -------------------------------------------------
+# ---- the content: build only when these inputs are new ----------------------------------------
 # A failed lookup reads as a miss, which costs a build and never serves stale content. That is
-# the safe direction for this check to be wrong in.
-if oras manifest fetch "$repo:$src" >/dev/null 2>&1; then
-  echo "| build | **hit**, this content is already in the store |" >> "$summary"
+# the safe direction for this check to be wrong in. The index is only trusted if the content it
+# names still exists: cleanup removes content no branch points at.
+content="$(content_of "$input")"
+if [ -n "$content" ] && exists "$content"; then
+  echo "| build | **hit**: these inputs built \`$content\`, which is in the store |" >> "$summary"
 else
   # Remove any earlier output first. The checks below look for files, and a directory left
   # behind by some other step would satisfy them without this build having produced anything.
@@ -79,33 +108,50 @@ else
   files="$(find "$OUTPUT" -type f | wc -l)"
   bytes="$(du -sb "$OUTPUT" | cut -f1)"
 
-  tar czf "$tmp/storybook.tar.gz" -C "$OUTPUT" .
-  packed="$(stat -c %s "$tmp/storybook.tar.gz")"
+  content="out-$(node tools/ci/storybook-site.js outhash "$OUTPUT")"
+  if exists "$content"; then
+    echo "| build | **built**, and the output is identical to \`$content\`, already in the store: not stored again. $stripped; $files files, $((bytes / 1024)) KiB |" >> "$summary"
+  else
+    tar czf "$tmp/storybook.tar.gz" -C "$OUTPUT" .
+    packed="$(stat -c %s "$tmp/storybook.tar.gz")"
+    # Pushed from inside $tmp: oras refuses absolute file paths, and the name it records is the
+    # name pages.yml pulls back out.
+    (
+      cd "$tmp"
+      oras push "$repo:$content" \
+        --artifact-type application/vnd.b41ex.storybook.v1 \
+        --annotation "org.opencontainers.image.source=$source_url" \
+        --annotation "org.opencontainers.image.revision=$GITHUB_SHA" \
+        --annotation "com.b41ex.storybook.component=$COMPONENT" \
+        --annotation "com.b41ex.storybook.input=$input" \
+        storybook.tar.gz:application/vnd.b41ex.storybook.layer.v1.tar+gzip
+    )
+    echo "| build | **built and stored** as \`$content\`: $stripped; $files files, $((bytes / 1024)) KiB, packed to $((packed / 1024)) KiB |" >> "$summary"
+  fi
 
-  # Pushed from inside $tmp: oras refuses absolute file paths, and the name it records is the
-  # name pages.yml pulls back out.
+  # The index, so the next push with these inputs skips the build.
+  echo "$content" > "$tmp/index.txt"
   (
     cd "$tmp"
-    oras push "$repo:$src" \
-      --artifact-type application/vnd.b41ex.storybook.v1 \
-      --annotation "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
-      --annotation "org.opencontainers.image.revision=$GITHUB_SHA" \
-      --annotation "com.b41ex.storybook.component=$COMPONENT" \
-      storybook.tar.gz:application/vnd.b41ex.storybook.layer.v1.tar+gzip
+    oras push "$repo:$input" \
+      --artifact-type application/vnd.b41ex.storybook-index.v1 \
+      --annotation "com.b41ex.storybook.content=$content" \
+      --annotation "org.opencontainers.image.source=$source_url" \
+      index.txt
   )
-  echo "| build | **built**: $stripped; $files files, $((bytes / 1024)) KiB, packed to $((packed / 1024)) KiB |" >> "$summary"
 fi
 
 # ---- the pointer: on both paths --------------------------------------------------------------
 # A new branch changes no content and still needs its pointer, and so does a branch whose
-# previous run was cancelled between the two pushes.
-echo "$src" > "$tmp/pointer.txt"
+# previous run was cancelled between two pushes.
+echo "$content" > "$tmp/pointer.txt"
 (
   cd "$tmp"
   oras push "$repo:branch-$slug" \
     --artifact-type application/vnd.b41ex.storybook-pointer.v1 \
-    --annotation "com.b41ex.storybook.content=$src" \
-    --annotation "org.opencontainers.image.source=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" \
+    --annotation "com.b41ex.storybook.content=$content" \
+    --annotation "com.b41ex.storybook.input=$input" \
+    --annotation "org.opencontainers.image.source=$source_url" \
     --annotation "org.opencontainers.image.revision=$GITHUB_SHA" \
     --annotation "org.opencontainers.image.version=$GITHUB_REF_NAME" \
     pointer.txt
@@ -113,12 +159,9 @@ echo "$src" > "$tmp/pointer.txt"
 
 # Read the pointer back off the registry. A push exiting 0 says a manifest was written, not
 # that it says what the assembler will read; a misspelled annotation key is not an error.
-got="$(oras manifest fetch "$repo:branch-$slug" | node -e '
-  const m = JSON.parse(require("fs").readFileSync(0, "utf8"))
-  process.stdout.write((m.annotations || {})["com.b41ex.storybook.content"] || "")
-')"
-if [ "$got" != "$src" ]; then
-  echo "::error::pointer branch-$slug reads content='$got', expected '$src'"
+got="$(content_of "branch-$slug")"
+if [ "$got" != "$content" ]; then
+  echo "::error::pointer branch-$slug reads content='$got', expected '$content'"
   exit 1
 fi
 echo "| pointer | written and read back: \`branch-$slug\` → \`$got\` |" >> "$summary"
