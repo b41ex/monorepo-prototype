@@ -1,8 +1,0 @@
-node_modules/
-out/
-*.vsix
-dist
-.vscode-test
-test-resources/
-.test-extensions
-.idea
