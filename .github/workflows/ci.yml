@@ -252,15 +252,11 @@ jobs:
 
       # `build,test` together, never build alone. §12: "Test-only dependencies are otherwise
       # never exercised, and you will declare half the graph believing you are finished."
-      #
-      # vscode is excluded for phase 1: its test target downloads a 341 MB VS Code runner and
-      # its packaging step is a known failure (vsce shells out to `npm list`, which cannot
-      # read pnpm's layout). Recorded as a gap in CI-DESIGN.md rather than worked around.
       - name: lint, build and test what is affected
         run: |
           # pipefail so a failing nx still fails the step; tee alone would return 0.
           set -o pipefail
-          pnpm exec nx affected -t build test --exclude=vscode,tag:lang:go --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
+          pnpm exec nx affected -t build test --exclude=tag:lang:go --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
       # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
       # cannot drift apart. `always()` because a failed job is when the numbers matter most.

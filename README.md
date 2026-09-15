@@ -13,20 +13,12 @@ only, no remote, nothing published.
 |---|---|
 | Package manager | pnpm 12.3.4, `nodeLinker: isolated` set explicitly in `pnpm-workspace.yaml` |
 | Node | 24.15.0 |
-| Scope | `@b41ex`, not `@netcracker` — see the warning below |
-| Projects | 34 workspace projects; **18 build targets**, 13 test targets |
-| Build | **18 of 18 green**, `pnpm -r build` exit 0 |
+| Scope | `@b41ex`, not `@netcracker` |
+| Projects | 33 workspace projects; **17 build targets**, 12 test targets |
+| Build | **17 of 17 green**, `pnpm -r build` exit 0 |
 | Test | **12 of 12 runnable targets green, 10,621 passing** — exactly the fleet baseline |
 | Go | **none.** No `backend/`, no `go.work`, deliberately |
 | Nx | not wired. `pnpm -r` orders topologically and was enough |
-
-## The scope rename does not cover everything
-
-`frontend/vscode` is named `qubership-apihub-vscode` — **unscoped**, so the `@netcracker` →
-`@b41ex` rename has no scope to rewrite — and it is **not `private`**, so a bare
-`pnpm publish -r` would select it and the root `.npmrc` routes unscoped names to the public
-registry, where that name is unclaimed. **Do not run `pnpm publish -r` here.** UPSTREAM-GAPS
-G25; the one-line fix is `"private": true` upstream.
 
 ## You need pnpm 12, and pnpm 10 will not get it for you
 
@@ -56,10 +48,8 @@ itself.
 ```bash
 pnpm install --no-frozen-lockfile
 pnpm -r --no-bail build
-pnpm -r --no-bail --filter='!qubership-apihub-vscode' test
+pnpm -r --no-bail test
 ```
-
-`vscode` is excluded from the test sweep because its `test` launches a real VS Code instance.
 
 **Do not pass runner flags through `pnpm -r`.** `pnpm -r test -- --no-cache` makes jest read
 `--no-cache` as a *test name pattern*, and every project reports `No tests found, exiting with
@@ -86,5 +76,5 @@ Two things, both recorded as gaps rather than treated as fixes:
   and `build-task-consumer` that means **"it builds" is the only claim this run makes.**
 - **L5b**, loading the built front end in a browser against a stub. Not run. It is the level
   that catches the defects a green build ships.
-- **§8's release tooling**, because `npm-gitflow` is out of scope — which is where G25 lives.
+- **§8's release tooling**, because `npm-gitflow` is out of scope.
 - **Everything Go**: §3's `backend/` tree, §5's cross-language orchestration, G2.
