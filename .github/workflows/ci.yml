@@ -206,7 +206,7 @@ jobs:
               # and stack bring-up are fixed overhead it cannot touch. Two thirds of the price
               # for half the coverage was not worth paying on every push to every branch.
               #
-              # Re-enabling is this one line. e2e.yml still understands `tier: smoke` and runs
+              # Re-enabling is this one line. e2e-kind.yml still understands `tier: smoke` and runs
               # `--grep=@smoke` plus the Portal smoke collection when given it; nothing else
               # has to come back.
               # tier=smoke
@@ -560,9 +560,13 @@ jobs:
 
 
   # ---------------------------------------------------------------------------------------
-  # e2e — the product, stood up from the images this run published. See
-  # .github/workflows/e2e.yml, which is shared with the baseline run so that the two differ by
-  # exactly one step.
+  # e2e — the product, deployed to Kind by its Helm charts from the images this run
+  # published. See .github/workflows/e2e-kind.yml.
+  #
+  # KIND, NOT COMPOSE. Helm is how APIHUB is actually deployed, so this exercises the charts,
+  # the ingress, TLS and the agent, none of which the compose stack has. e2e.yml still stands
+  # the product up under podman compose and is reachable by hand through e2e-manual.yml; the
+  # two take the same inputs, so switching back is the `uses:` line below.
   # ---------------------------------------------------------------------------------------
   e2e:
     needs: [plan, js-images, go-images]
@@ -577,7 +581,7 @@ jobs:
     permissions:
       contents: read
       packages: read
-    uses: ./.github/workflows/e2e.yml
+    uses: ./.github/workflows/e2e-kind.yml
     with:
       repoint_images: true
       tier: ${{ needs.plan.outputs.e2e_tier }}
