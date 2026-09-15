@@ -1,4 +1,4 @@
-name: e2e
+name: Run E2E tests using Podman Compose
 
 # ---------------------------------------------------------------------------------------
 # Stand the whole product up on one runner and drive it: Newman over the REST API, then the

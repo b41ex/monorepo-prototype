@@ -153,7 +153,7 @@ test.describe('4.4.2 Dashboard editing/publishing', () => {
   // named exactly "2400.1 release" and that option never resolves, in every E2E run and both
   // tiers. The upstream commit that introduced the expectation is already present here, and the
   // frontend renders the status beside the version, so it is a product-side mismatch, not a
-  // migration effect. It was excluded by name in .github/workflows/e2e.yml until the rule became
+  // migration effect. It was excluded by name in .github/workflows/e2e-tests-compose.yml until the rule became
   // that a failure is fixed if the migration caused it and skipped in the test if not. Remove
   // the skip when the expectation and the frontend agree.
   test.skip('[P-PUDSH-6] Publishing a dashboard version with previous version',

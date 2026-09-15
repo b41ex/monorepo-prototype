@@ -1,9 +1,9 @@
-name: e2e kind
+name: Run E2E tests using Kind
 
 # ---------------------------------------------------------------------------------------
-# The same E2E as e2e.yml, with the product deployed to a Kind cluster by its Helm charts
+# The same E2E as e2e-tests-compose.yml, with the product deployed to a Kind cluster by its Helm charts
 # instead of brought up by podman compose. Newman over the REST API, then the Playwright
-# Portal suite from tests/ui-tests, judged exactly as e2e.yml judges them.
+# Portal suite from tests/ui-tests, judged exactly as e2e-tests-compose.yml judges them.
 #
 # WHY A SECOND RUNTIME. Compose is not how APIHUB is deployed; Helm is. A stack that passes
 # under compose says nothing about the charts, the ingress, TLS termination, the custom CA
@@ -22,8 +22,8 @@ name: e2e kind
 # thing fetched at run time is the ingress-nginx manifest, pinned to a release tag rather than
 # `main`, which is what the original applied.
 #
-# The inputs are e2e.yml's, plus `tag_agent`: compose runs no agent and this does. Keep the
-# two files' shared inputs identical, so that e2e-manual.yml can hand either one the same
+# The inputs are e2e-tests-compose.yml's, plus `tag_agent`: compose runs no agent and this does. Keep the
+# two files' shared inputs identical, so that e2e-tests-manual.yml can hand either one the same
 # values.
 # ---------------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ on:
       image_owner:
         description: >-
           ghcr owner the six images are pulled from. Defaults to this repository's owner.
-          TEMPORARY, for the same reason as in e2e.yml: the prototype publishes under a
+          TEMPORARY, for the same reason as in e2e-tests-compose.yml: the prototype publishes under a
           personal account instead of the organisation.
         required: false
         type: string
@@ -98,7 +98,7 @@ env:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    # 120, the original's default. e2e.yml needs 90 for the same suites; a Kind cluster, an
+    # 120, the original's default. e2e-tests-compose.yml needs 90 for the same suites; a Kind cluster, an
     # ingress controller, postgres and two Helm releases add fixed setup that compose does not
     # have, and a job killed by its timeout mid-suite leaves no report.
     timeout-minutes: 120
@@ -121,7 +121,7 @@ jobs:
       # Which images, decided once. Written as a Helm values file for the APIHUB release and
       # as step outputs for the agent release, so the two cannot disagree about the owner.
       #
-      # The mapping is e2e.yml's, with one addition: the chart's `qubershipApihubBackend` is
+      # The mapping is e2e-tests-compose.yml's, with one addition: the chart's `qubershipApihubBackend` is
       # our `apihub-portal-backend`, renamed in §3 because `backend/backend/` was the
       # alternative.
       # ---------------------------------------------------------------------------------
@@ -193,9 +193,10 @@ jobs:
       #
       # Two ways round it were rejected. `kind load docker-image` after a pull on the runner
       # only helps while the pull policy is IfNotPresent, and `main` deploys `:latest`, whose
-      # default policy is Always. imagePullSecrets would have to reach every pod, and the
-      # chart gives four of its deployments their own service accounts and exposes no value
-      # for it.
+      # default policy is Always. imagePullSecrets would have to reach every pod, and neither
+      # chart exposes a value for it. Three of the APIHUB chart's five deployments and the
+      # agent's one run under service accounts of their own, so patching the namespace's
+      # default service account would not reach them either.
       #
       # So the credential goes where kubelet reads one for every pull: a docker config
       # mounted at /var/lib/kubelet/config.json on the node, which is Kind's documented way
@@ -264,7 +265,7 @@ jobs:
           kubectl wait --namespace ingress-nginx --for=condition=complete job --all --timeout=180s
           kubectl rollout status --namespace ingress-nginx deployment/ingress-nginx-controller --timeout=180s
 
-      # Staged into RUNNER_TEMP and edited there, as e2e.yml stages the compose files.
+      # Staged into RUNNER_TEMP and edited there, as e2e-tests-compose.yml stages the compose files.
       # generate-local-tls.sh writes a CA and its key into the chart directory, and the secrets
       # file carries the generated password, token and key. In place, both would leave the
       # workspace modified and holding secrets.
@@ -277,7 +278,7 @@ jobs:
           cp -r backend/agent/helm-templates/qubership-apihub-agent "$RUNNER_TEMP/helm/qubership-apihub-agent"
           ls "$RUNNER_TEMP/helm"
 
-      # Exactly e2e.yml's step, and for its reasons: none of these is a secret, so none is a
+      # Exactly e2e-tests-compose.yml's step, and for its reasons: none of these is a secret, so none is a
       # repository secret. The original declared all four as required secrets.
       - name: Generate the stack's own credentials
         shell: bash
@@ -286,7 +287,7 @@ jobs:
           openssl genpkey -algorithm RSA -out rsakey.pem -pkeyopt rsa_keygen_bits:2048 2>/dev/null
           key="$(base64 -w0 rsakey.pem)"
           # openssl, not `tr -dc … </dev/urandom | head -c N`: under pipefail that dies of
-          # SIGPIPE with exit 141 and prints nothing. See e2e.yml.
+          # SIGPIPE with exit 141 and prints nothing. See e2e-tests-compose.yml.
           pass="$(openssl rand -hex 12)"
           token="$(openssl rand -hex 30)"
           echo "::add-mask::$key"
@@ -295,7 +296,7 @@ jobs:
           {
             echo "JWT_PRIVATE_KEY=$key"
             # NOT the suite's own sysadmin address. A collision leaves the suite's sysadmin
-            # nameless and cost 14 Playwright failures; e2e.yml has the full account.
+            # nameless and cost 14 Playwright failures; e2e-tests-compose.yml has the full account.
             echo "APIHUB_ADMIN_EMAIL=zero-day-admin@apihub.local"
             echo "APIHUB_ADMIN_PASSWORD=$pass"
             echo "APIHUB_ACCESS_TOKEN=$token"
@@ -474,7 +475,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          # e2e.yml's two tiers, plus 1_2_Smoke_Agent in full. That collection is absent from
+          # e2e-tests-compose.yml's two tiers, plus 1_2_Smoke_Agent in full. That collection is absent from
           # the compose tiers only because compose runs no agent; this stack deploys one, and
           # the original Kind workflow ran it. 2_2_Negative_Agent stays out, as it was out of
           # the original's list too.
@@ -483,7 +484,7 @@ jobs:
           else
             collections='1_1_Smoke_Portal 1_2_Smoke_Agent 1_3_Linter_Portal 2_1_Negative_Portal 3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
           fi
-          # Published before anything can fail, so the results check fails closed. See e2e.yml.
+          # Published before anything can fail, so the results check fails closed. See e2e-tests-compose.yml.
           echo "collections=$collections" >> "$GITHUB_OUTPUT"
 
           npm install -g newman newman-reporter-htmlextra
@@ -510,7 +511,7 @@ jobs:
             fs.writeFileSync(file, JSON.stringify(env, null, 2))
           ' "$env_file" "https://$APIHUB_HOST"
 
-          # -x is not the verdict; the next step is. See e2e.yml.
+          # -x is not the verdict; the next step is. See e2e-tests-compose.yml.
           for c in $collections; do
             echo "=== $c ==="
             newman run "$collection_dir/${c}.postman_collection.json" \
@@ -535,7 +536,7 @@ jobs:
         working-directory: tests/ui-tests
         run: pnpm exec playwright install --with-deps chromium
 
-      # No PLAYGROUND_BACKEND_HOST, which e2e.yml needs only because its BASE_URL is localhost.
+      # No PLAYGROUND_BACKEND_HOST, which e2e-tests-compose.yml needs only because its BASE_URL is localhost.
       # Here the base URL is the ingress host, which the backend's allowedHostsForProxy
       # already admits.
       - name: Run the Playwright suite
@@ -547,7 +548,7 @@ jobs:
           TEST_USER_PASSWORD: ${{ env.APIHUB_ADMIN_PASSWORD }}
           CLEAR_TD: skip
         run: |
-          # The same arguments as e2e.yml, so the two runtimes run the same tests. The original
+          # The same arguments as e2e-tests-compose.yml, so the two runtimes run the same tests. The original
           # also passed --workers=8; playwright.config.ts sets 10 under CI and that is kept.
           args='--project=Portal --grep-invert=@flaky'
           [ '${{ inputs.tier }}' = 'smoke' ] && args="$args --grep=@smoke"
@@ -616,7 +617,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      # e2e.yml's verdict, with the same three outcomes and for the same reason: `newman`
+      # e2e-tests-compose.yml's verdict, with the same three outcomes and for the same reason: `newman`
       # passes -x and so succeeds whatever the assertions did, and only `newman_results` can
       # see a failed assertion.
       - name: Verdict
