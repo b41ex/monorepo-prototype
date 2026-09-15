@@ -1,4 +1,4 @@
-name: e2e manual
+name: Run E2E tests
 
 # ---------------------------------------------------------------------------------------
 # A full E2E run against images you name, the way upstream's run-e2e-tests.yml could be
@@ -6,8 +6,9 @@ name: e2e manual
 #
 # TWO RUNTIMES, ONE SUITE. `runtime` picks the workflow that stands the product up:
 #
-#   kind             e2e-kind.yml   the Helm charts on a Kind cluster, with the agent. What CI runs.
-#   podman-compose   e2e.yml        the compose stack under podman, with no agent.
+#   kind             e2e-tests-kind.yml      the Helm charts on a Kind cluster, with the agent.
+#                                            What CI runs.
+#   podman-compose   e2e-tests-compose.yml   the compose stack under podman, with no agent.
 #
 # Both take the same image inputs and run the same Playwright arguments. The Newman lists
 # differ by one collection, 1_2_Smoke_Agent, which only Kind can run because only Kind
@@ -94,7 +95,7 @@ jobs:
     permissions:
       contents: read
       packages: read
-    uses: ./.github/workflows/e2e-kind.yml
+    uses: ./.github/workflows/e2e-tests-kind.yml
     with:
       # Always full. A manual run is a deliberate act and smoke is what CI already does
       # unattended on every push.
@@ -123,7 +124,7 @@ jobs:
     permissions:
       contents: read
       packages: read
-    uses: ./.github/workflows/e2e.yml
+    uses: ./.github/workflows/e2e-tests-compose.yml
     with:
       tier: full
       # Only reachable by dispatch, so the input is always set here; the expression is kept

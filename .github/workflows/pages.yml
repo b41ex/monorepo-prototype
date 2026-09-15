@@ -23,7 +23,7 @@
   schedule:
     - cron: '17 3 * * *'
 
-name: Storybooks
+name: Publish Storybooks
 
 # ONE GROUP FOR EVERY TRIGGER AND EVERY BRANCH, and never cancelled.
 #

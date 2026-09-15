@@ -1,4 +1,4 @@
-name: images
+name: Build images
 
 # ---------------------------------------------------------------------------------------
 # Build only when the content hash is new, otherwise retag. See tools/ci/image-input-hash.sh
