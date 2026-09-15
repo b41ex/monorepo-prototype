@@ -251,9 +251,15 @@ jobs:
       # moving branch. The Kind provider manifest binds hostPorts 80 and 443 and needs no node
       # label.
       #
-      # The admission jobs are waited for as well as the controller. The APIHUB release creates
-      # Ingress objects, and until the webhook's certificate is patched in, the API server
-      # rejects them with `failed calling webhook`.
+      # The webhook's certificate is waited for as well as the controller. The APIHUB release
+      # creates Ingress objects, and until the certificate is patched in, the API server rejects
+      # them with `failed calling webhook`.
+      #
+      # The wait is on the certificate itself, not on the admission jobs. Both jobs set
+      # `ttlSecondsAfterFinished: 0`, so Kubernetes deletes each one as soon as it completes, and
+      # `kubectl wait job --all` fails with `jobs.batch "ingress-nginx-admission-patch" not found`
+      # whenever the patch job finishes before kubectl reaches it. The patch job writes the CA
+      # bundle into the ValidatingWebhookConfiguration, and the manifest ships it empty.
       - name: Install the ingress controller
         shell: bash
         run: |
@@ -262,7 +268,17 @@ jobs:
           kubectl version --client
           kubectl apply -f \
             https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.15.1/deploy/static/provider/kind/deploy.yaml
-          kubectl wait --namespace ingress-nginx --for=condition=complete job --all --timeout=180s
+          end=$((SECONDS + 180))
+          until [ -n "$(kubectl get validatingwebhookconfiguration ingress-nginx-admission \
+                  --output=jsonpath='{.webhooks[0].clientConfig.caBundle}' 2>/dev/null)" ]; do
+            if [ $SECONDS -ge $end ]; then
+              echo "::error::the ingress-nginx admission webhook has no CA bundle after 180s"
+              kubectl get jobs,pods --namespace ingress-nginx || true
+              exit 1
+            fi
+            sleep 2
+          done
+          echo "admission webhook certificate patched in after ${SECONDS}s"
           kubectl rollout status --namespace ingress-nginx deployment/ingress-nginx-controller --timeout=180s
 
       # Staged into RUNNER_TEMP and edited there, as e2e-tests-compose.yml stages the compose files.
