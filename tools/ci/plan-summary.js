@@ -43,6 +43,7 @@ const go = goRaw ? JSON.parse(goRaw) : []
 const out = []
 const say = (s = '') => out.push(s)
 const id = (n) => 'p_' + n.replace(/[^A-Za-z0-9_]/g, '_')
+const gid = (c) => 'g_' + c.replace(/[^A-Za-z0-9_]/g, '_')
 
 /** Everything a project transitively depends on — the tasks `^build` drags into the graph. */
 function upstreamsOf(root) {
@@ -128,10 +129,35 @@ if (!affected.size) {
   const transitiveOnly = upstream.size - direct.size
   const drawn = new Set([...changed, ...direct])
 
+  // SUBGRAPHS: one box per component, where a component is the first two segments of the
+  // project root — `frontend/apispec-view/packages/elements` belongs to `apispec-view`. Nx
+  // names do not carry that reliably (`apispec-view` is the elements package, `ui-root` the
+  // ui workspace root), the directory does. A box is drawn only around TWO or more drawn
+  // nodes: a box around one project repeats its name and adds a border.
+  //
+  // Subgraph ids take a `g_` prefix because a component and a project can share a name —
+  // `apispec-view` is both, and Mermaid resolves a duplicate id to one element.
+  const componentOf = (p) => {
+    const root = graph.nodes[p] && graph.nodes[p].data && graph.nodes[p].data.root
+    return root ? root.split('/').slice(0, 2).join('/') : p
+  }
+  const byComponent = new Map()
+  for (const p of [...changed, ...[...direct].sort()]) {
+    const c = componentOf(p)
+    if (!byComponent.has(c)) byComponent.set(c, [])
+    byComponent.get(c).push(p)
+  }
+  const node = (p, indent) => say(`${indent}${id(p)}["${p}"]:::${affected.has(p) ? 'changed' : 'cached'}`)
+  const boxes = [...byComponent].filter(([, ps]) => ps.length > 1).sort(([a], [b]) => a.localeCompare(b))
+
   say('```mermaid')
   say('flowchart BT')
-  for (const p of changed) say(`  ${id(p)}["${p}"]:::changed`)
-  for (const p of [...direct].sort()) say(`  ${id(p)}["${p}"]:::cached`)
+  for (const [c, ps] of boxes) {
+    say(`  subgraph ${gid(c)}["${c.split('/').pop()}"]`)
+    for (const p of ps) node(p, '    ')
+    say('  end')
+  }
+  for (const [, ps] of byComponent) if (ps.length === 1) node(ps[0], '  ')
   for (const p of changed) {
     for (const d of graph.dependencies[p] || []) {
       if (drawn.has(d.target)) say(`  ${id(d.target)} --> ${id(p)}`)
@@ -159,11 +185,20 @@ if (!affected.size) {
   // that must track the background exactly.
   say('  classDef changed fill:#bb800933,stroke:#bf8700,stroke-width:2px')
   say('  classDef cached fill:#818b9826,stroke:#818b98,stroke-width:1px')
+  // The component box must not read as a third task state, so it takes no amber and almost
+  // no fill — a dashed grey outline over a fill faint enough to stay behind both node fills
+  // in either theme. Without it Mermaid's default cluster fill is a pale yellow in the light
+  // theme, which sits next to amber and looks like a weaker "changed".
+  if (boxes.length) {
+    say('  classDef component fill:#818b980d,stroke:#818b98,stroke-width:1px,stroke-dasharray:4 3')
+    say(`  class ${boxes.map(([c]) => gid(c)).join(',')} component`)
+  }
   say('```')
   say()
   say('Amber is work this run will actually do; grey is a cache restore — the same amber and')
   say('grey the Actions job graph uses for running and skipped. Arrows run dependency →')
   say('consumer, which is the order the tasks execute in.')
+  if (boxes.length) say('Dashed boxes group the projects of one component directory; they are not tasks.')
   say()
   if (transitiveOnly) {
     say('Nodes are the changed projects and their **direct** dependencies. The other')
