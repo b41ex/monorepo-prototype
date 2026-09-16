@@ -188,5 +188,3 @@ describe('clone test', () => {
     expect(rootCopy.b.a.b).toBe(rootCopy.b)
   })
 })
-
-// Cache probe for PR #8, reverted before merge.
