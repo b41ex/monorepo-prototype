@@ -36,7 +36,7 @@ strictPeerDependencies: false
 # Dependency build scripts: every one is listed, and every one is denied.
 #
 # From pnpm 11 an unlisted build script fails the install (`ERR_PNPM_IGNORED_BUILDS`), so this
-# map is the complete set for the lockfile. 15 packages, matching a scan of the virtual store
+# map is the complete set for the lockfile. 13 packages, matching a scan of the virtual store
 # for preinstall/install/postinstall scripts or a binding.gyp. A dependency change that brings
 # a new one fails `pnpm install` by name, which is the point: it is decided here, not run.
 allowBuilds:
@@ -49,9 +49,6 @@ allowBuilds:
   # Downloads Chrome. The screenshot suites connect to Chrome in a container, and CI already
   # sets PUPPETEER_SKIP_DOWNLOAD.
   puppeteer: false
-  # Only `vscode` uses these, through @vscode/vsce, and CI excludes `vscode`.
-  keytar: false
-  '@vscode/vsce-sign': false
   # husky 4 writes hooks into .git/hooks. It did so in _target3 on 2026-09-08.
   husky: false
   # Banners and telemetry.
