@@ -102,6 +102,11 @@ runs:
     #      success and delivers nothing.
     #   3. So: cache `.nx` whole — artifacts and metadata together — plus ~/.nx.
     #
+    # `nx.json` no longer sets `cacheDirectory`, so Nx 23 keeps the artifacts and the database
+    # together in ~/.nx/<id>/{cache,databases}, shared by every checkout of the repository.
+    # Both paths stay cached: ~/.nx holds the task cache, and .nx/workspace-data still holds
+    # this checkout's project graph.
+    #
     # The through-line is that a cache which "restored successfully" is not thereby a cache
     # that was used. The number to read is Nx's own `Cache: N/N hit` line, never the restore
     # step's.
