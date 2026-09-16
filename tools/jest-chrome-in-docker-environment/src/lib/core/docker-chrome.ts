@@ -34,6 +34,8 @@ export type DockerUpResult = {
 const CONNECT_TIMEOUT = 3000
 const CONTAINER_READY_POLL_MS = 300
 const CONTAINER_READY_MAX_ATTEMPTS = 10
+const CONTAINER_ADDRESS_MAX_ATTEMPTS = 10
+const CONTAINER_ADDRESS_RETRY_MS = 1000
 const CDP_WEBSOCKET_ENDPOINT_REGEX = /^DevTools listening on (ws:\/\/.*)$/m;
 
 const isWindows = os.platform() === "win32"
@@ -47,6 +49,20 @@ async function waitForContainerRunning(containerId: string): Promise<void> {
     await new Promise(r => setTimeout(r, CONTAINER_READY_POLL_MS))
   }
   throw new Error(`${CONSOLE_PREFIX} Container ${containerId} did not reach 'running' state`)
+}
+
+// The 'running' state only means that 'sh' has started. socat may not listen on the published port yet,
+// and a probe sent before it does is refused, so the address check is retried until socat is up.
+async function waitForContainerIpAddress(containerId: string): Promise<string> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await dockerContainerIpAddress(containerId, CHROME_PORT, CONNECT_TIMEOUT)
+    } catch (error) {
+      if (attempt >= CONTAINER_ADDRESS_MAX_ATTEMPTS) throw error
+      console.log(yellow(`${CONSOLE_PREFIX} Port ${CHROME_PORT} of container is not accessible yet, attempt #${attempt} of ${CONTAINER_ADDRESS_MAX_ATTEMPTS}`))
+      await new Promise(r => setTimeout(r, CONTAINER_ADDRESS_RETRY_MS))
+    }
+  }
 }
 
 const dockerUp = async (flags: ChromeArg[], workersCount: number): Promise<DockerUpResult> => {
@@ -101,7 +117,7 @@ const dockerUp = async (flags: ChromeArg[], workersCount: number): Promise<Docke
       ])).out.trim();
 
       await waitForContainerRunning(chromeContainerId)
-      ipAddress = await dockerContainerIpAddress(chromeContainerId, CHROME_PORT, CONNECT_TIMEOUT)
+      ipAddress = await waitForContainerIpAddress(chromeContainerId)
       gateway = await getDockerHostIpAddress(chromeContainerId, getHostCheckPort(), CONNECT_TIMEOUT)
 
       console.log(green(`${CONSOLE_PREFIX} Successfully started Docker container '${chromeContainerId}' with address '${ipAddress}' and gateway '${gateway}'`));
