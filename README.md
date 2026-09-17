@@ -11,7 +11,7 @@ only, no remote, nothing published.
 
 | | |
 |---|---|
-| Package manager | pnpm 12.3.4, `nodeLinker: isolated` set explicitly in `pnpm-workspace.yaml` |
+| Package manager | pnpm 12.4.2, `nodeLinker: isolated` set explicitly in `pnpm-workspace.yaml` |
 | Node | 24.15.0 |
 | Scope | `@b41ex`, not `@netcracker` |
 | Projects | 33 workspace projects; **17 build targets**, 12 test targets |
@@ -22,12 +22,12 @@ only, no remote, nothing published.
 
 ## You need pnpm 12, and pnpm 10 will not get it for you
 
-`packageManager` pins `pnpm@12.3.4` and CI installs exactly that. On a workstation still
+`packageManager` pins `pnpm@12.4.2` and CI installs exactly that. On a workstation still
 holding pnpm 10, **the automatic switch does not work**:
 
 ```text
-ERROR  Failed to switch pnpm to v12.3.4. Looks like pnpm CLI is missing at
-"…\AppData\Local\pnpm\.tools\pnpm\12.3.4\bin" or is incorrect
+ERROR  Failed to switch pnpm to v12.4.2. Looks like pnpm CLI is missing at
+"…\AppData\Local\pnpm\.tools\pnpm\12.4.2\bin" or is incorrect
 ```
 
 pnpm 10's self-switch expects a JS CLI under `bin/`; pnpm 12 ships a native executable at the
