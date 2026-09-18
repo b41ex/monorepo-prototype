@@ -21,8 +21,7 @@ a library, and the UI is one pull request.
 | Go | 1.26.5 | `backend/.go-version` |
 | Docker or podman | any | screenshot tests and images |
 
-Install pnpm 12 directly (`npm i -g pnpm@12`, or `corepack enable`). pnpm 10 cannot switch itself to the pinned
-version and fails with `Failed to switch pnpm to v12.4.2`, including for every script Nx starts.
+Install pnpm 12 directly (`npm i -g pnpm@12`, or `corepack enable`).
 
 ## Repository layout
 
@@ -31,149 +30,230 @@ frontend/            TypeScript components; api-doc-viewer, apispec-view and ui 
 backend/             Go modules: portal-backend, agent, agents-backend, api-linter-service, test-service, commons-go
 tests/ui-tests/      Playwright E2E suite
 tests/postman-collections/  Newman E2E collections
-deploy/              docker-compose/ and helm-templates/
+deploy/              docker-compose/ and helm-templates/; the agent chart is in backend/agent/helm-templates/
 tools/ci/            scripts the workflows call
 tools/release/       release guard
 tools/nx/            local Nx plugin
+tools/jest-chrome-in-docker-environment/  published jest environment for the screenshot suites
 .github/             workflows and the shared setup action
 ```
 
-The workspace has 38 Nx projects: 32 pnpm packages and 6 Go modules. The project name is `nx.name` in a
-`package.json`, or the directory name of a `go.mod`. There is no `project.json`.
+The workspace has 38 Nx projects: 32 pnpm packages and 6 Go modules. There is no `project.json`. A Go project is named
+after its directory. A pnpm project is named by `nx.name` in its `package.json`, which differs from both the package
+name and the directory:
+
+| Directory | Nx project | Package |
+| --- | --- | --- |
+| `frontend/api-diff` | `api-diff` | `@b41ex/qubership-apihub-api-diff` |
+| `frontend/apispec-view` | `apispec-view-root` | `@b41ex/qubership-apihub-apispec-view-workspace` |
+| `frontend/apispec-view/packages/elements` | `apispec-view` | `@b41ex/qubership-apihub-apispec-view` |
+| `frontend/ui/packages/portal` | `ui-portal` | `@b41ex/qubership-apihub-ui-portal` |
+
+Nx commands take the project name; `pnpm --filter` takes the package name or a path. To look names up:
+
+```bash
+pnpm nx show projects                  # every project name
+pnpm nx show project ui-portal --json  # root, targets, and tags of one project
+pnpm nx graph                          # the dependency graph in a browser
+```
 
 ## Tools
 
 **pnpm workspaces.** `pnpm-workspace.yaml` lists the members. Internal dependencies use `workspace:^`, which links the
-package from the tree; `pnpm publish` rewrites it to a real range such as `^2.9.5`. One lockfile, `pnpm-lock.yaml`,
-covers the whole workspace. Content-addressable store improves performance compared to npm. The linker is `isolated`, so each package resolves only what it declares:
+package from the tree; `pnpm publish` rewrites it to a real range such as `^2.9.5`. Packages inside one component, such
+as `api-doc-viewer/packages/*`, use `workspace:*`, which is published as the exact version. One lockfile,
+`pnpm-lock.yaml`, covers the whole workspace. Packages are stored once per machine in a content-addressable store, so
+another worktree links them instead of downloading them again. The linker is `isolated`, so each package resolves only
+what it declares:
 
 - Declare every package you import, including binaries used in scripts (`rimraf`, `vite`, `webpack`).
 - Use `pnpm run` and `pnpm exec` in scripts, never `npm run` or `npx`.
 
 **Nx.** Nx reads the dependency graph from the manifests and runs tasks in topological order, in parallel. `build`,
 `test` and `screenshot-test` depend on `^build`, so upstream packages build first. Results are cached by a hash of the
-inputs, and an unchanged upstream is a cache restore. `nx affected` selects the projects changed since a base commit,
-plus their dependents.
+inputs, and an unchanged upstream is a cache restore. The cache is in `~/.nx/<id>/` and every worktree of the
+repository shares it; setting `cacheDirectory` or `NX_CACHE_DIRECTORY` turns that sharing off. `nx affected` selects
+the projects changed since a base commit, plus their dependents.
 
 **Go workspaces.** `go.work` at the repository root includes all six modules, so a local `commons-go` change is seen
 by every service. `@nx-go/nx-go` turns each `go.mod` into an Nx project, and `tools/nx/go-lang-tag.js` tags it
 `lang:go`. Images build each module alone with `GOWORK=off`, so every `go.mod` must hold the versions the workspace
 resolves. `go work sync` writes them.
 
-## E2E development scenarios
-### Common
+## Development workflow
 
-Hint: use Git worktrees to maximize benefits/minimize drawbacks of monorepo.
+Times below were measured on one Windows workstation and vary with the machine and the connection.
 
-Shared repo data (`.git`) between all worktrees.
+### Worktrees
 
-Recommended folder structure
-`./apihub` folder somewhere
-`./apihub/_develop.repo`- cloned Git repository
-`./apihub/my-worktree`- folders per git worktree
+Use one Git worktree per branch. Worktrees share one `.git`, one pnpm store, and one Nx cache, and each has its own
+`node_modules`, so two branches never see each other's links. A layout that works:
 
-Create a worktree.
-
-Reference time: **11s**
-
-```sh
-git worktree add ../my-feature -b my-feature develop
+```text
+apihub/
+  _develop.repo/    the clone
+  my-feature/       one folder per worktree
 ```
 
-Remove a worktree (**~2min**)
+Create a worktree (11 s):
 
-```sh
-git worktree remove ../my-feature  # Could fail on Windows with `Directory not empty`, remove directory manually
-git branch -d my-feature # if branch also needs to be deleted
+```bash
+git worktree add ../my-feature -b feature/my-feature develop
 ```
-### Frontend developer
-Install dependencies, always installs all workspace packages from anywhere.
 
-Cold install (first install on specific machine)  downloads all dependencies.
+Remove it (about 2 min). On Windows, `git worktree remove` can fail with `Directory not empty`; delete the directory
+by hand.
 
-Hot install links dependencies from common content-addressable store.
+```bash
+git worktree remove ../my-feature
+git branch -d feature/my-feature
+```
 
-Reference time (could vary depending on connection speed and machine confiuration): **10min** cold, **3.5m** hot, even faster on CI: **20s** hot.
+### Frontend
 
-On Windows, pnpm links are absolute junctions: a moved or copied checkout needs a fresh `pnpm install`.
-```sh
-# e.g. in ../my-feature worktree
+Install from anywhere in the worktree; `pnpm install` always installs the whole workspace. A cold install on a new
+machine downloads every package (10 min). Later installs link from the store (3.5 min locally, about 20 s in CI). On
+Windows, pnpm links are absolute junctions: a moved or copied checkout needs a fresh `pnpm install`.
+
+```bash
 pnpm install
 ```
-Build all (**7m**)
-```
+
+Build everything (7 min):
+
+```bash
 pnpm nx run-many -t build
 ```
-Build UI and all dependencies, from any folder
-```
+
+Build one project and everything it depends on, from any folder:
+
+```bash
 pnpm nx build ui-portal
 ```
-Build several targets
+
+Build several projects:
+
+```bash
+pnpm nx run-many -t build -p ui-portal,ui-agents
 ```
-pnpm nx run-many --targets build --projects=ui-portal,ui-agents
-```
-short form:
-```
-pnpm nx run-many -t build -p=ui-portal,ui-agents
-```
-Build specific component
-```sh
-# from component folder, e.g. ./frontend/api-processor
+
+Build the project in the current folder, for example `frontend/api-processor`:
+
+```bash
 pnpm nx build
 ```
-Run tests for all components
-```
+
+Run tests for every project, for several projects, and build and test every frontend project:
+
+```bash
 pnpm nx run-many -t test
-```
-Run tests for several components
-```
 pnpm nx run-many -t test -p api-unifier,api-diff
-```
-Run build & test for frontend components
-```
 pnpm nx run-many -t build,test -p 'directory:frontend/**'
 ```
-#### Cross-cutting features development
-No need to use `npm link` anymore.
 
-Example: this command automatically rebuilds all changed upstream components (e.g. `api-diff`) in the current workspace
-```sh
+#### Changes across components
+
+`npm link` is not needed. `test` depends on `^build`, so this command rebuilds any changed upstream component, such as
+`api-diff`, before it tests `api-processor`:
+
+```bash
 pnpm nx test api-processor
 ```
-Automatic rebuild when editing
-```sh
-pnpm nx watch -p=api-processor --includeDependencies -- pnpm nx build api-processor
+
+Rebuild `api-processor` whenever it or one of its dependencies changes:
+
+```bash
+pnpm nx watch -p api-processor --includeDependencies -- pnpm nx build api-processor
 ```
+
+#### Build and test everything a change affects
+
+`nx run-many` builds a project and its dependencies, not its dependents. To also build and test every project
+downstream of your change, as CI does, use `affected`:
+
+```bash
+pnpm nx affected -t build test --base=develop   # everything changed on this branch
+pnpm nx affected -t build test --uncommitted    # only uncommitted changes
+pnpm nx show projects --affected --base=develop # list the selection without running it
+```
+
+#### Adding a dependency
+
+Add a third-party package to one project, from anywhere in the worktree:
+
+```bash
+pnpm add lodash --filter @b41ex/qubership-apihub-api-diff
+```
+
+Add an internal package with `--workspace`, which writes `workspace:^`:
+
+```bash
+pnpm add @b41ex/qubership-apihub-api-unifier --workspace --filter @b41ex/qubership-apihub-api-diff
+```
+
+Nx builds its graph from `package.json` only. A dependency that exists only as a tsconfig `paths` entry, a bundler
+alias, or a jest `moduleNameMapper` is invisible to Nx, so it can build in the wrong order and `affected` misses it.
+Declare it in `package.json` as well. A new dependency with an install script fails `pnpm install` until it is listed
+in `allowBuilds` in `pnpm-workspace.yaml`.
+
 #### IDE
 
-Go to definition lands in the source of upstream components
+Library types come from the upstream `dist/`, so they change only after a rebuild. Go to definition lands in the
+upstream source for the libraries that emit declaration maps: `api-diff`, `api-unifier`, `api-visitor`,
+`compatibility-suites`, `ddlapi`, `graphapi`, and `json-crawl`. For the others it lands in `dist/*.d.ts`. The debugger
+steps into upstream source wherever the build emits source maps; `class-view` and
+`jest-chrome-in-docker-environment` emit none.
 
-Debugging steps into upstream components source
+### Backend
 
-⚠️Types lag until a rebuild
+Go 1.26.5 is enough for everyday work. Open the repository root in the editor, so gopls reads `go.work` and sees all
+six modules.
 
-### Backend developer
-#### Basic scenarios
-Build backend service
-```sh
-# from service directory, e.g. /backend/portal-backend
+Build and test a service, from its directory, for example `backend/portal-backend`:
+
+```bash
 go build
-```
-Run tests
-```sh
 go test ./...
 ```
-Build Docker image for portal backend
-```sh
-# from ./backend/ folder
-podman build -f ./portal-backend/Dockerfile .
-```
-#### Advanced scenarios
->Requires `pnpm` executable installed and `pnpm install` called after creating worktree
 
-Build and test all backend services
-```sh
-pnpm nx run-many -t build,test -p 'directory:backend/**' #or -p tag:lang:go
+`go build` leaves the binary in the directory. `./...` fails from the repository root, because the root holds `go.work`
+but is not a module.
+
+Build a module alone, the way its image does. If this fails while the workspace build passes, its `go.mod` has drifted
+from the workspace:
+
+```bash
+GOWORK=off GOFLAGS=-mod=readonly go build ./...
+```
+
+After changing a dependency, write the workspace versions back into every `go.mod`, check them as CI does, and commit
+every `go.mod` and `go.sum` that changed:
+
+```bash
+go work sync
+bash tools/ci/go-work-sync-check.sh
+```
+
+Build an image. The three services that import `commons-go` build from `backend/`; `agent` and `test-service` build
+from their own directory. Run from the repository root:
+
+```bash
+podman build -f backend/portal-backend/Dockerfile backend   # also agents-backend, api-linter-service
+podman build -f backend/agent/Dockerfile backend/agent      # also test-service
+```
+
+A running service needs a `config.yaml` made from `config.template.yaml` in its directory, and `portal-backend` and
+`api-linter-service` also need a database. See `backend/portal-backend/docs/local_development/local_development.md`.
+
+#### Through Nx
+
+Nx adds the task cache and `affected`. It needs pnpm and a `pnpm install` in the worktree. Binaries go to
+`dist/backend/<name>`, with `.exe` on Windows. `commons-go` is a library and has no `build` target.
+
+```bash
+pnpm nx run-many -t build,test -p tag:lang:go
+pnpm nx affected -t build test --base=develop --exclude='!tag:lang:go'
+pnpm nx run portal-backend:serve
 ```
 
 ## Configuration files
@@ -181,14 +261,14 @@ pnpm nx run-many -t build,test -p 'directory:backend/**' #or -p tag:lang:go
 | File | What it controls |
 | --- | --- |
 | `package.json` | pnpm version pin, and the workspace-wide tools (`nx`, `@nx/js`, `@nx-go/nx-go`, `typescript`) |
-| `pnpm-workspace.yaml` | members, linker, `overrides`, `allowBuilds`, deploy settings |
+| `pnpm-workspace.yaml` | members, linker, `overrides`, `allowBuilds`, `pnpm deploy` and `pnpm run` behavior |
 | `pnpm-lock.yaml` | resolved versions for every package; one file for the workspace |
 | `.npmrc` | registry and auth only; pnpm 12 ignores other settings here without a warning |
-| `nx.json` | task defaults and inputs, cache location, Go plugin, release configuration |
+| `nx.json` | task defaults and inputs, Go plugin, release configuration |
 | `go.work`, `go.work.sum` | Go workspace modules and their checksums |
 | `backend/.go-version` | the one Go version; CI checks every `go.mod` and Dockerfile against it |
 | `.dockerignore` | opt-in list of what the frontend images may copy; update it with every new `COPY` |
-| `backend/.dockerignore` | build context filter for the backend images |
+| `backend/.dockerignore`, `backend/*/.dockerignore` | build context filters for the backend images |
 | `.github/actions/setup-workspace` | Node, pnpm, install, and both caches, shared by every job |
 | `tools/ci/storybooks.json` | the components whose Storybooks CI publishes |
 | `tools/release/guard.js` | refuses a real release outside `main` |
@@ -214,6 +294,8 @@ All workflows are in `.github/workflows/`.
 | `e2e-tests-manual.yml` | dispatch, push to `e2e-manual/**` | E2E against images you choose |
 | `pages.yml` | dispatch, branch deletion, daily | assemble and deploy the Storybook site |
 | `release-finish.yml` | dispatch | version, tag, and release |
+
+A pull request that changes only Markdown files or `docs/**` does not start `ci.yml`.
 
 ### The `ci.yml` pipeline
 
@@ -249,14 +331,14 @@ Screenshot suites do not wait for `js`; each builds its own dependencies.
 
 ### Frontend: screenshot tests and Storybook
 
-- **Screenshot tests** cover `api-doc-viewer` (947 tests), `apispec-view` (883), and `class-view` (58). Each builds
-  its Storybook, serves it, and compares Chrome screenshots in `ghcr.io/netcracker/qubership-apihub-nodejs-dev-image`,
-  pinned by digest. The target is cached, so an unchanged suite is replayed rather than rerun.
+- **Screenshot tests** cover `api-doc-viewer`, `apispec-view`, and `class-view`. Each builds its Storybook, serves
+  it, and compares Chrome screenshots in `ghcr.io/netcracker/qubership-apihub-nodejs-dev-image`, pinned by digest.
+  The target is cached, so an unchanged suite is replayed rather than rerun.
 - **Storybooks** of `api-doc-viewer`, `apispec-view`, `class-view`, `graphapi`, `rest-playground` and `ui` are
   published on every push. A build is stored in ghcr as `storybook-<component>`, and the branch gets a pointer to it.
-  `pages.yml` assembles the site at `<component>/<branch>/`, with `/` in a branch name replaced by `-`. It removes a
-  branch's folder when the branch is deleted, and a daily run catches any deletion it missed. The Storybook of a red
-  branch is still published.
+  `pages.yml` assembles the site at `<component>/<branch>/`. In the branch name, every character other than letters,
+  digits, `.`, `_`, and `-` is replaced by `-`. It removes a branch's folder when the branch is deleted, and a daily run
+  catches any deletion it missed. The Storybook of a red branch is still published.
 
 ### Caching
 
@@ -283,8 +365,9 @@ branch compares against `develop`, so every push to it rebuilds whatever the bra
 
 Every image job runs on every push, whatever `affected` says. If `src-<hash>` already exists in the registry, the job
 only points the branch tag at it, which takes seconds. Branch tags: `develop` → `dev`, `release` → `next`,
-`main` → `latest`, `feature/x` → `feature-x`. Images are `linux/amd64` only. The commit and branch are OCI
-annotations on the branch tag; read them with `docker buildx imagetools inspect <image>:<tag>`.
+`main` → `latest`, `feature/x` → `feature-x`, pull request `N` → `pull-N-merge`. Images are `linux/amd64` only. The
+commit and branch are OCI annotations on the branch tag; read them with
+`docker buildx imagetools inspect <image>:<tag>`.
 
 ### E2E tests
 
@@ -298,16 +381,17 @@ To run E2E against specific images, dispatch `e2e-tests-manual.yml`. Pick `kind`
 
 ### Release process
 
-⚠️ Currently verified only for frontend libraries.
+⚠️ Verified for the frontend libraries only.
 
 Components are released together, from one `release` branch, and each keeps its own version. Nx derives each bump from
 [Conventional Commits](https://www.conventionalcommits.org/) since the component's last tag, so commit messages decide
 versions.
 
-1. **Start.** Cut the branch and push it. CI publishes `:next` images.
+1. **Start.** Cut the branch and push it. CI publishes `:next` images. `-C` resets the `release` branch left by the
+   previous release; `develop` already contains it after the back-merge, so the push is a fast-forward.
 
    ```bash
-   git switch -c release develop && git push -u origin release
+   git switch -C release develop && git push -u origin release
    ```
 
 2. **Stabilize.** Merge fixes into `release`. No version changes happen on this branch.
@@ -336,6 +420,8 @@ unchanged, and the package cannot be installed. Release notes are GitHub Release
 
 ## Gotchas
 
+- `pnpm run` and `pnpm exec` never install first (`verifyDepsBeforeRun: false`). Run `pnpm install` yourself after
+  editing a manifest.
 - `CI=true` makes `pnpm install` default to `--frozen-lockfile`; pass `--no-frozen-lockfile` after editing a manifest.
 - Editing `.gitignore` invalidates the Nx cache for every project, because Nx uses it to list project files.
 - `--projects` takes a comma-separated list. A space-separated one matches nothing and exits 0.
