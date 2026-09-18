@@ -10,6 +10,14 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
+    // Some bundled modules call require('buffer') and expect Node's builtin, and ProvidePlugin
+    // injects the same request. None of those modules declares the npm package, so without this
+    // alias webpack resolves it through pnpm's hidden hoist, node_modules/.pnpm/node_modules/buffer,
+    // and the version there changes with unrelated lockfile edits. The alias takes the buffer this
+    // package declares.
+    alias: {
+      buffer$: require.resolve('buffer/'),
+    },
     plugins: [new TsconfigPathsPlugin()],
     fallback: {
       stream: false,
