@@ -7,10 +7,9 @@ module.exports = {
   entry: './src/web-components/index.ts',
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
-    // Some bundled modules call require('buffer') and expect Node's builtin. None of them declares
-    // the npm package, so without this alias webpack resolves it through pnpm's hidden hoist,
-    // node_modules/.pnpm/node_modules/buffer, and the version there changes with unrelated lockfile
-    // edits. The alias takes the buffer this package declares.
+    // Bundled modules require('buffer') without declaring it. The alias takes the buffer this package
+    // declares; otherwise webpack uses pnpm's hidden hoist, whose version changes with unrelated
+    // lockfile edits.
     alias: {
       buffer$: require.resolve('buffer/'),
     },
