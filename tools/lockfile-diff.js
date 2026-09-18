@@ -20,10 +20,10 @@
  *               peer suffixes stripped. If they differ literally but match once stripped, the
  *               churn is representation and not resolution.
  *
- *   node tools/migration/lockfile-diff.js                  # HEAD vs the working tree
- *   node tools/migration/lockfile-diff.js <ref>            # <ref> vs the working tree
- *   node tools/migration/lockfile-diff.js <fileA> <fileB>  # two files
- *   node tools/migration/lockfile-diff.js --self-test      # prove the tool can fail
+ *   node tools/lockfile-diff.js                  # HEAD vs the working tree
+ *   node tools/lockfile-diff.js <ref>            # <ref> vs the working tree
+ *   node tools/lockfile-diff.js <fileA> <fileB>  # two files
+ *   node tools/lockfile-diff.js --self-test      # prove the tool can fail
  *
  * IT IS A REPORT, NOT A GATE. It exits 0 whatever it finds, because a moved version is
  * routine — it is a dependency bump. Pass --strict to exit 1 when a version moves, which is

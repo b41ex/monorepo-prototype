@@ -34,6 +34,7 @@ deploy/              docker-compose/ and helm-templates/; the agent chart is in 
 tools/ci/            scripts the workflows call
 tools/release/       release guard
 tools/nx/            local Nx plugin
+tools/lockfile-diff.js  reports whether a pnpm-lock.yaml change moves an installed version
 tools/jest-chrome-in-docker-environment/  published jest environment for the screenshot suites
 .github/             workflows and the shared setup action
 ```
@@ -195,6 +196,14 @@ Nx builds its graph from `package.json` only. A dependency that exists only as a
 alias, or a jest `moduleNameMapper` is invisible to Nx, so it can build in the wrong order and `affected` misses it.
 Declare it in `package.json` as well. A new dependency with an install script fails `pnpm install` until it is listed
 in `allowBuilds` in `pnpm-workspace.yaml`.
+
+A small manifest change can rewrite thousands of lockfile lines, mostly peer wiring. To see which installed versions
+actually moved, compare the working tree against `HEAD` or another ref:
+
+```bash
+node tools/lockfile-diff.js           # HEAD vs the working tree
+node tools/lockfile-diff.js develop   # develop vs the working tree
+```
 
 #### IDE
 
