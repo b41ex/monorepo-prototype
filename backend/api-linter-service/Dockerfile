@@ -20,10 +20,8 @@ ARG TARGETARCH
 
 WORKDIR /workspace
 
-# commons-go beside the component: api-linter-service's go.mod carries
-# `replace github.com/Netcracker/qubership-apihub-commons-go => ../commons-go`, which from
-# the component directory below resolves to /workspace/commons-go. That is why this image
-# builds from backend/ rather than from its own component directory.
+# Built from backend/, so that `replace ... => ../commons-go` in go.mod resolves to
+# /workspace/commons-go.
 COPY commons-go ./commons-go
 COPY api-linter-service ./api-linter-service
 
@@ -31,8 +29,8 @@ WORKDIR /workspace/api-linter-service
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-# GOWORK=off on every go command: the image builds this module alone. Its go.mod states the
-# versions the workspace resolved (`go work sync`), so this is the same code CI tested.
+# GOWORK=off on every go command: the image builds this module alone, so go.mod must hold
+# the versions `go work sync` writes; CI checks that.
 RUN if env | grep -Eiq '^(http|https|all)_proxy=https?://https?://'; then unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy; fi; \
     GOWORK=off go run ./tools/download-linter-tools -os=${TARGETOS} -arch=${TARGETARCH}
 RUN if env | grep -Eiq '^(http|https|all)_proxy=https?://https?://'; then unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy; fi; \

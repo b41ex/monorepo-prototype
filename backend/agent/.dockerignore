@@ -1,8 +1,5 @@
-# The build context is the whole component; the builder needs only the Go module.
-#
-# A deny-list, not an opt-in. `*` followed by `!**/*.go` copied only the top-level main.go
-# under podman, because an excluded directory is never descended into, and the build failed
-# on every package import. A deny-list does not depend on how an engine walks exclusions.
+# A deny-list: podman does not descend into an excluded directory, so `*` with `!**/*.go`
+# copied only the top-level main.go.
 .git*
 .agents
 .claude

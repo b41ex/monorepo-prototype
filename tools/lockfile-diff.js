@@ -1,42 +1,20 @@
 #!/usr/bin/env node
 /**
- * Does a pnpm-lock.yaml change MOVE A VERSION, or is it only peer re-wiring?
+ * Reports whether a pnpm-lock.yaml change moves an installed version or only rewires peer
+ * dependencies. One manifest change can rewrite thousands of lockfile lines without moving any.
  *
- * WHY THIS EXISTS
+ *   packages:   the name@version set that is installed; unchanged means nothing downloaded or removed
+ *   specifiers: what each workspace project declares
+ *   versions:   what each project resolves, compared literally and with peer suffixes stripped;
+ *               equal only when stripped means the change is representation, not resolution
  *
- * A one-line manifest change produces a lockfile diff of hundreds or thousands of lines,
- * because pnpm re-resolves peer dependencies and records the wiring in every affected entry.
- * Measured on this workspace: adding one workspace devDependency cost 630 lines under
- * pnpm 10.34.5 and 11,218 under pnpm 12.3.4 the first time. Neither changed a single installed
- * version.
+ *   node tools/lockfile-diff.js                  # HEAD vs the working tree
+ *   node tools/lockfile-diff.js <ref>            # <ref> vs the working tree
+ *   node tools/lockfile-diff.js <fileA> <fileB>  # two files
+ *   node tools/lockfile-diff.js --self-test      # checks that the tool detects a change
  *
- * A diff that large cannot be reviewed by eye, so the question "did anything actually change"
- * gets answered by assumption. This answers it instead:
- *
- *   packages:   the set of name@version that will be installed. If this is unchanged, nothing
- *               new is downloaded and nothing is removed. This is the number that matters.
- *   specifiers: what each workspace project DECLARES. Fleet-alignment work lives here.
- *   versions:   what each project RESOLVES — compared twice, once literally and once with the
- *               peer suffixes stripped. If they differ literally but match once stripped, the
- *               churn is representation and not resolution.
- *
- *   node tools/migration/lockfile-diff.js                  # HEAD vs the working tree
- *   node tools/migration/lockfile-diff.js <ref>            # <ref> vs the working tree
- *   node tools/migration/lockfile-diff.js <fileA> <fileB>  # two files
- *   node tools/migration/lockfile-diff.js --self-test      # prove the tool can fail
- *
- * IT IS A REPORT, NOT A GATE. It exits 0 whatever it finds, because a moved version is
- * routine — it is a dependency bump. Pass --strict to exit 1 when a version moves, which is
- * useful on a change that is supposed to be representation-only, such as a package-manager
- * upgrade or a lockfile format conversion.
- *
- * THE TRAP THIS TOOL WAS BORN FROM, and which it must not fall into itself: pnpm 12 lockfiles
- * are MULTI-DOCUMENT. A small `packageManagerDependencies` document is written first and has
- * an `importers:` key of its own, nine lines long. A parser that takes the first `importers:`
- * reads that one, compares two nine-line samples, and reports "identical" — a false pass, with
- * no error and no clue. That defect was found in compare-resolutions.js, fixed there, and then
- * written again from scratch two days later in the throwaway script this tool replaces. So:
- * always the LAST document, and --self-test asserts the tool notices a real change.
+ * Exits 0 whatever it finds. --strict exits 1 when a version moves, for a change that should
+ * move none, such as a package-manager upgrade.
  */
 const fs = require('fs')
 const { execFileSync } = require('child_process')
@@ -46,8 +24,8 @@ const strict = argv.includes('--strict')
 const args = argv.filter((a) => !a.startsWith('--'))
 
 /**
- * The last YAML document of a lockfile. pnpm 10 wrote one; pnpm 12 writes two and the first is
- * not the lockfile. "Last" is correct for both — which is why this is not `indexOf`.
+ * The last YAML document of a lockfile. pnpm 12 writes a first document for the package manager
+ * itself, with its own `importers:` key; pnpm 10 wrote only the lockfile.
  */
 function lastDocument(text) {
   const docs = text.split('\n').reduce(
@@ -101,8 +79,7 @@ function parse(text, label) {
 
   const parsed = { label, packages: keys('packages'), snapshots: keys('snapshots'), specifiers, versions }
 
-  // A parser that silently matches nothing is the failure mode this tool exists to avoid, so
-  // say so rather than reporting a confident "identical" over an empty sample.
+  // Fails rather than report two empty sets as identical.
   if (!parsed.packages.size && !parsed.versions.length) {
     throw new Error(
       `parsed nothing out of ${label}. Either it is not a pnpm lockfile, or its layout moved ` +
@@ -115,16 +92,7 @@ function parse(text, label) {
 const only = (a, b) => [...b].filter((x) => !a.has(x))
 const stripPeers = (list) => list.map((s) => s.replace(/\(.*$/, '').trim()).sort()
 
-/**
- * execFileSync, never execSync, and the reason is not style.
- *
- * execSync runs through a shell — cmd.exe on Windows, where `^` is the ESCAPE character. The
- * first version of this used a shell and `git show HEAD^:pnpm-lock.yaml` silently became
- * `git show HEAD:pnpm-lock.yaml`. Both sides then read the same file, every set matched, and
- * the tool reported "VERDICT: no change" for a commit that changed 630 lines. A false pass, in
- * the tool written to stop false passes. execFileSync passes argv directly, so nothing is
- * interpreted.
- */
+// execFileSync, not execSync: through cmd.exe, `^` is an escape, and `HEAD^` became `HEAD`.
 function read(spec, fallbackToWorkingTree) {
   if (spec && fs.existsSync(spec)) return { text: fs.readFileSync(spec, 'utf8'), label: spec }
   if (spec) {
@@ -139,9 +107,7 @@ function read(spec, fallbackToWorkingTree) {
 }
 
 function compare(beforeSrc, afterSrc) {
-  // Two different sources that turn out byte-identical is usually a resolution mistake, not a
-  // result. Saying so is what turns the shell-escaping bug described on `read` into something
-  // visible rather than a confident "no change".
+  // Two different sources with identical bytes usually means the wrong file was read.
   if (beforeSrc.label !== afterSrc.label && beforeSrc.text === afterSrc.text) {
     console.log('NOTE: the two inputs are BYTE-IDENTICAL although they name different sources.')
     console.log('      If a difference was expected, suspect how the refs resolved before')
@@ -218,12 +184,8 @@ function compare(beforeSrc, afterSrc) {
   return versionMoved
 }
 
-// ---------------------------------------------------------------------------------------
-// Self-test. The point is not that the tool reports "identical" on identical input — that is
-// the failure mode, not the check. It is that the tool NOTICES a version change and IGNORES a
-// peer-only one, and that it refuses a lockfile it cannot parse instead of comparing two empty
-// sets. Every one of those has been a real false pass in this repository.
-// ---------------------------------------------------------------------------------------
+// Self-test: the tool must report a version change, ignore a peer-only change, and refuse a
+// lockfile it cannot parse.
 function selfTest() {
   const base = [
     '---', "lockfileVersion: '9.0'", '', 'importers:', '', '  .:', '    devDependencies:',
@@ -231,7 +193,7 @@ function selfTest() {
     'packages:', '', "  lib@1.0.0:", '    resolution: {integrity: sha512-x}', '',
     'snapshots:', '', '  lib@1.0.0(peer@1): {}', '',
   ].join('\n')
-  // pnpm 12 shape: a packageManagerDependencies document FIRST, with its own importers:.
+  // pnpm 12 shape: a packageManagerDependencies document first, with its own importers:.
   const multiDoc = ['---', "lockfileVersion: '9.0'", '', 'importers:', '', '  .:',
     '    packageManagerDependencies:', '      pnpm:', '        specifier: 12.3.4',
     '        version: 12.3.4', '', 'packages:', '', "  '@pnpm/exe.win32-x64@12.3.4':",

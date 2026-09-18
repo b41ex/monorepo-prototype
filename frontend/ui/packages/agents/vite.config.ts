@@ -86,12 +86,9 @@ export default defineConfig(({ mode }) => {
       include: [
         '@b41ex/qubership-apihub-api-processor',
       ],
-      // Vite 8 pre-bundles with Rolldown, not esbuild. It runs esbuild plugins only through a shim
-      // whose `initialOptions` throws "Not implemented" on any property but `platform` and `plugins`,
-      // so the former @esbuild-plugins polyfills made the dependency scan fail and Vite skipped
-      // pre-bundling altogether. Rolldown's own transform options do the same job: `inject` mirrors
-      // the production build's inject() below, and `define` keeps the `global` alias the esbuild
-      // polyfill used to add. `process` and `buffer` resolve through resolve.alias.
+      // Vite 8 pre-bundles with Rolldown, and esbuild polyfill plugins make its dependency scan fail.
+      // `inject` mirrors the production build's inject() below, `define` keeps the `global` alias
+      // the old polyfill added, and `process` and `buffer` resolve through resolve.alias.
       rolldownOptions: {
         transform: {
           define: { global: 'globalThis' },

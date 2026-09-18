@@ -1,44 +1,19 @@
 name: Set up the pnpm workspace
-description: >
-  Node, pnpm, and the two caches that decide what an incremental push costs — the pnpm
-  content-addressed store and the Nx computation cache. Factored out because four jobs need
-  exactly this and a divergence between them would show up as a mysterious cache miss.
+description: Node, pnpm, the pnpm store cache, and the Nx cache, shared by every job.
 
 inputs:
   cache-scope:
     description: >
-      What this job's Nx cache HOLDS, as a key fragment. Defaults to the job id, which is the
-      right answer for a job that exists once. It is the wrong answer for a MATRIX job:
-      `github.job` is the job id without the matrix values, so every leg computes the same key
-      while holding a different closure. Measured on run 33889988315 — the three screenshot
-      legs all keyed on `screenshot-tests`, class-view won the reservation with its 3-task
-      cache, and the other two logged `Failed to save: Unable to reserve cache`. Their 9- and
-      11-task closures were discarded every run, and the next run restored class-view's cache
-      into all three. Both image legs did the same thing. Pass the matrix value here.
+      Nx cache key fragment. Defaults to the job id; a matrix job passes its matrix value, because
+      `github.job` is the same for every leg and the legs would overwrite each other's cache.
     required: false
     default: ''
 
 runs:
   using: composite
   steps:
-    # No version input, and no step reading `packageManager` out of the manifest to feed it
-    # one. `pnpm/action-setup` reads `packageManager` (or `devEngines.packageManager`) itself
-    # when `version` is omitted, so the manifest is the single source of truth with one less
-    # moving part — the same argument this repository makes everywhere else against a second
-    # list that can disagree with the first. The step that used to do it by hand read
-    # `require('./package.json').packageManager.split('@')[1]` and passed the result straight
-    # back to the action that would have read it anyway.
-    #
-    # PINNED TO v6.1.0, NOT v6, AND THAT IS LOAD-BEARING. pnpm 12 support landed in v6.1.0
-    # (pnpm/action-setup#288). The floating `v6` tag still resolves to v6.0.10's commit —
-    # checked, not assumed: both `v6` and `v6.0.10` dereference to 0977fd99, while v6.1.0 is
-    # ea17c68d. A major-version tag that has not been moved forward is exactly the kind of
-    # thing that reads as "already up to date" and is not, so the exact tag stays here until
-    # `v6` catches up.
-    #
-    # pnpm 12 ships a native executable rather than a JS CLI, which is also why the
-    # `standalone` input is not set: for pnpm 12 it has no effect, because the plain `pnpm`
-    # package already installs the standalone native binary.
+    # Reads the pnpm version from `packageManager`. v6.1.0 exactly: pnpm 12 support landed there, and
+    # the floating `v6` tag still points at v6.0.10.
     - uses: pnpm/action-setup@v6.1.0
       with:
         run_install: false
@@ -52,19 +27,8 @@ runs:
       shell: bash
       run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
-    # ------------------------------------------------------------------------------------
-    # The pnpm store. Measured on the prototype: a cold install is 14m 08s, the same install
-    # against a warm store is 4m 16s — and the warm one was run with --offline, so it is a
-    # guarantee rather than an observation. Roughly ten minutes a run.
-    #
-    # Cache the STORE, never node_modules: pnpm's node_modules is a farm of symlinks and
-    # junctions that actions/cache does not round-trip usefully, and on Windows they are
-    # absolute. Restoring the store and re-linking is both correct and fast.
-    #
-    # restore-keys matters more than key here. An exact hit needs an unchanged lockfile; the
-    # common case on a feature branch is one dependency moving, and the prefix match then
-    # restores a store already holding almost every package.
-    # ------------------------------------------------------------------------------------
+    # Caches the store, not node_modules, whose links actions/cache does not restore usefully.
+    # restore-keys lets a lockfile change restore the previous store and download only the difference.
     - name: Cache the pnpm store
       id: pnpm-store
       uses: actions/cache@v6
@@ -74,44 +38,6 @@ runs:
         restore-keys: |
           pnpm-store-${{ runner.os }}-
 
-    # ------------------------------------------------------------------------------------
-    # The Nx computation cache — the thing that makes an unchanged upstream a restore in
-    # milliseconds instead of a vite run. Without it every run genuinely rebuilds everything,
-    # and §6 names that as the first of three ways to lose incremental CI by accident.
-    #
-    # The key rolls per run so each run saves a fresh entry; restore-keys walk back to the
-    # most recent one on this branch, then to the default branch. GitHub cache reads fall
-    # back to the default branch, which is why `develop` being the default matters.
-    # ------------------------------------------------------------------------------------
-    # The Nx cache has now failed three distinct ways here, each of which looked like success
-    # at some level. Worth all three being written down, because only the third is obvious in
-    # hindsight:
-    #
-    #   1. Cached `.nx/cache`, which Nx 23 does not use. It does not exist; the task cache
-    #      defaults to ~/.nx/<workspace-id>/cache, outside the workspace. actions/cache stored
-    #      nothing and run 2 reported `Cache: 0/29 hit (0%)`.
-    #   2. Added ~/.nx and pinned `cacheDirectory` so `.nx/cache` exists. The cache then
-    #      restored — 43 MB, "Cache restored from key" — and Nx refused to use any of it:
-    #
-    #          NX  Unrecognized Cache Artifacts
-    #          Nx found unrecognized artifacts in the cache directory and will not be able to
-    #          use them. Nx can only restore artifacts it has metadata about.
-    #
-    #      The artifacts live in .nx/cache; the metadata database that indexes them lives in
-    #      .nx/workspace-data. Caching one without the other yields a restore that reports
-    #      success and delivers nothing.
-    #   3. So: cache `.nx` whole — artifacts and metadata together — plus ~/.nx.
-    #
-    # `nx.json` no longer sets `cacheDirectory`, so Nx 23 keeps the artifacts and the database
-    # together in ~/.nx/<id>/{cache,databases}, shared by every checkout of the repository.
-    # ~/.nx is the path cache hits depend on. .nx is cached as a fallback: Nx puts the cache
-    # back in .nx/cache and .nx/workspace-data when it cannot use ~/.nx, or when cacheDirectory
-    # or NX_CACHE_DIRECTORY is set. Otherwise .nx/workspace-data holds only the project graph,
-    # the file map and similar data, which Nx rebuilds when they are missing.
-    #
-    # The through-line is that a cache which "restored successfully" is not thereby a cache
-    # that was used. The number to read is Nx's own `Cache: N/N hit` line, never the restore
-    # step's.
     - name: Resolve the Nx cache scope
       id: scope
       shell: bash
@@ -119,36 +45,21 @@ runs:
         set -euo pipefail
         scope='${{ inputs.cache-scope }}'
         [ -n "$scope" ] || scope='${{ github.job }}'
-        # Cache keys may not contain commas, and a matrix value can carry one — the images
-        # matrix passes `ui-portal,ui-agents` around. printf, not echo: `tr -c` would turn a
-        # trailing newline into a separator character and it would land in the key.
+        # Cache keys may not contain commas, and matrix values such as `ui-portal,ui-agents` do.
         scope="$(printf '%s' "$scope" | tr -c 'A-Za-z0-9._-' '-')"
         echo "value=$scope" >> "$GITHUB_OUTPUT"
         echo "nx cache scope: $scope"
 
+    # The Nx cache is in ~/.nx; .nx is the fallback Nx uses when it cannot use ~/.nx. Read cache hits
+    # from Nx's `Cache: N/N hit` line: a successful restore does not mean Nx used the cache.
     - name: Cache the Nx computation cache
       uses: actions/cache@v6
       with:
         path: |
           .nx
           ~/.nx
-        # The key is scoped by JOB, and that is the fourth way this cache failed.
-        #
-        # Without `github.job` in it, `plan` and `js` share a key. `plan` runs first, builds
-        # nothing, and saves a 1 MB cache holding just the project graph. `js` then gets an
-        # EXACT PRIMARY-KEY HIT on that cache and never falls back through restore-keys to a
-        # populated one — so it rebuilt everything, every run, and reported
-        # `Cache: 0/15 hit (0%)` while the restore step said "Cache restored from key".
-        #
-        # The sizes are the whole diagnosis: 42 MB when `js` saved first, 1 MB once `plan`
-        # started winning the race. A job that builds nothing must not be able to claim the
-        # key belonging to the job that builds everything.
-        #
-        # And a FIFTH way, the same defect one level down: `github.job` does not include the
-        # matrix values, so all three screenshot legs and both image legs shared a key. One
-        # leg reserves it, the rest log `Failed to save`, and every run restores the winner's
-        # closure into jobs that need a different one. See the `cache-scope` input, which is
-        # what the matrix jobs pass their own identity through.
+        # Scoped by job: otherwise `plan`, which builds nothing, saves a near-empty cache first and `js`
+        # restores it. The run id makes each run save a new entry; restore-keys fall back to develop.
         key: nx-${{ runner.os }}-${{ github.ref_name }}-${{ steps.scope.outputs.value }}-${{ github.run_id }}
         restore-keys: |
           nx-${{ runner.os }}-${{ github.ref_name }}-${{ steps.scope.outputs.value }}-
@@ -157,52 +68,23 @@ runs:
     - name: Install
       shell: bash
       run: |
-        # pipefail so a failed install still fails the step — tee would otherwise return 0
-        # and hide it, which is the silent-no-op shape this pipeline has been bitten by twice.
+        # pipefail: tee would otherwise hide a failed install.
         set -o pipefail
         pnpm install --frozen-lockfile 2>&1 | tee "$RUNNER_TEMP/pnpm-install.log"
       env:
-        # Neither is needed in CI and both are slow or hostile there. PUPPETEER_SKIP_DOWNLOAD
-        # is carried over from the workflows this replaces; the screenshot job supplies its
-        # own Chrome through a container.
+        # The screenshot suites use Chrome in a container, and husky would install git hooks.
         PUPPETEER_SKIP_DOWNLOAD: '1'
         HUSKY: '0'
 
-    # What the caches actually delivered, handed to tools/ci/cache-summary.sh so that every
-    # job renders the same block. Set here rather than per job because this action is already
-    # the one place that knows the scope and the store's fate, and a divergence between jobs
-    # would show up as a summary that quietly disagrees with itself.
-    #
-    # `downloaded N` is pnpm's OWN count. It is the store's equivalent of Nx's `Cache: N/N
-    # hit` line: the number reported by the thing that used the cache, not by the step that
-    # restored it.
+    # Values for tools/ci/cache-summary.sh. `downloaded N` is pnpm's own count of store misses.
     - name: Record what the caches delivered
       shell: bash
       run: |
         set -uo pipefail
         downloaded="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
           | grep -oE 'downloaded [0-9]+' | tail -1 | grep -oE '[0-9]+' || true)"
-        # pnpm 12 verifies the whole lockfile against its supply-chain policies —
-        # minimumReleaseAge defaults to 1440 minutes from pnpm 11, so pnpm has to know every
-        # entry's publish time and fetches registry metadata to find out. It memoises the
-        # result in the metadata cache directory, keyed on the lockfile and the policy, and
-        # prints either how long the verification took or how long ago it was verified.
-        #
-        # It is a per-job cost that did not exist under pnpm 10 and nothing else in the
-        # pipeline reports it, so it is surfaced here rather than left to be found as an
-        # unexplained slowdown.
-        #
-        # MEASURED, AND DELIBERATELY NOT ACTED ON. Cold on a workstation this was `4684
-        # entries in 10m 11.8s`, which was about to justify persisting the 398 MB metadata
-        # cache or scoping the check with --trust-lockfile. On a runner it is 11-30s:
-        #
-        #     plan 11.4s   js 19.5s   the three screenshot legs 18.7s / 25.9s / 30.4s
-        #
-        # Two orders of magnitude apart, because the check is network-bound and a runner's
-        # path to the registry is not a home connection. Local evidence is not CI evidence,
-        # in the flattering direction for once. Neither mitigation is worth ~20s a job, so
-        # the row stays as a standing measurement: if the policy or the registry changes,
-        # this is where it shows.
+        # pnpm 12 verifies the lockfile against its supply-chain policies and reports the time taken;
+        # 11-30 s per job on a runner.
         policy="$(sed 's/\x1b\[[0-9;]*m//g' "$RUNNER_TEMP/pnpm-install.log" 2>/dev/null \
           | grep -oE 'supply-chain policies \(([^)]*)\)' | tail -1 | sed 's/.*(//;s/)//' || true)"
         {
@@ -212,77 +94,16 @@ runs:
           echo "CACHE_PNPM_POLICY=${policy:-not reported}"
         } >> "$GITHUB_ENV"
 
-    # ------------------------------------------------------------------------------------
-    # The store grows monotonically and nothing else removes anything from it.
-    #
-    # On a lockfile change the restore falls through `restore-keys` to the previous store,
-    # install adds the new packages, and what gets SAVED is the union — so every dependency
-    # bump leaves the superseded versions behind, forever, carried forward inside each new
-    # entry. Natural expiry does not help: the old KEY is evicted, but its bytes have already
-    # been copied into the new one.
-    #
-    # WHY IT IS HERE AND NOT SOMEWHERE TIDIER. Two better-looking placements do not work:
-    #
-    #   A weekly maintenance workflow. Actions cache entries are IMMUTABLE — you cannot
-    #   overwrite `pnpm-store-<os>-<lockfile hash>`. A job that builds a clean store has
-    #   nowhere to put it, because the bloated entry already owns the key. That immutability
-    #   is also why the Nx cache carries `-${{ github.run_id }}` and this one does not.
-    #
-    #   Pruning in one job. All five or six jobs share this key and race to save it, and
-    #   `plan` finishes first — 84s here against 674s for `js`. Prune in `js` and `plan` has
-    #   already saved the unpruned store.
-    #
-    # That leaves exactly one opening. `cache-hit` is true only on an EXACT primary-key hit,
-    # which is precisely when actions/cache skips saving — so this step is skipped entirely
-    # on an ordinary push, and runs only on the first run after a lockfile change, which is
-    # the run that would otherwise carry the accumulation forward.
-    #
-    # `develop` only: pruning on a feature branch prunes a store scoped to that branch, which
-    # no other branch inherits.
-    #
-    # WHAT ACTUALLY HAPPENS, measured on run 34108095394 — and it is cheaper than the design
-    # above expected. This condition does not put a prune in every job. `plan` misses the
-    # primary key, prunes, and SAVES the pruned store; every job after it then takes an exact
-    # primary-key hit on what `plan` just saved, so `cache-hit` is true and the step is
-    # skipped. One prune per lockfile change, not six. An earlier version of this comment
-    # said "every job prunes, so whichever wins the reservation saved a pruned store" — right
-    # outcome, wrong mechanism, and the mechanism is the part worth having correct.
-    #
-    # AND THE NUMBER, which does not support the alarm that motivated this step:
-    #
-    #   store prune: 2108932 KB -> 2108812 KB (freed 120 KB)
-    #
-    # 120 KB out of 2.0 GB, for a change that superseded a direct dependency and moved one of
-    # its transitives. The store is CONTENT-ADDRESSED, which is the same property that makes
-    # it safe to share across branches: two adjacent versions of a package share every file
-    # that did not change, so only the differing files are ever orphaned. A patch bump leaks
-    # almost nothing, and the "monotonic growth with no upper bound" this step was added for
-    # was right about the direction and wrong about the magnitude by orders of magnitude.
-    #
-    # It is kept because it is genuinely free — one job, seconds, only on a lockfile change —
-    # and because 120 KB for a patch bump does not bound what a framework MAJOR would orphan,
-    # where whole trees are replaced and content addressing stops helping. It is not kept
-    # because the store is in any danger today. If a future major-version bump also reports a
-    # trivial number, delete the step.
-    #
-    # Note also that 2.0 GB is the store ON DISK. The ~405 MB quoted elsewhere is the
-    # COMPRESSED cache archive, and the two are not the same measurement.
-    #
-    # The two `du` lines are the point, not decoration. If they come back EQUAL, this step
-    # does nothing and should be deleted rather than kept for tidiness — a check that cannot
-    # fail is not a check.
-    # ------------------------------------------------------------------------------------
+    # Prunes the store on develop, only on the run that saves a new store key after a lockfile change,
+    # so superseded packages are not carried forward. Delete the step if a major upgrade also frees
+    # next to nothing (a patch bump freed 120 KB of 2 GB).
     - name: Prune the store on the run that will save it
       if: github.ref_name == 'develop' && steps.pnpm-store.outputs.cache-hit != 'true'
       shell: bash
       run: |
         set -euo pipefail
         store='${{ steps.store.outputs.path }}'
-        # KILOBYTES, not megabytes. Superseding one dependency orphans that package and only
-        # the transitives whose versions moved with it — a couple of hundred KB is a normal
-        # result, and `du -sm` rounds that to "0 MB freed", which reads as the prune having
-        # done nothing. An instrument too coarse to show the effect is not evidence of its
-        # absence.
+        # Kilobytes: a normal prune frees a few hundred KB, which `du -sm` rounds to 0.
         before="$(du -sk "$store" | cut -f1)"
         pnpm store prune
         after="$(du -sk "$store" | cut -f1)"

@@ -1,56 +1,22 @@
 #!/usr/bin/env node
 /**
- * Refuse a real `nx release` anywhere but `main`.
+ * Refuses a real `nx release` anywhere but `main`. On `release`, Nx would version, commit, tag, and
+ * push `release`, and create GitHub Releases for a commit that is not on `main`.
  *
- * WHY THIS EXISTS
- *
- * Release finish is `nx release --skip-publish`, run from `main` after a fast-forward. Run the
- * same command one branch earlier, on `release`, and it does the whole thing to the wrong ref:
- * it versions, commits, tags, and PUSHES `release`, then creates GitHub Releases pointing at a
- * commit that is not on `main`. Two CI runs follow, and the `src-` tag race becomes reachable.
- *
- * Nothing about the command says which branch it is on. `--dry-run` does not help either: its
- * output is identical on `release` and on `main`, because it prints the branch you are standing
- * on rather than the branch you should be. The failure is one forgotten `git switch`.
- *
- * WHY NOT A GIT HOOK
- *
- * A pre-push hook was the obvious answer and it does not work. Nx pushes with
- * `git push --follow-tags --no-verify --atomic` — `--no-verify` means pre-push never fires.
- * Checked in nx 23.2.0, utils/git.js. A hook would have been a safeguard that silently does
- * nothing, which is worse than none.
- *
- * WHY preVersionCommand
- *
- * It is Nx's own hook, so it cannot be sidestepped by invoking `nx release` directly, and it
- * runs FIRST — before versioning, before the commit, before the tag, before the push. A
- * non-zero exit here reaches `process.exit(1)` in Nx's runPreVersionCommand and nothing has
- * happened yet. Compare the token failure, which lands after the push has already succeeded
- * and cannot be retried because the tag is consumed.
- *
- * DRY RUNS ARE ALLOWED ON PURPOSE
- *
- * Nx sets NX_DRY_RUN=true for this command when `--dry-run` is passed. Reading the plan from
- * `release` before deciding to promote is legitimate and writes nothing, so it is permitted.
- * The plan is identical either way: versions resolve from `component/version` tags, which are
- * not branch-scoped, and `main` is a fast-forward of `release`, so HEAD reaches the same
- * commits.
- *
- * Wired in nx.json as release.version.preVersionCommand.
+ * Runs as release.version.preVersionCommand in nx.json, which Nx runs before it changes anything.
+ * A pre-push hook would not fire: Nx pushes with `--no-verify`. Dry runs (NX_DRY_RUN=true) pass,
+ * and give the same plan on `release` as on `main`.
  */
 const { execFileSync } = require('node:child_process')
 
 const RELEASE_BRANCH = 'main'
 
-// execFileSync, not execSync: this runs through cmd.exe on Windows, where `^` is the escape
-// character. A `git show <sha>^:<path>` in a sibling tool silently read the wrong revision for
-// exactly that reason, and both sides then compared equal.
+// execFileSync, not execSync: execSync runs through cmd.exe on Windows, where `^` is an escape.
 function git(...args) {
   return execFileSync('git', args, { encoding: 'utf-8' }).trim()
 }
 
-// Nx pipes this command's stdio unless --verbose, so a plain console.log can be swallowed.
-// The message has to travel in the thrown Error, which Nx prints in its failure body.
+// Nx pipes this command's stdio unless --verbose, so a console.log can be lost.
 function refuse(lines) {
   for (const line of lines) process.stderr.write(line + '\n')
   process.exit(1)

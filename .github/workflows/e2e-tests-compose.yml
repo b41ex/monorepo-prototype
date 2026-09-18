@@ -1,26 +1,13 @@
 name: Run E2E tests using Podman Compose
 
-# ---------------------------------------------------------------------------------------
-# Stand the whole product up on one runner and drive it: Newman over the REST API, then the
-# Playwright Portal suite from tests/ui-tests.
+# Brings the product up under podman compose on one runner, then runs Newman over the REST API and
+# the Playwright Portal project from tests/ui-tests.
 #
-# Called two ways, and the difference is ONE STEP.
+#   repoint_images: true    runs the images this CI run published
+#   repoint_images: false   runs upstream's :dev images, as a baseline; nothing else changes
 #
-#   repoint_images: true    the compose file is pointed at the images this CI run published.
-#                           This is the reason the monorepo exists, stated as a job: a stack
-#                           assembled from one commit rather than from whatever each
-#                           repository's :dev tag last happened to point at.
-#
-#   repoint_images: false   the compose file is left naming upstream's :dev images, and
-#                           everything else is identical. This is the BASELINE, and it exists
-#                           because a red suite says nothing about whose fault it is until the
-#                           same suite has been run against something else.
-#
-# The suite is held constant across both and only the images vary, which is what makes the
-# comparison mean anything. Note the test is one-sided: a failure that also fails upstream is
-# demonstrably not ours, while one that passes upstream is either ours OR a consequence of
-# upstream :dev having moved on from the sources this workspace was cut from.
-# ---------------------------------------------------------------------------------------
+# A failure that also fails on the baseline is not caused by this workspace. One that passes on
+# the baseline may also come from upstream :dev having moved on.
 
 on:
   workflow_call:
@@ -82,10 +69,7 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    # 90, not 60. Measured on the first full run: 57.2 minutes wall clock, of which the
-    # Playwright Portal suite was 49. Sixty left under three minutes of headroom, and a job
-    # killed by its timeout mid-suite produces no report and reads as a failure of the thing
-    # being tested rather than of the limit.
+    # The first full run took 57.2 minutes, 49 of them in Playwright.
     timeout-minutes: 90
     permissions:
       contents: read
@@ -102,33 +86,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y podman podman-compose gettext-base
 
-      # The prototype's packages are private, unlike the upstream ones this compose file
-      # names, so the pull needs credentials that the original workflow never had to supply.
+      # This workspace's images are private; upstream's are not.
       - name: Log in to ghcr
         run: |
           set -euo pipefail
           echo '${{ secrets.GITHUB_TOKEN }}' \
             | podman login ghcr.io -u '${{ github.actor }}' --password-stdin
 
-      # The compose files are IN THE TREE, in deploy/, copied from Netcracker/qubership-apihub at
-      # 8797448, the snapshot the rest of this workspace was cut alongside. This step used to
-      # clone that repository's `main` at run time, so the stack definition, its env files and its
-      # service configs could change under an unchanged commit here. When it was copied, its
-      # docker-compose/ was identical to main, so the move itself changed nothing about the stack.
-      #
-      # Staged into RUNNER_TEMP and edited there, never in place. The next steps write the
-      # generated password, token and key into these files and repoint the images; in place,
-      # that would leave tracked files modified and secrets in the workspace. The directory is
-      # self-contained: every volume and env_file in docker-compose.yml is relative to it.
+      # Staged in RUNNER_TEMP: the next steps write generated credentials into these files and repoint
+      # the images. Every volume and env_file in docker-compose.yml is relative to this directory.
       - name: Stage the compose files
         shell: bash
         run: |
           set -euo pipefail
           rm -rf "$RUNNER_TEMP/compose"
           cp -r deploy/docker-compose/apihub-generic "$RUNNER_TEMP/compose"
-          # docker-compose.yml bind-mounts ./data for postgres. The directory exists in the tree
-          # only because data/.gitkeep is tracked, and deploy/.gitignore ignores data/**, so it
-          # is exactly what a careless copy drops. Checked rather than trusted.
+          # postgres bind-mounts ./data, which exists in the tree only through data/.gitkeep.
           [ -d "$RUNNER_TEMP/compose/data" ] || {
             echo "::error::deploy/docker-compose/apihub-generic/data is missing from the checkout"
             exit 1
@@ -143,33 +116,19 @@ jobs:
           set -euo pipefail
           openssl genpkey -algorithm RSA -out rsakey.pem -pkeyopt rsa_keygen_bits:2048 2>/dev/null
           key="$(base64 -w0 rsakey.pem)"
-          # NOT `tr -dc … </dev/urandom | head -c N`, which is what the compose repository's own
-          # script uses. `head` closes the pipe, `tr` dies of SIGPIPE, and under `set -o pipefail`
-          # the whole step exits 141 having printed nothing. Reproduced locally at exit 141
-          # before this line was changed. openssl is already here for the key and needs no pipe.
+          # openssl, not `tr -dc … </dev/urandom | head -c N`: under pipefail, tr dies of SIGPIPE and the
+          # step exits 141 with no output.
           pass="$(openssl rand -hex 12)"
           token="$(openssl rand -hex 30)"
-          # Masked even though they are throwaway. The password reaches Playwright, which is
-          # verbose on failure, and an unmasked credential in a public run log teaches the
-          # wrong habit whatever its lifetime.
+          # Masked: the password reaches Playwright, which is verbose on failure.
           echo "::add-mask::$key"
           echo "::add-mask::$pass"
           echo "::add-mask::$token"
           {
             echo "JWT_PRIVATE_KEY=$key"
-            # DELIBERATELY NOT the suite's own sysadmin address. An earlier version of this
-            # file pinned it to x_atui_sysadmin@qa.at and that cost 14 Playwright failures.
-            #
-            # The backend creates a zero-day admin from this value at startup, in
-            # ZeroDayAdminService.CreateZeroDayAdmin, as InternalUser{Email, Password} with
-            # NO name. The suite then creates its own sysadmin, with a name, in
-            # apihub-setup.ts via UsersTestDataManager.createSysadmin. When the two addresses
-            # collide that second call gets 400 "already exists", logs it and returns WITHOUT
-            # ever applying the name — so the account keeps its email as the display value and
-            # every assertion on a "published by" cell reads x_atui_sysadmin@qa.at where it
-            # expects x_ATUI_Sysadmin.
-            #
-            # Nothing logs in as this account except Newman, which templates whatever is here.
+            # Must differ from the suite's sysadmin, x_atui_sysadmin@qa.at. The backend creates this
+            # admin at startup with no name; the suite's createSysadmin then gets "already exists"
+            # and never sets the name, and 14 Playwright assertions on "published by" fail.
             echo "APIHUB_ADMIN_EMAIL=zero-day-admin@apihub.local"
             echo "APIHUB_ADMIN_PASSWORD=$pass"
             echo "APIHUB_ACCESS_TOKEN=$token"
@@ -181,24 +140,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # The staged copy only. Against the clone this walked every *.env in the whole
-          # repository, which also rewrote .github/super-linter.env and the with-keycloak variants
-          # for nothing; the stack reads only the files beside docker-compose.yml.
+          # The stack reads only the env files beside docker-compose.yml.
           cd "$RUNNER_TEMP/compose"
           find . \( -name '*.env' -o -name '*config.yaml' \) -print0 | while IFS= read -r -d '' f; do
             envsubst < "$f" > "$f.tmp" && mv "$f.tmp" "$f"
           done
 
-      # The compose file names five upstream images. Each is repointed at the image THIS run
-      # published, which is the whole point of the job: one commit, one stack.
-      #
-      # The names do not line up one-to-one, and portal-backend is the reason. §3 renamed it
-      # because `backend/backend/` was the alternative, so the image that serves
-      # `qubership-apihub-backend` here is `apihub-portal-backend` there.
+      # Points the five upstream images at this run's images. `qubership-apihub-backend` there is
+      # `apihub-portal-backend` here.
       - name: Point the compose file at this run's images
-        # Skipped for a baseline run, which is the whole mechanism: leave the compose file
-        # naming upstream's `:dev` images and everything else about the job identical, so the
-        # images are the only variable between the two runs.
+        # Skipped for a baseline run, so the images are the only difference.
         if: ${{ inputs.repoint_images }}
         shell: bash
         run: |
@@ -210,10 +161,7 @@ jobs:
           [ -n "$owner" ] || owner='${{ github.repository_owner }}'
           owner="$(echo "$owner" | tr '[:upper:]' '[:lower:]')"
 
-          # A run's five images share a branch tag, but that tag MOVES on the next push. The
-          # only stable handle on "the images run N built" is each image's own src-<hash>, and
-          # those five differ. Hence five overrides rather than one: pinning a past run means
-          # naming five hashes, and there is no single value that could do it.
+          # The branch tag moves on every push; each image's src-<hash> tag pins a past run.
           default_tag='${{ inputs.image_tag }}'
           [ -n "$default_tag" ] || default_tag="$branch_tag"
           t_pb='${{ inputs.tag_portal_backend }}';      [ -n "$t_pb" ] || t_pb="$default_tag"
@@ -233,8 +181,7 @@ jobs:
           repoint qubership-api-linter-service          apihub-api-linter-service   "$t_al"
           repoint qubership-apihub-agents-backend       apihub-agents-backend       "$t_ab"
 
-          # Validate the substitution rather than trusting sed's exit code, which is 0 whether
-          # it matched anything or not. Five images must now be ours and none may be upstream.
+          # sed exits 0 whether it matched or not, so check that all five images are ours.
           mine="$(grep -c "image: ghcr.io/$owner/" docker-compose.yml || true)"
           theirs="$(grep -c 'image: ghcr.io/netcracker/' docker-compose.yml || true)"
           echo "images pointing at $owner: $mine, still upstream: $theirs"
@@ -279,45 +226,27 @@ jobs:
         run: |
           set -euo pipefail
 
-          # smoke is the Portal smoke collection alone. full adds the rest of the PORTAL-side
-          # collections; 1_2_Smoke_Agent and 2_2_Negative_Agent are deliberately absent from
-          # both tiers, because the compose stack runs no agent service for them to talk to.
-          # Adding that container is a separate decision.
+          # smoke is 1_1_Smoke_Portal alone. The agent collections are left out: compose runs no agent.
           if [ '${{ inputs.tier }}' = 'smoke' ]; then
             collections='1_1_Smoke_Portal'
           else
             collections='1_1_Smoke_Portal 1_3_Linter_Portal 2_1_Negative_Portal 3_1_Stories_Bugs 3_2_Stories_Bugs 4_Access_control'
           fi
-          # Published FIRST, before anything in this step can fail. The results check below
-          # expects a report for every collection named here, so a step that dies in the install
-          # or the clone leaves it expecting six reports and finding none, which fails closed.
-          # Published after the loop, a dead step would hand it an empty list to pass on.
+          # Written before anything can fail, so the results check expects every report and fails
+          # closed if this step dies early.
           echo "collections=$collections" >> "$GITHUB_OUTPUT"
 
           npm install -g newman newman-reporter-htmlextra
 
-          # The collections are IN THE TREE, in tests/postman-collections, copied from
-          # qubership-apihub-postman-collections at 872d5d1 — the snapshot the rest of this
-          # workspace was cut alongside. This step used to clone that repository's `develop` at
-          # run time, which tested a suite moving on its own against sources that were not: five
-          # of the eight collections had already changed by the time it was replaced. A test and
-          # the code it tests now change in the same commit, or not at all.
-          #
-          # The environment is templated into RUNNER_TEMP, not the workspace. It carries the
-          # stack's generated password and token, and nothing under RUNNER_TEMP is uploaded
-          # unless a step names it.
+          # The environment goes to RUNNER_TEMP: it holds the generated password and token.
           collection_dir=tests/postman-collections/e2e
           env_file="$RUNNER_TEMP/ci.postman_environment.json"
           reports="$RUNNER_TEMP/newman-reports"
           mkdir -p "$reports"
           envsubst < tests/postman-collections/environment/local.postman_environment.json > "$env_file"
 
-          # -x (--suppress-exit-code) stays, and it is NOT the verdict. It is what lets every
-          # collection run after one of them fails, which `set -e` would otherwise stop, and it
-          # makes this step's outcome `success` whatever the assertions did. The verdict comes
-          # from the JSON reports, read by the next step. The original workflow kept -x and
-          # counted failures out of the HTML report; the port kept -x and dropped the count, so
-          # for as long as that lasted, no Newman failure could fail this job.
+          # -x lets every collection run after one fails, so this step always succeeds. The next step
+          # reads the JSON reports and decides.
           for c in $collections; do
             echo "=== $c ==="
             newman run "$collection_dir/${c}.postman_collection.json" \
@@ -327,10 +256,8 @@ jobs:
               --reporter-json-export "$reports/${c}.json"
           done
 
-      # The Newman verdict. Every expected collection must have left a JSON report that parses,
-      # and no assertion in any of them may fail. There is no list of tolerated failures: a test
-      # that fails for a reason this workspace did not cause is skipped in the collection, where
-      # the skip is reviewed, and this step reports every skip so none of them is silent.
+      # Every expected collection must leave a JSON report with no failed assertion. A test that fails
+      # for an unrelated reason is skipped in the collection, and this step reports every skip.
       - name: Check the postman results
         id: newman_results
         if: always()
@@ -354,32 +281,17 @@ jobs:
           PLAYGROUND_BACKEND_HOST: http://host.docker.internal:8081
           CLEAR_TD: skip
         run: |
-          # --grep does NOT filter the dependency projects, which is the thing that would have
-          # broken this silently: Portal-Setup is untagged, and if grep had removed it the smoke
-          # tests would run against a stack with no test data and fail as a body. Measured on
-          # the real config with --list: Portal 618 -> 261 under --grep=@smoke, while
-          # Portal-Setup stays at 36 and Apihub-Setup at 1.
-          # No test is excluded by name here. A test that fails for something the migration did
-          # not cause is skipped in its spec, with the reason beside it, where it is reviewed like
-          # any other change; P-PUDSH-6 was excluded here and now is, in
-          # 4.4.2-dashboard-editing-publishing.spec.ts. `@flaky` stays: that tag is set by the
-          # suite on its own tests, not kept as a list in this file.
+          # --grep does not filter the setup projects, so a smoke run still creates its test data.
+          # Tests that fail for unrelated reasons are skipped in their spec, not excluded here.
           args='--project=Portal --grep-invert=@flaky'
           [ '${{ inputs.tier }}' = 'smoke' ] && args="$args --grep=@smoke"
           echo "playwright $args"
           pnpm exec playwright test $args
 
-      # Three artifacts rather than one, named as the workflow this replaces named them, so
-      # that someone chasing a red run downloads the 200 KB they want instead of 32 MB of
-      # everything. Each is `always()`: the logs matter most on the run that failed.
-      #
-      # NOT copied from the original: it writes `retention-days: 7` INSIDE the `path:` block
-      # on all three of its uploads, which makes it a path glob rather than a setting. Those
-      # artifacts keep the 90-day default and every upload warns about a path that matches
-      # nothing. Here it is a sibling key and the last run's artifact duly expired in 7 days.
-      # Print the aria snapshots into the log as well as shipping them. An artifact is no use
-      # to someone whose network cannot reach the blob host it is served from, and a failed
-      # locator's call log says only what it waited for, never what was actually on the page.
+      # Three artifacts, so a reader downloads the 200 KB they need rather than 32 MB. Each runs
+      # always(): the logs matter most on a failed run. retention-days is a sibling of path.
+      # Prints the aria snapshots into the log too: an artifact is no use when the blob host is
+      # unreachable, and a failed locator's log shows only what it waited for.
       - name: Page snapshots for the failures
         if: always() && steps.playwright.outcome == 'failure'
         shell: bash
@@ -417,24 +329,17 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-reports
-          # temp/test-results is where the failure evidence actually lives: the screenshot,
-          # the trace and error-context.md, which is an aria snapshot of the page at the
-          # moment it failed. reports/ alone is the HTML report and none of that.
+          # temp/test-results holds the screenshot, trace, and error-context.md of each failure.
           path: |
             tests/ui-tests/reports
             tests/ui-tests/temp/test-results
           if-no-files-found: warn
           retention-days: 7
 
-      # Both suites run with continue-on-error so that a Playwright failure still produces
-      # Newman's report and the container logs. The verdict is taken here instead.
-      #
-      # THREE outcomes, not two. `newman` is the step that RAN the collections, and because it
-      # passes -x its outcome is `success` whatever the assertions did; it still fails if the
-      # install, the clone or newman itself breaks, so it stays. `newman_results` is the step
-      # that READ them, and it is the only one of the two that can see a failed assertion. This
-      # step used to check `newman` alone, which is how five failed assertions on run
-      # 34756454533 produced a green job.
+      # Both suites run with continue-on-error, so a Playwright failure still leaves Newman's report
+      # and the container logs. `newman` fails only if the install or newman itself breaks;
+      # `newman_results` is the only step that sees a failed assertion. The job fails unless
+      # `newman`, `newman_results`, and `playwright` all succeeded.
       - name: Verdict
         if: always()
         shell: bash
