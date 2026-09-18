@@ -1,32 +1,16 @@
 'on':
   push:
-    # Every branch. The published Storybooks have one folder per branch CI builds, so a name
-    # filter here would decide which branches exist on the site. `'**'` rather than no filter
-    # at all: a bare `push:` also fires on tags, and `nx release` pushes one per package.
+    # '**' rather than no filter: a bare `push:` also fires on the tags nx release pushes.
     branches: ['**']
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore: ['docs/**', '**/*.md']
-  # Dispatchable so release-finish.yml can start this run itself, and that is not a
-  # convenience — it is the only way the release can work at all.
-  #
-  # release-finish creates the version commit and pushes it. A push made with the default
-  # GITHUB_TOKEN deliberately does NOT create a workflow run, which is what stops workflows
-  # triggering themselves forever. So after that push nothing would build the released tree,
-  # and the images would keep whatever they had.
-  #
-  # `workflow_dispatch` is the documented exception: it always creates a run, GITHUB_TOKEN or
-  # not. release-finish therefore pushes, then dispatches this workflow at the new commit —
-  # which is also why it has to be a separate RUN rather than more jobs in release-finish.
-  # Every job in a run checks out the run's own sha, so a build inside release-finish would
-  # build the tree from BEFORE the version bump, and each app's version.json is generated from
-  # the manifests at build time.
+  # release-finish.yml dispatches CI after its version commit: a push with GITHUB_TOKEN starts no run.
   workflow_dispatch:
 
 name: CI
 
-# One run per ref. A superseded push has nothing worth finishing, and cancelling frees the
-# cache lock for the run that replaces it.
+# One run per ref; a newer push cancels the older run.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -35,21 +19,13 @@ permissions:
   contents: read
 
 env:
-  # CI=true makes pnpm default to --frozen-lockfile, which is what we want here and is worth
-  # being explicit about rather than inheriting.
   HUSKY: '0'
 
 jobs:
-  # ---------------------------------------------------------------------------------------
-  # plan — compute the affected set once, and hand it to the matrix jobs as JSON.
-  #
-  # Without this every downstream job would recompute `nx affected`, which needs a full
-  # install to do. One job pays that cost; the rest read two JSON arrays.
-  # ---------------------------------------------------------------------------------------
+  # Computes the affected set once and passes it to the other jobs as JSON.
   plan:
     runs-on: ubuntu-latest
-    # pull-requests: read is for the E2E tier decision below; the workflow default is
-    # contents: read alone and listing pull requests is not covered by it.
+    # pull-requests: read, to find an open pull request for the E2E tier.
     permissions:
       contents: read
       pull-requests: read
@@ -62,14 +38,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          # nx affected diffs against a base commit, so it needs history, not a shallow clone.
+          # nx affected needs history.
           fetch-depth: 0
 
       - uses: ./.github/actions/setup-workspace
 
-      # Resolves the base and head SHAs nx should diff between: the merge-base for a PR, and
-      # the last successful run of this workflow for a push. Without it, a push to a feature
-      # branch has no defensible base and `affected` silently means "everything".
+      # Base: the merge base for a pull request, the last successful develop run for a push.
       - uses: nrwl/nx-set-shas@v5
         with:
           main-branch-name: develop
@@ -81,8 +55,7 @@ jobs:
           affected="$(pnpm exec nx show projects --affected --json)"
           echo "affected: $affected"
 
-          # Intersect the affected set with the projects that actually have the target. A
-          # matrix over an empty array is skipped, which is exactly what should happen.
+          # Keeps the candidates that are affected. A matrix over an empty array is skipped.
           pick() {
             node -e '
               const affected = new Set(JSON.parse(process.argv[1]))
@@ -93,52 +66,14 @@ jobs:
 
           shots="$(pick api-doc-viewer apispec-view class-view)"
 
-          # The Go set is DERIVED FROM THE `lang:go` TAG, never listed here. The `go` job
-          # selects that tag and the `js` job excludes it, and those two have to stay exact
-          # complements of each other forever. A list in this file would be a third place to
-          # keep in step, and the seventh Go module is when it stops being.
-          #
-          # Note this is `run-many` over an explicit list, not `nx affected --projects=…`.
-          # `nx affected` does NOT understand `--projects`: it forwards the flag to the task
-          # as an extra argument. Measured — every Go build ran and failed with
-          # `malformed import path "--projects=tag:lang:go": leading dash`, while nx reported
-          # it under `With additional flags:`. A target that tolerated stray arguments would
-          # have run over the whole affected set while looking filtered. `--exclude` IS
-          # understood, which is why the js job can use it directly.
+          # The Go set comes from the lang:go tag, never a list. `nx affected` does not accept
+          # --projects: it passes the flag to the task (`malformed import path "--projects=tag:lang:go"`).
           go_all="$(pnpm exec nx show projects --projects=tag:lang:go --json)"
           go="$(pick $(node -e 'console.log(JSON.parse(process.argv[1]).join(" "))' "$go_all"))"
 
-          # IMAGES ARE NOT SELECTED BY `affected`, DELIBERATELY. Both always run.
-          #
-          # `nx affected` answers a question about COMMITS — what changed between NX_BASE and
-          # NX_HEAD. Whether `:dev` / `:next` / `:feature-x` points at the right image is a
-          # question about the REGISTRY. Gating the job on the first silently assumes the
-          # second, and the assumption is: "this ref's floating tag already points at the
-          # content built from NX_BASE". That holds on a branch which has been building
-          # continuously, and breaks whenever a ref's identity moves independently of its
-          # diff:
-          #
-          #   release start   `git switch -C release develop` moved release 1071b10 -> 36b8114
-          #                   while `git diff develop release` was EMPTY, which is the design's
-          #                   own success criterion for the step. Nothing affected, images
-          #                   skipped, and :next went on pointing at the PREVIOUS release.
-          #                   Measured: :dev 93a6a619… vs :next 74715936… on apihub-ui.
-          #   a cancelled run the tag never moved, and the next push sees no diff to notice
-          #   a new branch     its floating tag has never existed
-          #   a deleted tag    nothing in the commit graph can see that
-          #
-          # None of that is expensive to fix, because the job does NOT build unconditionally:
-          # `Has this content already been built?` checks the content-addressed `src-<hash>`
-          # tag in the registry and takes the retag path — a manifest operation, about a
-          # second, no layers — when it hits. So `affected` was gating the cheap half while
-          # the expensive half was already gated properly, one step later, by the right thing.
-          #
-          # This also subsumes the rule it replaces. `.dockerignore`, `tools/ci/` and this
-          # workflow belong to no Nx project, so a change to one marked nothing affected and
-          # the images skipped — which shipped a `.dockerignore` change unvalidated once. That
-          # needed a forcing rule while selection was by `affected`; with selection removed,
-          # there is nothing left to force. The diff is still computed, purely so the summary
-          # can say what moved.
+          # Images are not selected by `affected`: whether a branch tag points at the right image is a
+          # question about the registry. The images job retags when the content already exists. The diff
+          # below only feeds the summary.
           images='["ui-portal","build-task-consumer","agent","test-service","agents-backend","api-linter-service","portal-backend"]'
           image_inputs="$(git diff --name-only "$NX_BASE" "$NX_HEAD" -- \
             .dockerignore tools/ci .github/workflows/ci.yml .github/actions || true)"
@@ -147,41 +82,24 @@ jobs:
           echo "image_projects=$images"     >> "$GITHUB_OUTPUT"
           echo "go_projects=$go"          >> "$GITHUB_OUTPUT"
 
-          # The summary is a Mermaid diagram rather than three lines of text, because the
-          # value here is in the NEGATIVE space: a skipped screenshot job is 1,888 tests and
-          # about twenty minutes not spent, and a skipped job looks identical whether the
-          # skip was correct or a bug in the affected computation. Job selection has no
-          # equivalent of Nx's `Cache: N/N hit` line to read, so the reasoning has to be
-          # rendered deliberately.
+          # A Mermaid summary of the affected set: a skipped job looks the same whether the skip was
+          # correct or not.
           pnpm exec nx graph --file=plan-graph.json >/dev/null
           node tools/ci/plan-summary.js plan-graph.json \
             "$affected" "$shots" "$images" "$image_inputs" "$go" >> "$GITHUB_STEP_SUMMARY"
           rm -f plan-graph.json
 
-      # The Storybooks to publish, from the one file pages.yml's assembler also reads. Not
-      # selected by `affected`, for the same reason the images are not: whether a branch has a
-      # pointer in the store is a question about the registry, not about the diff.
+      # The Storybooks to publish, from tools/ci/storybooks.json. Not selected by `affected`, for the
+      # images' reason.
       - name: Storybooks to publish
         id: storybooks
         shell: bash
         run: echo "value=$(jq -c . tools/ci/storybooks.json)" >> "$GITHUB_OUTPUT"
 
-      # ---------------------------------------------------------------------------------
-      # The E2E tier is decided ONCE, here, and that is the point of it living in this job.
-      #
-      # A push to a branch with an open pull request fires a push run AND a pull_request run.
-      # Deciding the tier per job would give the same commit a smoke run and a full one, about
-      # an hour of duplicated runner time. So the push run stands down when a pull request
-      # exists and lets the pull_request run do the full suite.
-      #
+      # The E2E tier, decided once so a push and its pull request do not both run E2E:
       #   pull_request event          full
-      #   push, an open PR exists     none  — the pull_request run covers this commit
-      #   push, no open PR            smoke
-      #
-      # Smoke is not as cheap as it sounds and the numbers are in CI-DESIGN.md: setup is a
-      # fixed ~8 minutes that no filter avoids, so smoke is about two thirds of full rather
-      # than a fifth of it.
-      # ---------------------------------------------------------------------------------------
+      #   push, an open PR exists     none: the pull_request run covers this commit
+      #   push, no open PR            none; smoke is disabled below
       - name: Decide the E2E tier
         id: e2e_tier
         shell: bash
@@ -200,15 +118,8 @@ jobs:
               tier=none
               why="push, but $open open pull request(s) — the pull_request run does the full suite"
             else
-              # SMOKE IS COMMENTED OUT, PENDING A REVIEW OF WHAT IS IN IT. Measured before
-              # switching it off: a smoke run cost 26 minutes of the 44 a full one costs,
-              # because `--grep=@smoke` halves the Playwright tests (618 -> 261) while setup
-              # and stack bring-up are fixed overhead it cannot touch. Two thirds of the price
-              # for half the coverage was not worth paying on every push to every branch.
-              #
-              # Re-enabling is this one line. e2e-tests-kind.yml still understands `tier: smoke` and runs
-              # `--grep=@smoke` plus the Portal smoke collection when given it; nothing else
-              # has to come back.
+              # Smoke is disabled pending a review of its content: it cost 26 of the 44 minutes of a
+              # full run for half the Playwright tests. Uncommenting the next line re-enables it.
               # tier=smoke
               tier=none
               why='push with no open pull request — E2E runs on pull requests only'
@@ -218,23 +129,14 @@ jobs:
           echo "e2e tier: $tier ($why)"
           echo "| e2e | \`$tier\` | $why |" >> "$GITHUB_STEP_SUMMARY"
 
-      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
-      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
+      # The same cache summary in every job, from tools/ci/cache-summary.sh; always(), because a failed
+      # job needs it most.
       - name: cache summary
         if: always()
         run: bash tools/ci/cache-summary.sh 'plan' >> "$GITHUB_STEP_SUMMARY"
 
-  # ---------------------------------------------------------------------------------------
-  # js — lint, build and unit test, in ONE job.
-  #
-  # §6 decided this deliberately: `nx run-many` on a single runner parallelises across cores
-  # in topological order with a warm cache and no artifact upload/download between projects.
-  # Nineteen jobs passing dist/ around would be slower and far more complex. The cost is
-  # coarser granularity in the Actions UI; nx prefixes output per project, so it is a
-  # navigation cost rather than a loss of information.
-  #
-  # This job gates everything downstream via `needs`.
-  # ---------------------------------------------------------------------------------------
+  # Builds and tests the affected JavaScript projects in one job: Nx parallelizes them in
+  # topological order on one runner, with no artifacts passed between jobs.
   js:
     needs: [plan]
     runs-on: ubuntu-latest
@@ -250,56 +152,20 @@ jobs:
         with:
           main-branch-name: develop
 
-      # `build,test` together, never build alone. §12: "Test-only dependencies are otherwise
-      # never exercised, and you will declare half the graph believing you are finished."
-      - name: lint, build and test what is affected
+      # build and test together: otherwise test-only dependencies are never exercised.
+      - name: build and test what is affected
         run: |
-          # pipefail so a failing nx still fails the step; tee alone would return 0.
+          # pipefail: tee alone would return 0.
           set -o pipefail
           pnpm exec nx affected -t build test --exclude=tag:lang:go --verbose 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
-      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
-      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
       - name: cache summary
         if: always()
         run: bash tools/ci/cache-summary.sh 'js' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
-      # No dist artifact is uploaded for the screenshot job, deliberately. Its
-      # `screenshot-test` target declares dependsOn ["build", "^build"], so Nx schedules the
-      # builds itself. Uploading and downloading `frontend/*/dist` would move hundreds of
-      # megabytes, and it is exactly the artifact shuffling the single-JS-job decision exists
-      # to avoid.
-      #
-      # An earlier version of this comment said the screenshot job "restores them from the
-      # computation cache this job just populated, since the screenshot job restores the same
-      # cache key prefix". That was true when written and stopped being true the moment the
-      # cache key was scoped by `github.job` to stop `plan` poisoning `js`'s key — after which
-      # no job can read another's cache by construction. The runner said so plainly and the
-      # comment was never revisited:
-      #
-      #   Cache not found for input keys: nx-Linux-develop-screenshot-tests-33889988315, …
-      #   Cache:  0/3 hit (0%)          class-view
-      #   Cache:  0/9 hit (0%)          api-doc-viewer
-      #   Cache:  0/11 hit (0%)         apispec-view
-      #
-      # The screenshot jobs have always built their own closures. That is why they no longer
-      # wait for this one.
 
-  # ---------------------------------------------------------------------------------------
-  # go — build and unit test the Go modules, in ONE job, for the same reason `js` is one job.
-  #
-  # SEPARATE FROM `js` rather than folded into it. The two need different toolchains, and a
-  # job named `js` that installs Go and builds five services would misreport what it covers.
-  # They run in parallel and neither gates the other.
-  #
-  # SELECTED FROM THE PLAN, not recomputed. `nx affected` cannot be narrowed to a project set
-  # — it silently forwards `--projects` to the task — so `plan` intersects the affected set
-  # with the `lang:go` tag once and this job runs `run-many` over exactly that list.
-  #
-  # AND THE JOB IS SKIPPED WHEN THAT LIST IS EMPTY, deliberately. `nx run-many` over an empty
-  # project list exits 0 having done nothing, which is indistinguishable from a pass in the
-  # Actions UI. A skipped job is not. `ci-ok` counts skipped as success.
-  # ---------------------------------------------------------------------------------------
+  # Builds and tests the affected Go modules in one job, in parallel with `js`. Skipped when no Go
+  # module is affected: `nx run-many` over an empty list exits 0, which looks like a pass.
   go:
     needs: [plan]
     if: needs.plan.outputs.go_projects != '[]'
@@ -312,13 +178,7 @@ jobs:
 
       - uses: ./.github/actions/setup-workspace
 
-      # ONE Go version for the workspace, read from the file that states it rather than
-      # repeated here. backend/.go-version is the `packageManager` of the Go side, and
-      # `go-version-file` accepts a .go-version file directly.
-      #
-      # `cache` defaults to true and keys on the go.sum files. Before G2 was closed there were
-      # no go.sum files to key on, so this input had nothing to work with and every run would
-      # have re-downloaded every module.
+      # The one Go version, from backend/.go-version. The module cache keys on the go.sum files.
       - uses: actions/setup-go@v7
         with:
           go-version-file: backend/.go-version
@@ -326,9 +186,8 @@ jobs:
             backend/**/go.sum
             go.work.sum
 
-      # Before the build, because the build cannot detect what this detects. GOTOOLCHAIN is
-      # `auto`, so a module declaring a version the runner did not install downloads one and
-      # compiles green. Drift is only visible by reading the directive.
+      # Before the build: with GOTOOLCHAIN=auto, a module that declares another Go version downloads
+      # it and builds green.
       - name: every Go module on the same version
         shell: bash
         run: |
@@ -338,11 +197,8 @@ jobs:
           printf '```\n' >> "$GITHUB_STEP_SUMMARY"
           exit "${status:-0}"
 
-      # Also before the build, and for the same reason: the build runs in the workspace, where
-      # it cannot see the difference this checks. go.work unifies the modules' dependency
-      # graphs; the images build each module alone with GOWORK=off. They compile the same code
-      # only while every go.mod already holds the unified versions and every go.sum loads its
-      # module under -mod=readonly.
+      # The workspace build cannot see this: images build each module alone with GOWORK=off, so every
+      # go.mod must hold the versions go.work resolves.
       - name: every go.mod states what the workspace resolves
         shell: bash
         run: |
@@ -352,12 +208,11 @@ jobs:
           printf '```\n' >> "$GITHUB_STEP_SUMMARY"
           exit "${status:-0}"
 
-      # `build,test` together, never build alone — §12's rule, and it applies to Go for the
-      # same reason: a module's test-only imports are otherwise never resolved.
+      # build and test together, so test-only imports are resolved.
       - name: build and test what is affected
         shell: bash
         run: |
-          # pipefail so a failing nx still fails the step; tee alone would return 0.
+          # pipefail: tee alone would return 0.
           set -o pipefail
           projects="$(node -e 'console.log(JSON.parse(process.argv[1]).join(","))' \
             '${{ needs.plan.outputs.go_projects }}')"
@@ -365,15 +220,8 @@ jobs:
           pnpm exec nx run-many -t build test --projects="$projects" --verbose 2>&1 \
             | tee "$RUNNER_TEMP/nx.log"
 
-      # VALIDATE THE ARTIFACT, NOT THE EXIT CODE. The step above exits 0 in three situations
-      # that look identical on the run page: it built six services, it built nothing because
-      # `nx run-many` was handed an empty project list, or it built nothing because
-      # `go build ./...` matched no package. Both no-ops have already cost this project a
-      # green step, so the binaries are asserted rather than assumed.
-      #
-      # The library exemption lives in the graph, not in the checker: commons-go declares
-      # `outputs: []`, and the five applications inherit `{projectRoot}/dist` from
-      # targetDefaults. Nothing here names a project.
+      # Checks the binaries, not the exit code: the build exits 0 on an empty project list and when
+      # `go build ./...` matches no package. commons-go declares `outputs: []`, so it is exempt.
       - name: the binaries exist
         shell: bash
         run: |
@@ -387,45 +235,15 @@ jobs:
           printf '```\n' >> "$GITHUB_STEP_SUMMARY"
           rm -f go-graph.json
           exit "${status:-0}"
-      # Same block as every other job. It carries no Go-specific row: `go build` and `go test`
-      # print no cache verdict of their own, and this summary reports only numbers from the
-      # tool that used a cache, never from the step that restored one.
       - name: cache summary
         if: always()
         run: bash tools/ci/cache-summary.sh 'go' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
-  # ---------------------------------------------------------------------------------------
-  # screenshot-tests — the only real coverage three components have.
-  #
-  # api-doc-viewer 947 tests, apispec-view 883, class-view 58. Each builds its Storybook
-  # showcase, serves it over HTTP, and drives Chrome in a container through jest.
-  #
-  # G24 lives here: the library build and the showcase build need OPPOSITE externals
-  # policies and both exit 0. Do not unify their configs.
-  #
-  # THIS JOB DOES NOT WAIT FOR `js`, and that is the largest single saving in the pipeline.
-  #
-  # It used to, for two stated reasons. One was cache reuse, which never existed — the key is
-  # job-scoped, so these jobs have always built their own closures and measured `0/3`, `0/9`
-  # and `0/11` cache hits. The other was gating, and gating at workspace scope is the wrong
-  # scope here: 18 of the 33 projects are in NO screenshot closure, so a failure in
-  # `ui-portal` or `rest-playground` used to hold up suites that cannot import them.
-  # `class-view`'s closure is ONE project, and it waited ~11.5 minutes for 20 builds and
-  # 10,621 unit tests to finish first.
-  #
-  # Gating is not lost, it is relocated and made per-component: `screenshot-test` declares
-  # dependsOn ["build", "^build"], so a broken build fails THIS job at its own build step,
-  # naming the project that actually broke, and `ci-ok` still goes red. What changes is that
-  # a suite now fails for its own reasons rather than for the workspace's.
-  #
-  # Measured on run 33889988315, where every job was green:
-  #
-  #   before   plan 52s -> js 689s -> screenshots 251 / 670 / 767s      ~25 min wall clock
-  #   after    plan 52s -> screenshots and js in parallel               ~14 min wall clock
-  #
-  # It costs runner minutes only on a broken push, where three jobs now discover the break
-  # instead of skipping. It costs none on a green one: the builds were already happening here.
-  # ---------------------------------------------------------------------------------------
+  # The only real test coverage api-doc-viewer, apispec-view, and class-view have. Each suite builds
+  # its Storybook, serves it, and drives Chrome in a container through jest. It does not wait for
+  # `js`: `screenshot-test` depends on `build` and `^build`, so a broken build fails here.
+  # Gap G24: the library build and the showcase build need opposite externals settings, and both
+  # exit 0 when wrong. Do not unify their configs.
   screenshot-tests:
     needs: [plan]
     if: needs.plan.outputs.screenshot_projects != '[]'
@@ -438,10 +256,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      # Each leg caches its OWN closure. Without this they all key on `screenshot-tests`,
-      # one leg reserves it and the others log `Failed to save` — so the 9- and 11-task
-      # closures were thrown away every run and the next run restored class-view's 3-task
-      # cache into all three.
+      # Each leg caches its own closure; a shared key lets one leg's cache overwrite the others.
       - uses: ./.github/actions/setup-workspace
         with:
           cache-scope: screenshot-${{ matrix.project }}
@@ -451,22 +266,12 @@ jobs:
           set -o pipefail
           pnpm exec nx run ${{ matrix.project }}:screenshot-test 2>&1 | tee "$RUNNER_TEMP/nx.log"
 
-      # Same block in every job, rendered by tools/ci/cache-summary.sh so the seven of them
-      # cannot drift apart. `always()` because a failed job is when the numbers matter most.
       - name: cache summary
         if: always()
         run: bash tools/ci/cache-summary.sh 'screenshot-tests (${{ matrix.project }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
-      # The suite writes PNG diffs on failure. Without them a red run says only that pixels
-      # moved, and the record is explicit that a small diff is not automatically cosmetic.
-      # Scoped to THIS matrix project's directory, not the whole repository.
-      #
-      # The first version searched from the repo root, and the apispec-view job duly uploaded
-      # two PNGs belonging to class-view: `01dfd81` committed two `__diff_output__` files on
-      # this branch, `__diff_output__` is not gitignored in class-view, and nothing in the
-      # apispec-view job runs class-view's suite to clean them. So a failing job reported
-      # another component's stale failure evidence, which is worse than reporting none —
-      # it looks like a finding.
+      # Uploads the PNG diffs of a failed suite, searched only under this project: another
+      # component's committed __diff_output__ files would look like this suite's failure.
       - name: collect diffs
         if: failure()
         run: |
@@ -487,17 +292,11 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-  # ---------------------------------------------------------------------------------------
-  # js-images / go-images — the same twelve steps, .github/workflows/images.yml, gated per
-  # language. See that file for why it is shared rather than duplicated.
-  #
-  # An image is a publish: it pushes a floating tag to ghcr, and an image tagged from a commit
-  # whose unit tests fail is something other people can then pull. `needs` says which tests.
-  # ---------------------------------------------------------------------------------------
+  # Images publish floating tags that others pull, so each language's images wait for its tests.
+  # Both call images.yml.
   js-images:
     needs: [plan, js]
-    # `js` has no `if:` and therefore never skips, so the implicit success-of-all-needs check
-    # is exactly right here and no `always()` gymnastics are required.
+    # `js` never skips, so the implicit check that every need succeeded is enough.
     if: needs.plan.outputs.image_projects != '[]'
     permissions:
       contents: read
@@ -515,14 +314,8 @@ jobs:
 
   go-images:
     needs: [plan, go]
-    # `always() &&` with explicit results, unlike js-images, and the asymmetry is the point.
-    # `go` carries an `if:` and is SKIPPED when nothing Go is affected. A skipped need fails the
-    # implicit check, so these images would vanish on any push touching no Go module — and
-    # images are deliberately NOT selected by `affected`, because whether a floating tag points
-    # at the right image is a question about the registry and not about commits. A branch whose
-    # tag silently stopped moving is the defect §6 records from the release-start case.
-    #
-    # So: a skipped `go` is a pass here. A failed or cancelled one is not.
+    # `go` is skipped when no Go module is affected, and a skipped need fails the implicit check.
+    # Images must still run, so a skipped `go` passes here and a failed or cancelled one does not.
     if: >-
       always()
       && needs.plan.result == 'success'
@@ -555,20 +348,11 @@ jobs:
           "dockerignore":".dockerignore backend/.dockerignore","workspace_build":"false"}]
 
 
-  # ---------------------------------------------------------------------------------------
-  # e2e — the product, deployed to Kind by its Helm charts from the images this run
-  # published. See .github/workflows/e2e-tests-kind.yml.
-  #
-  # KIND, NOT COMPOSE. Helm is how APIHUB is actually deployed, so this exercises the charts,
-  # the ingress, TLS and the agent, none of which the compose stack has. e2e-tests-compose.yml still stands
-  # the product up under podman compose and is reachable by hand through e2e-tests-manual.yml; the
-  # two take the same inputs, so switching back is the `uses:` line below.
-  # ---------------------------------------------------------------------------------------
+  # E2E on Kind from the Helm charts, with this run's images. e2e-tests-compose.yml takes the same
+  # inputs, so switching to compose means changing the `uses:` line.
   e2e:
     needs: [plan, js-images, go-images]
-    # Unconditional, subject to the images existing. `go-images` can be SKIPPED when nothing Go
-    # is affected, and a skipped need fails the implicit check, so the same explicit form the
-    # image jobs use appears here for the same reason.
+    # `go-images` can be skipped, so the result is checked explicitly, as in go-images.
     if: >-
       always()
       && needs.plan.outputs.e2e_tier != 'none'
@@ -583,26 +367,10 @@ jobs:
       tier: ${{ needs.plan.outputs.e2e_tier }}
 
 
-  # ---------------------------------------------------------------------------------------
-  # storybooks — every component's Storybook, for this branch, into the store in ghcr.
-  #
-  # NOTHING IS COMMITTED ANYWHERE. A build is an OCI artifact identified by the images'
-  # content hash, and this branch gets a small POINTER manifest naming it. The site is
-  # assembled from the store by pages.yml, which the next job dispatches.
-  # tools/ci/storybook-store.sh has the details, including why a pointer is never a tag on
-  # the content.
-  #
-  # ALL SIX RUN ON EVERY PUSH, for the images' reason: whether this branch has a pointer is a
-  # question about the registry, not about the diff. A new branch changes nothing and still
-  # needs six. Building is gated one step later, on whether the content already exists, so
-  # an unchanged component costs an install and a manifest write.
-  #
-  # NOT ON pull_request. That run's ref is refs/pull/N/merge, which is no branch, and the push
-  # run for the same head already publishes the branch.
-  #
-  # NOT GATED ON TESTS, as it never was in the component repositories. The Storybook of a red
-  # branch is how someone looks at what is red.
-  # ---------------------------------------------------------------------------------------
+  # Stores each Storybook in ghcr as an OCI artifact keyed by content hash and gives this branch a
+  # pointer to it (tools/ci/storybook-store.sh); pages.yml assembles the site from the store. All
+  # six run on every push, for the images' reason, and build only new content. Not run for pull
+  # requests, whose ref is no branch. Not gated on tests: a red branch's Storybook shows what is red.
   storybooks:
     needs: [plan]
     if: github.event_name != 'pull_request'
@@ -614,8 +382,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # tools/ci/storybooks.json, read by plan, so the assembler and this matrix cannot
-        # disagree about which components exist.
+        # From tools/ci/storybooks.json, which pages.yml also reads.
         include: ${{ fromJSON(needs.plan.outputs.storybooks) }}
     steps:
       - uses: actions/checkout@v6
@@ -651,22 +418,10 @@ jobs:
         if: always()
         run: bash tools/ci/cache-summary.sh 'storybooks (${{ matrix.component }})' "$RUNNER_TEMP/nx.log" >> "$GITHUB_STEP_SUMMARY"
 
-  # ---------------------------------------------------------------------------------------
-  # storybook-pages — ask pages.yml to reassemble and deploy the site.
-  #
-  # A SEPARATE WORKFLOW, not a job here. A Pages deploy replaces the whole site, so deploys
-  # must queue in one group across ALL branches, while this workflow's group is per ref and
-  # cancels. pages.yml also runs on branch deletion and on a schedule, which are not CI runs.
-  #
-  # DISPATCHED AT THE DEFAULT BRANCH, so a feature branch cannot redeploy the whole site with
-  # its own copy of the assembler. And only from there: `workflow_dispatch` refuses a workflow
-  # that is not on the default branch, measured as "HTTP 404: workflow pages.yml not found on
-  # the default branch". So until pages.yml merges, this job warns and dispatches nothing,
-  # rather than failing every branch's CI for a file no branch can reach.
-  #
-  # `always()`, so one failed Storybook does not keep the other five off the site. The
-  # assembler reads the store and publishes whatever pointers exist.
-  # ---------------------------------------------------------------------------------------
+  # Dispatches pages.yml at the default branch. A separate workflow, because Pages deploys queue in
+  # one group for all branches, while this workflow's group is per ref and cancels. `always()`, so
+  # one failed Storybook does not keep the others off the site. Warns and skips if pages.yml is not
+  # on the default branch, where workflow_dispatch requires it.
   storybook-pages:
     needs: [storybooks]
     if: always() && github.event_name != 'pull_request' && needs.storybooks.result != 'skipped'
@@ -694,13 +449,8 @@ jobs:
           echo "dispatched pages.yml at \`$default\`" | tee -a "$GITHUB_STEP_SUMMARY"
 
 
-  # ---------------------------------------------------------------------------------------
-  # ci-ok — the only required check.
-  #
-  # With affected-based skipping, a required status check that never runs blocks the PR
-  # forever. This one always runs and fails if any needed job failed or was cancelled;
-  # `skipped` is a pass, which is the whole point.
-  # ---------------------------------------------------------------------------------------
+  # The only required check. It always runs, so affected-based skipping cannot leave a pull request
+  # waiting for a check that never reports. Fails if any job failed or was cancelled; skipped passes.
   ci-ok:
     needs: [plan, js, go, screenshot-tests, js-images, go-images, e2e, storybooks, storybook-pages]
     if: always()
@@ -725,49 +475,12 @@ jobs:
           fi
           echo "all needed jobs succeeded or were skipped"
 
-  # ---------------------------------------------------------------------------------------
-  # publish — the npm half of §8's release finish, on main only.
-  #
-  # §6 targets rung 1 of the publishing ladder, which is "nothing publishes from a DEV
-  # branch". Release publishing was never in question: the component READMEs advertise
-  # `npm add @netcracker/qubership-apihub-api-doc-viewer`, so these are public libraries and
-  # the stable channel matters. This job is that channel; its absence was a gap in the
-  # prototype, not a decision, and this file previously implied otherwise.
-  #
-  # GATED ON ci-ok, not on the individual jobs. ci-ok is the one required check and already
-  # encodes "every needed job succeeded or was correctly skipped", including the screenshot
-  # suites that are the only real coverage three components have. Depending on it means a red
-  # anything cannot publish, and it avoids re-deriving that logic in a second place where the
-  # two could drift.
-  #
-  # PUBLISHES WITH pnpm, NEVER npm. npm does not understand the `workspace:` protocol outside
-  # an npm workspace: `npm pack` puts the literal string `workspace:^` in the tarball's
-  # dependency ranges and does not error, producing a package that is uninstallable for every
-  # consumer. pnpm rewrites it to a real semver range at pack time. This is why §8 gives Nx
-  # the metadata and pnpm the publishing.
-  #
-  # WHAT GETS PUBLISHED is decided by `private: true` in each manifest and nothing else — no
-  # allow-list here to drift out of step with it. Measured before this job existed: pnpm
-  # would publish 14 packages, and `nx release version --git-tag` would tag the same 14.
-  # They agree only because six manifests declaring `private` as the STRING "true" were
-  # normalised to the boolean, and four applications and a test suite were marked private at
-  # all; before that, Nx said 17 and pnpm said 18.
-  # ---------------------------------------------------------------------------------------
+  # Publishes the npm packages on main, after ci-ok passes. `"private": true` in each package.json
+  # decides what is published. Always pnpm: `npm pack` leaves `workspace:^` in the tarball, and
+  # the package cannot be installed.
   publish:
     needs: [ci-ok]
-    # `always() &&` is load-bearing, and its absence cost a run. The first version of this
-    # job read `if: github.ref == 'refs/heads/main'`, which is true on main — and the job was
-    # SKIPPED anyway, on a fully green run.
-    #
-    # The cause is skip propagation reaching through `ci-ok`. `screenshot-tests` was skipped
-    # (nothing affected was downstream of the change), so `ci-ok` would have been skipped too
-    # and survives only because it carries `if: always()`. That rescue does not extend to
-    # ci-ok's own dependents: a custom `if:` without `always()` still carries the implicit
-    # success-of-all-needs check, and a skip upstream of ci-ok propagates past it.
-    #
-    # Naming ci-ok's RESULT explicitly is what makes this immune. It also states the
-    # intention directly — publish when the required check actually passed — rather than
-    # relying on a default whose behaviour through a skipped job is not obvious.
+    # always(): without it, a skipped job upstream of ci-ok skips this job too, even on a green run.
     if: always() && needs.ci-ok.result == 'success' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -781,16 +494,7 @@ jobs:
         with:
           cache-scope: publish
 
-      # The token goes in ~/.npmrc, deliberately NOT in the repository's .npmrc.
-      #
-      # G32 is exactly this mistake made upstream: build-task-consumer's README tells a
-      # developer to add a PAT to a TRACKED .npmrc, and its Dockerfile.local then COPYs that
-      # file into an image layer. One `git commit -a` from publishing a credential, and a
-      # token readable by anyone who can pull the image.
-      #
-      # ~/.npmrc is outside the repository and outside every docker build context, so neither
-      # failure is reachable from here. The repo .npmrc keeps only the scope-to-registry
-      # mapping, which is not a secret.
+      # The token goes in ~/.npmrc, outside the repository and every docker build context.
       - name: Authenticate to GitHub Packages
         shell: bash
         env:
@@ -802,8 +506,7 @@ jobs:
           echo "repo .npmrc is untouched:"
           git diff --exit-code --stat .npmrc && echo "  clean"
 
-      # --no-git-checks because the tree carries release tags and CI checks out a detached
-      # head; pnpm otherwise refuses to publish from a non-branch checkout.
+      # --no-git-checks: CI checks out a detached HEAD, which pnpm otherwise refuses.
       - name: Publish
         shell: bash
         run: |

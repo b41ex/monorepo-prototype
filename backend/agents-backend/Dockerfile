@@ -20,17 +20,15 @@ ARG TARGETARCH
 
 WORKDIR /workspace
 
-# commons-go beside the component: agents-backend's go.mod carries
-# `replace github.com/Netcracker/qubership-apihub-commons-go => ../commons-go`, which from
-# the component directory below resolves to /workspace/commons-go. That is why this image
-# builds from backend/ rather than from its own component directory.
+# Built from backend/, so that `replace ... => ../commons-go` in go.mod resolves to
+# /workspace/commons-go.
 COPY commons-go ./commons-go
 COPY agents-backend ./agents-backend
 
 WORKDIR /workspace/agents-backend
 
-# GOWORK=off: the image builds this module alone. Its go.mod states the versions the workspace
-# resolved (`go work sync`), so this is the same code CI tested.
+# GOWORK=off: the image builds this module alone, so go.mod must hold the versions
+# `go work sync` writes; CI checks that.
 RUN GOWORK=off GOSUMDB=off CGO_ENABLED=0 GOFLAGS=-mod=readonly go mod download && GOWORK=off GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build .
 
 

@@ -1,38 +1,16 @@
 name: Run E2E tests
 
-# ---------------------------------------------------------------------------------------
-# A full E2E run against images you name, the way upstream's run-e2e-tests.yml could be
-# driven by hand. It builds nothing, publishes nothing and gates nothing.
+# A full E2E run against images you name; it builds, publishes, and gates nothing.
 #
-# TWO RUNTIMES, ONE SUITE. `runtime` picks the workflow that stands the product up:
+#   runtime: kind            e2e-tests-kind.yml, the Helm charts on Kind with the agent (what CI runs)
+#   runtime: podman-compose  e2e-tests-compose.yml, the compose stack, with no agent
 #
-#   kind             e2e-tests-kind.yml      the Helm charts on a Kind cluster, with the agent.
-#                                            What CI runs.
-#   podman-compose   e2e-tests-compose.yml   the compose stack under podman, with no agent.
+# Newman skips 1_2_Smoke_Agent under compose, and compose ignores `tag_agent`. Pin a past run with
+# each image's src-<hash> tag: the branch tag moves on the next push. Empty tags fall back to
+# `image_tag`, then to this ref's branch tag. `repoint_images: false` runs upstream's `:dev` images
+# as a baseline. workflow_dispatch allows ten inputs, and this file uses all ten.
 #
-# Both take the same image inputs and run the same Playwright arguments. The Newman lists
-# differ by one collection, 1_2_Smoke_Agent, which only Kind can run because only Kind
-# deploys an agent. `tag_agent` is ignored by compose for the same reason.
-#
-# WHY FIVE TAG INPUTS AND NOT ONE. The five images a CI run publishes share a branch tag,
-# but that tag MOVES on the next push, so it does not identify a past run. Each image's
-# own `src-<hash>` tag does, and those five hashes differ. Pinning a specific run
-# therefore means naming five values; there is no single one that could do it. Leave them
-# empty and they all fall back to `image_tag`, and that to this ref's branch tag. Kind
-# adds a sixth, for the agent.
-#
-# It also subsumes the baseline run it replaces: `repoint_images: false` leaves each
-# runtime deploying upstream's `ghcr.io/netcracker/...:dev` and changes nothing else,
-# which is the comparison `e2e-baseline.yml` existed to make.
-#
-# TEN INPUTS, WHICH IS workflow_dispatch's LIMIT. A new one means folding two existing ones
-# together first.
-#
-# TRIGGERS. `workflow_dispatch` resolves against the DEFAULT branch, so until this file
-# reaches develop the dispatch answers 404 whatever ref is passed. Pushing a throwaway
-# `e2e-manual/<name>` branch starts it in the meantime and needs no change to a shared
-# branch. A push has no inputs, so it runs on Kind with this ref's own images.
-# ---------------------------------------------------------------------------------------
+# A push to `e2e-manual/<name>` runs Kind with that ref's own images.
 
 on:
   workflow_dispatch:
@@ -87,9 +65,7 @@ permissions:
   contents: read
 
 jobs:
-  # Exactly one of the two jobs runs; the other shows as skipped. Both conditions are chosen
-  # by TRIGGER first, for the reason given on `repoint_images` below: a push has no inputs, so
-  # `inputs.runtime` is empty there, and a push means Kind.
+  # Exactly one job runs. A push has no inputs, so `inputs.runtime` is empty and means Kind.
   kind:
     if: github.event_name != 'workflow_dispatch' || inputs.runtime == 'kind'
     permissions:
@@ -97,18 +73,10 @@ jobs:
       packages: read
     uses: ./.github/workflows/e2e-tests-kind.yml
     with:
-      # Always full. A manual run is a deliberate act and smoke is what CI already does
-      # unattended on every push.
+      # Always full.
       tier: full
-      # Chosen by TRIGGER, never by comparing the input with null. A push to e2e-manual/** has
-      # no inputs and repoints; a dispatch uses exactly what was ticked.
-      #
-      # The form this replaces, `inputs.repoint_images == null && true || inputs.repoint_images`,
-      # could never produce `false`. Actions compares loosely and converts both null and false to
-      # 0, so `false == null` is TRUE and the expression became `true && true`. Run 34762775466
-      # was dispatched with repoint_images=false as the upstream baseline and repointed anyway,
-      # onto this branch's own tag, where no images exist: only postgres started and the job died
-      # waiting for /login. No baseline run through this workflow can have compared anything.
+      # Chosen by trigger: Actions compares false == null as true, so an expression that tested the
+      # input for null could never yield false.
       repoint_images: ${{ github.event_name != 'workflow_dispatch' || inputs.repoint_images }}
       image_owner: ${{ inputs.image_owner || '' }}
       image_tag: ${{ inputs.image_tag || '' }}
@@ -127,8 +95,7 @@ jobs:
     uses: ./.github/workflows/e2e-tests-compose.yml
     with:
       tier: full
-      # Only reachable by dispatch, so the input is always set here; the expression is kept
-      # identical to the Kind job's so the two cannot drift apart.
+      # Kept identical to the Kind job's expression.
       repoint_images: ${{ github.event_name != 'workflow_dispatch' || inputs.repoint_images }}
       image_owner: ${{ inputs.image_owner || '' }}
       image_tag: ${{ inputs.image_tag || '' }}
