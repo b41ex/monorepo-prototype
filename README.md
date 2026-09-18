@@ -17,14 +17,12 @@ a library, and the UI is one pull request.
 | Tool | Version | Source of truth |
 | --- | --- | --- |
 | Node.js | 24 | `.github/actions/setup-workspace/action.yml` |
-| pnpm | 12.3.4 | `packageManager` in `package.json` |
+| pnpm | 12.4.2 | `packageManager` in `package.json` |
 | Go | 1.26.5 | `backend/.go-version` |
 | Docker or podman | any | screenshot tests and images |
 
 Install pnpm 12 directly (`npm i -g pnpm@12`, or `corepack enable`). pnpm 10 cannot switch itself to the pinned
-version and fails with `Failed to switch pnpm to v12.3.4`, including for every script Nx starts.
-
-On Windows, pnpm links are absolute junctions: a moved or copied checkout needs a fresh `pnpm install`.
+version and fails with `Failed to switch pnpm to v12.4.2`, including for every script Nx starts.
 
 ## Repository layout
 
@@ -47,7 +45,7 @@ The workspace has 38 Nx projects: 32 pnpm packages and 6 Go modules. The project
 
 **pnpm workspaces.** `pnpm-workspace.yaml` lists the members. Internal dependencies use `workspace:^`, which links the
 package from the tree; `pnpm publish` rewrites it to a real range such as `^2.9.5`. One lockfile, `pnpm-lock.yaml`,
-covers the whole workspace. The linker is `isolated`, so each package resolves only what it declares:
+covers the whole workspace. Content-addressable store improves performance compared to npm. The linker is `isolated`, so each package resolves only what it declares:
 
 - Declare every package you import, including binaries used in scripts (`rimraf`, `vite`, `webpack`).
 - Use `pnpm run` and `pnpm exec` in scripts, never `npm run` or `npx`.
@@ -62,140 +60,121 @@ by every service. `@nx-go/nx-go` turns each `go.mod` into an Nx project, and `to
 `lang:go`. Images build each module alone with `GOWORK=off`, so every `go.mod` must hold the versions the workspace
 resolves. `go work sync` writes them.
 
-## Everyday commands
+## E2E development scenarios
+### Common
 
-Open the repository root in your editor, so gopls reads `go.work`. `pnpm nx` is short for `pnpm exec nx` and works
-from any directory.
+Hint: use Git worktrees to maximize benefits/minimize drawbacks of monorepo.
 
+Shared repo data (`.git`) between all worktrees.
+
+Recommended folder structure
+`./apihub` folder somewhere
+`./apihub/_develop.repo`- cloned Git repository
+`./apihub/my-worktree`- folders per git worktree
+
+Create a worktree.
+
+Reference time: **11s**
+
+```sh
+git worktree add ../my-feature -b my-feature develop
+```
+
+Remove a worktree (**~2min**)
+
+```sh
+git worktree remove ../my-feature  # Could fail on Windows with `Directory not empty`, remove directory manually
+git branch -d my-feature # if branch also needs to be deleted
+```
 ### Frontend developer
+Install dependencies, always installs all workspace packages from anywhere.
 
-Run `pnpm install` once at the repository root. Then work from the package's directory. There, pnpm runs a script by
-its name (`pnpm build` is `pnpm run build`), and Nx takes the project from the directory, so no command needs a
-package name.
+Cold install (first install on specific machine)  downloads all dependencies.
 
-```bash
-cd frontend/api-diff
+Hot install links dependencies from common content-addressable store.
+
+Reference time (could vary depending on connection speed and machine confiuration): **10min** cold, **3.5m** hot, even faster on CI: **20s** hot.
+
+On Windows, pnpm links are absolute junctions: a moved or copied checkout needs a fresh `pnpm install`.
+```sh
+# e.g. in ../my-feature worktree
+pnpm install
 ```
-
-| Task, in the package directory | pnpm | Nx |
-| --- | --- | --- |
-| Build, dependencies first | `pnpm -F "{.}..." build` | `pnpm nx build` |
-| Build this package only | `pnpm build` | `pnpm nx build --exclude-task-dependencies` |
-| Build, then everything that depends on it | `pnpm -F "...{.}..." build` | `pnpm nx affected -t build --files=<file>` |
-| Test | `pnpm test` | `pnpm nx test` |
-| Run the screenshot suite | `pnpm screenshot-test` | `pnpm nx screenshot-test` |
-| Update screenshot baselines | `pnpm regenerate-screenshots` | `pnpm nx regenerate-screenshots` |
-| Run any other script | `pnpm storybook` | `pnpm nx storybook` |
-
-| Task, at the repository root | pnpm | Nx |
-| --- | --- | --- |
-| Build working tree changes | `pnpm -F "...[HEAD]..." -F "!{.}" build` | `pnpm nx affected -t build --uncommitted` |
-| Build branch changes | `pnpm -F "...[develop]..." -F "!{.}" build` | `pnpm nx affected -t build --base=develop` |
-
-Notes on these commands:
-
-- `-F` is short for `--filter`. `{.}` is the current directory, a trailing `...` adds dependencies, a leading `...`
-  adds dependents, and `[HEAD]` selects packages changed since that commit, uncommitted changes included.
-- At the root, `!{.}` leaves out the root package, whose `build` script builds the whole workspace. Inside a package
-  the same selector would leave out that package.
-- `pnpm -r` covers the whole workspace from any directory. In a package, use `pnpm build`, not `pnpm -r build`.
-- `--files` takes a path from the repository root, for example `frontend/api-diff/package.json`.
-- With pnpm, `pnpm test` needs the dependencies built; run `pnpm -F "{.}..." build` first.
-- Scripts differ between packages. `pnpm run` with no arguments lists the current package's scripts.
-
-The screenshot suites are in `frontend/class-view`, `frontend/api-doc-viewer/packages/api-doc-viewer` and
-`frontend/apispec-view/packages/elements`. Chrome runs in a container; set `DOCKER_BINARY=podman` if you use podman.
-Commit the PNGs that `regenerate-screenshots` changes.
-
-> **pnpm or Nx.** Both run the package's own `package.json` scripts, in dependency order, so the output is the same.
-> The differences:
->
-> - **Dependencies.** pnpm runs exactly the packages the filter selects. A package whose dependencies have no `dist`
->   fails to build, so add `...` to the filter. Nx builds the dependencies of `build`, `test` and `screenshot-test`
->   itself.
-> - **Cache.** pnpm reruns every selected script every time, so building a package with its dependencies rebuilds all
->   of them. Nx restores unchanged tasks from its cache, and a second run takes seconds.
-> - **Selection.** Both select the packages whose files changed, plus the dependents you ask for. Nx is what CI runs,
->   so `nx affected` locally selects the projects CI would select for the same base.
-> - **Scope.** `regenerate-screenshots` and other scripts without a task default in `nx.json` do not build
->   dependencies under either tool. Build the package first.
->
-> Use pnpm for a quick script in a package whose dependencies are already built. Use Nx for anything that crosses
-> packages.
-
-Build the `ui` image locally, with either tool:
-
-```bash
-pnpm -F "{frontend/ui/packages/portal}..." -F "{frontend/ui/packages/agents}..." build
+Build all (**7m**)
 ```
-
-```bash
-pnpm nx run-many -t build --projects=ui-portal,ui-agents
+pnpm nx run-many -t build
 ```
-
-```bash
-cd frontend/ui && podman build -f Dockerfile.local .
+Build UI and all dependencies, from any folder
 ```
+pnpm nx build ui-portal
+```
+Build several targets
+```
+pnpm nx run-many --targets build --projects=ui-portal,ui-agents
+```
+short form:
+```
+pnpm nx run-many -t build -p=ui-portal,ui-agents
+```
+Build specific component
+```sh
+# from component folder, e.g. ./frontend/api-processor
+pnpm nx build
+```
+Run tests for all components
+```
+pnpm nx run-many -t test
+```
+Run tests for several components
+```
+pnpm nx run-many -t test -p api-unifier,api-diff
+```
+Run build & test for frontend components
+```
+pnpm nx run-many -t build,test -p 'directory:frontend/**'
+```
+#### Cross-cutting features development
+No need to use `npm link` anymore.
 
-`build-task-consumer` also needs a deploy tree first; see `frontend/build-task-consumer/README.md`. `pnpm deploy` fails
-with `EPERM` on Windows, so build that image in CI or WSL.
+Example: this command automatically rebuilds all changed upstream components (e.g. `api-diff`) in the current workspace
+```sh
+pnpm nx test api-processor
+```
+Automatic rebuild when editing
+```sh
+pnpm nx watch -p=api-processor --includeDependencies -- pnpm nx build api-processor
+```
+#### IDE
+
+Go to definition lands in the source of upstream components
+
+Debugging steps into upstream components source
+
+⚠️Types lag until a rebuild
 
 ### Backend developer
-
-Go alone is enough. `pnpm install` is needed only for Nx.
-
-```bash
-cd backend/portal-backend && go build && go test ./...
+#### Basic scenarios
+Build backend service
+```sh
+# from service directory, e.g. /backend/portal-backend
+go build
 ```
-
-`./...` does not work from the root, which is not a module. Each service needs its own runtime setup, described in the
-component's docs, for example `backend/portal-backend/docs/local_development/local_development.md`.
-
-With Nx, for caching and dependents:
-
-```bash
-pnpm nx run-many -t build test --projects=tag:lang:go
+Run tests
+```sh
+go test ./...
 ```
-
-```bash
-pnpm nx affected -t build test --files=backend/commons-go/go.mod
+Build Docker image for portal backend
+```sh
+# from ./backend/ folder
+podman build -f ./portal-backend/Dockerfile .
 ```
+#### Advanced scenarios
+>Requires `pnpm` executable installed and `pnpm install` called after creating worktree
 
-Binaries go to `dist/backend/<component>`. Build a module exactly as its image does:
-
-```bash
-cd backend/portal-backend && GOWORK=off GOFLAGS=-mod=readonly go build ./...
+Build and test all backend services
+```sh
+pnpm nx run-many -t build,test -p 'directory:backend/**' #or -p tag:lang:go
 ```
-
-After changing a Go dependency, sync, check, and commit every changed `go.mod` and `go.sum`:
-
-```bash
-go work sync && bash tools/ci/go-work-sync-check.sh
-```
-
-Build an image. Services that import `commons-go` use `backend/` as the context; `agent` and `test-service` use their
-own directory.
-
-```bash
-podman build -f backend/portal-backend/Dockerfile backend
-```
-
-```bash
-podman build -f backend/agent/Dockerfile backend/agent
-```
-
-### Both
-
-```bash
-pnpm nx graph
-```
-
-```bash
-pnpm nx show project portal-backend --json
-```
-
-A repeated build should report `Cache: N/N hit (100%)`. If it does not, a shared input changed; see
-[Gotchas](#gotchas).
 
 ## Configuration files
 
@@ -318,6 +297,8 @@ To run E2E against specific images, dispatch `e2e-tests-manual.yml`. Pick `kind`
 `src-<hash>` tags to pin exact content. Clear `repoint_images` to run against upstream `:dev` images as a baseline.
 
 ### Release process
+
+⚠️ Currently verified only for frontend libraries.
 
 Components are released together, from one `release` branch, and each keeps its own version. Nx derives each bump from
 [Conventional Commits](https://www.conventionalcommits.org/) since the component's last tag, so commit messages decide
