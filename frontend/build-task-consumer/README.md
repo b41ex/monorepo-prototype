@@ -69,8 +69,8 @@ inputs come from.
 `pnpm run`, not `npm run` — and this is not a spelling preference. Under
 `nodeLinker: isolated` a script that shells out to `npm` gets npm's flat resolution instead of
 pnpm's, and npm also reads the workspace's pnpm settings and warns about every one it does not
-recognise. `tools/migration/rewrite-scripts.js` rewrote the whole fleet's scripts for this
-reason; the prose here was missed.
+recognise. The migration rewrote the whole fleet's scripts for this reason; the prose here was
+missed.
 
 Two of the three lines were also not valid npm in the first place — `npm start:dev` is not a
 command; it would have to be `npm run start:dev`. Only `start` may be run bare, and pnpm

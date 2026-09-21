@@ -4,52 +4,26 @@ packages:
   - 'tests/ui-tests'
   - 'tools/jest-chrome-in-docker-environment'
 
-# ---------------------------------------------------------------------------------------
-# Package manager settings.
-#
-# These four lived in `.npmrc` until pnpm 12. From pnpm 11 pnpm reads only auth and
-# registry settings from `.npmrc`, and it does not warn about the ones it has stopped
-# reading — verified on 12.3.4, where `pnpm config list` against the old `.npmrc` returned
-# the registry entries and nothing else. Here they are checked instead: an unrecognised key
-# in this file is `ERR_PNPM_UNRECOGNIZED_WORKSPACE_SETTINGS` while `packageManager` pins a
-# version the running pnpm satisfies. All four below were confirmed recognised one at a
-# time, against a deliberately misspelled key as the negative control.
-# ---------------------------------------------------------------------------------------
+# Settings other than auth and registry live here, not in .npmrc: pnpm 12 ignores them there without a
+# warning. An unknown key here fails with ERR_PNPM_UNRECOGNIZED_WORKSPACE_SETTINGS.
 
-# Isolated linker, per §4. Each project sees only its own declared dependencies, so the
-# root node_modules/@types cannot leak type packages into every project and peer-dependent
-# tools resolve the consumer's version rather than the root's. Requires every import to be
-# declared — binaries used by scripts included — and scripts to use pnpm run, not npm run.
-#
-# Set explicitly rather than left to the default. Prototype 2 measured this setting on
-# pnpm 10.34.5 and reached 17 of 18 build targets green with every test suite matching its
-# own baseline, so this is not a variable to re-open: node-linker=hoisted has been run and
-# its remaining failures were the silent kind.
-#
-# It is also one of the two settings whose pnpm default happens to match what we want, so
-# dropping it in the .npmrc migration would have changed nothing and taught nothing. That
-# is an argument for stating it, not against.
+# Each project resolves only its declared dependencies, so every import and every binary a script
+# runs must be declared, and scripts use pnpm run, not npm run.
 nodeLinker: isolated
 
 strictPeerDependencies: false
 
-# Dependency build scripts: every one is listed, and every one is denied.
-#
-# From pnpm 11 an unlisted build script fails the install (`ERR_PNPM_IGNORED_BUILDS`), so this
-# map is the complete set for the lockfile. 13 packages, matching a scan of the virtual store
-# for preinstall/install/postinstall scripts or a binding.gyp. A dependency change that brings
-# a new one fails `pnpm install` by name, which is the point: it is decided here, not run.
+# Every dependency build script in the lockfile, each denied. A new one fails `pnpm install`
+# (ERR_PNPM_IGNORED_BUILDS) until it is added here.
 allowBuilds:
-  # Native binaries ship as optional platform packages. These scripts only verify or
-  # re-link them.
+  # Native binaries ship as optional platform packages; these scripts only verify or relink them.
   esbuild: false
   unrs-resolver: false
-  # Platform check plus Nx Cloud client update. This workspace does not use Nx Cloud.
+  # Nx Cloud client update; this workspace does not use Nx Cloud.
   nx: false
-  # Downloads Chrome. The screenshot suites connect to Chrome in a container, and CI already
-  # sets PUPPETEER_SKIP_DOWNLOAD.
+  # Downloads Chrome; the screenshot suites use Chrome in a container.
   puppeteer: false
-  # husky 4 writes hooks into .git/hooks. It did so in _target3 on 2026-09-08.
+  # husky 4 installs git hooks.
   husky: false
   # Banners and telemetry.
   core-js: false
@@ -58,151 +32,22 @@ allowBuilds:
   '@fortawesome/fontawesome-svg-core': false
   '@scarf/scarf': false
 
-# `pnpm deploy` is how build-task-consumer's image gets a production node_modules. From
-# pnpm 10 it refuses by default on a workspace that does not set inject-workspace-packages:
-#
-#   ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE  By default, starting from pnpm v10, we only deploy
-#   from workspaces that have "inject-workspace-packages=true" set
-#
-# pnpm offers three ways forward and this is the middle one, chosen over both others:
-#
-#   injectWorkspacePackages: true  NOT TAKEN, and the honest reason is narrower than an
-#       earlier version of this comment claimed. That version stated as fact that injected
-#       packages are hard-linked copies, so a rebuilt upstream would go unseen until the next
-#       install, breaking §13's development loop. **That was asserted from pnpm's
-#       documentation and could not be reproduced.** A two-package probe on pnpm 10.34.5 —
-#       tried with the setting in .npmrc, with injectWorkspacePackages in
-#       pnpm-workspace.yaml, and with an explicit dependenciesMeta.injected, on two different
-#       filesystem locations — never injected at all: the dependency stayed a plain symlink
-#       to the source directory and no `file+` entry appeared in the virtual store. So the
-#       behaviour is unmeasured here, and the claim is withdrawn.
-#
-#       What stands without it: this setting changes resolution semantics for EVERY internal
-#       dependency in the workspace, and it would be adopted to fix one image's packaging
-#       step. `forceLegacyDeploy` changes one command. Preferring the smaller, reversible,
-#       deploy-scoped change over an unmeasured workspace-wide one is the argument — and
-#       pnpm's own error describes --legacy/force-legacy-deploy as deploying "without using
-#       injected dependencies", i.e. keeping the semantics we have and have measured.
-#
-#       If injected packages are ever wanted, that is its own piece of work: reproduce the
-#       behaviour first, then measure it against the development loop and the byte-identity
-#       comparisons before adopting.
-#
-#   --legacy at each call site  Works, and was the first choice. Dropped because the deploy
-#       command appears in three places — the images job, and twice in
-#       build-task-consumer/README.md — and a flag that must be remembered at every call site
-#       is the "restated per tool, drifts silently" shape that item 1.9 is named for.
-#       Forgetting it gives an error that names inject-workspace-packages, which is the
-#       option we deliberately did not take.
-#
-#   forceLegacyDeploy: true  CHOSEN. States the workspace-level fact once, in the file that
-#       now carries workspace-level package-manager policy.
-#
-# Both `--legacy` and this setting are still named "legacy" by pnpm, so both should still be
-# expected to go eventually — but pnpm 12 did not remove either, which was the single
-# largest risk in this upgrade and did not land.
+# Lets `pnpm deploy` build build-task-consumer's production tree without injectWorkspacePackages,
+# which would change how every internal dependency resolves.
 forceLegacyDeploy: true
 
-# Restores pnpm 10's behaviour: `pnpm run` and `pnpm exec` do NOT install anything first.
-#
-# pnpm 11 introduced this and defaults it to `install`, so every `pnpm exec` may quietly run
-# an install before the command it was asked to run. On run 34164185574 that destroyed the
-# workspace and failed the build-task-consumer image:
-#
-#   Produce the deploy tree     pnpm deploy --filter=./frontend/build-task-consumer --prod
-#   Verify the build outputs    pnpm exec nx show project build-task-consumer --json
-#                               → an install nobody asked for, then
-#                                 devDependencies:
-#                                 - @nx/js 23.2.0
-#                                 - nx 23.2.0            … and three more
-#                               → ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL: Command "nx" not found
-#
-# `pnpm deploy --prod` is a production install, and the next pnpm command reconciled the
-# workspace root to that. The failure is one step removed from its cause, in a step whose
-# whole job is to catch build outputs going missing — so it reported the workspace being
-# dismantled as a missing project.
-#
-# Two fixes were available and this is the smaller one. The other was to stop the Verify step
-# needing pnpm at all, by resolving project roots from the graph.json the job already has.
-# That fixes one call site; this states the workspace-level fact once, which is the same
-# argument that put forceLegacyDeploy above rather than --legacy at three call sites. What is
-# given up is a convenience that did not exist under pnpm 10: after editing a manifest you
-# run `pnpm install` yourself, as you did before.
-#
-# NOT verified on the workstation — the trigger needs `pnpm deploy`, which fails EPERM on
-# Windows, and neither hand-editing `.pnpm-workspace-state-v1.json` to a production install
-# nor flipping `included.devDependencies` in `.modules.yaml` reproduced it. So the images job
-# carries a step that checks the workspace survives a pnpm command after the deploy, rather
-# than this being believed because the build went green.
+# `pnpm run` and `pnpm exec` do not install first. With the pnpm 11 default, the first pnpm command
+# after `pnpm deploy --prod` reinstalled the workspace without devDependencies and removed nx.
 verifyDepsBeforeRun: false
 
-# Overrides carried deliberately, each with the gap that records why.
-#
-# npm and pnpm both apply overrides ONLY from the install root, and pnpm reads them from
-# this file — a pnpm.overrides block in the root package.json is silently ignored, and so
-# is an overrides block in a non-root package.json. Four components carry one today and
-# all four stop being install roots here, so all five entries have to be reproduced at
-# this level or they simply stop existing.
-#
-#   api-doc-viewer    jest-environment-node + jest-mock @ 30.4.1     G15
-#   apispec-view      the same pair, plus @stoplight/mosaic          G15 + G23
-#   class-view        the same pair                                  G15
-#   rest-playground   @stoplight/mosaic only                         G23
-#
-# Prototype 2 deliberately carried none of prototype 1's six so it could learn which were
-# still needed, and proved three unnecessary. That experiment is finished and is not
-# repeated here. Prototype 2's own three — @types/json-schema, graphql and
-# @asyncapi/specs — are NOT carried either, on a different ground: Phase 1b item 1.15a
-# closed the graphql and @types/json-schema alignments and the @asyncapi/parser one in the
-# components themselves, so the cause each override existed for is gone upstream. Whether
-# that holds is a measurement this run makes, not an assumption it starts from.
-
+# pnpm applies overrides only from this file; an overrides block in any package.json is ignored.
 overrides:
-  # G15 — the split jest runtime, §6b's documented failure mode, arriving fleet-wide.
-  #
-  # jest-environment-puppeteer@11 hard-depends on jest-environment-node@^29.7.0 and has no
-  # release above 11.0.0, so a 29-line environment stays in the tree. jest's own resolver
-  # reaches its environment through pnpm's hoisted fallback layer (jestjs/jest#15876), and
-  # a jest-environment-node 29.7.0 beside a jest-mock 30.4.1 is a jest-runtime 30 handed a
-  # mismatched moduleMocker: 'this._moduleMocker.clearMocksOnScope is not a function' at
-  # module load, 0 tests run.
-  #
-  # Omitting these cost prototype 2 "6 components, 0 tests run" — api-diff, api-processor,
-  # api-visitor, ddlapi, api-doc-viewer and ui/packages/shared. Three components carry the
-  # block upstream; six need it here.
+  # jest-environment-puppeteer 11 pulls jest-environment-node 29 beside jest 30, and jest then
+  # fails at load with `this._moduleMocker.clearMocksOnScope is not a function` (gap G15).
   jest-environment-node: 30.4.1
   jest-mock: 30.4.1
 
-  # G23 — @stoplight/mosaic declares "@types/react": "^17.0.3" as a hard *dependency*, not
-  # a peer and not a dev dependency, and still does at 1.53.5, the latest published. Any
-  # consumer on React 18 therefore holds two @types/react in one program and TypeScript
-  # reports mosaic's own components as unusable: TS2786 on every one of them, 22 in
-  # rest-playground alone.
-  #
-  # This is the entry whose behaviour under the isolated linker is genuinely unknown.
-  # Under npm the nesting was incidental; pnpm gives mosaic its own copy *by design*,
-  # because it is a declared dependency. Checked early rather than late — see
-  # PROTOTYPE3-LOG.md.
-  #
-  # The $ form is not a faithful translation and the difference is recorded as a finding.
-  # npm resolves $@types/react against the *declaring component's* manifest, so
-  # apispec-view's and rest-playground's blocks are two independent statements that happen
-  # to agree. pnpm resolves it against the *root* manifest, so there is exactly one answer
-  # for the whole workspace. It is correct today only because both components declare
-  # ^18.3.31; it cannot express a disagreement, and nothing warns if one appears.
+  # @stoplight/mosaic depends on @types/react 17, which breaks every React 18 consumer with TS2786
+  # (gap G23). `$` resolves against the root package.json, so the whole workspace gets one version.
   '@stoplight/mosaic>@types/react': '$@types/react'
   '@stoplight/mosaic>@types/react-dom': '$@types/react-dom'
-
-# Deliberately absent: the '@types/react': 18.0.28 pin that _target2 carries.
-#
-# Its cause was G6, closed by item 1.16 on 2026-09-03: the whole fleet is on React 18 and
-# every manifest declares @types/react ^18.3.31. The pin is now worse than redundant — it
-# would hold the workspace at 18.0.28, *below* what every component declares. A clean repo
-# should simply not have it.
-
-# Deliberately absent: an override for @stoplight/types.
-#
-# G3 recorded http-spec as not compiling against what its own ^13.6.0 range admitted once
-# ui's exact 13.20.0 pulled every caret up. Item 1.15a closed that in the component —
-# http-spec now declares ^13.20.0 — so the override prototype 2 rejected has no cause left
-# either. Rebuilt and re-checked rather than re-diagnosed.

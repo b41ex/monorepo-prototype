@@ -1,27 +1,6 @@
-# OPT-IN: exclude everything, then re-include only what a Dockerfile actually reads.
-#
-# The build context is the WORKSPACE ROOT — a consequence of the migration's image change,
-# where the Dockerfiles COPY prebuilt output instead of pulling published tarballs. In a
-# single-component repository the context is small by accident; here it is 1.9 GB of root
-# node_modules plus a per-package node_modules for all 33 members, every dist tree, .nx, and
-# a 125 MB .git.
-#
-# The first version of this file was opt-out — exclude the known-bad, keep the rest — and it
-# failed the way opt-out always eventually does: `**/node_modules` also matched
-# `.deploy/build-task-consumer/node_modules`, which the image genuinely needs, and the build
-# died on a COPY source that the guard step had just confirmed was present on disk. The
-# failure mode of opt-out is a silent, surprising EXCLUSION.
-#
-# Opt-in inverts that. Its failure mode is a missing path, which is loud, immediate, and names
-# itself — and the list below is then a precise, reviewable statement of what each image is
-# allowed to see. Adding a COPY to a Dockerfile without adding it here fails at once rather
-# than shipping something unintended.
-#
-# Keep this list in step with the COPY lines in:
-#   frontend/ui/Dockerfile
-#   frontend/build-task-consumer/Dockerfile
-
-# Everything, at every depth.
+# Opt-in: exclude everything, then re-include what the frontend images copy. The build context is
+# the workspace root, so a COPY path missing here fails the build at once. Keep this list in step
+# with the COPY lines in frontend/ui/Dockerfile and frontend/build-task-consumer/Dockerfile.
 **
 
 # --- frontend/ui -----------------------------------------------------------------------
@@ -31,42 +10,11 @@
 
 # --- frontend/build-task-consumer ------------------------------------------------------
 !frontend/build-task-consumer/dist/**
-# Produced on the host by `pnpm deploy --prod` before the build — no `--legacy` flag, because
-# `forceLegacyDeploy: true` in pnpm-workspace.yaml states it once. It is gitignored,
-# which does not matter — docker does not read .gitignore — but it does have to be named here.
+# The production tree that `pnpm deploy --prod` writes on the host. It is gitignored, but docker
+# does not read .gitignore.
 !.deploy/**
 
-# …except pnpm's own bookkeeping, which is the reason this image's largest layer could never
-# be cached. Measured: two `pnpm deploy` runs to the SAME absolute path, in the SAME job,
-# produce 16316 identical files, 1085 identical symlink targets, identical modes and sizes —
-# and differ in exactly ONE file, `node_modules/.modules.yaml`. That is enough to change the
-# cache key of `COPY .deploy/build-task-consumer/node_modules`, so buildx rebuilt and
-# re-exported the whole 16316-file layer on every single build and never once hit it.
-#
-# It is pnpm's record of how node_modules was assembled — store location, layout version,
-# what was skipped, when it was last pruned. Nothing reads it at runtime; the application
-# needs the packages, not the note about how they got there. Excluding it changes what the
-# image receives, not what the deploy tree contains.
-#
-# STILL TRUE ON pnpm 12, re-measured rather than assumed — and the first measurement said
-# the opposite. Run 34164185574 deployed twice to the same path and reported 16253 files, 0
-# differences, which reads as the defect being fixed. It is not: `prunedAt` is an RFC-1123
-# date with one-second granularity, that run's two deploys both finished inside second :38,
-# and the probe was racing a clock it happened to beat. Run 34165618906's deploys landed a
-# second apart and the difference came back — one file of 16253, this one. Confirmed a third
-# time on run 34169438149, with the two `prunedAt` values printed alongside the result so a
-# zero could be told apart from a race the probe won.
-#
-# The probe was temporary and is gone; it cost an extra `pnpm deploy` on every build of this
-# image and its answer is recorded. To re-measure after a pnpm upgrade, follow CI-DESIGN.md's
-# test case B2: deploy, move the tree aside, deploy again to the SAME absolute path, sleep
-# past a second boundary first, and compare `prunedAt` as well as the file contents. Deploying
-# to a different path invalidates the comparison, and deploying twice within one second makes
-# it come out clean whatever the truth is.
-#
-# Ordering matters: this must come AFTER the re-include above, because docker applies
-# patterns in order and the last match wins.
+# pnpm writes a different .modules.yaml on every deploy, and that alone invalidated the
+# 16316-file node_modules layer on every build. Nothing reads it at runtime. It must come after
+# the re-include above: the last matching pattern wins.
 .deploy/*/node_modules/.modules.yaml
-
-# Nothing else. No sources, no node_modules outside the deploy tree, no .git, no .nx, no
-# tests, no docs. If a build needs something, it goes above with the reason.

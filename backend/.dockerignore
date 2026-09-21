@@ -1,16 +1,12 @@
-# The build context for three of the Go images is backend/, because they resolve commons-go
-# through `replace ../commons-go` and need it inside the context. That pulls in all six
-# components, so build output and local noise are excluded explicitly.
+# Three Go images build from backend/, so that `replace ../commons-go` resolves inside the context.
 */dist/
 */*/dist/
 **/.git
 **/*.exe
 **/node_modules/
 
-# api-linter-service's builder downloads its own linters into resources/. A copy downloaded
-# on the host must not reach the context in their place. These rules lived in
-# api-linter-service/.dockerignore, which a backend/ context never reads, so until now they
-# did not apply to the image at all.
+# The api-linter-service builder downloads these linters; a host copy must not replace them.
+# api-linter-service/.dockerignore does not apply to a backend/ context.
 api-linter-service/resources/spectral/linux/spectral
 api-linter-service/resources/spectral/windows/spectral.exe
 api-linter-service/resources/vacuum/linux/vacuum

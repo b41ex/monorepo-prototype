@@ -1,8 +1,5 @@
-# The build context is the whole component. The builder needs the Go module, and the
-# runtime stage copies static/, so both stay; everything else is dropped.
-#
-# A deny-list, not an opt-in: `*` followed by re-includes copied only top-level files under
-# podman, because an excluded directory is never descended into.
+# A deny-list: podman does not descend into an excluded directory, so `*` with re-includes
+# copied only top-level files. The runtime stage copies static/.
 .git*
 .github
 .qubership
